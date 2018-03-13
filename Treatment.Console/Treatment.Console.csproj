@@ -7,7 +7,7 @@
     <ProjectGuid>{8C296460-B1AA-4528-BFD8-0D1A173A61D2}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Treatment.Console</RootNamespace>
-    <AssemblyName>Treatment.Console</AssemblyName>
+    <AssemblyName>Treatment</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrap.cs" />
+    <Compile Include="Execute.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
