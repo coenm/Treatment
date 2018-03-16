@@ -1,10 +1,10 @@
-﻿namespace Treatment.Everything
+﻿namespace Treatment.Plugin.Everything
 {
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using System.Text;
 
-    public static class Everything32Api
+    internal static class Everything32Api
     {
         private const int EVERYTHING_OK = 0;
         private const int EVERYTHING_ERROR_MEMORY = 1;

@@ -4,12 +4,13 @@
 
     using Treatment.Core.Interfaces;
     using Treatment.Core.Tests.Resources;
+    using Treatment.Core.UseCases.UpdateProjectFiles;
 
     using Xunit;
 
     public class RelativePathInCsProjFixerTests
     {
-        private readonly RelativePathInCsProjFixer _sut;
+        private readonly UpdateProjectFilesCommandHandler _sut;
         private readonly IFileSystem _filesystem;
         private readonly IFileSearch _filesearcher;
 
@@ -24,7 +25,7 @@
                                 return ResourceFile.GetContent(filename);
                             });
 
-            _sut = new RelativePathInCsProjFixer(_filesystem, _filesearcher);
+            _sut = new UpdateProjectFilesCommandHandler(_filesystem, _filesearcher);
         }
 
         [Fact]

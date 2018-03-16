@@ -1,4 +1,4 @@
-﻿namespace Treatment.Everything
+﻿namespace Treatment.Plugin.Everything
 {
     using JetBrains.Annotations;
 

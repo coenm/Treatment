@@ -30,8 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\..\..\Packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
+    <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\..\..\Packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -43,8 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UseCases\UpdateProjectFiles\SummaryDecorator.cs" />
+    <Compile Include="UseCases\ICommandHandler.cs" />
+    <Compile Include="FileSystem\OsFileSystemSearchProviderFactory.cs" />
+    <Compile Include="UseCases\UpdateProjectFiles\UpdateProjectFilesCommand.cs" />
+    <Compile Include="UseCases\ListSearchProviders\ListSearchProvidersCommand.cs" />
+    <Compile Include="UseCases\Decorators\HoldConsoleDecorator.cs" />
     <Compile Include="Interfaces\IFileSearch.cs" />
     <Compile Include="Interfaces\IRootDirSanitizer.cs" />
+    <Compile Include="Interfaces\ISearchProviderFactory.cs" />
     <Compile Include="Interfaces\IStatistics.cs" />
     <Compile Include="Interfaces\ISummaryWriter.cs" />
     <Compile Include="FileSearch\SummaryFileSearchDecorator.cs" />
@@ -54,10 +61,12 @@
     <Compile Include="FileSystem\DryRunFileSystemDecorator.cs" />
     <Compile Include="Interfaces\IFileSystem.cs" />
     <Compile Include="FileSystem\OsFileSystem.cs" />
+    <Compile Include="UseCases\ListSearchProviders\ListSearchProvidersCommandHandler.cs" />
+    <Compile Include="UseCases\ITreatmentCommand.cs" />
     <Compile Include="Statistics\FakeSummaryWriter.cs" />
     <Compile Include="Statistics\StatisticsCollectorAndSummaryWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RelativePathInCsProjFixer.cs" />
+    <Compile Include="UseCases\UpdateProjectFiles\UpdateProjectFilesCommandHandler.cs" />
     <Compile Include="RemoveRootDirSanitizer.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,10 @@
 
     using CommandLine;
 
+    using Treatment.Core.UseCases;
+    using Treatment.Core.UseCases.ListSearchProviders;
+    using Treatment.Core.UseCases.UpdateProjectFiles;
+
     using Console = System.Console;
 
     public static class Program
@@ -18,7 +22,18 @@
 
         private static void RunOptionsAndReturnExitCode(Options options)
         {
-            new Execute().Go(options);
+            var container = Bootstrap.Configure(options);
+
+            if (options.ListProviders)
+            {
+                container.GetInstance<ICommandHandler<ListSearchProvidersCommand>>()
+                         .Execute(new ListSearchProvidersCommand());
+            }
+            else
+            {
+                container.GetInstance<ICommandHandler<UpdateProjectFilesCommand>>()
+                         .Execute(new UpdateProjectFilesCommand(options.RootDirectory));
+            }
         }
 
         private static void HandleParseError(IEnumerable<Error> errs)

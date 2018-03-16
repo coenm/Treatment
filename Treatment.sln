@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treatment.Core.Tests", "Tre
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treatment.Core", "Treatment.Core\Treatment.Core.csproj", "{5C7106E8-2362-40FF-9DA2-84A4BB827F39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treatment.Everything", "Treatment.Everything\Treatment.Everything.csproj", "{8315A778-6A3D-4881-8889-9E08A292AFC0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treatment.Plugin.Everything", "Treatment.Plugin.Everything\Treatment.Plugin.Everything.csproj", "{8315A778-6A3D-4881-8889-9E08A292AFC0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugin", "Plugin", "{D69471DB-23C1-4089-A958-432B232A3B3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +38,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8315A778-6A3D-4881-8889-9E08A292AFC0} = {D69471DB-23C1-4089-A958-432B232A3B3A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {192610B5-8639-40A0-AD86-79C24A14C9B9}

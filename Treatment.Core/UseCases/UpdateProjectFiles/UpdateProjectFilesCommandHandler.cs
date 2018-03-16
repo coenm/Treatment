@@ -1,10 +1,14 @@
-﻿namespace Treatment.Core
+﻿namespace Treatment.Core.UseCases.UpdateProjectFiles
 {
     using System.Text.RegularExpressions;
 
-    using Treatment.Core.Interfaces;
+    using JetBrains.Annotations;
 
-    public class RelativePathInCsProjFixer
+    using Treatment.Core.Interfaces;
+    using Treatment.Core.UseCases;
+
+    [UsedImplicitly]
+    public class UpdateProjectFilesCommandHandler : ICommandHandler<UpdateProjectFilesCommand>
     {
         private const string SEARCH = @"<HintPath>[\.\.\\]+Packages\\(.+\.dll)</HintPath>";
         private const string REPLACE = @"<HintPath>$(PackagesDir)\$1</HintPath>";
@@ -13,11 +17,20 @@
         private readonly IFileSearch _fileSearcher;
         private readonly Regex _regex;
 
-        public RelativePathInCsProjFixer(IFileSystem filesystem, IFileSearch fileSearcher)
+        public UpdateProjectFilesCommandHandler(IFileSystem filesystem, IFileSearch fileSearcher)
         {
             _filesystem = filesystem;
             _fileSearcher = fileSearcher;
             _regex = new Regex(SEARCH, RegexOptions.Compiled);
+        }
+
+        public void Execute(UpdateProjectFilesCommand command)
+        {
+            var files = GetCsFiles(command.Directory);
+            foreach (var file in files)
+            {
+                FixSingleFile(file);
+            }
         }
 
         public string[] GetCsFiles(string rootpath)
