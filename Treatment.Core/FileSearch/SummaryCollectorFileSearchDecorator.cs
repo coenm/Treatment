@@ -2,12 +2,12 @@
 {
     using Treatment.Core.Interfaces;
 
-    public class SummaryFileSearchDecorator : IFileSearch
+    public class SummaryCollectorFileSearchDecorator : IFileSearch
     {
         private readonly IFileSearch _decoratee;
         private readonly IStatistics _statistics;
 
-        public SummaryFileSearchDecorator(IFileSearch decoratee, IStatistics statistics)
+        public SummaryCollectorFileSearchDecorator(IFileSearch decoratee, IStatistics statistics)
         {
             _decoratee = decoratee;
             _statistics = statistics;

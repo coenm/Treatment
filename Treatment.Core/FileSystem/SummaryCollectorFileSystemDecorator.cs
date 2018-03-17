@@ -2,12 +2,12 @@
 {
     using Treatment.Core.Interfaces;
 
-    public class SummaryFileSystemDecorator : IFileSystem
+    public class SummaryCollectorFileSystemDecorator : IFileSystem
     {
         private readonly IFileSystem _decoratee;
         private readonly IStatistics _statistics;
 
-        public SummaryFileSystemDecorator(IFileSystem decoratee, IStatistics statistics)
+        public SummaryCollectorFileSystemDecorator(IFileSystem decoratee, IStatistics statistics)
         {
             _decoratee = decoratee;
             _statistics = statistics;

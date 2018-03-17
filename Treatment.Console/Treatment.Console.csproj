@@ -59,7 +59,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrap.cs" />
-    <Compile Include="Options.cs" />
+    <Compile Include="Options\FixOptions.cs" />
+    <Compile Include="Options\ListProvidersOptions.cs" />
+    <Compile Include="Options\Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

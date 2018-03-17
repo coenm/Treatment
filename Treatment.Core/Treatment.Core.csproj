@@ -54,8 +54,8 @@
     <Compile Include="Interfaces\ISearchProviderFactory.cs" />
     <Compile Include="Interfaces\IStatistics.cs" />
     <Compile Include="Interfaces\ISummaryWriter.cs" />
-    <Compile Include="FileSearch\SummaryFileSearchDecorator.cs" />
-    <Compile Include="FileSystem\SummaryFileSystemDecorator.cs" />
+    <Compile Include="FileSearch\SummaryCollectorFileSearchDecorator.cs" />
+    <Compile Include="FileSystem\SummaryCollectorFileSystemDecorator.cs" />
     <Compile Include="FileSearch\VerboseFileSearchDecorator.cs" />
     <Compile Include="FileSystem\VerboseFileSystemDecorator.cs" />
     <Compile Include="FileSystem\DryRunFileSystemDecorator.cs" />

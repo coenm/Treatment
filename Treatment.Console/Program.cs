@@ -4,6 +4,7 @@
 
     using CommandLine;
 
+    using Treatment.Console.Options;
     using Treatment.Core.UseCases;
     using Treatment.Core.UseCases.ListSearchProviders;
     using Treatment.Core.UseCases.UpdateProjectFiles;
@@ -12,39 +13,39 @@
 
     public static class Program
     {
-        public static void Main(string[] args)
+        public static int Main(string[] args)
         {
-            Parser.Default
-                  .ParseArguments<Options>(args)
-                  .WithParsed(RunOptionsAndReturnExitCode)
-                  .WithNotParsed(HandleParseError);
+            return Parser.Default.ParseArguments<ListProvidersOptions, FixOptions>(args)
+                         .MapResult(
+                                    (ListProvidersOptions opts) => ListSearchProviders(opts),
+                                    (FixOptions opts) => FixProjectFiles(opts),
+                                    errors => HoldConsole(errors));
         }
 
-        private static void RunOptionsAndReturnExitCode(Options options)
+        private static int HoldConsole(IEnumerable<Error> errs)
+        {
+            Console.ReadKey();
+            return -1;
+        }
+
+        private static int FixProjectFiles(FixOptions options)
         {
             var container = Bootstrap.Configure(options);
 
-            if (options.ListProviders)
-            {
-                container.GetInstance<ICommandHandler<ListSearchProvidersCommand>>()
-                         .Execute(new ListSearchProvidersCommand());
-            }
-            else
-            {
-                container.GetInstance<ICommandHandler<UpdateProjectFilesCommand>>()
-                         .Execute(new UpdateProjectFilesCommand(options.RootDirectory));
-            }
+            container.GetInstance<ICommandHandler<UpdateProjectFilesCommand>>()
+                     .Execute(new UpdateProjectFilesCommand(options.RootDirectory));
+
+            return 0;
         }
 
-        private static void HandleParseError(IEnumerable<Error> errs)
+        private static int ListSearchProviders(ListProvidersOptions options)
         {
-            Console.WriteLine("Could not parse arguments.");
-            foreach (var item in errs)
-                Console.WriteLine($" - {item}");
+            var container = Bootstrap.Configure(options);
 
-            Console.WriteLine(string.Empty);
-            Console.WriteLine("Press key to exit");
-            Console.ReadKey();
+            container.GetInstance<ICommandHandler<ListSearchProvidersCommand>>()
+                     .Execute(new ListSearchProvidersCommand());
+
+            return 0;
         }
     }
 }
