@@ -17,23 +17,43 @@ in `*.csproj` files within the given root directory (see `--directory` argument.
 
 ## How to ask?
 ```
-Treatment.exe --help
+Treatment.exe help
 
-  -n, --dry-run            (Default: false) Dry run
+  list-providers    List installed search providers to be used when fixing csproject files.
 
-  -v, --verbose            (Default: false) Prints all messages to standard output.
+  fix               Fix csproj files where hintpath of packages is fixed
 
-  -s, --summary            (Default: true) Summary
+  help              Display more information on a specific command.
 
-  -h, --hold               (Default: false) Keeps console open when process successfully finished.
+  version           Display version information.
 
-  -p, --search-provider    (Default: FileSystem) Set search provider to search for csproj files. Options: FileSystem, Everything
+
+Treatment.exe help fix
 
   -d, --directory          Required. Root directory to process the csproj files.
+
+  -n, --dry-run            (Default: false) File changes are not written to disk, only listed in the console.
+
+  -s, --summary            (Default: false) Prints a summary at the end of fixing the csproj files.
+
+  -p, --search-provider    (Default: FileSystem) Set search provider to search for csproj files. To list the search providers, use the verb 'list-providers'.
+
+  -v, --verbose            (Default: false) Prints more information about the current process to the console.
+
+  -h, --hold               (Default: false) Keeps console open when process successfully finished.
 
   --help                   Display this help screen.
 
   --version                Display version information.
+
+
+Treatment.exe help list-providers
+
+  -h, --hold    (Default: false) Keeps console open when process successfully finished.
+
+  --help        Display this help screen.
+
+  --version     Display version information.
 ```
 
 
