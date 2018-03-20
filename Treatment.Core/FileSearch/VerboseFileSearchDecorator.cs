@@ -3,8 +3,11 @@
     using System;
     using System.Diagnostics;
 
+    using JetBrains.Annotations;
+
     using Treatment.Core.Interfaces;
 
+    [UsedImplicitly]
     public class VerboseFileSearchDecorator : IFileSearch
     {
         private readonly IFileSearch _decoratee;

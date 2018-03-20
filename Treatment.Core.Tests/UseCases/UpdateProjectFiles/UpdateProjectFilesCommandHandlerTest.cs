@@ -1,4 +1,4 @@
-﻿namespace Treatment.Core.Tests
+﻿namespace Treatment.Core.Tests.UseCases.UpdateProjectFiles
 {
     using FakeItEasy;
 
@@ -8,12 +8,12 @@
 
     using Xunit;
 
-    public class RelativePathInCsProjFixerTests
+    public class UpdateProjectFilesCommandHandlerTests
     {
         private readonly UpdateProjectFilesCommandHandler _sut;
         private readonly IFileSystem _filesystem;
 
-        public RelativePathInCsProjFixerTests()
+        public UpdateProjectFilesCommandHandlerTests()
         {
             var filesearcher = A.Dummy<IFileSearch>();
             _filesystem = A.Fake<IFileSystem>();

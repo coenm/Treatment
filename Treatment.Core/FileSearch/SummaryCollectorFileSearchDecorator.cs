@@ -1,7 +1,10 @@
 ﻿namespace Treatment.Core.FileSearch
 {
+    using JetBrains.Annotations;
+
     using Treatment.Core.Interfaces;
 
+    [UsedImplicitly]
     public class SummaryCollectorFileSearchDecorator : IFileSearch
     {
         private readonly IFileSearch _decoratee;

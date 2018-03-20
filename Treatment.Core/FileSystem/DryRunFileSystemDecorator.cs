@@ -2,8 +2,11 @@
 {
     using System;
 
+    using JetBrains.Annotations;
+
     using Treatment.Core.Interfaces;
 
+    [UsedImplicitly]
     public class DryRunFileSystemDecorator : IFileSystem
     {
         private readonly IFileSystem _decoratee;
