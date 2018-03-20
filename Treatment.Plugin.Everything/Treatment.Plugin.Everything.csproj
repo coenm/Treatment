@@ -53,12 +53,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Treatment.Core\Treatment.Core.csproj">
-      <Project>{5C7106E8-2362-40FF-9DA2-84A4BB827F39}</Project>
-      <Name>Treatment.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="..\lib\Everything32.dll">
       <Link>Everything32.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -66,6 +60,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Treatment.Core\Treatment.Core.csproj">
+      <Project>{852975da-cbf2-4659-8da4-3aa6a1b5aa25}</Project>
+      <Name>Treatment.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -72,12 +72,6 @@
     <EmbeddedResource Include="Resources\FileWithRelativeHintPath.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Treatment.Core\Treatment.Core.csproj">
-      <Project>{5C7106E8-2362-40FF-9DA2-84A4BB827F39}</Project>
-      <Name>Treatment.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +83,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Treatment.Core\Treatment.Core.csproj">
+      <Project>{852975da-cbf2-4659-8da4-3aa6a1b5aa25}</Project>
+      <Name>Treatment.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
