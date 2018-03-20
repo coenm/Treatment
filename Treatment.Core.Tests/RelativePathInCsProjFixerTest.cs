@@ -12,11 +12,10 @@
     {
         private readonly UpdateProjectFilesCommandHandler _sut;
         private readonly IFileSystem _filesystem;
-        private readonly IFileSearch _filesearcher;
 
         public RelativePathInCsProjFixerTests()
         {
-            _filesearcher = A.Fake<IFileSearch>();
+            var filesearcher = A.Dummy<IFileSearch>();
             _filesystem = A.Fake<IFileSystem>();
             A.CallTo(() => _filesystem.GetFileContent(A<string>._))
              .ReturnsLazily(call =>
@@ -25,7 +24,7 @@
                                 return ResourceFile.GetContent(filename);
                             });
 
-            _sut = new UpdateProjectFilesCommandHandler(_filesystem, _filesearcher);
+            _sut = new UpdateProjectFilesCommandHandler(_filesystem, filesearcher);
         }
 
         [Fact]
