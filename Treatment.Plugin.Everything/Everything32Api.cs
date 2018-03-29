@@ -1,5 +1,6 @@
 ﻿namespace Treatment.Plugin.Everything
 {
+    using System;
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using System.Text;
@@ -289,7 +290,32 @@
             }
             finally
             {
-                Everything_CleanUp();
+                Ignore(Everything_CleanUp);
+            }
+        }
+
+        public static bool IsEverythingAvailable()
+        {
+            try
+            {
+                var _ = Everything_GetMajorVersion();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        private static void Ignore(Action action)
+        {
+            try
+            {
+                action.Invoke();
+            }
+            catch (Exception)
+            {
+                // intentionally do nothing
             }
         }
     }

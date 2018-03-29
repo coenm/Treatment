@@ -13,7 +13,8 @@
     {
         public void RegisterServices(Container container)
         {
-            container.AppendToCollection(typeof(ISearchProviderFactory), typeof(EverythingFileSeachFactory));
+            if (Everything32Api.IsEverythingAvailable())
+                container.AppendToCollection(typeof(ISearchProviderFactory), typeof(EverythingFileSeachFactory));
         }
     }
 }
