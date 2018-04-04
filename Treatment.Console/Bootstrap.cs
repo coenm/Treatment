@@ -5,6 +5,8 @@
     using System.Linq;
     using System.Reflection;
 
+    using FluentValidation;
+
     using JetBrains.Annotations;
 
     using SimpleInjector;
@@ -16,10 +18,10 @@
     using Treatment.Core.Interfaces;
     using Treatment.Core.Statistics;
     using Treatment.Core.UseCases;
-    using Treatment.Core.UseCases.Decorators;
+    using Treatment.Core.UseCases.CrossCuttingConcerns;
     using Treatment.Core.UseCases.UpdateProjectFiles;
 
-    public static class Bootstrap
+    internal static class Bootstrap
     {
         public static Container Configure([NotNull] Options.Options opts)
         {
@@ -49,7 +51,9 @@
             // Plugins might register more Search Provider Factories
             container.RegisterCollection<ISearchProviderFactory>(new[] { typeof(OsFileSystemSearchProviderFactory) });
 
-            container.RegisterSingleton<IFileSystem>(OsFileSystem.Instance);
+            RegisterFluentValidationValidators(container);
+
+            container.RegisterInstance<IFileSystem>(OsFileSystem.Instance);
             container.Register(() => CreateSearchProvider(container, searchProviderName), Lifestyle.Singleton);
 
             var registrationStatisticsCollectorAndSummaryWriter = Lifestyle.Singleton.CreateRegistration<StatisticsCollectorAndSummaryWriter>(container);
@@ -62,7 +66,6 @@
 
             if (dryRun)
             {
-                // Decorate IFileSystem not to save data to disk
                 container.RegisterDecorator<IFileSystem, DryRunFileSystemDecorator>();
             }
 
@@ -90,10 +93,14 @@
                 container.RegisterSingleton<ISummaryWriter, FakeSummaryWriter>();
             }
 
+            container.RegisterDecorator(typeof(ICommandHandler<>), typeof(CommandValidationDecorator<>));
+
             if (holdOnExit)
             {
-                container.RegisterDecorator(typeof(ICommandHandler<>), typeof(HoldConsoleDecorator<>));
+                container.RegisterDecorator(typeof(ICommandHandler<>), typeof(CrossCuttingConcerns.HoldConsoleCommandHandlerDecorator<>));
             }
+
+            container.RegisterDecorator(typeof(ICommandHandler<>), typeof(CrossCuttingConcerns.WriteExceptionToConsoleCommandHandlerDecorator<>));
 
             RegisterPlugins(container);
 
@@ -115,6 +122,12 @@
                                    .Select(file => Assembly.Load(AssemblyName.GetAssemblyName(file.FullName)));
 
             container.RegisterPackages(pluginAssemblies);
+        }
+
+        private static void RegisterFluentValidationValidators(Container container)
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
+            container.Register(typeof(IValidator<>), assemblies);
         }
 
         private static IFileSearch CreateSearchProvider([NotNull] Container container, [NotNull] string searchProvider)

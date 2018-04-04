@@ -19,10 +19,10 @@
                          .MapResult(
                                     (ListProvidersOptions opts) => ListSearchProviders(opts),
                                     (FixOptions opts) => FixProjectFiles(opts),
-                                    errors => HoldConsole(errors));
+                                    HoldConsoleOnError);
         }
 
-        private static int HoldConsole(IEnumerable<Error> errs)
+        private static int HoldConsoleOnError(IEnumerable<Error> errs)
         {
             Console.ReadKey();
             return -1;
@@ -30,20 +30,20 @@
 
         private static int FixProjectFiles(FixOptions options)
         {
-            var container = Bootstrap.Configure(options);
-
-            container.GetInstance<ICommandHandler<UpdateProjectFilesCommand>>()
-                     .Execute(new UpdateProjectFilesCommand(options.RootDirectory));
+            Bootstrap
+                .Configure(options)
+                .GetInstance<ICommandHandler<UpdateProjectFilesCommand>>()
+                .Execute(new UpdateProjectFilesCommand(options.RootDirectory));
 
             return 0;
         }
 
         private static int ListSearchProviders(ListProvidersOptions options)
         {
-            var container = Bootstrap.Configure(options);
-
-            container.GetInstance<ICommandHandler<ListSearchProvidersCommand>>()
-                     .Execute(new ListSearchProvidersCommand());
+            Bootstrap
+                .Configure(options)
+                .GetInstance<ICommandHandler<ListSearchProvidersCommand>>()
+                .Execute(new ListSearchProvidersCommand());
 
             return 0;
         }

@@ -3,7 +3,6 @@
     using JetBrains.Annotations;
 
     using SimpleInjector;
-    using SimpleInjector.Advanced;
     using SimpleInjector.Packaging;
 
     using Treatment.Core.Interfaces;
@@ -13,8 +12,11 @@
     {
         public void RegisterServices(Container container)
         {
-            if (Everything32Api.IsEverythingAvailable())
-                container.AppendToCollection(typeof(ISearchProviderFactory), typeof(EverythingFileSeachFactory));
+            if (container == null)
+                return;
+
+            if (Everything32Api.IsInstalled())
+                container.Collections.AppendTo(typeof(ISearchProviderFactory), typeof(EverythingFileSeachFactory));
         }
     }
 }

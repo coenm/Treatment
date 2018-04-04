@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treatment.Plugin.Everything
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugin", "Plugin", "{D69471DB-23C1-4089-A958-432B232A3B3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treatment.Core", "Treatment.Core\Treatment.Core.csproj", "{852975DA-CBF2-4659-8DA4-3AA6A1B5AA25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Treatment.Core", "Treatment.Core\Treatment.Core.csproj", "{852975DA-CBF2-4659-8DA4-3AA6A1B5AA25}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

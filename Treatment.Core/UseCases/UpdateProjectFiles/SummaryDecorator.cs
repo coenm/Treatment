@@ -2,6 +2,7 @@
 {
     using Treatment.Core.Interfaces;
 
+    // todo only for UpdateProjectFilesCommand
     public class SummaryDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : ITreatmentCommand
     {
         private readonly ICommandHandler<TCommand> _decorated;
