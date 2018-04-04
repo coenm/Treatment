@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Treatment.Plugin.Everything</RootNamespace>
     <AssemblyName>Treatment.Plugin.Everything</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -32,13 +32,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+      <HintPath>..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleInjector, Version=4.0.12.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SimpleInjector.4.0.12\lib\net45\SimpleInjector.dll</HintPath>
+    <Reference Include="SimpleInjector, Version=4.1.1.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.1.1\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleInjector.Packaging, Version=4.0.12.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SimpleInjector.Packaging.4.0.12\lib\net40\SimpleInjector.Packaging.dll</HintPath>
+    <Reference Include="SimpleInjector.Packaging, Version=4.1.1.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.Packaging.4.1.1\lib\net40\SimpleInjector.Packaging.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -59,13 +59,13 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Treatment.Core\Treatment.Core.csproj">
       <Project>{852975da-cbf2-4659-8da4-3aa6a1b5aa25}</Project>
       <Name>Treatment.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

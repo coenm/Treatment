@@ -7,7 +7,7 @@
     [Verb("fix", HelpText = "Fix csproj files where hintpath of packages is fixed")]
     public class FixOptions : Options
     {
-        [Option('d', "directory", Required = true, HelpText = "Root directory to process the csproj files.")]
+        [Option('d', "directory", Required = false, HelpText = "Root directory to process the csproj files.")]
         public string RootDirectory { get; [UsedImplicitly] set; }
 
         [Option('n', "dry-run", Default = false, Required = false, HelpText = "File changes are not written to disk, only listed in the console.")]

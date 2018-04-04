@@ -6,6 +6,9 @@
 
     using Treatment.Core.Interfaces;
 
+    /// <summary>
+    /// Decorate IFileSystem not to save data to disk
+    /// </summary>
     [UsedImplicitly]
     public class DryRunFileSystemDecorator : IFileSystem
     {
