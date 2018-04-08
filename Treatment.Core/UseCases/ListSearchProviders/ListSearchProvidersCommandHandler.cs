@@ -23,6 +23,7 @@
         {
             var orderedFactories = _searchProviderFactories.OrderBy(f => f.Priority);
 
+            //TODO Console ....
             Console.WriteLine("Installed search providers (ordered by priority):");
             foreach (var f in orderedFactories)
                 Console.WriteLine($"- {f.Name}");

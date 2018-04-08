@@ -1,7 +1,6 @@
 ﻿namespace Treatment.Console.CrossCuttingConcerns
 {
-    using System;
-
+    using Treatment.Console.Console;
     using Treatment.Core.UseCases;
 
     /// <summary>After successfully executing the command, the console will stay open (ie. Console.ReadKey())</summary>
@@ -9,18 +8,20 @@
     public class HoldConsoleCommandHandlerDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : ITreatmentCommand
     {
         private readonly ICommandHandler<TCommand> _decorated;
+        private readonly IConsole _console;
 
-        public HoldConsoleCommandHandlerDecorator(ICommandHandler<TCommand> decorated)
+        public HoldConsoleCommandHandlerDecorator(ICommandHandler<TCommand> decorated, IConsole console)
         {
             _decorated = decorated;
+            _console = console;
         }
 
         public void Execute(TCommand command)
         {
             _decorated.Execute(command);
 
-            Console.WriteLine("Press enter to exit");
-            Console.ReadLine();
+            _console.WriteLine("Press enter to exit");
+            _console.ReadLine();
         }
     }
 }

@@ -1,6 +1,6 @@
 # Treatment
 
-Specific command line tool for updating `*.csproj` files. 
+Specific command line tool for updating `*.csproj` files.
 
 ## What does it do?
 
@@ -16,6 +16,7 @@ to
 in `*.csproj` files within the given root directory (see `--directory` argument.)
 
 ## How to ask?
+
 ```
 Treatment.exe help
 
@@ -30,7 +31,7 @@ Treatment.exe help
 
 Treatment.exe help fix
 
-  -d, --directory          Required. Root directory to process the csproj files.
+  -d, --directory          Root directory to process the csproj files.
 
   -n, --dry-run            (Default: false) File changes are not written to disk, only listed in the console.
 
@@ -56,14 +57,44 @@ Treatment.exe help list-providers
   --version     Display version information.
 ```
 
-
 ## What is 'Everything'?
+
 Found at voidtools.com [FAQ](https://www.voidtools.com/faq/#what_is_everything) 
 
 > "Everything" is search engine that locates files and folders by filename instantly for Windows.
-> 
+>
 > Unlike Windows search "Everything" initially displays every file and folder on your computer (hence the name "Everything").
-> 
+>
 > You type in a search filter to limit what files and folders are displayed.
 
 Requires Everything to be installed, but when used as search provider it increases performance.
+
+## Why 'so much code' for such a simple application?
+
+Yes. The application has little functionality which probably can be coded in a single class with a few methods that is still pretty clean. This project is also about experimenting with common patterns, principles, frameworks etc. etc.
+
+## Decisions
+
+- Based on the commandline arguments, a command is constructed.
+- Dependency injection (only constructor injection) using [SimpleInjector](https://www.nuget.org/packages/SimpleInjector/) library. This framework also supports a plugin to register it's implementations.
+- Use commands and command handlers for the two commands the application supports. Command handlers can be decorated to enable crosscuttingconcerns (i.e. Execution time measurement, Logging and (superficial) Command validation).
+These (superficial) validations are done using the [FluentValidation](https://www.nuget.org/packages/FluentValidation/) library.
+- Suffix methods returning Tasks with `Async`.
+- Test projects are named with suffix `.Tests`
+- No abstractions for logging. 
+
+## TODO
+
+- [Appveyor](https://www.appveyor.com/);
+- [GitVersion](https://gitversion.readthedocs.io/en/latest/);
+- Input directory validation improvement;
+- Core without Console.WriteLine (almost done)
+- ~~Console.WriteLine abstraction?;~~
+- Improve tests;
+- Improve performance by processing multiple csproj files in parallel;
+- Improve functionality by other fixes in the csproj files (app.config settings).
+- Replace `ListSearchProvidersCommand` command with a query and let the `Treatment.Console` project decide how to display the result.
+
+## Failed experiments
+
+- Tried [Pose](https://www.nuget.org/packages/Pose) to shim `Console` for testing without success. Mabye usable for testing the `ConsoleAdapter`

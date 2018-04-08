@@ -1,9 +1,10 @@
-﻿namespace Treatment.Core.FileSystem
+﻿namespace Treatment.Console.Decorators
 {
     using System;
 
     using JetBrains.Annotations;
 
+    using Treatment.Console.Console;
     using Treatment.Core.Interfaces;
 
     /// <summary>
@@ -14,11 +15,13 @@
     {
         private readonly IFileSystem _decoratee;
         private readonly IRootDirSanitizer _sanitizer;
+        private readonly IConsole _console;
 
-        public DryRunFileSystemDecorator(IFileSystem decoratee, IRootDirSanitizer sanitizer)
+        public DryRunFileSystemDecorator(IFileSystem decoratee, IRootDirSanitizer sanitizer, IConsole console)
         {
             _decoratee = decoratee;
             _sanitizer = sanitizer;
+            _console = console;
         }
 
         public string GetFileContent(string filename)
@@ -28,7 +31,7 @@
 
         public void SaveContent(string filename, string content)
         {
-            Console.WriteLine($"Would save content to '{_sanitizer.Sanitize(filename)}'");
+            _console.WriteLine($"Would save content to '{_sanitizer.Sanitize(filename)}'");
         }
     }
 }

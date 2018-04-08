@@ -102,9 +102,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Console\ConsoleAdapter.cs" />
+    <Compile Include="Console\IConsole.cs" />
     <Compile Include="CrossCuttingConcerns\WriteExceptionToConsoleCommandHandlerDecorator.cs" />
     <Compile Include="CrossCuttingConcerns\HoldConsoleCommandHandlerDecorator.cs" />
     <Compile Include="Bootstrap.cs" />
+    <Compile Include="Decorators\DryRunFileSystemDecorator.cs" />
+    <Compile Include="Decorators\StatisticsCollectorAndSummaryWriter.cs" />
+    <Compile Include="Decorators\VerboseFileSearchDecorator.cs" />
+    <Compile Include="Decorators\VerboseFileSystemDecorator.cs" />
     <Compile Include="Options\FixOptions.cs" />
     <Compile Include="Options\ListProvidersOptions.cs" />
     <Compile Include="Options\Options.cs" />
@@ -127,5 +133,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

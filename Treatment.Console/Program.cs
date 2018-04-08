@@ -4,6 +4,7 @@
 
     using CommandLine;
 
+    using Treatment.Console.Console;
     using Treatment.Console.Options;
     using Treatment.Core.UseCases;
     using Treatment.Core.UseCases.ListSearchProviders;
@@ -24,7 +25,11 @@
 
         private static int HoldConsoleOnError(IEnumerable<Error> errs)
         {
-            Console.ReadKey();
+            Bootstrap
+                .Configure()
+                .GetInstance<IConsole>()
+                .ReadKey();
+
             return -1;
         }
 

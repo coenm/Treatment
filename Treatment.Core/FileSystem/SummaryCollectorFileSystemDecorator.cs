@@ -1,7 +1,10 @@
 ﻿namespace Treatment.Core.FileSystem
 {
+    using JetBrains.Annotations;
+
     using Treatment.Core.Interfaces;
 
+    [UsedImplicitly]
     public class SummaryCollectorFileSystemDecorator : IFileSystem
     {
         private readonly IFileSystem _decoratee;

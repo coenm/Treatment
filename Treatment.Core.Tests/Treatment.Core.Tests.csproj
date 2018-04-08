@@ -93,6 +93,10 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Treatment.Console\Treatment.Console.csproj">
+      <Project>{8C296460-B1AA-4528-BFD8-0D1A173A61D2}</Project>
+      <Name>Treatment.Console</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Treatment.Core\Treatment.Core.csproj">
       <Project>{852975da-cbf2-4659-8da4-3aa6a1b5aa25}</Project>
       <Name>Treatment.Core</Name>

@@ -4,6 +4,7 @@
 
     using JetBrains.Annotations;
 
+    using Treatment.Console.Console;
     using Treatment.Core.UseCases;
 
     /// <summary>Catch, and write exception message to console.</summary>
@@ -12,10 +13,12 @@
     public class WriteExceptionToConsoleCommandHandlerDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : ITreatmentCommand
     {
         private readonly ICommandHandler<TCommand> _decorated;
+        private readonly IConsole _console;
 
-        public WriteExceptionToConsoleCommandHandlerDecorator(ICommandHandler<TCommand> decorated)
+        public WriteExceptionToConsoleCommandHandlerDecorator(ICommandHandler<TCommand> decorated, IConsole console)
         {
             _decorated = decorated;
+            _console = console;
         }
 
         public void Execute(TCommand command)
@@ -26,11 +29,11 @@
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                _console.WriteLine(e.Message);
 
-                Console.WriteLine();
-                Console.WriteLine("Press enter to continue");
-                Console.ReadLine();
+                _console.WriteLine();
+                _console.WriteLine("Press enter to continue");
+                _console.ReadLine();
             }
         }
     }

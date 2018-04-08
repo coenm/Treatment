@@ -11,6 +11,8 @@
 
     using SimpleInjector;
 
+    using Treatment.Console.Console;
+    using Treatment.Console.Decorators;
     using Treatment.Console.Options;
     using Treatment.Core;
     using Treatment.Core.FileSearch;
@@ -23,14 +25,19 @@
 
     internal static class Bootstrap
     {
-        public static Container Configure([NotNull] Options.Options opts)
+        public static Container Configure([CanBeNull] Options.Options opts = null)
         {
             var verbose = false;
             var summary = false;
             var dryRun = false;
             var rootDirectory = string.Empty;
             var searchProvider = string.Empty;
-            var holdOnExit = opts.HoldOnExit;
+            var holdOnExit = false;
+
+            if (opts != null)
+            {
+                holdOnExit = opts.HoldOnExit;
+            }
 
             if (opts is FixOptions fixOptions)
             {
@@ -47,6 +54,8 @@
         private static Container Configure(bool verbose, bool summary, bool holdOnExit, bool dryRun, string rootDirectory, string searchProviderName)
         {
             var container = new Container();
+
+            container.RegisterInstance<IConsole>(ConsoleAdapter.Instance);
 
             // Plugins might register more Search Provider Factories
             container.RegisterCollection<ISearchProviderFactory>(new[] { typeof(OsFileSystemSearchProviderFactory) });
