@@ -90,11 +90,8 @@ These (superficial) validations are done using the [FluentValidation](https://ww
 - Input directory validation improvement;
 - Core without Console.WriteLine (almost done)
 - ~~Console.WriteLine abstraction?;~~
+- ~~Experiment with [Pose](https://www.nuget.org/packages/Pose) to shim `Console`.~~
 - Improve tests;
 - Improve performance by processing multiple csproj files in parallel;
 - Improve functionality by other fixes in the csproj files (app.config settings).
 - Replace `ListSearchProvidersCommand` command with a query and let the `Treatment.Console` project decide how to display the result.
-
-## Failed experiments
-
-- Tried [Pose](https://www.nuget.org/packages/Pose) to shim `Console` for testing without success. Mabye usable for testing the `ConsoleAdapter`
