@@ -81,7 +81,7 @@
                                                                () => result = _sut.ReadKey(),
                                                                consoleShim));
 
-            // wait until the system
+            // wait until the System.Console is 'reading the key'.
             mreConsoleReadingKey.Wait();
 
             // simulate keypress
