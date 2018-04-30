@@ -2,7 +2,7 @@
 {
     using System;
 
-    using Treatment.Core.Interfaces;
+    using Treatment.Contract.Plugin.FileSearch;
 
     public class EverythingFileSeachFactory : ISearchProviderFactory
     {

@@ -46,6 +46,9 @@
     <Reference Include="Pose, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Pose.1.2.0\lib\netstandard2.0\Pose.dll</HintPath>
     </Reference>
+    <Reference Include="SimpleInjector, Version=4.2.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.2.2\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -69,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Console\ConsoleAdapterTest.cs" />
+    <Compile Include="Bootstrapper2Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +89,10 @@
     <ProjectReference Include="..\Treatment.Console\Treatment.Console.csproj">
       <Project>{8C296460-B1AA-4528-BFD8-0D1A173A61D2}</Project>
       <Name>Treatment.Console</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Treatment.Contract\Treatment.Contract.csproj">
+      <Project>{3A303101-54C7-493E-8A9C-D7DE22C32568}</Project>
+      <Name>Treatment.Contract</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

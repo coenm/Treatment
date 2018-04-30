@@ -2,6 +2,7 @@
 {
     using FakeItEasy;
 
+    using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Core.Interfaces;
     using Treatment.Core.Tests.Resources;
     using Treatment.Core.UseCases.UpdateProjectFiles;

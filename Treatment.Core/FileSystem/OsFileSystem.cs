@@ -4,7 +4,7 @@
 
     using Treatment.Core.Interfaces;
 
-    public class OsFileSystem : IFileSystem, IFileSearch
+    public class OsFileSystem : IFileSystem
     {
         private OsFileSystem()
         {
@@ -20,11 +20,6 @@
         public void SaveContent(string filename, string content)
         {
             File.WriteAllText(filename, content);
-        }
-
-        public string[] FindFilesIncludingSubdirectories(string rootPath, string mask)
-        {
-            return Directory.GetFiles(rootPath, mask, SearchOption.AllDirectories);
         }
     }
 }

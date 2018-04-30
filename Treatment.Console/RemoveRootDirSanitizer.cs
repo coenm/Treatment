@@ -4,13 +4,18 @@
 
     using Treatment.Core.Interfaces;
 
-    public class RemoveRootDirSanitizer : IRootDirSanitizer
+    /*internal*/public class RemoveRootDirSanitizer : IRootDirSanitizer
     {
-        private readonly string _rootDir;
+        private string _rootDir;
 
-        public RemoveRootDirSanitizer([NotNull] string rootDir)
+        public RemoveRootDirSanitizer()
         {
-            _rootDir = rootDir;
+            _rootDir = string.Empty;
+        }
+
+        public void SetRootDir([NotNull] string input)
+        {
+            _rootDir = input;
         }
 
         public string Sanitize(string input)

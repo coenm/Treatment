@@ -4,6 +4,9 @@
 
     using JetBrains.Annotations;
 
+    using Treatment.Contract;
+    using Treatment.Contract.Commands;
+    using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Core.Interfaces;
     using Treatment.Core.UseCases;
 

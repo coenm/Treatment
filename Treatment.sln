@@ -15,6 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Treatment.Core", "Treatment
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treatment.Console.Tests", "Treatment.Console.Tests\Treatment.Console.Tests.csproj", "{4630ACA3-0F8C-4F97-A5EA-CDCE9F5D3B72}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treatment.Contract", "Treatment.Contract\Treatment.Contract.csproj", "{3A303101-54C7-493E-8A9C-D7DE22C32568}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treatment.Contract.Plugin", "Treatment.Contract.Plugin\Treatment.Contract.Plugin.csproj", "{7E082598-0C9C-4F15-B1B8-BDF6F2B1660C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +45,14 @@ Global
 		{4630ACA3-0F8C-4F97-A5EA-CDCE9F5D3B72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4630ACA3-0F8C-4F97-A5EA-CDCE9F5D3B72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4630ACA3-0F8C-4F97-A5EA-CDCE9F5D3B72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A303101-54C7-493E-8A9C-D7DE22C32568}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A303101-54C7-493E-8A9C-D7DE22C32568}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A303101-54C7-493E-8A9C-D7DE22C32568}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A303101-54C7-493E-8A9C-D7DE22C32568}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E082598-0C9C-4F15-B1B8-BDF6F2B1660C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E082598-0C9C-4F15-B1B8-BDF6F2B1660C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E082598-0C9C-4F15-B1B8-BDF6F2B1660C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E082598-0C9C-4F15-B1B8-BDF6F2B1660C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

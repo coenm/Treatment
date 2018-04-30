@@ -6,6 +6,7 @@
     using JetBrains.Annotations;
 
     using Treatment.Console.Console;
+    using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Core.Interfaces;
 
     [UsedImplicitly]

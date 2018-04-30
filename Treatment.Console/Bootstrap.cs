@@ -1,6 +1,7 @@
 ﻿namespace Treatment.Console
 {
     using System;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -14,12 +15,15 @@
     using Treatment.Console.Console;
     using Treatment.Console.Decorators;
     using Treatment.Console.Options;
+    using Treatment.Contract;
+    using Treatment.Contract.Commands;
+    using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Core;
+    using Treatment.Core.DefaultPluginImplementation.FileSearch;
     using Treatment.Core.FileSearch;
     using Treatment.Core.FileSystem;
     using Treatment.Core.Interfaces;
     using Treatment.Core.Statistics;
-    using Treatment.Core.UseCases;
     using Treatment.Core.UseCases.CrossCuttingConcerns;
     using Treatment.Core.UseCases.UpdateProjectFiles;
 
@@ -71,7 +75,16 @@
             // Register all commandhandlers found in the specific assembly.
             container.Register(typeof(ICommandHandler<>), new[] { typeof(ICommandHandler<>).Assembly });
 
-            container.RegisterSingleton<IRootDirSanitizer>(() => new RemoveRootDirSanitizer(rootDirectory));
+            container.Register(typeof(IQueryHandler<,>), new[] { typeof(ICommandHandler<>).Assembly });
+
+            // container.RegisterSingleton<IQueryProcessor>(new DynamicQueryProcessor(container));
+
+            container.RegisterSingleton<IRootDirSanitizer>(() =>
+                                                           {
+                                                               var result = new RemoveRootDirSanitizer();
+                                                               result.SetRootDir(rootDirectory);
+                                                               return result;
+                                                           });
 
             if (dryRun)
             {
@@ -148,9 +161,32 @@
                           .FirstOrDefault(item => item.CanCreate(searchProvider));
 
             if (factory == null)
-                return OsFileSystem.Instance;
+                return OsFileSearch.Instance;
 
             return factory.Create();
+        }
+    }
+
+
+
+
+    public sealed class DynamicQueryProcessor : IQueryProcessor
+    {
+        private readonly Container container;
+
+        public DynamicQueryProcessor(Container container)
+        {
+            this.container = container;
+        }
+
+        [DebuggerStepThrough]
+        public TResult Execute<TResult>(IQuery<TResult> query)
+        {
+            var handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
+
+            dynamic handler = this.container.GetInstance(handlerType);
+
+            return handler.Handle((dynamic)query);
         }
     }
 }

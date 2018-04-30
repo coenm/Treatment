@@ -5,7 +5,7 @@
     using SimpleInjector;
     using SimpleInjector.Packaging;
 
-    using Treatment.Core.Interfaces;
+    using Treatment.Contract.Plugin.FileSearch;
 
     [UsedImplicitly]
     public class EverythingPackage : IPackage
