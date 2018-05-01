@@ -106,9 +106,6 @@
                                         ctx => Container.GetInstance<IVerboseOption>().Level != VerboseLevel.Disabled);
 
 
-            // //tmp
-            // Container.Register<ISummaryWriter, FakeSummaryWriter>(Lifestyle.Singleton);
-
             Container.Register<IRootDirSanitizer, RemoveRootDirSanitizer>(Lifestyle.Scoped);
             Container.Register<IHoldConsole, HoldConsole>(Lifestyle.Singleton);
 

@@ -37,9 +37,9 @@ Treatment.exe help fix
 
   -s, --summary            (Default: false) Prints a summary at the end of fixing the csproj files.
 
-  -p, --search-provider    (Default: FileSystem) Set search provider to search for csproj files. To list the search providers, use the verb 'list-providers'.
+  -p, --search-provider    (Default: FileSystem) Set search provider to search for csproj files. To list the search providers, use the 'list-providers' command.
 
-  -v, --verbose            (Default: false) Prints more information about the current process to the console.
+  -v, --verbose            (Default: 0) Verbosity level ranging from 0 (disabled) to 3 (max).
 
   -h, --hold               (Default: false) Keeps console open when process successfully finished.
 
