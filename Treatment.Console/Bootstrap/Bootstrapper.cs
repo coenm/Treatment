@@ -5,6 +5,7 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.CompilerServices;
 
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
@@ -16,85 +17,22 @@
     using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Core;
+    using Treatment.Core.DefaultPluginImplementation.FileSearch;
     using Treatment.Core.Interfaces;
-    using Treatment.Core.Statistics;
 
-    public interface IHoldOnExitOption
+    // ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
+    public class Bootstrapper
     {
-        bool HoldOnExit { get; }
-    }
-
-    public interface ISearchProviderNameOption
-    {
-        string SearchProviderName { get; }
-    }
-
-    public interface IDryRunOption
-    {
-        bool IsDryRun { get; }
-    }
-
-    public interface IVerboseOption
-    {
-        VerboseLevel Level { get; }
-    }
-
-    public enum VerboseLevel
-    {
-        High,
-        Medium,
-        Low,
-        Null,
-    }
-
-    class DefaultOptions : IVerboseOption, IDryRunOption, IHoldOnExitOption, ISearchProviderNameOption
-    {
-        public VerboseLevel Level => VerboseLevel.Null;
-
-        public bool IsDryRun => false;
-
-        public bool HoldOnExit => false;
-
-        public string SearchProviderName => string.Empty;
-    }
-
-    public class StaticOptions : IVerboseOption, IDryRunOption, IHoldOnExitOption, ISearchProviderNameOption
-    {
-        public StaticOptions(
-            VerboseLevel level,
-            bool isDryRun,
-            bool holdOnExit,
-            string searchProviderName)
-        {
-            IsDryRun = isDryRun;
-            HoldOnExit = holdOnExit;
-            SearchProviderName = searchProviderName;
-            Level = level;
-        }
-        public VerboseLevel Level { get; }
-
-        public bool IsDryRun { get; }
-
-        public bool HoldOnExit { get; }
-
-        public string SearchProviderName { get; }
-    }
-
-
-    public class Bootstrapper2
-    {
-        public Bootstrapper2()
+        public Bootstrapper()
         {
             Container = new Container();
         }
 
         public Container Container { get; }
 
-        public object GetCommandHandler(Type commandType) =>
-            Container.GetInstance(typeof(ICommandHandler<>).MakeGenericType(commandType));
+        public object GetCommandHandler(Type commandType) => Container.GetInstance(typeof(ICommandHandler<>).MakeGenericType(commandType));
 
-        public object GetQueryHandler(Type queryType) =>
-            Container.GetInstance(CreateQueryHandlerType(queryType));
+        public object GetQueryHandler(Type queryType) => Container.GetInstance(CreateQueryHandlerType(queryType));
 
         public TResult ExecuteQuery<TResult>(IQuery<TResult> query)
         {
@@ -114,7 +52,7 @@
             return queryTypes.Concat(resultTypes);
         }
 
-        public IDisposable StartSession()
+        public virtual IDisposable StartSession()
         {
             return AsyncScopedLifestyle.BeginScope(Container);
         }
@@ -135,7 +73,6 @@
                                         typeof(SetRootDirectoryCommandHandlerDecorator<>),
                                         Lifestyle.Scoped,
                                         ctx => typeof(IDirectoryProperty).IsAssignableFrom(ctx.ServiceType.GetGenericArguments()[0]));
-
 
 
             Container.RegisterDecorator(
@@ -169,26 +106,13 @@
                                         ctx => Container.GetInstance<IVerboseOption>().Level != VerboseLevel.Null);
 
 
-
-
-            //
-            // Container.RegisterDecorator(
-            //                              typeof(ICommandHandler<>),
-            //                              typeof(SetFileSearchSelectorCommandHandlerDecorator<>),
-            //                              Lifestyle.Scoped,
-            //                              context => typeof(IDirectoryProperty).IsAssignableFrom(context.ServiceType.GetGenericArguments()[0]));
-            //
-
-
-            //tmp
-            Container.RegisterSingleton<ISummaryWriter, FakeSummaryWriter>();
-
+            // //tmp
+            // Container.Register<ISummaryWriter, FakeSummaryWriter>(Lifestyle.Singleton);
 
             Container.Register<IRootDirSanitizer, RemoveRootDirSanitizer>(Lifestyle.Scoped);
-
+            Container.Register<IHoldConsole, HoldConsole>(Lifestyle.Singleton);
 
             RegisterPlugins();
-            // todo register the rest outside core
         }
 
 
@@ -206,11 +130,12 @@
             Container.Verify();
         }
 
-        private Type CreateQueryHandlerType(Type queryType) =>
+        private static Type CreateQueryHandlerType(Type queryType) =>
             typeof(IQueryHandler<,>).MakeGenericType(queryType, new QueryInfo(queryType).ResultType);
 
 
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void RegisterPlugins()
         {
             var pluginDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory);

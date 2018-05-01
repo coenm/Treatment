@@ -38,8 +38,6 @@
             if (container.Options.DefaultScopedLifestyle == null)
                 container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
 
-            // container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
-
             RegisterFluentValidationValidators(container);
 
             container.Register(typeof(ICommandHandler<>), _businessLayerAssemblies, Lifestyle.Scoped);
@@ -52,6 +50,7 @@
             container.Register(typeof(IQueryHandler<,>), _businessLayerAssemblies, Lifestyle.Scoped);
             // container.RegisterDecorator(typeof(IQueryHandler<,>), typeof(AuthorizationQueryHandlerDecorator<,>));
 
+            // container.Register<IFileSystem>(() => OsFileSystem.Instance, Lifestyle.Singleton);
             container.RegisterInstance<IFileSystem>(OsFileSystem.Instance);
 
             // Plugins might register more Search Provider Factories
@@ -61,7 +60,7 @@
             // container.RegisterSingleton(() => container.GetInstance<FileSearchSelector>().CreateSearchProvider());
 
             container.Register<IFileSearchSelector, FileSearchSelector>(Lifestyle.Scoped);
-            container.Register(() => container.GetInstance<IFileSearchSelector>().CreateSearchProvider(), Lifestyle.Scoped);
+            container.Register<IFileSearch>(() => container.GetInstance<IFileSearchSelector>().CreateSearchProvider(), Lifestyle.Scoped);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -81,17 +80,21 @@
         }
 
         // TOOD not okay
-        public static IEnumerable<Type> GetCommandTypes() =>
-            from assembly in _contractAssemblies
-            from type in assembly.GetExportedTypes()
-            where type.Name.EndsWith("Command")
-            select type;
+        public static IEnumerable<Type> GetCommandTypes()
+        {
+            return from assembly in _contractAssemblies
+                   from type in assembly.GetExportedTypes()
+                   where type.Name.EndsWith("Command")
+                   select type;
+        }
 
-        public static IEnumerable<QueryInfo> GetQueryTypes() =>
-            from assembly in _contractAssemblies
-            from type in assembly.GetExportedTypes()
-            where QueryInfo.IsQuery(type)
-            select new QueryInfo(type);
+        public static IEnumerable<QueryInfo> GetQueryTypes()
+        {
+            return from assembly in _contractAssemblies
+                   from type in assembly.GetExportedTypes()
+                   where QueryInfo.IsQuery(type)
+                   select new QueryInfo(type);
+        }
     }
 
     [DebuggerDisplay("{QueryType.Name,nq}")]
@@ -108,10 +111,12 @@
 
         public static bool IsQuery(Type type) => DetermineResultTypes(type).Any();
 
-        private static IEnumerable<Type> DetermineResultTypes(Type type) =>
-            from interfaceType in type.GetInterfaces()
-            where interfaceType.IsGenericType
-            where interfaceType.GetGenericTypeDefinition() == typeof(IQuery<>)
-            select interfaceType.GetGenericArguments()[0];
+        private static IEnumerable<Type> DetermineResultTypes(Type type)
+        {
+            return from interfaceType in type.GetInterfaces()
+                   where interfaceType.IsGenericType
+                   where interfaceType.GetGenericTypeDefinition() == typeof(IQuery<>)
+                   select interfaceType.GetGenericArguments()[0];
+        }
     }
 }

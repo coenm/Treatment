@@ -1,7 +1,6 @@
 ﻿namespace Treatment.Console.Bootstrap
 {
     using System;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -14,6 +13,7 @@
 
     using Treatment.Console.CommandLineOptions;
     using Treatment.Console.Console;
+    using Treatment.Console.CrossCuttingConcerns;
     using Treatment.Console.Decorators;
     using Treatment.Contract;
     using Treatment.Contract.Commands;
@@ -26,7 +26,7 @@
     using Treatment.Core.UseCases.CrossCuttingConcerns;
     using Treatment.Core.UseCases.UpdateProjectFiles;
 
-    internal static class Bootstrap
+    internal static class BootstrapOld
     {
         public static Container Configure([CanBeNull] Options opts = null)
         {
@@ -117,10 +117,14 @@
 
             if (holdOnExit)
             {
-                container.RegisterDecorator(typeof(ICommandHandler<>), typeof(CrossCuttingConcerns.HoldConsoleCommandHandlerDecorator<>));
+                container.RegisterDecorator(typeof(ICommandHandler<>), typeof(HoldConsoleCommandHandlerDecorator<>));
             }
 
-            container.RegisterDecorator(typeof(ICommandHandler<>), typeof(CrossCuttingConcerns.WriteExceptionToConsoleCommandHandlerDecorator<>));
+            container.RegisterDecorator(typeof(ICommandHandler<>), typeof(WriteExceptionToConsoleCommandHandlerDecorator<>));
+
+
+            container.RegisterSingleton<IHoldConsole, HoldConsole>();
+
 
             RegisterPlugins(container);
 
@@ -162,29 +166,6 @@
                 return OsFileSearch.Instance;
 
             return factory.Create();
-        }
-    }
-
-
-
-
-    public sealed class DynamicQueryProcessor : IQueryProcessor
-    {
-        private readonly Container container;
-
-        public DynamicQueryProcessor(Container container)
-        {
-            this.container = container;
-        }
-
-        [DebuggerStepThrough]
-        public TResult Execute<TResult>(IQuery<TResult> query)
-        {
-            var handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
-
-            dynamic handler = this.container.GetInstance(handlerType);
-
-            return handler.Handle((dynamic)query);
         }
     }
 }

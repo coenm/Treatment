@@ -21,7 +21,7 @@
         public void Bootstrap_ResultsInValidContainerTest()
         {
             // arrange
-            var bootstrapper = new Bootstrapper2();
+            var bootstrapper = new Bootstrapper();
             bootstrapper.Init();
 
             // act
@@ -35,7 +35,7 @@
         [Fact]
         public void Abcdef()
         {
-            var bootstrapper = new Bootstrapper2();
+            var bootstrapper = new Bootstrapper();
             bootstrapper.Init();
 
             bootstrapper.RegisterDefaultOptions();
@@ -56,7 +56,7 @@
         [Fact]
         public void Abcdefaa()
         {
-            var bootstrapper = new Bootstrapper2();
+            var bootstrapper = new Bootstrapper();
             bootstrapper.Init();
 
             bootstrapper.RegisterDefaultOptions();

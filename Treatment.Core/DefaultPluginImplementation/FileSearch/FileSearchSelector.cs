@@ -7,27 +7,33 @@
 
     using Treatment.Contract.Plugin.FileSearch;
 
+
+    public interface ISearchProviderNameOption
+    {
+        string SearchProviderName { get; }
+    }
+
+
+    [UsedImplicitly]
     internal class FileSearchSelector : IFileSearchSelector
     {
-        private readonly IEnumerable<ISearchProviderFactory> _factories;
-        private string _searchProviderName;
+        [NotNull] private readonly IEnumerable<ISearchProviderFactory> _factories;
+        [NotNull] private readonly ISearchProviderNameOption _searchProviderName;
 
-        public FileSearchSelector(IEnumerable<ISearchProviderFactory> factories)
+        public FileSearchSelector(
+            [NotNull] IEnumerable<ISearchProviderFactory> factories,
+            [NotNull] ISearchProviderNameOption searchProviderName)
         {
             _factories = factories;
-        }
-
-        public void SetRequestedSearchProvider(string searchProviderName)
-        {
             _searchProviderName = searchProviderName;
         }
 
         [CanBeNull]
-        public  IFileSearch CreateSearchProvider()
+        public IFileSearch CreateSearchProvider()
         {
             var factory = _factories
                           .OrderBy(f => f.Priority)
-                          .FirstOrDefault(item => item.CanCreate(_searchProviderName));
+                          .FirstOrDefault(item => item.CanCreate(_searchProviderName.SearchProviderName));
 
             return factory?.Create();
         }
@@ -35,8 +41,6 @@
 
     public interface IFileSearchSelector
     {
-        void SetRequestedSearchProvider(string searchProviderName);
-
         IFileSearch CreateSearchProvider();
     }
 }

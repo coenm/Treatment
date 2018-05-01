@@ -98,14 +98,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bootstrap\Bootstrapper2.cs" />
+    <Compile Include="Bootstrap\Bootstrapper.cs" />
+    <Compile Include="Bootstrap\DefaultOptions.cs" />
+    <Compile Include="Bootstrap\IDryRunOption.cs" />
+    <Compile Include="Bootstrap\IHoldOnExitOption.cs" />
+    <Compile Include="Bootstrap\IVerboseOption.cs" />
+    <Compile Include="Bootstrap\StaticOptions.cs" />
+    <Compile Include="Bootstrap\VerboseLevel.cs" />
     <Compile Include="Console\ConsoleAdapter.cs" />
     <Compile Include="Console\IConsole.cs" />
-    <Compile Include="CrossCuttingConcerns\SetFileSearchSelectorCommandHandlerDecorator.cs" />
     <Compile Include="CrossCuttingConcerns\SetRootDirectoryCommandHandlerDecorator.cs" />
     <Compile Include="CrossCuttingConcerns\WriteExceptionToConsoleCommandHandlerDecorator.cs" />
     <Compile Include="CrossCuttingConcerns\HoldConsoleCommandHandlerDecorator.cs" />
-    <Compile Include="Bootstrap\Bootstrap.cs" />
+    <Compile Include="Bootstrap\BootstrapOld.cs" />
     <Compile Include="Decorators\DryRunFileSystemDecorator.cs" />
     <Compile Include="Decorators\StatisticsCollectorAndSummaryWriter.cs" />
     <Compile Include="Decorators\VerboseFileSearchDecorator.cs" />

@@ -12,15 +12,17 @@
     using Treatment.Contract;
     using Treatment.Contract.Commands;
     using Treatment.Contract.Queries;
+    using Treatment.Core.DefaultPluginImplementation.FileSearch;
 
     public static class Program
     {
-        internal static Bootstrapper2 Bootstrapper { get; set; }
+        // ReSharper disable once MemberCanBePrivate.Global
+        internal static Bootstrapper Bootstrapper { get; set; }
 
         public static int Main(string[] args)
         {
             if (Bootstrapper == null)
-                Bootstrapper = new Bootstrapper2();
+                Bootstrapper = new Bootstrapper();
 
             Bootstrapper.Init();
             Bootstrapper.RegisterDefaultOptions();
@@ -44,15 +46,18 @@
 
         private static int FixProjectFiles(FixOptions options)
         {
-            Bootstrapper.Container.Register(typeof(IHoldOnExitOption),
-                                            () => new StaticOptions(
-                                                                    options.Verbose ? VerboseLevel.High : VerboseLevel.Null,
-                                                                    options.DryRun,
-                                                                    options.HoldOnExit,
-                                                                    options.SearchProvider),
-                                            Lifestyle.Scoped);
+            var staticOptions = new StaticOptions(
+                                                  options.Verbose ? VerboseLevel.High : VerboseLevel.Null,
+                                                  options.DryRun,
+                                                  options.HoldOnExit,
+                                                  options.SearchProvider);
 
-            Bootstrapper.VerifyContainer();
+            Bootstrapper.Container.Register(typeof(IHoldOnExitOption), () => staticOptions, Lifestyle.Scoped);
+            Bootstrapper.Container.Register(typeof(IDryRunOption), () => staticOptions, Lifestyle.Scoped);
+            Bootstrapper.Container.Register(typeof(ISearchProviderNameOption), () => staticOptions, Lifestyle.Scoped);
+            Bootstrapper.Container.Register(typeof(IVerboseOption), () => staticOptions, Lifestyle.Scoped);
+
+            // Bootstrapper.VerifyContainer();
 
             using (Bootstrapper.StartSession())
             {

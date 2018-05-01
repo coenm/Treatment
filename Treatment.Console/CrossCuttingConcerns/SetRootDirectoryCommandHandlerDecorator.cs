@@ -2,8 +2,7 @@
 {
     using Treatment.Contract;
     using Treatment.Contract.Commands;
-    using Treatment.Core.Interfaces;
-
+    
     internal class SetRootDirectoryCommandHandlerDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : ICommand
     {
         private readonly IRootDirSanitizer _rootDirSanitizer;

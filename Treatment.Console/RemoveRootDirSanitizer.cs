@@ -1,7 +1,5 @@
 ﻿namespace Treatment.Console
 {
-    using JetBrains.Annotations;
-
     public class RemoveRootDirSanitizer : IRootDirSanitizer
     {
         private string _rootDir;
@@ -11,7 +9,7 @@
             _rootDir = string.Empty;
         }
 
-        public void SetRootDir([NotNull] string input)
+        public void SetRootDir(string input)
         {
             _rootDir = input;
         }

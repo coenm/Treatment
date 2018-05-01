@@ -11,11 +11,14 @@
     [UsedImplicitly]
     public class DryRunFileSystemDecorator : IFileSystem
     {
-        private readonly IFileSystem _decoratee;
-        private readonly IRootDirSanitizer _sanitizer;
-        private readonly IConsole _console;
+        [NotNull] private readonly IFileSystem _decoratee;
+        [NotNull] private readonly IRootDirSanitizer _sanitizer;
+        [NotNull] private readonly IConsole _console;
 
-        public DryRunFileSystemDecorator(IFileSystem decoratee, IRootDirSanitizer sanitizer, IConsole console)
+        public DryRunFileSystemDecorator(
+            [NotNull] IFileSystem decoratee,
+            [NotNull] IRootDirSanitizer sanitizer,
+            [NotNull] IConsole console)
         {
             _decoratee = decoratee;
             _sanitizer = sanitizer;
