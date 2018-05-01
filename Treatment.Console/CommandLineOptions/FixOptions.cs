@@ -19,7 +19,7 @@
         [Option('p', "search-provider", Required = false, Default = "FileSystem", HelpText = "Set search provider to search for csproj files. To list the search providers, use the 'list-providers' command.")]
         public string SearchProvider { get; [UsedImplicitly] set; }
 
-        [Option('v', "verbose", Default = false, Required = false, HelpText = "Prints more information about the current process to the console.")]
-        public bool Verbose { get; [UsedImplicitly] set; }
+        [Option('v', "verbose", Default = 0, Required = false, HelpText = "Prints more information about the current process to the console.")]
+        public int Verbose { get; [UsedImplicitly] set; }
     }
 }

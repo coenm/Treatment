@@ -72,7 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Console\ConsoleAdapterTest.cs" />
-    <Compile Include="Bootstrapper2Test.cs" />
+    <Compile Include="BootstrapperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

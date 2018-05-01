@@ -107,6 +107,8 @@
     <Compile Include="Bootstrap\VerboseLevel.cs" />
     <Compile Include="Console\ConsoleAdapter.cs" />
     <Compile Include="Console\IConsole.cs" />
+    <Compile Include="CrossCuttingConcerns\HoldConsole.cs" />
+    <Compile Include="CrossCuttingConcerns\IHoldConsole.cs" />
     <Compile Include="CrossCuttingConcerns\SetRootDirectoryCommandHandlerDecorator.cs" />
     <Compile Include="CrossCuttingConcerns\WriteExceptionToConsoleCommandHandlerDecorator.cs" />
     <Compile Include="CrossCuttingConcerns\HoldConsoleCommandHandlerDecorator.cs" />

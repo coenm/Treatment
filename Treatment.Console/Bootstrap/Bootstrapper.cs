@@ -97,13 +97,13 @@
                                         typeof(IFileSystem),
                                         typeof(VerboseFileSystemDecorator),
                                         Lifestyle.Scoped,
-                                        ctx => Container.GetInstance<IVerboseOption>().Level != VerboseLevel.Null );
+                                        ctx => Container.GetInstance<IVerboseOption>().Level != VerboseLevel.Disabled );
 
             Container.RegisterDecorator(
                                         typeof(IFileSearch),
                                         typeof(VerboseFileSearchDecorator),
                                         Lifestyle.Scoped,
-                                        ctx => Container.GetInstance<IVerboseOption>().Level != VerboseLevel.Null);
+                                        ctx => Container.GetInstance<IVerboseOption>().Level != VerboseLevel.Disabled);
 
 
             // //tmp

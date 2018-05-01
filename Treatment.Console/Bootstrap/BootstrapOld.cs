@@ -44,7 +44,7 @@
 
             if (opts is FixOptions fixOptions)
             {
-                verbose = fixOptions.Verbose;
+                verbose = fixOptions.Verbose > 0;
                 dryRun = fixOptions.DryRun;
                 summary = fixOptions.Summary;
                 searchProvider = fixOptions.SearchProvider;

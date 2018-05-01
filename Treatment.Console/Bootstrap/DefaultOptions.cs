@@ -4,7 +4,7 @@
 
     public class DefaultOptions : IVerboseOption, IDryRunOption, IHoldOnExitOption, ISearchProviderNameOption
     {
-        public VerboseLevel Level => VerboseLevel.Null;
+        public VerboseLevel Level => VerboseLevel.Disabled;
 
         public bool IsDryRun => false;
 

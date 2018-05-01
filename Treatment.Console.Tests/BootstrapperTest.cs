@@ -15,7 +15,7 @@
 
     using Xunit;
 
-    public class Bootstrapper2Test
+    public class BootstrapperTest
     {
         [Fact]
         public void Bootstrap_ResultsInValidContainerTest()
@@ -39,7 +39,7 @@
             bootstrapper.Init();
 
             bootstrapper.RegisterDefaultOptions();
-            bootstrapper.Container.Register(typeof(IHoldOnExitOption), () => new StaticOptions(VerboseLevel.Null, false, true, string.Empty), Lifestyle.Scoped);
+            bootstrapper.Container.Register(typeof(IHoldOnExitOption), () => new StaticOptions(VerboseLevel.Disabled, false, true, string.Empty), Lifestyle.Scoped);
             bootstrapper.VerifyContainer();
 
             using (bootstrapper.StartSession())

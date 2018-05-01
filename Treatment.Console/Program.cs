@@ -9,6 +9,7 @@
     using Treatment.Console.Bootstrap;
     using Treatment.Console.CommandLineOptions;
     using Treatment.Console.Console;
+    using Treatment.Console.CrossCuttingConcerns;
     using Treatment.Contract;
     using Treatment.Contract.Commands;
     using Treatment.Contract.Queries;
@@ -46,8 +47,24 @@
 
         private static int FixProjectFiles(FixOptions options)
         {
+            VerboseLevel Map(int value)
+            {
+                switch (value)
+                {
+                    case 3:
+                        return VerboseLevel.High;
+                    case 2:
+                        return VerboseLevel.Medium;
+                    case 1:
+                        return VerboseLevel.Low;
+                    case 0:
+                        return VerboseLevel.Disabled;
+                }
+                return VerboseLevel.Disabled;
+            }
+
             var staticOptions = new StaticOptions(
-                                                  options.Verbose ? VerboseLevel.High : VerboseLevel.Null,
+                                                  Map(options.Verbose),
                                                   options.DryRun,
                                                   options.HoldOnExit,
                                                   options.SearchProvider);
@@ -56,8 +73,6 @@
             Bootstrapper.Container.Register(typeof(IDryRunOption), () => staticOptions, Lifestyle.Scoped);
             Bootstrapper.Container.Register(typeof(ISearchProviderNameOption), () => staticOptions, Lifestyle.Scoped);
             Bootstrapper.Container.Register(typeof(IVerboseOption), () => staticOptions, Lifestyle.Scoped);
-
-            // Bootstrapper.VerifyContainer();
 
             using (Bootstrapper.StartSession())
             {
@@ -71,10 +86,8 @@
         private static int ListSearchProviders(ListProvidersOptions options)
         {
             Bootstrapper.Container.Register(typeof(IHoldOnExitOption),
-                                            () => new StaticOptions(VerboseLevel.Null, false, options.HoldOnExit, string.Empty),
+                                            () => new StaticOptions(VerboseLevel.Disabled, false, options.HoldOnExit, string.Empty),
                                             Lifestyle.Scoped);
-
-            Bootstrapper.VerifyContainer();
 
             using (Bootstrapper.StartSession())
             {
@@ -87,7 +100,10 @@
                     console.WriteLine($"- {f.Name}");
 
                 if (options.HoldOnExit)
-                    console.ReadLine();
+                {
+                    var holdOnConsole = Bootstrapper.Container.GetInstance<IHoldConsole>();
+                    holdOnConsole.Hold();
+                }
             }
 
             return 0;

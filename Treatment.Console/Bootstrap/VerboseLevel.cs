@@ -2,9 +2,12 @@
 {
     public enum VerboseLevel
     {
-        High,
-        Medium,
+        Disabled,
+
         Low,
-        Null,
+
+        Medium,
+
+        High,
     }
 }
