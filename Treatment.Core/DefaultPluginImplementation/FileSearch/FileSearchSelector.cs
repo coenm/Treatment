@@ -1,4 +1,4 @@
-﻿namespace Treatment.Core.DefaultPluginImplementation
+﻿namespace Treatment.Core.DefaultPluginImplementation.FileSearch
 {
     using System.Collections.Generic;
     using System.Linq;

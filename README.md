@@ -59,7 +59,7 @@ Treatment.exe help list-providers
 
 ## What is 'Everything'?
 
-Found at voidtools.com [FAQ](https://www.voidtools.com/faq/#what_is_everything) 
+Found at voidtools.com [FAQ](https://www.voidtools.com/faq/#what_is_everything)
 
 > "Everything" is search engine that locates files and folders by filename instantly for Windows.
 >
@@ -81,17 +81,17 @@ Yes. The application has little functionality which probably can be coded in a s
 These (superficial) validations are done using the [FluentValidation](https://www.nuget.org/packages/FluentValidation/) library.
 - Suffix methods returning Tasks with `Async`.
 - Test projects are named with suffix `.Tests`
-- No abstractions for logging. 
+- No abstractions for logging.
 
 ## TODO
 
 - [Appveyor](https://www.appveyor.com/);
 - [GitVersion](https://gitversion.readthedocs.io/en/latest/);
 - Input directory validation improvement;
-- Core without Console.WriteLine (almost done)
+- ~~Core without Console.WriteLine;~~
 - ~~Console.WriteLine abstraction?;~~
 - ~~Experiment with [Pose](https://www.nuget.org/packages/Pose) to shim `Console`.~~
 - Improve tests;
 - Improve performance by processing multiple csproj files in parallel;
 - Improve functionality by other fixes in the csproj files (app.config settings).
-- Replace `ListSearchProvidersCommand` command with a query and let the `Treatment.Console` project decide how to display the result.
+- ~~Replace `ListSearchProvidersCommand` command with a query and let the `Treatment.Console` project decide how to display the result.~~

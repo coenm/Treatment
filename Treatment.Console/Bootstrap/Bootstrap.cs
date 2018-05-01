@@ -1,4 +1,4 @@
-﻿namespace Treatment.Console
+﻿namespace Treatment.Console.Bootstrap
 {
     using System;
     using System.Diagnostics;
@@ -12,13 +12,12 @@
 
     using SimpleInjector;
 
+    using Treatment.Console.CommandLineOptions;
     using Treatment.Console.Console;
     using Treatment.Console.Decorators;
-    using Treatment.Console.Options;
     using Treatment.Contract;
     using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
-    using Treatment.Core;
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
     using Treatment.Core.FileSearch;
     using Treatment.Core.FileSystem;
@@ -29,7 +28,7 @@
 
     internal static class Bootstrap
     {
-        public static Container Configure([CanBeNull] Options.Options opts = null)
+        public static Container Configure([CanBeNull] Options opts = null)
         {
             var verbose = false;
             var summary = false;
@@ -75,7 +74,6 @@
             // Register all commandhandlers found in the specific assembly.
             container.Register(typeof(ICommandHandler<>), new[] { typeof(ICommandHandler<>).Assembly });
 
-            container.Register(typeof(IQueryHandler<,>), new[] { typeof(ICommandHandler<>).Assembly });
 
             // container.RegisterSingleton<IQueryProcessor>(new DynamicQueryProcessor(container));
 

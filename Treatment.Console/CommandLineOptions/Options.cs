@@ -1,4 +1,4 @@
-﻿namespace Treatment.Console.Options
+﻿namespace Treatment.Console.CommandLineOptions
 {
     using CommandLine;
 

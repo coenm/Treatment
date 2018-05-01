@@ -1,4 +1,4 @@
-﻿namespace Treatment.Core.Interfaces
+﻿namespace Treatment.Console
 {
     using JetBrains.Annotations;
 

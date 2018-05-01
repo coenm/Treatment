@@ -1,7 +1,5 @@
 ﻿namespace Treatment.Console.Decorators
 {
-    using System;
-
     using JetBrains.Annotations;
 
     using Treatment.Console.Console;

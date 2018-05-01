@@ -7,7 +7,6 @@
 
     using Treatment.Console.Console;
     using Treatment.Contract.Plugin.FileSearch;
-    using Treatment.Core.Interfaces;
 
     [UsedImplicitly]
     public class VerboseFileSearchDecorator : IFileSearch

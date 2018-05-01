@@ -98,22 +98,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bootstrapper2.cs" />
+    <Compile Include="Bootstrap\Bootstrapper2.cs" />
     <Compile Include="Console\ConsoleAdapter.cs" />
     <Compile Include="Console\IConsole.cs" />
     <Compile Include="CrossCuttingConcerns\SetFileSearchSelectorCommandHandlerDecorator.cs" />
     <Compile Include="CrossCuttingConcerns\SetRootDirectoryCommandHandlerDecorator.cs" />
     <Compile Include="CrossCuttingConcerns\WriteExceptionToConsoleCommandHandlerDecorator.cs" />
     <Compile Include="CrossCuttingConcerns\HoldConsoleCommandHandlerDecorator.cs" />
-    <Compile Include="Bootstrap.cs" />
+    <Compile Include="Bootstrap\Bootstrap.cs" />
     <Compile Include="Decorators\DryRunFileSystemDecorator.cs" />
     <Compile Include="Decorators\StatisticsCollectorAndSummaryWriter.cs" />
     <Compile Include="Decorators\VerboseFileSearchDecorator.cs" />
     <Compile Include="Decorators\VerboseFileSystemDecorator.cs" />
     <Compile Include="IRootDirSanitizer.cs" />
-    <Compile Include="Options\FixOptions.cs" />
-    <Compile Include="Options\ListProvidersOptions.cs" />
-    <Compile Include="Options\Options.cs" />
+    <Compile Include="CommandLineOptions\FixOptions.cs" />
+    <Compile Include="CommandLineOptions\ListProvidersOptions.cs" />
+    <Compile Include="CommandLineOptions\Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoveRootDirSanitizer.cs" />

@@ -1,4 +1,4 @@
-﻿namespace Treatment.Core.FileSystem
+﻿namespace Treatment.Core.DefaultPluginImplementation.FileSearch
 {
     using System.IO;
 

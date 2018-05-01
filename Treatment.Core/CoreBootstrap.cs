@@ -15,9 +15,7 @@
     using SimpleInjector.Lifestyles;
 
     using Treatment.Contract;
-    using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
-    using Treatment.Core.DefaultPluginImplementation;
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
     using Treatment.Core.FileSystem;
     using Treatment.Core.Interfaces;
@@ -54,7 +52,6 @@
             container.Register(typeof(IQueryHandler<,>), _businessLayerAssemblies, Lifestyle.Scoped);
             // container.RegisterDecorator(typeof(IQueryHandler<,>), typeof(AuthorizationQueryHandlerDecorator<,>));
 
-
             container.RegisterInstance<IFileSystem>(OsFileSystem.Instance);
 
             // Plugins might register more Search Provider Factories
@@ -65,8 +62,6 @@
 
             container.Register<IFileSearchSelector, FileSearchSelector>(Lifestyle.Scoped);
             container.Register(() => container.GetInstance<IFileSearchSelector>().CreateSearchProvider(), Lifestyle.Scoped);
-
-
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -78,13 +73,14 @@
                                         Lifestyle.Scoped);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void RegisterFluentValidationValidators(Container container)
         {
             // var assemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
             container.Register(typeof(IValidator<>), _businessLayerAssemblies, Lifestyle.Scoped);
         }
 
-        // not okeay
+        // TOOD not okay
         public static IEnumerable<Type> GetCommandTypes() =>
             from assembly in _contractAssemblies
             from type in assembly.GetExportedTypes()

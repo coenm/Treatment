@@ -9,7 +9,6 @@
     using Treatment.Contract.DTOs;
     using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Contract.Queries;
-    using Treatment.Core.Interfaces;
 
     [UsedImplicitly]
     public class GetAllSearchProvidersQueryHandler : IQueryHandler<GetAllSearchProvidersQuery, List<SearchProviderInfo>>

@@ -1,10 +1,8 @@
-﻿namespace Treatment.Core
+﻿namespace Treatment.Console
 {
     using JetBrains.Annotations;
 
-    using Treatment.Core.Interfaces;
-
-    /*internal*/public class RemoveRootDirSanitizer : IRootDirSanitizer
+    public class RemoveRootDirSanitizer : IRootDirSanitizer
     {
         private string _rootDir;
 

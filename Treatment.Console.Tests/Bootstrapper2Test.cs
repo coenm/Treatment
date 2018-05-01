@@ -1,13 +1,16 @@
 ﻿namespace Treatment.Console.Tests
 {
     using System;
-    using System.Linq;
+    using System.Collections.Generic;
 
     using FluentAssertions;
 
     using SimpleInjector;
 
+    using Treatment.Console.Bootstrap;
     using Treatment.Contract;
+    using Treatment.Contract.Commands;
+    using Treatment.Contract.DTOs;
     using Treatment.Contract.Queries;
 
     using Xunit;
@@ -18,11 +21,11 @@
         public void Bootstrap_ResultsInValidContainerTest()
         {
             // arrange
-            var container = new Container();
-            Bootstrapper2.Bootstrap(container);
+            var bootstrapper = new Bootstrapper2();
+            bootstrapper.Init();
 
             // act
-            Action act = () => container.Verify();
+            Action act = () => bootstrapper.VerifyContainer();
 
             // assert
             act.Should().NotThrow();
@@ -32,30 +35,40 @@
         [Fact]
         public void Abcdef()
         {
-            var container = new Container();
-            Bootstrapper2.Bootstrap(container);
+            var bootstrapper = new Bootstrapper2();
+            bootstrapper.Init();
 
-            using (Bootstrapper2.StartSession(container))
+            bootstrapper.RegisterDefaultOptions();
+            bootstrapper.Container.Register(typeof(IHoldOnExitOption), () => new StaticOptions(VerboseLevel.Null, false, true, string.Empty), Lifestyle.Scoped);
+            bootstrapper.VerifyContainer();
+
+            using (bootstrapper.StartSession())
             {
-                var x = Bootstrapper2.GetCommandTypes();
-                var x1 = Bootstrapper2.GetQueryAndResultTypes();
-                var x2 = Bootstrapper2.GetQueryHandler(x1.First());
+                var result = bootstrapper.ExecuteQuery(new GetAllSearchProvidersQuery());
 
-
-                var result = ExecuteQuery(new GetAllSearchProvidersQuery(), container);
-
-                result.Should().NotBeNull();
+                result.Should().BeEquivalentTo(new List<SearchProviderInfo>(1)
+                                                   {
+                                                       new SearchProviderInfo(int.MaxValue, "FileSystem")
+                                                   });
             }
-
         }
 
-        public TResult ExecuteQuery<TResult>(IQuery<TResult> query, Container container)
+        [Fact]
+        public void Abcdefaa()
         {
-            var handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
+            var bootstrapper = new Bootstrapper2();
+            bootstrapper.Init();
 
-            dynamic handler = container.GetInstance(handlerType);
+            bootstrapper.RegisterDefaultOptions();
+            // bootstrapper.Container.Register(typeof(IHoldOnExitOption), () => new StaticOptions(VerboseLevel.Null, false, true, string.Empty), Lifestyle.Scoped);
+            // bootstrapper.VerifyContainer();
 
-            return handler.Handle((dynamic)query);
+            using (bootstrapper.StartSession())
+            {
+                var commandHandler = bootstrapper.Container.GetInstance<ICommandHandler<UpdateProjectFilesCommand>>();
+                commandHandler.Execute(new UpdateProjectFilesCommand(@"D:\tmp\aAP"));
+
+            }
         }
     }
 }

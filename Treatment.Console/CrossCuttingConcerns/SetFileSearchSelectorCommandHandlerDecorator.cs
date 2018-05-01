@@ -3,6 +3,7 @@
     using Treatment.Contract;
     using Treatment.Contract.Commands;
     using Treatment.Core.DefaultPluginImplementation;
+    using Treatment.Core.DefaultPluginImplementation.FileSearch;
 
     internal class SetFileSearchSelectorCommandHandlerDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : ICommand
     {
