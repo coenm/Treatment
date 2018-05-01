@@ -1,0 +1,5 @@
+file3 - line1
+file3 - line2
+file3 - line3
+file3 - line4
+file3 - line5
