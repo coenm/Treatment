@@ -28,6 +28,7 @@
 
         public Stream ReadFile(string filename)
         {
+            _console.WriteLine($"Read file '{_sanitizer.Sanitize(filename)}'");
             return _decoratee.ReadFile(filename);
         }
 
@@ -45,11 +46,13 @@
 
         public void SaveContent(string filename, Stream content)
         {
+            _console.WriteLine($"Save file '{_sanitizer.Sanitize(filename)}'");
             _decoratee.SaveContent(filename, content);
         }
 
         public void DeleteFile(string filename)
         {
+            _console.WriteLine($"Delete file '{_sanitizer.Sanitize(filename)}'");
             _decoratee.DeleteFile(filename);
         }
     }

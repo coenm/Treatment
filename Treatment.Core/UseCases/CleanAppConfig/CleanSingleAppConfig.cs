@@ -7,7 +7,7 @@
     using Treatment.Core.Interfaces;
 
     [UsedImplicitly]
-    internal class CleanSingleAppConfig : ICleanSingleAppConfig
+    public class CleanSingleAppConfig : ICleanSingleAppConfig
     {
         private readonly IFileSystem _filesystem;
 
