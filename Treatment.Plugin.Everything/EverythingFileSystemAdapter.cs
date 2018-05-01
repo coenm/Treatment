@@ -2,7 +2,7 @@
 {
     using JetBrains.Annotations;
 
-    using Treatment.Core.Interfaces;
+    using Treatment.Contract.Plugin.FileSearch;
 
     public class EverythingFileSeachAdapter : IFileSearch
     {

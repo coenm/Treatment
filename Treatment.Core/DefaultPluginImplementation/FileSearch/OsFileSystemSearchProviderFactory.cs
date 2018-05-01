@@ -1,6 +1,7 @@
-﻿namespace Treatment.Core.FileSystem
+﻿namespace Treatment.Core.DefaultPluginImplementation.FileSearch
 {
-    using Treatment.Core.Interfaces;
+    using Treatment.Contract.Plugin.FileSearch;
+    using Treatment.Core.FileSystem;
 
     public class OsFileSystemSearchProviderFactory : ISearchProviderFactory
     {
@@ -15,7 +16,7 @@
 
         public IFileSearch Create()
         {
-            return OsFileSystem.Instance;
+            return OsFileSearch.Instance;
         }
     }
 }

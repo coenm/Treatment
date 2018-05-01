@@ -1,4 +1,4 @@
-﻿namespace Treatment.Core.Interfaces
+﻿namespace Treatment.Contract.Plugin.FileSearch
 {
     public interface ISearchProviderFactory
     {

@@ -1,4 +1,4 @@
-﻿namespace Treatment.Console
+﻿namespace Treatment.Console.Bootstrap
 {
     using System;
     using System.IO;
@@ -11,21 +11,24 @@
 
     using SimpleInjector;
 
+    using Treatment.Console.CommandLineOptions;
     using Treatment.Console.Console;
+    using Treatment.Console.CrossCuttingConcerns;
     using Treatment.Console.Decorators;
-    using Treatment.Console.Options;
-    using Treatment.Core;
+    using Treatment.Contract;
+    using Treatment.Contract.Commands;
+    using Treatment.Contract.Plugin.FileSearch;
+    using Treatment.Core.DefaultPluginImplementation.FileSearch;
     using Treatment.Core.FileSearch;
     using Treatment.Core.FileSystem;
     using Treatment.Core.Interfaces;
     using Treatment.Core.Statistics;
-    using Treatment.Core.UseCases;
     using Treatment.Core.UseCases.CrossCuttingConcerns;
     using Treatment.Core.UseCases.UpdateProjectFiles;
 
-    internal static class Bootstrap
+    internal static class BootstrapOld
     {
-        public static Container Configure([CanBeNull] Options.Options opts = null)
+        public static Container Configure([CanBeNull] Options opts = null)
         {
             var verbose = false;
             var summary = false;
@@ -41,7 +44,7 @@
 
             if (opts is FixOptions fixOptions)
             {
-                verbose = fixOptions.Verbose;
+                verbose = fixOptions.Verbose > 0;
                 dryRun = fixOptions.DryRun;
                 summary = fixOptions.Summary;
                 searchProvider = fixOptions.SearchProvider;
@@ -71,7 +74,15 @@
             // Register all commandhandlers found in the specific assembly.
             container.Register(typeof(ICommandHandler<>), new[] { typeof(ICommandHandler<>).Assembly });
 
-            container.RegisterSingleton<IRootDirSanitizer>(() => new RemoveRootDirSanitizer(rootDirectory));
+
+            // container.RegisterSingleton<IQueryProcessor>(new DynamicQueryProcessor(container));
+
+            container.RegisterSingleton<IRootDirSanitizer>(() =>
+                                                           {
+                                                               var result = new RemoveRootDirSanitizer();
+                                                               result.SetRootDir(rootDirectory);
+                                                               return result;
+                                                           });
 
             if (dryRun)
             {
@@ -106,10 +117,14 @@
 
             if (holdOnExit)
             {
-                container.RegisterDecorator(typeof(ICommandHandler<>), typeof(CrossCuttingConcerns.HoldConsoleCommandHandlerDecorator<>));
+                container.RegisterDecorator(typeof(ICommandHandler<>), typeof(HoldConsoleCommandHandlerDecorator<>));
             }
 
-            container.RegisterDecorator(typeof(ICommandHandler<>), typeof(CrossCuttingConcerns.WriteExceptionToConsoleCommandHandlerDecorator<>));
+            container.RegisterDecorator(typeof(ICommandHandler<>), typeof(WriteExceptionToConsoleCommandHandlerDecorator<>));
+
+
+            container.RegisterSingleton<IHoldConsole, HoldConsole>();
+
 
             RegisterPlugins(container);
 
@@ -148,7 +163,7 @@
                           .FirstOrDefault(item => item.CanCreate(searchProvider));
 
             if (factory == null)
-                return OsFileSystem.Instance;
+                return OsFileSearch.Instance;
 
             return factory.Create();
         }

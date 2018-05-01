@@ -5,12 +5,12 @@
     using JetBrains.Annotations;
 
     using Treatment.Console.Console;
-    using Treatment.Core.UseCases;
+    using Treatment.Contract;
 
     /// <summary>Catch, and write exception message to console.</summary>
     /// <typeparam name="TCommand">Command to handle</typeparam>
     [UsedImplicitly]
-    public class WriteExceptionToConsoleCommandHandlerDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : ITreatmentCommand
+    public class WriteExceptionToConsoleCommandHandlerDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : ICommand
     {
         private readonly ICommandHandler<TCommand> _decorated;
         private readonly IConsole _console;

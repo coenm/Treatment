@@ -37,9 +37,9 @@ Treatment.exe help fix
 
   -s, --summary            (Default: false) Prints a summary at the end of fixing the csproj files.
 
-  -p, --search-provider    (Default: FileSystem) Set search provider to search for csproj files. To list the search providers, use the verb 'list-providers'.
+  -p, --search-provider    (Default: FileSystem) Set search provider to search for csproj files. To list the search providers, use the 'list-providers' command.
 
-  -v, --verbose            (Default: false) Prints more information about the current process to the console.
+  -v, --verbose            (Default: 0) Verbosity level ranging from 0 (disabled) to 3 (max).
 
   -h, --hold               (Default: false) Keeps console open when process successfully finished.
 
@@ -59,7 +59,7 @@ Treatment.exe help list-providers
 
 ## What is 'Everything'?
 
-Found at voidtools.com [FAQ](https://www.voidtools.com/faq/#what_is_everything) 
+Found at voidtools.com [FAQ](https://www.voidtools.com/faq/#what_is_everything)
 
 > "Everything" is search engine that locates files and folders by filename instantly for Windows.
 >
@@ -81,17 +81,17 @@ Yes. The application has little functionality which probably can be coded in a s
 These (superficial) validations are done using the [FluentValidation](https://www.nuget.org/packages/FluentValidation/) library.
 - Suffix methods returning Tasks with `Async`.
 - Test projects are named with suffix `.Tests`
-- No abstractions for logging. 
+- No abstractions for logging.
 
 ## TODO
 
 - [Appveyor](https://www.appveyor.com/);
 - [GitVersion](https://gitversion.readthedocs.io/en/latest/);
 - Input directory validation improvement;
-- Core without Console.WriteLine (almost done)
+- ~~Core without Console.WriteLine;~~
 - ~~Console.WriteLine abstraction?;~~
 - ~~Experiment with [Pose](https://www.nuget.org/packages/Pose) to shim `Console`.~~
 - Improve tests;
 - Improve performance by processing multiple csproj files in parallel;
 - Improve functionality by other fixes in the csproj files (app.config settings).
-- Replace `ListSearchProvidersCommand` command with a query and let the `Treatment.Console` project decide how to display the result.
+- ~~Replace `ListSearchProvidersCommand` command with a query and let the `Treatment.Console` project decide how to display the result.~~

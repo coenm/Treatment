@@ -59,13 +59,13 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Treatment.Core\Treatment.Core.csproj">
-      <Project>{852975da-cbf2-4659-8da4-3aa6a1b5aa25}</Project>
-      <Name>Treatment.Core</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\Treatment.Contract.Plugin\Treatment.Contract.Plugin.csproj">
+      <Project>{7e082598-0c9c-4f15-b1b8-bdf6f2b1660c}</Project>
+      <Name>Treatment.Contract.Plugin</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

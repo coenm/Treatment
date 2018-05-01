@@ -6,6 +6,8 @@
 
     using JetBrains.Annotations;
 
+    using Treatment.Contract.Commands;
+
     [UsedImplicitly]
     public class UpdateProjectFilesCommandValidator : AbstractValidator<UpdateProjectFilesCommand>
     {

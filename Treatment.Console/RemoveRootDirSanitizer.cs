@@ -1,16 +1,17 @@
-﻿namespace Treatment.Core
+﻿namespace Treatment.Console
 {
-    using JetBrains.Annotations;
-
-    using Treatment.Core.Interfaces;
-
     public class RemoveRootDirSanitizer : IRootDirSanitizer
     {
-        private readonly string _rootDir;
+        private string _rootDir;
 
-        public RemoveRootDirSanitizer([NotNull] string rootDir)
+        public RemoveRootDirSanitizer()
         {
-            _rootDir = rootDir;
+            _rootDir = string.Empty;
+        }
+
+        public void SetRootDir(string input)
+        {
+            _rootDir = input;
         }
 
         public string Sanitize(string input)

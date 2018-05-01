@@ -4,7 +4,9 @@
 
     using FluentValidation;
 
-    public class CommandValidationDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : ITreatmentCommand
+    using Treatment.Contract;
+
+    public class CommandValidationDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : ICommand
     {
         private readonly IValidator<TCommand> _validator;
         private readonly ICommandHandler<TCommand> _decoratee;

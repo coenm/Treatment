@@ -1,9 +1,10 @@
 ﻿namespace Treatment.Core.UseCases.UpdateProjectFiles
 {
     using Treatment.Core.Interfaces;
+    using Treatment.Contract;
 
     // todo only for UpdateProjectFilesCommand
-    public class SummaryDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : ITreatmentCommand
+    public class SummaryDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : ICommand
     {
         private readonly ICommandHandler<TCommand> _decorated;
         private readonly ISummaryWriter _summaryWriter;

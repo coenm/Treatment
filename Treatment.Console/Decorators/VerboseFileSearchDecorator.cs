@@ -6,7 +6,7 @@
     using JetBrains.Annotations;
 
     using Treatment.Console.Console;
-    using Treatment.Core.Interfaces;
+    using Treatment.Contract.Plugin.FileSearch;
 
     [UsedImplicitly]
     public class VerboseFileSearchDecorator : IFileSearch
