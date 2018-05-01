@@ -61,6 +61,12 @@
 
             container.Register<IFileSearchSelector, FileSearchSelector>(Lifestyle.Scoped);
             container.Register<IFileSearch>(() => container.GetInstance<IFileSearchSelector>().CreateSearchProvider(), Lifestyle.Scoped);
+            container.Register<ISearchProviderNameOption, DefaultSearchProviderNameOption>(Lifestyle.Singleton);
+        }
+
+        private class DefaultSearchProviderNameOption : ISearchProviderNameOption
+        {
+            public string SearchProviderName => "FileSystem";
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
