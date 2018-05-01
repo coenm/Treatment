@@ -1,5 +1,7 @@
 ﻿namespace Treatment.Core.FileSystem
 {
+    using System.IO;
+
     using JetBrains.Annotations;
 
     using Treatment.Core.Interfaces;
@@ -16,6 +18,16 @@
             _statistics = statistics;
         }
 
+        public bool FileExists(string filename)
+        {
+            return _decoratee.FileExists(filename);
+        }
+
+        public Stream ReadFile(string filename)
+        {
+            return _decoratee.ReadFile(filename);
+        }
+
         public string GetFileContent(string filename)
         {
             _statistics.AddFileRead(filename);
@@ -26,6 +38,16 @@
         {
             _statistics.AddFileUpdate(filename);
             _decoratee.SaveContent(filename, content);
+        }
+
+        public void SaveContent(string filename, Stream content)
+        {
+            _decoratee.SaveContent(filename, content);
+        }
+
+        public void DeleteFile(string filename)
+        {
+            _decoratee.DeleteFile(filename);
         }
     }
 }
