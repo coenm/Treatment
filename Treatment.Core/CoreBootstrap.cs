@@ -16,9 +16,12 @@
 
     using Treatment.Contract;
     using Treatment.Contract.Plugin.FileSearch;
+    using Treatment.Contract.Plugin.SourceControl;
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
+    using Treatment.Core.DefaultPluginImplementation.SourceControl;
     using Treatment.Core.FileSystem;
     using Treatment.Core.Interfaces;
+    using Treatment.Core.UseCases.CleanAppConfig;
     using Treatment.Core.UseCases.CrossCuttingConcerns;
 
     // This class allows registering all types that are defined in the business layer, and are shared across
@@ -62,6 +65,14 @@
             container.Register<IFileSearchSelector, FileSearchSelector>(Lifestyle.Scoped);
             container.Register<IFileSearch>(() => container.GetInstance<IFileSearchSelector>().CreateSearchProvider(), Lifestyle.Scoped);
             container.Register<ISearchProviderNameOption, DefaultSearchProviderNameOption>(Lifestyle.Singleton);
+
+
+            //temp
+            container.RegisterInstance<IReadOnlySourceControl>(DummyReadOnlySourceControl.Instance);
+            container.Register<ICleanSingleAppConfig, CleanSingleAppConfig>(Lifestyle.Scoped); //??
+
+            //temp
+
         }
 
         private class DefaultSearchProviderNameOption : ISearchProviderNameOption
