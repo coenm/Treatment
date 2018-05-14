@@ -77,6 +77,9 @@
   <ItemGroup>
     <Compile Include="Console\ConsoleAdapterTest.cs" />
     <Compile Include="BootstrapperTest.cs" />
+    <Compile Include="E2ETests\Fakes\FakeBootstrapper.cs" />
+    <Compile Include="E2ETests\Fakes\FakeConsoleAdapter.cs" />
+    <Compile Include="E2ETests\ProgramTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +100,10 @@
     <ProjectReference Include="..\Treatment.Contract\Treatment.Contract.csproj">
       <Project>{3A303101-54C7-493E-8A9C-D7DE22C32568}</Project>
       <Name>Treatment.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Treatment.Core\Treatment.Core.csproj">
+      <Project>{852975DA-CBF2-4659-8DA4-3AA6A1B5AA25}</Project>
+      <Name>Treatment.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
