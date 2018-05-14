@@ -56,29 +56,20 @@
             // container.Register<IFileSystem>(() => OsFileSystem.Instance, Lifestyle.Singleton);
             container.RegisterInstance<IFileSystem>(OsFileSystem.Instance);
 
-            // Plugins might register more Search Provider Factories
             container.RegisterCollection<ISearchProviderFactory>(new[] { typeof(OsFileSystemSearchProviderFactory) });
-
-            // container.RegisterSingleton<FileSearchSelector>();
-            // container.RegisterSingleton(() => container.GetInstance<FileSearchSelector>().CreateSearchProvider());
-
             container.Register<IFileSearchSelector, FileSearchSelector>(Lifestyle.Scoped);
             container.Register<IFileSearch>(() => container.GetInstance<IFileSearchSelector>().CreateSearchProvider(), Lifestyle.Scoped);
             container.Register<ISearchProviderNameOption, DefaultSearchProviderNameOption>(Lifestyle.Singleton);
 
+            container.RegisterCollection<ISourceControlAbstractFactory>(new[] { typeof(DummySourceControlFactory) });
+            container.Register<ISourceControlSelector, SourceControlSelector>(Lifestyle.Scoped);
+            container.Register<IReadOnlySourceControl>(() => container.GetInstance<ISourceControlSelector>().CreateSourceControl(), Lifestyle.Scoped);
+            container.Register<ISourceControlNameOption, DefaultSourceControlNameOption>(Lifestyle.Singleton);
 
-            //temp
-            container.RegisterInstance<IReadOnlySourceControl>(DummyReadOnlySourceControl.Instance);
             container.Register<ICleanSingleAppConfig, CleanSingleAppConfig>(Lifestyle.Scoped); //??
-
-            //temp
-
         }
 
-        private class DefaultSearchProviderNameOption : ISearchProviderNameOption
-        {
-            public string SearchProviderName => "FileSystem";
-        }
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void RegisterCommandValidationCommandHandlerDecoraters([NotNull] Container container)

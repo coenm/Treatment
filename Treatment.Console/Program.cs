@@ -20,7 +20,7 @@
         // ReSharper disable once MemberCanBePrivate.Global
         internal static Bootstrapper Bootstrapper { get; set; }
 
-        public static int Main(string[] args)
+        public static int Main(params string[] args)
         {
             if (Bootstrapper == null)
                 Bootstrapper = new Bootstrapper();
@@ -37,10 +37,13 @@
 
         private static int HoldConsoleOnError(IEnumerable<Error> errs)
         {
-            Bootstrapper
-                .Container
-                .GetInstance<IConsole>()
-                .ReadKey();
+            using (Bootstrapper.StartSession())
+            {
+                Bootstrapper
+                    .Container
+                    .GetInstance<IConsole>()
+                    .ReadKey();
+            }
 
             return -1;
         }

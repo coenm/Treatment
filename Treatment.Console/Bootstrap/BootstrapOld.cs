@@ -12,6 +12,7 @@
     using SimpleInjector;
 
     using Treatment.Console.CommandLineOptions;
+    using Treatment.Console.CommandLineOptions.Internal;
     using Treatment.Console.Console;
     using Treatment.Console.CrossCuttingConcerns;
     using Treatment.Console.Decorators;
@@ -28,7 +29,7 @@
 
     internal static class BootstrapOld
     {
-        public static Container Configure([CanBeNull] Options opts = null)
+        public static Container Configure([CanBeNull] OptionsBase opts = null)
         {
             var verbose = false;
             var summary = false;
@@ -37,13 +38,14 @@
             var searchProvider = string.Empty;
             var holdOnExit = false;
 
-            if (opts != null)
+            if (opts is IOptionsHoldOnExit holdOnExitOptions)
             {
-                holdOnExit = opts.HoldOnExit;
+                holdOnExit = holdOnExitOptions.HoldOnExit;
             }
 
             if (opts is FixOptions fixOptions)
             {
+
                 verbose = fixOptions.Verbose > 0;
                 dryRun = fixOptions.DryRun;
                 summary = fixOptions.Summary;

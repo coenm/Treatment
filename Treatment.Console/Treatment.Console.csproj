@@ -108,6 +108,13 @@
     <Compile Include="Bootstrap\IVerboseOption.cs" />
     <Compile Include="Bootstrap\StaticOptions.cs" />
     <Compile Include="Bootstrap\VerboseLevel.cs" />
+    <Compile Include="CommandLineOptions\Internal\IOptionsDryRun.cs" />
+    <Compile Include="CommandLineOptions\Internal\IOptionSearchProvider.cs" />
+    <Compile Include="CommandLineOptions\Internal\IOptionsHoldOnExit.cs" />
+    <Compile Include="CommandLineOptions\Internal\IOptionsRootDirectory.cs" />
+    <Compile Include="CommandLineOptions\Internal\IOptionSummary.cs" />
+    <Compile Include="CommandLineOptions\Internal\IOptionsVerbose.cs" />
+    <Compile Include="CommandLineOptions\Internal\OptionsBase.cs" />
     <Compile Include="Console\ConsoleAdapter.cs" />
     <Compile Include="Console\IConsole.cs" />
     <Compile Include="CrossCuttingConcerns\HoldConsole.cs" />
@@ -123,7 +130,6 @@
     <Compile Include="IRootDirSanitizer.cs" />
     <Compile Include="CommandLineOptions\FixOptions.cs" />
     <Compile Include="CommandLineOptions\ListProvidersOptions.cs" />
-    <Compile Include="CommandLineOptions\Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoveRootDirSanitizer.cs" />
