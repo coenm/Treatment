@@ -22,7 +22,6 @@
 
             // assert
             act.Should().NotThrow();
-
         }
     }
 }

@@ -16,9 +16,12 @@
 
     using Treatment.Contract;
     using Treatment.Contract.Plugin.FileSearch;
+    using Treatment.Contract.Plugin.SourceControl;
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
+    using Treatment.Core.DefaultPluginImplementation.SourceControl;
     using Treatment.Core.FileSystem;
     using Treatment.Core.Interfaces;
+    using Treatment.Core.UseCases.CleanAppConfig;
     using Treatment.Core.UseCases.CrossCuttingConcerns;
 
     // This class allows registering all types that are defined in the business layer, and are shared across
@@ -53,15 +56,20 @@
             // container.Register<IFileSystem>(() => OsFileSystem.Instance, Lifestyle.Singleton);
             container.RegisterInstance<IFileSystem>(OsFileSystem.Instance);
 
-            // Plugins might register more Search Provider Factories
             container.RegisterCollection<ISearchProviderFactory>(new[] { typeof(OsFileSystemSearchProviderFactory) });
-
-            // container.RegisterSingleton<FileSearchSelector>();
-            // container.RegisterSingleton(() => container.GetInstance<FileSearchSelector>().CreateSearchProvider());
-
             container.Register<IFileSearchSelector, FileSearchSelector>(Lifestyle.Scoped);
             container.Register<IFileSearch>(() => container.GetInstance<IFileSearchSelector>().CreateSearchProvider(), Lifestyle.Scoped);
+            container.Register<ISearchProviderNameOption, DefaultSearchProviderNameOption>(Lifestyle.Singleton);
+
+            container.RegisterCollection<ISourceControlAbstractFactory>(new[] { typeof(DummySourceControlFactory) });
+            container.Register<ISourceControlSelector, SourceControlSelector>(Lifestyle.Scoped);
+            container.Register<IReadOnlySourceControl>(() => container.GetInstance<ISourceControlSelector>().CreateSourceControl(), Lifestyle.Scoped);
+            container.Register<ISourceControlNameOption, DefaultSourceControlNameOption>(Lifestyle.Singleton);
+
+            container.Register<ICleanSingleAppConfig, CleanSingleAppConfig>(Lifestyle.Scoped); //??
         }
+
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void RegisterCommandValidationCommandHandlerDecoraters([NotNull] Container container)

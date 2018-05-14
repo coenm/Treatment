@@ -56,6 +56,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\..\DataLayer\DataService\DataService.csproj">
       <Project>{26F6D7EC-B389-4137-81DD-E53FB956AB7A}</Project>
       <Name>DataService</Name>

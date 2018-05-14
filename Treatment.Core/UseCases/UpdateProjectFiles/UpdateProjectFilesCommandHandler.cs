@@ -12,6 +12,7 @@
     [UsedImplicitly]
     public class UpdateProjectFilesCommandHandler : ICommandHandler<UpdateProjectFilesCommand>
     {
+        //todo don't use regex but xml serializer
         private const string SEARCH = @"<HintPath>[\.\.\\]+Packages\\(.+\.dll)</HintPath>";
         private const string REPLACE = @"<HintPath>$(PackagesDir)\$1</HintPath>";
 

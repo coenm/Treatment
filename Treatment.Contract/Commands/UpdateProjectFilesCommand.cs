@@ -6,7 +6,7 @@
 
     using Treatment.Contract;
 
-    [UsedImplicitly]
+    [PublicAPI]
     public class UpdateProjectFilesCommand : IDirectoryProperty, ICommand
     {
         [DebuggerStepThrough]

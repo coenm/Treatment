@@ -1,0 +1,5 @@
+dir1/file2 - line1
+dir1/file2 - line2
+dir1/file2 - line3
+dir1/file2 - line4
+dir1/file2 - line5

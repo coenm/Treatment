@@ -4,22 +4,28 @@
 
     using JetBrains.Annotations;
 
+    using Treatment.Console.CommandLineOptions.Internal;
+
     [Verb("fix", HelpText = "Fix csproj files where hintpath of packages is fixed")]
-    public class FixOptions : Options
+
+    public class FixOptions : OptionsBase,
+                              IOptionsHoldOnExit,
+                              IOptionsRootDirectory,
+                              IOptionsDryRun,
+                              IOptionsVerbose,
+                              IOptionSearchProvider,
+                              IOptionSummary
     {
-        [Option('d', "directory", Required = false, HelpText = "Root directory to process the csproj files.")]
         public string RootDirectory { get; [UsedImplicitly] set; }
 
-        [Option('n', "dry-run", Default = false, Required = false, HelpText = "File changes are not written to disk, only listed in the console.")]
         public bool DryRun { get; [UsedImplicitly] set; }
 
-        [Option('s', "summary", Default = false, Required = false, HelpText = "Prints a summary at the end of fixing the csproj files.")]
         public bool Summary { get; [UsedImplicitly] set; }
 
-        [Option('p', "search-provider", Required = false, Default = "FileSystem", HelpText = "Set search provider to search for csproj files. To list the search providers, use the 'list-providers' command.")]
         public string SearchProvider { get; [UsedImplicitly] set; }
 
-        [Option('v', "verbose", Default = 0, Required = false, HelpText = "Verbosity level ranging from 0 (disabled) to 3 (max).")]
         public int Verbose { get; [UsedImplicitly] set; }
+
+        public bool HoldOnExit { get; [UsedImplicitly] set; }
     }
 }

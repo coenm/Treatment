@@ -12,6 +12,16 @@
 
         public static OsFileSystem Instance { get; } = new OsFileSystem();
 
+        public bool FileExists(string filename)
+        {
+            return File.Exists(filename);
+        }
+
+        public Stream ReadFile(string filename)
+        {
+            return File.OpenRead(filename);
+        }
+
         public string GetFileContent(string filename)
         {
             return File.ReadAllText(filename);
@@ -20,6 +30,19 @@
         public void SaveContent(string filename, string content)
         {
             File.WriteAllText(filename, content);
+        }
+
+        public void SaveContent(string filename, Stream content)
+        {
+            using (var fileStream = File.OpenWrite(filename))
+            {
+                content.CopyTo(fileStream);
+            }
+        }
+
+        public void DeleteFile(string filename)
+        {
+            File.Delete(filename);
         }
     }
 }

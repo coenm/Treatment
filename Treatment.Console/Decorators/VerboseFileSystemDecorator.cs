@@ -1,5 +1,7 @@
 ﻿namespace Treatment.Console.Decorators
 {
+    using System.IO;
+
     using JetBrains.Annotations;
 
     using Treatment.Console.Console;
@@ -19,6 +21,17 @@
             _console = console;
         }
 
+        public bool FileExists(string filename)
+        {
+            return _decoratee.FileExists(filename);
+        }
+
+        public Stream ReadFile(string filename)
+        {
+            _console.WriteLine($"Read file '{_sanitizer.Sanitize(filename)}'");
+            return _decoratee.ReadFile(filename);
+        }
+
         public string GetFileContent(string filename)
         {
             _console.WriteLine($"Get file content of '{_sanitizer.Sanitize(filename)}'");
@@ -29,6 +42,18 @@
         {
             _console.WriteLine($"Save file '{_sanitizer.Sanitize(filename)}'");
             _decoratee.SaveContent(filename, content);
+        }
+
+        public void SaveContent(string filename, Stream content)
+        {
+            _console.WriteLine($"Save file '{_sanitizer.Sanitize(filename)}'");
+            _decoratee.SaveContent(filename, content);
+        }
+
+        public void DeleteFile(string filename)
+        {
+            _console.WriteLine($"Delete file '{_sanitizer.Sanitize(filename)}'");
+            _decoratee.DeleteFile(filename);
         }
     }
 }

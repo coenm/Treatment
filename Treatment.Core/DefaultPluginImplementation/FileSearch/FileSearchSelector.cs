@@ -7,13 +7,6 @@
 
     using Treatment.Contract.Plugin.FileSearch;
 
-
-    public interface ISearchProviderNameOption
-    {
-        string SearchProviderName { get; }
-    }
-
-
     [UsedImplicitly]
     internal class FileSearchSelector : IFileSearchSelector
     {
@@ -37,10 +30,5 @@
 
             return factory?.Create();
         }
-    }
-
-    public interface IFileSearchSelector
-    {
-        IFileSearch CreateSearchProvider();
     }
 }

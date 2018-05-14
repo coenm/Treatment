@@ -1,0 +1,12 @@
+﻿Index: ROOTPATH/TestData/SvnCheckout/txt/dir1/file1.txt
+===================================================================
+--- ROOTPATH/TestData/SvnCheckout/txt/dir1/file1.txt	(revision 2)
++++ ROOTPATH/TestData/SvnCheckout/txt/dir1/file1.txt	(working copy)
+@@ -1,5 +1,4 @@
+ dir1/file1 - line1
+-dir1/file1 - line2
+ dir1/file1 - line3
+-dir1/file1 - line4
++dir1/file1 - line4.1
+ dir1/file1 - line5
+\ No newline at end of file
