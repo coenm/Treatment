@@ -2,6 +2,6 @@
 {
     public interface ISourceControlNameOption
     {
-        string SearchProviderName { get; }
+        string SourceControlProviderName { get; }
     }
 }

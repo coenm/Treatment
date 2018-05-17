@@ -26,7 +26,7 @@
         {
             var factory = _factories
                           .OrderBy(f => f.Priority)
-                          .FirstOrDefault(item => item.CanCreate(_searchProviderName.SearchProviderName));
+                          .FirstOrDefault(item => item.CanCreate(_searchProviderName.SourceControlProviderName));
 
             if (factory == null)
                 return new DummySourceControlFactory().Create();

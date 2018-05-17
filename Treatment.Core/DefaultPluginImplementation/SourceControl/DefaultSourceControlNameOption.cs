@@ -2,6 +2,6 @@
 {
     internal class DefaultSourceControlNameOption : ISourceControlNameOption
     {
-        public string SearchProviderName => "dummy";
+        public string SourceControlProviderName => "dummy";
     }
 }
