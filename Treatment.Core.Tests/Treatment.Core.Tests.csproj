@@ -64,8 +64,8 @@
       <HintPath>..\packages\Pose.1.2.0\lib\netstandard2.0\Pose.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SimpleInjector, Version=4.2.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.4.2.2\lib\net45\SimpleInjector.dll</HintPath>
+    <Reference Include="SimpleInjector, Version=4.3.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.3.0\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -135,7 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\FakeItEasy.Analyzer.CSharp.4.6.0\analyzers\dotnet\cs\FakeItEasy.Analyzer.CSharp.dll" />
-    <Analyzer Include="..\packages\xunit.analyzers.0.8.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
+    <Analyzer Include="..\packages\xunit.analyzers.0.9.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="UseCases\Approvals\CSharpProjectFileTest.RemoveAppConfig_RemovedAppConfigTest.approved.txt" />
