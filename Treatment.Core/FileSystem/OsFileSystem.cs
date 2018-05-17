@@ -34,7 +34,7 @@
 
         public void SaveContent(string filename, Stream content)
         {
-            using (var fileStream = File.OpenWrite(filename))
+            using (var fileStream = new FileStream(filename, FileMode.Create, FileAccess.Write))
             {
                 content.CopyTo(fileStream);
             }
