@@ -39,7 +39,7 @@
             bootstrapper.Init();
 
             bootstrapper.RegisterDefaultOptions();
-            bootstrapper.Container.Register(typeof(IHoldOnExitOption), () => new StaticOptions(VerboseLevel.Disabled, false, true, string.Empty), Lifestyle.Scoped);
+            bootstrapper.Container.Register(typeof(IHoldOnExitOption), () => new StaticOptions(VerboseLevel.Disabled, false, true, string.Empty, string.Empty), Lifestyle.Scoped);
             bootstrapper.VerifyContainer();
 
             using (bootstrapper.StartSession())

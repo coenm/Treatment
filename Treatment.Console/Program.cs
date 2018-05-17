@@ -14,6 +14,7 @@
     using Treatment.Contract.Commands;
     using Treatment.Contract.Queries;
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
+    using Treatment.Core.DefaultPluginImplementation.SourceControl;
 
     public static class Program
     {
@@ -28,8 +29,9 @@
             Bootstrapper.Init();
             Bootstrapper.RegisterDefaultOptions();
 
-            return Parser.Default.ParseArguments<ListProvidersOptions, FixOptions>(args)
+            return Parser.Default.ParseArguments<RemoveNewAppConfigOptions, ListProvidersOptions, FixOptions>(args)
                          .MapResult(
+                                    (RemoveNewAppConfigOptions opts) => RemoveNewAppConfig(opts),
                                     (ListProvidersOptions opts) => ListSearchProviders(opts),
                                     (FixOptions opts) => FixProjectFiles(opts),
                                     HoldConsoleOnError);
@@ -48,6 +50,45 @@
             return -1;
         }
 
+        private static int RemoveNewAppConfig(RemoveNewAppConfigOptions options)
+        {
+            VerboseLevel Map(int value)
+            {
+                switch (value)
+                {
+                    case 3:
+                        return VerboseLevel.High;
+                    case 2:
+                        return VerboseLevel.Medium;
+                    case 1:
+                        return VerboseLevel.Low;
+                    case 0:
+                        return VerboseLevel.Disabled;
+                }
+                return VerboseLevel.Disabled;
+            }
+
+            var staticOptions = new StaticOptions(
+                                                  Map(options.Verbose),
+                                                  options.DryRun,
+                                                  options.HoldOnExit,
+                                                  options.SearchProvider,
+                                                  options.SourceControlProvider);
+
+            Bootstrapper.Container.Register(typeof(IHoldOnExitOption), () => staticOptions, Lifestyle.Scoped);
+            Bootstrapper.Container.Register(typeof(IDryRunOption), () => staticOptions, Lifestyle.Scoped);
+            Bootstrapper.Container.Register(typeof(ISearchProviderNameOption), () => staticOptions, Lifestyle.Scoped);
+            Bootstrapper.Container.Register(typeof(IVerboseOption), () => staticOptions, Lifestyle.Scoped);
+            Bootstrapper.Container.Register(typeof(ISourceControlNameOption), () => staticOptions, Lifestyle.Scoped);
+
+            using (Bootstrapper.StartSession())
+            {
+                var commandHandler = Bootstrapper.Container.GetInstance<ICommandHandler<CleanAppConfigCommand>>();
+                commandHandler.Execute(new CleanAppConfigCommand(options.RootDirectory));
+            }
+
+            return 0;
+        }
         private static int FixProjectFiles(FixOptions options)
         {
             VerboseLevel Map(int value)
@@ -70,7 +111,8 @@
                                                   Map(options.Verbose),
                                                   options.DryRun,
                                                   options.HoldOnExit,
-                                                  options.SearchProvider);
+                                                  options.SearchProvider,
+                                                  string.Empty);
 
             Bootstrapper.Container.Register(typeof(IHoldOnExitOption), () => staticOptions, Lifestyle.Scoped);
             Bootstrapper.Container.Register(typeof(IDryRunOption), () => staticOptions, Lifestyle.Scoped);
@@ -89,7 +131,7 @@
         private static int ListSearchProviders(ListProvidersOptions options)
         {
             Bootstrapper.Container.Register(typeof(IHoldOnExitOption),
-                                            () => new StaticOptions(VerboseLevel.Disabled, false, options.HoldOnExit, string.Empty),
+                                            () => new StaticOptions(VerboseLevel.Disabled, false, options.HoldOnExit, string.Empty, string.Empty),
                                             Lifestyle.Scoped);
 
             using (Bootstrapper.StartSession())

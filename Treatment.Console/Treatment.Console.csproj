@@ -108,6 +108,8 @@
     <Compile Include="Bootstrap\IVerboseOption.cs" />
     <Compile Include="Bootstrap\StaticOptions.cs" />
     <Compile Include="Bootstrap\VerboseLevel.cs" />
+    <Compile Include="CommandLineOptions\Internal\IOptionSourceControlProvider.cs" />
+    <Compile Include="CommandLineOptions\RemoveNewAppConfigOptions.cs" />
     <Compile Include="CommandLineOptions\Internal\IOptionsDryRun.cs" />
     <Compile Include="CommandLineOptions\Internal\IOptionSearchProvider.cs" />
     <Compile Include="CommandLineOptions\Internal\IOptionsHoldOnExit.cs" />
@@ -149,6 +151,10 @@
     <ProjectReference Include="..\Treatment.Plugin.Everything\Treatment.Plugin.Everything.csproj">
       <Project>{8315A778-6A3D-4881-8889-9E08A292AFC0}</Project>
       <Name>Treatment.Plugin.Everything</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Treatment.Plugin.Svn\Treatment.Plugin.Svn.csproj">
+      <Project>{4ee6347f-2aa4-490d-a178-2b2398eef7b1}</Project>
+      <Name>Treatment.Plugin.Svn</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
