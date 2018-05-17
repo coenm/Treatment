@@ -54,7 +54,7 @@
 
         public void DeleteFile(string filename)
         {
-            _decoratee.DeleteFile(filename);
+            _console.WriteLine($"Would have deleted '{_sanitizer.Sanitize(filename)}'");
         }
 
         private void DummySaveContent(string filename)
