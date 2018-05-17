@@ -64,9 +64,9 @@
 
         private string[] GetAppConfigFiles(string rootpath)
         {
-            var result1 = _fileSearcher.FindFilesIncludingSubdirectories(rootpath, "app.config");
-            var result2 = _fileSearcher.FindFilesIncludingSubdirectories(rootpath, "App.config");
-            return result1.Concat(result2)
+            var lowerCaseResult = _fileSearcher.FindFilesIncludingSubdirectories(rootpath, "app.config");
+            var uppercaseResult = _fileSearcher.FindFilesIncludingSubdirectories(rootpath, "App.config");
+            return lowerCaseResult.Concat(uppercaseResult)
                           .Distinct()
                           .ToArray();
         }

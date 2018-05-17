@@ -11,7 +11,6 @@
     {
         [NotNull] private readonly XDocument _doc;
         [NotNull] private readonly XNamespace _msbuildNamespace;
-        private bool _hasChanges;
 
         private CSharpProjectFileUpdater(XDocument doc)
         {
@@ -26,7 +25,7 @@
         }
 
         [PublicAPI]
-        public bool HasChanges => _hasChanges;
+        public bool HasChanges { get; private set; }
 
         // [NotNull, PublicAPI]
         // //private const string SEARCH = @"<HintPath>[\.\.\\]+Packages\\(.+\.dll)</HintPath>";
@@ -49,13 +48,12 @@
             var itemGroups = _doc
                              .Element(_msbuildNamespace + "Project")
                              .Elements(_msbuildNamespace + "ItemGroup")
-                             .Where(itemGroup => itemGroup.HasElements == false)
-                             .ToArray();
+                             .Where(itemGroup => itemGroup.HasElements == false);
 
             foreach (var itemGroup in itemGroups)
             {
                 itemGroup.Remove();
-                _hasChanges = true;
+                HasChanges = true;
             }
 
             return this;
@@ -85,7 +83,7 @@
                     continue;
 
                 noneElement.Remove();
-                _hasChanges = true;
+                HasChanges = true;
             }
 
             return this;
