@@ -26,26 +26,26 @@
 
         private bool RemoveAppConfigFromProjectFile(string projectFile)
         {
+            CSharpProjectFileUpdater csProjFile = null;
             using (var readFile = _filesystem.ReadFile(projectFile))
             {
-                var csProjFile = CSharpProjectFileUpdater
-                                 .Create(readFile)
-                                 .RemoveAppConfig()
-                                 .RemoveEmptyItemGroups();
-
-                if (!csProjFile.HasChanges)
-                    return false;
-
-
-                using (var outputStream = new MemoryStream())
-                {
-                    csProjFile.Save(outputStream);
-                    outputStream.Position = 0;
-                    _filesystem.SaveContent(projectFile, outputStream);
-                }
-
-                return true;
+                csProjFile = CSharpProjectFileUpdater
+                             .Create(readFile)
+                             .RemoveAppConfig()
+                             .RemoveEmptyItemGroups();
             }
+
+            if (!csProjFile.HasChanges)
+                return false;
+
+            using (var outputStream = new MemoryStream())
+            {
+                csProjFile.Save(outputStream);
+                outputStream.Position = 0;
+                _filesystem.SaveContent(projectFile, outputStream);
+            }
+
+            return true;
         }
     }
 }
