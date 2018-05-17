@@ -122,7 +122,6 @@
     <Compile Include="CrossCuttingConcerns\SetRootDirectoryCommandHandlerDecorator.cs" />
     <Compile Include="CrossCuttingConcerns\WriteExceptionToConsoleCommandHandlerDecorator.cs" />
     <Compile Include="CrossCuttingConcerns\HoldConsoleCommandHandlerDecorator.cs" />
-    <Compile Include="Bootstrap\BootstrapOld.cs" />
     <Compile Include="Decorators\DryRunFileSystemDecorator.cs" />
     <Compile Include="Decorators\StatisticsCollectorAndSummaryWriter.cs" />
     <Compile Include="Decorators\VerboseFileSearchDecorator.cs" />
