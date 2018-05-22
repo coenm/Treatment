@@ -17,26 +17,29 @@
         }
 
         // no verification anymore. just execute
-        public void Execute(string projectFile, string appConfigFile)
+        public bool Execute(string projectFile, string appConfigFile)
         {
-            RemoveAppConfigFromProjectFile(projectFile);
+            if (!RemoveAppConfigFromProjectFile(projectFile))
+                return false;
 
             _filesystem.DeleteFile(appConfigFile);
+            return true;
         }
 
         private bool RemoveAppConfigFromProjectFile(string projectFile)
         {
-            CSharpProjectFileUpdater csProjFile = null;
+            CSharpProjectFileUpdater csProjFile;
             using (var readFile = _filesystem.ReadFile(projectFile))
             {
-                csProjFile = CSharpProjectFileUpdater
-                             .Create(readFile)
-                             .RemoveAppConfig()
-                             .RemoveEmptyItemGroups();
-            }
+                csProjFile = CSharpProjectFileUpdater.Create(readFile);
 
-            if (!csProjFile.HasChanges)
-                return false;
+                csProjFile.RemoveAppConfig();
+
+                if (!csProjFile.HasChanges)
+                    return false;
+
+                csProjFile.RemoveEmptyItemGroups();
+            }
 
             using (var outputStream = new MemoryStream())
             {

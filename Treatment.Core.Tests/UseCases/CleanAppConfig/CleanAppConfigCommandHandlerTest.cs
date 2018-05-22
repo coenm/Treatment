@@ -24,36 +24,34 @@
     {
         private const string DIR = "main/directory";
 
-        private CleanAppConfigCommandHandler _sut;
-        private IFileSearch _fileSearcher;
-        private IReadOnlySourceControl _sourceControl;
-        private ICleanSingleAppConfig _cleanSingleAppConfig;
-        private CleanAppConfigCommand _command;
-        private StringBuilder _actionsHappened;
-        private FakeFileSystem _fs;
+        private readonly CleanAppConfigCommandHandler _sut;
+        private readonly ICleanSingleAppConfig _cleanSingleAppConfig;
+        private readonly CleanAppConfigCommand _cleanAppConfigCommand;
+        private readonly StringBuilder _actionsHappened;
+        private readonly FakeFileSystem _fs;
 
         public CleanAppConfigCommandHandlerTest()
         {
             _fs = new FakeFileSystem();
             _actionsHappened = new StringBuilder();
-            _command = new CleanAppConfigCommand(DIR);
+            _cleanAppConfigCommand = new CleanAppConfigCommand(DIR);
 
-            _fileSearcher = A.Fake<IFileSearch>();
-            _sourceControl = A.Fake<IReadOnlySourceControl>();
+            var fileSearcher = A.Fake<IFileSearch>();
+            var sourceControl = A.Fake<IReadOnlySourceControl>();
 
-            A.CallTo(() => _fileSearcher.FindFilesIncludingSubdirectories(DIR, "*.csproj"))
+            A.CallTo(() => fileSearcher.FindFilesIncludingSubdirectories(DIR, "*.csproj"))
              .Invokes(call => _actionsHappened.AppendLine(call.ToString()))
              .ReturnsLazily(call => _fs.GetFiles().Where(x => x.EndsWith(".csproj", true, CultureInfo.InvariantCulture)).ToArray());
 
-            A.CallTo(() => _fileSearcher.FindFilesIncludingSubdirectories(DIR, "app.config"))
+            A.CallTo(() => fileSearcher.FindFilesIncludingSubdirectories(DIR, "app.config"))
              .Invokes(call => _actionsHappened.AppendLine(call.ToString()))
              .ReturnsLazily(call => _fs.GetFiles().Where(x => x.EndsWith("app.config", false, CultureInfo.InvariantCulture)).ToArray());
 
-            A.CallTo(() => _fileSearcher.FindFilesIncludingSubdirectories(DIR, "App.config"))
+            A.CallTo(() => fileSearcher.FindFilesIncludingSubdirectories(DIR, "App.config"))
              .Invokes(call => _actionsHappened.AppendLine(call.ToString()))
              .ReturnsLazily(call => _fs.GetFiles().Where(x => x.EndsWith("App.config", false, CultureInfo.InvariantCulture)).ToArray());
 
-            A.CallTo(() => _sourceControl.GetFileStatus(A<string>._))
+            A.CallTo(() => sourceControl.GetFileStatus(A<string>._))
              .Invokes(call => _actionsHappened.AppendLine(call.ToString()))
              .ReturnsLazily(call => _fs.GetFileState(call.Arguments[0].ToString()));
 
@@ -62,8 +60,8 @@
              .Invokes(call => _actionsHappened.AppendLine(call.ToString()));
 
             _sut = new CleanAppConfigCommandHandler(
-                                                    _fileSearcher,
-                                                    _sourceControl,
+                                                    fileSearcher,
+                                                    sourceControl,
                                                     _cleanSingleAppConfig);
         }
 
@@ -79,7 +77,7 @@
         //     _fs.Add(DIR + "/d/App.config", FileStatus.Unchanged);
         //
         //     // act
-        //     _sut.Execute(_command);
+        //     _sut.Execute(_cleanAppConfigCommand);
         //
         //     // assert
         //     Approvals.Verify(_actionsHappened);
@@ -94,7 +92,7 @@
             _fs.Add(DIR + "/a/app.config", FileStatus.New);
 
             // act
-            _sut.Execute(_command);
+            _sut.Execute(_cleanAppConfigCommand);
 
             // assert
             Approvals.Verify(_actionsHappened);
@@ -109,7 +107,7 @@
             _fs.Add(DIR + "/a/app.config", status);
 
             // act
-            _sut.Execute(_command);
+            _sut.Execute(_cleanAppConfigCommand);
 
             // assert
             A.CallTo(_cleanSingleAppConfig).MustNotHaveHappened();
@@ -117,6 +115,7 @@
 
 
         // ReSharper disable once MemberCanBePrivate.Global
+        // Justification: Used by xUnit MemberData.
         public static IEnumerable<object[]> FileStatesExceptNew
         {
             [UsedImplicitly]

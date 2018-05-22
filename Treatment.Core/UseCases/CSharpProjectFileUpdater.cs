@@ -42,6 +42,9 @@
         [NotNull, PublicAPI]
         public CSharpProjectFileUpdater RemoveEmptyItemGroups()
         {
+            if (_doc.Root == null)
+                return this;
+
             if (!_doc.Root.HasElements)
                 return this;
 
@@ -59,9 +62,16 @@
             return this;
         }
 
+        /// <summary>
+        /// Removes the 'app.config' or 'App.config' file from the project (csproj) file.
+        /// </summary>
+        /// <returns></returns>
         [NotNull, PublicAPI]
         public CSharpProjectFileUpdater RemoveAppConfig()
         {
+            if (_doc.Root == null)
+                return this;
+
             if (!_doc.Root.HasElements)
                 return this;
 
@@ -73,7 +83,9 @@
                                                  itemGroup.Elements(_msbuildNamespace + "None")
                                                           .Any(noneElement => noneElement.Attribute("Include") != null
                                                                               &&
-                                                                              (noneElement.Attribute("Include").Value == "app.config" || noneElement.Attribute("Include").Value == "App.config")));
+                                                                              (noneElement.Attribute("Include").Value == "app.config"
+                                                                               ||
+                                                                               noneElement.Attribute("Include").Value == "App.config")));
 
             foreach (var itemGroup in itemGroups)
             foreach (var noneElement in itemGroup.Elements(_msbuildNamespace + "None"))
@@ -89,11 +101,20 @@
             return this;
         }
 
+        /// <summary>
+        /// Write the updated file to stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the csproj document to.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="stream"/> is null.</exception>
+        /// <exception cref="NotSupportedException">Thrown when <paramref name="stream"/> is not writable.</exception>
         [PublicAPI]
         public void Save(Stream stream)
         {
             if (stream == null)
                 throw new ArgumentNullException(nameof(stream));
+
+            if (stream.CanWrite == false)
+                throw new NotSupportedException($"Cannot write to stream '{nameof(stream)}'.");
 
             _doc.Save(stream);
         }

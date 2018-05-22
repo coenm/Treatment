@@ -98,8 +98,9 @@
     <Compile Include="CoreBootstrapTest.cs" />
     <Compile Include="FileSystem\DryRunFileSystemDecoratorTest.cs" />
     <Compile Include="UseCases\CleanAppConfig\CleanAppConfigCommandHandlerTest.cs" />
+    <Compile Include="UseCases\CleanAppConfig\CleanSingleAppConfigTest.cs" />
     <Compile Include="UseCases\CleanAppConfig\FakeFileSystem.cs" />
-    <Compile Include="UseCases\CSharpProjectFileTest.cs" />
+    <Compile Include="UseCases\CSharpProjectFileUpdaterTest.cs" />
     <Compile Include="UseCases\UpdateProjectFiles\UpdateProjectFilesCommandHandlerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\ResourceFile.cs" />
@@ -138,6 +139,8 @@
     <Analyzer Include="..\packages\xunit.analyzers.0.9.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="UseCases\CleanAppConfig\Approvals\CleanSingleAppConfigTest.ExecuteShouldFixCsProjFileAndDeleteAppconfigFileTest.approved.txt" />
+    <EmbeddedResource Include="Resources\FileWithRelativeHintPathWithoutAppConfig.txt" />
     <Content Include="UseCases\Approvals\CSharpProjectFileTest.RemoveAppConfig_RemovedAppConfigTest.approved.txt" />
     <Content Include="UseCases\Approvals\CSharpProjectFileTest.RemoveEmptyItemGroups_RemovesEmptyGroupsTest.approved.txt" />
     <Content Include="UseCases\CleanAppConfig\Approvals\CleanAppConfigCommandHandlerTest.Execute_WhenCsProjIsModifiedAndAppConfigIsNew_ExecutesCleanSingleAppConfigTest.approved.txt" />

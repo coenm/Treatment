@@ -12,7 +12,7 @@
 
     using Xunit;
 
-    public class CSharpProjectFileTest
+    public class CSharpProjectFileUpdaterTest
     {
         private const string FILENAME = "FileWithRelativeHintPath.txt";
 

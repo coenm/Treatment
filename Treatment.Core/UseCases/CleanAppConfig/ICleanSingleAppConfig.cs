@@ -2,6 +2,6 @@
 {
     public interface ICleanSingleAppConfig
     {
-        void Execute(string projectFile, string appConfigFile);
+        bool Execute(string projectFile, string appConfigFile);
     }
 }
