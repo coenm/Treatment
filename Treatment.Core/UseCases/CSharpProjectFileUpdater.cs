@@ -18,14 +18,14 @@
             _doc = doc ?? throw new ArgumentNullException(nameof(doc));
         }
 
-        public static CSharpProjectFileUpdater Create(Stream stream)
-        {
-            var doc = XDocument.Load(stream);
-            return new CSharpProjectFileUpdater(doc);
-        }
-
         [PublicAPI]
         public bool HasChanges { get; private set; }
+
+        public static CSharpProjectFileUpdater Create(Stream stream)
+        {
+            var doc = XDocument.Load(stream/*, LoadOptions.PreserveWhitespace | LoadOptions.SetLineInfo*/);
+            return new CSharpProjectFileUpdater(doc);
+        }
 
         // [NotNull, PublicAPI]
         // //private const string SEARCH = @"<HintPath>[\.\.\\]+Packages\\(.+\.dll)</HintPath>";
@@ -116,7 +116,7 @@
             if (stream.CanWrite == false)
                 throw new NotSupportedException($"Cannot write to stream '{nameof(stream)}'.");
 
-            _doc.Save(stream);
+            _doc.Save(stream/*, SaveOptions.DisableFormatting*/);
         }
     }
 }

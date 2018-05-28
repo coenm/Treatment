@@ -20,13 +20,37 @@ in `*.csproj` files within the given root directory (see `--directory` argument.
 ```
 Treatment.exe help
 
-  list-providers    List installed search providers to be used when fixing csproject files.
+  fix-app-config    Remove new app.config files and fix csproj file
+
+  list-providers    List installed search, and version control providers to be used
 
   fix               Fix csproj files where hintpath of packages is fixed
 
   help              Display more information on a specific command.
 
   version           Display version information.
+
+
+Treatment.exe help fix-app-config
+
+  -h, --hold                   (Default: false) Keeps console open when process successfully finished.
+
+  -d, --directory              Root directory to process the csproj files.
+
+  -n, --dry-run                (Default: false) File changes are not written to disk, only listed in the console.
+
+  -v, --verbose                (Default: 0) Verbosity level ranging from 0 (disabled) to 3 (max).
+
+  -p, --search-provider        (Default: FileSystem) Set search provider to search for csproj files. To list the search
+                               providers, use the 'list-providers' command.
+
+  --versioncontrol-provider    Set version control provider
+
+  -s, --summary                (Default: false) Prints a summary at the end of fixing the csproj files.
+
+  --help                       Display this help screen.
+
+  --version                    Display version information.
 
 
 Treatment.exe help fix

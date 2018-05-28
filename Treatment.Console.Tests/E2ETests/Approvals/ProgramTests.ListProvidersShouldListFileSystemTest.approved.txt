@@ -1,0 +1,4 @@
+﻿Installed search providers (ordered by priority):
+- FileSystem
+Installed version control providers (ordered by priority):
+- dummy

@@ -6,7 +6,7 @@
 
     using Treatment.Console.CommandLineOptions.Internal;
 
-    [Verb("list-providers", HelpText = "List installed search providers to be used when fixing csproject files.")]
+    [Verb("list-providers", HelpText = "List installed search, and version control providers to be used")]
     [UsedImplicitly]
     public class ListProvidersOptions : OptionsBase,
                                         IOptionsHoldOnExit

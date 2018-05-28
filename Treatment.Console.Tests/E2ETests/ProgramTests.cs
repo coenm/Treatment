@@ -4,6 +4,8 @@
     using System.IO;
     using System.Text;
 
+    using ApprovalTests;
+
     using FluentAssertions;
 
     using Treatment.Console.Console;
@@ -15,7 +17,7 @@
     {
         private readonly FakeBootstrapper _bootstrapper;
         private readonly FakeConsoleAdapter _console;
-        private StringBuilder _sb;
+        private readonly StringBuilder _sb;
 
         public ProgramTests()
         {
@@ -45,7 +47,6 @@
             result.Should().Be(-1);
         }
 
-
         [Fact]
         public void ListProvidersShouldListFileSystemTest()
         {
@@ -56,7 +57,7 @@
 
             // assert
             result.Should().Be(0);
-            _console.ToString().Should().Be("Installed search providers (ordered by priority):\r\n- FileSystem\r\n");
+            Approvals.Verify(_console.ToString());
         }
     }
 }

@@ -139,6 +139,8 @@
     <Analyzer Include="..\packages\xunit.analyzers.0.9.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="UseCases\Approvals\CSharpProjectFileUpdaterTest.RemoveAppConfig_RemovedAppConfigTest.approved.txt" />
+    <Content Include="UseCases\Approvals\CSharpProjectFileUpdaterTest.RemoveEmptyItemGroups_RemovesEmptyGroupsTest.approved.txt" />
     <Content Include="UseCases\CleanAppConfig\Approvals\CleanSingleAppConfigTest.ExecuteShouldFixCsProjFileAndDeleteAppconfigFileTest.approved.txt" />
     <EmbeddedResource Include="Resources\FileWithRelativeHintPathWithoutAppConfig.txt" />
     <Content Include="UseCases\Approvals\CSharpProjectFileTest.RemoveAppConfig_RemovedAppConfigTest.approved.txt" />

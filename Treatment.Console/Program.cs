@@ -32,7 +32,7 @@
             return Parser.Default.ParseArguments<RemoveNewAppConfigOptions, ListProvidersOptions, FixOptions>(args)
                          .MapResult(
                                     (RemoveNewAppConfigOptions opts) => RemoveNewAppConfig(opts),
-                                    (ListProvidersOptions opts) => ListSearchProviders(opts),
+                                    (ListProvidersOptions opts) => ListProviders(opts),
                                     (FixOptions opts) => FixProjectFiles(opts),
                                     HoldConsoleOnError);
         }
@@ -128,21 +128,30 @@
             return 0;
         }
 
-        private static int ListSearchProviders(ListProvidersOptions options)
+        private static int ListProviders(ListProvidersOptions options)
         {
-            Bootstrapper.Container.Register(typeof(IHoldOnExitOption),
+            Bootstrapper.Container.Register(
+                                            typeof(IHoldOnExitOption),
                                             () => new StaticOptions(VerboseLevel.Disabled, false, options.HoldOnExit, string.Empty, string.Empty),
                                             Lifestyle.Scoped);
 
             using (Bootstrapper.StartSession())
             {
-                var result = Bootstrapper.ExecuteQuery(new GetAllSearchProvidersQuery());
-
                 var console = Bootstrapper.Container.GetInstance<IConsole>();
 
+                var searchProviders = Bootstrapper.ExecuteQuery(new GetAllSearchProvidersQuery());
                 console.WriteLine("Installed search providers (ordered by priority):");
-                foreach (var f in result)
+                foreach (var f in searchProviders)
                     console.WriteLine($"- {f.Name}");
+
+
+                System.Console.WriteLine();
+
+                var versionControlProviders = Bootstrapper.ExecuteQuery(new GetAllVersionControlProvidersQuery());
+                console.WriteLine("Installed version control providers (ordered by priority):");
+                foreach (var f in versionControlProviders)
+                    console.WriteLine($"- {f.Name}");
+
 
                 if (options.HoldOnExit)
                 {
