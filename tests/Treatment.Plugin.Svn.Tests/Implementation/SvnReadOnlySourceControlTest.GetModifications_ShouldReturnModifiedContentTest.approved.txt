@@ -1,7 +1,7 @@
-﻿Index: ROOTPATH/TestData/SvnCheckout/txt/dir1/file1.txt
+﻿Index: ROOTPATH/tests/TestData/SvnCheckout/txt/dir1/file1.txt
 ===================================================================
---- ROOTPATH/TestData/SvnCheckout/txt/dir1/file1.txt	(revision 2)
-+++ ROOTPATH/TestData/SvnCheckout/txt/dir1/file1.txt	(working copy)
+--- ROOTPATH/tests/TestData/SvnCheckout/txt/dir1/file1.txt	(revision 2)
++++ ROOTPATH/tests/TestData/SvnCheckout/txt/dir1/file1.txt	(working copy)
 @@ -1,5 +1,4 @@
  dir1/file1 - line1
 -dir1/file1 - line2

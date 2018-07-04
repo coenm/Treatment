@@ -22,15 +22,15 @@
 
         public SvnReadOnlySourceControlTest()
         {
-            _expectedSvnRootDirectory = TestEnvironment.GetFullPath("TestData", "SvnCheckout");
+            _expectedSvnRootDirectory = TestEnvironment.GetFullPath("tests", "TestData", "SvnCheckout");
             _sut = new SvnReadOnlySourceControl(OsFileSystem.Instance);
         }
 
         [Theory]
-        [InlineData("TestData", false)] // dir exists but is not 'source controlled' using svn.
-        [InlineData("TestData\\SvnCheckout\\txt\\file1.txt", true)]
-        [InlineData("TestData\\SvnCheckout\\txt\\", true)]
-        [InlineData("TestData\\SvnCheckout\\txt\\nonExistingDirectory", false)] // inside svn root but directory does not exists.
+        [InlineData("tests\\TestData", false)] // dir exists but is not 'source controlled' using svn.
+        [InlineData("tests\\TestData\\SvnCheckout\\txt\\file1.txt", true)]
+        [InlineData("tests\\TestData\\SvnCheckout\\txt\\", true)]
+        [InlineData("tests\\TestData\\SvnCheckout\\txt\\nonExistingDirectory", false)] // inside svn root but directory does not exists.
         public void TryGetSvnRoot_ShouldReturnRoot_WhenExistTest(string path, bool expectedRepoFound)
         {
             // arrange
@@ -53,17 +53,17 @@
         }
 
         [Theory]
-        [InlineData("TestData\\fileOutsideRepo.txt", FileStatus.Unknown)]
-        [InlineData("TestData\\fileOutsideRepoNotExist.txt", FileStatus.NotExist)]
-        [InlineData("TestData\\SvnCheckout\\txt\\fileInsideRepoNotExists.txt", FileStatus.NotExist)]
-        [InlineData("TestData\\SvnCheckout\\txt\\file1.txt", FileStatus.Unchanged)]
-        [InlineData("TestData\\SvnCheckout\\txt\\dir1\\file1.txt", FileStatus.Modified)]
-        [InlineData("TestData\\SvnCheckout\\txt\\dir1\\file2.txt", FileStatus.Modified)] // renamed from file2.txt -> file2.renamed.txt. Marked as modiefied. Not sure if this is what i want.
-        [InlineData("TestData\\SvnCheckout\\txt\\dir1\\file2.renamed.txt", FileStatus.New)]
-        [InlineData("TestData\\SvnCheckout\\txt\\dir1\\new file marked as added.txt", FileStatus.New)]
-        [InlineData("TestData\\SvnCheckout\\txt\\dir1\\new file not marked as added.txt", FileStatus.New)]
-        [InlineData("TestData\\SvnCheckout\\txt\\notCommittedDir\\file1.txt", FileStatus.New)]
-        [InlineData("TestData\\SvnCheckout\\txt\\notCommittedDir\\fileNotExist.txt", FileStatus.NotExist)]
+        [InlineData("tests\\TestData\\fileOutsideRepo.txt", FileStatus.Unknown)]
+        [InlineData("tests\\TestData\\fileOutsideRepoNotExist.txt", FileStatus.NotExist)]
+        [InlineData("tests\\TestData\\SvnCheckout\\txt\\fileInsideRepoNotExists.txt", FileStatus.NotExist)]
+        [InlineData("tests\\TestData\\SvnCheckout\\txt\\file1.txt", FileStatus.Unchanged)]
+        [InlineData("tests\\TestData\\SvnCheckout\\txt\\dir1\\file1.txt", FileStatus.Modified)]
+        [InlineData("tests\\TestData\\SvnCheckout\\txt\\dir1\\file2.txt", FileStatus.Modified)] // renamed from file2.txt -> file2.renamed.txt. Marked as modiefied. Not sure if this is what i want.
+        [InlineData("tests\\TestData\\SvnCheckout\\txt\\dir1\\file2.renamed.txt", FileStatus.New)]
+        [InlineData("tests\\TestData\\SvnCheckout\\txt\\dir1\\new file marked as added.txt", FileStatus.New)]
+        [InlineData("tests\\TestData\\SvnCheckout\\txt\\dir1\\new file not marked as added.txt", FileStatus.New)]
+        [InlineData("tests\\TestData\\SvnCheckout\\txt\\notCommittedDir\\file1.txt", FileStatus.New)]
+        [InlineData("tests\\TestData\\SvnCheckout\\txt\\notCommittedDir\\fileNotExist.txt", FileStatus.NotExist)]
         public void GetFileStatus_ShouldReturnRoot_WhenExistTest(string path, FileStatus expectedState)
         {
             // arrange
@@ -77,8 +77,8 @@
         }
 
         [Theory]
-        [InlineData("TestData\\SvnCheckout\\txt\\file1.txt", "")] // unchanged.
-        [InlineData("TestData\\SvnCheckout\\txt\\notCommittedDir\\file1.txt", null)]
+        [InlineData("tests\\TestData\\SvnCheckout\\txt\\file1.txt", "")] // unchanged.
+        [InlineData("tests\\TestData\\SvnCheckout\\txt\\notCommittedDir\\file1.txt", null)]
         public void GetModifications_ShouldReturnRoot_WhenExistTest(string path, string expectedState)
         {
             // arrange
@@ -97,7 +97,7 @@
         public void GetModifications_ShouldReturnModifiedContentTest()
         {
             // arrange
-            var fullPath = TestEnvironment.GetFullPath("TestData", "SvnCheckout", "txt", "dir1", "file1.txt");
+            var fullPath = TestEnvironment.GetFullPath("tests", "TestData", "SvnCheckout", "txt", "dir1", "file1.txt");
 
             // act
             var result = _sut.GetModifications(fullPath);
