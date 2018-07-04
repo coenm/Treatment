@@ -99,10 +99,10 @@
                 throw e;
             }
 
-            if (File.Exists(path))
-                return FileStatus.Exist;
+            // if (File.Exists(path))
+            //     return FileStatus.Exist;
 
-            return FileStatus.Unknown;
+            // return FileStatus.Unknown;
         }
 
         public string GetModifications(string fileName)

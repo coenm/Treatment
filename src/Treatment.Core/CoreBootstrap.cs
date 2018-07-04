@@ -56,12 +56,12 @@
             // container.Register<IFileSystem>(() => OsFileSystem.Instance, Lifestyle.Singleton);
             container.RegisterInstance<IFileSystem>(OsFileSystem.Instance);
 
-            container.RegisterCollection<ISearchProviderFactory>(new[] { typeof(OsFileSystemSearchProviderFactory) });
+            container.Collection.Register<ISearchProviderFactory>(new[] { typeof(OsFileSystemSearchProviderFactory) });
             container.Register<IFileSearchSelector, FileSearchSelector>(Lifestyle.Scoped);
             container.Register<IFileSearch>(() => container.GetInstance<IFileSearchSelector>().CreateSearchProvider(), Lifestyle.Scoped);
             container.Register<ISearchProviderNameOption, DefaultSearchProviderNameOption>(Lifestyle.Singleton);
 
-            container.RegisterCollection<ISourceControlAbstractFactory>(new[] { typeof(DummySourceControlFactory) });
+            container.Collection.Register<ISourceControlAbstractFactory>(new[] { typeof(DummySourceControlFactory) });
             container.Register<ISourceControlSelector, SourceControlSelector>(Lifestyle.Scoped);
             container.Register<IReadOnlySourceControl>(() => container.GetInstance<ISourceControlSelector>().CreateSourceControl(), Lifestyle.Scoped);
             container.Register<ISourceControlNameOption, DefaultSourceControlNameOption>(Lifestyle.Singleton);
