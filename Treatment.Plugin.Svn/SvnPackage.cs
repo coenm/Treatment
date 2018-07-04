@@ -13,7 +13,7 @@
     {
         public void RegisterServices(Container container)
         {
-            container?.Collections.AppendTo(typeof(ISourceControlAbstractFactory), typeof(SvnSourceControlFactory));
+            container?.Collection.Append(typeof(ISourceControlAbstractFactory), typeof(SvnSourceControlFactory));
         }
     }
 }
