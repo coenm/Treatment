@@ -8,34 +8,34 @@
     /// <summary>Wrapper for Everything.
     /// <see cref="https://www.voidtools.com/support/everything/sdk/csharp/"/>
     /// </summary>
-    internal static class Everything32Api
+    internal static class Everything64Api
     {
         private const int EVERYTHING_REQUEST_FILE_NAME = 0x00000001;
         private const int EVERYTHING_REQUEST_PATH = 0x00000002;
 
-        [DllImport("Everything32.dll", CharSet = CharSet.Unicode)]
+        [DllImport("Everything64.dll", CharSet = CharSet.Unicode)]
         public static extern void Everything_SetSearch(string lpSearchString);
 
-        [DllImport("Everything32.dll")]
+        [DllImport("Everything64.dll")]
         public static extern void Everything_SetMatchCase(bool bEnable);
 
-        [DllImport("Everything32.dll", CharSet = CharSet.Unicode)]
+        [DllImport("Everything64.dll", CharSet = CharSet.Unicode)]
         public static extern bool Everything_Query(bool bWait);
 
-        [DllImport("Everything32.dll")]
+        [DllImport("Everything64.dll")]
         public static extern uint Everything_GetNumResults();
 
-        [DllImport("Everything32.dll", CharSet = CharSet.Unicode)]
+        [DllImport("Everything64.dll", CharSet = CharSet.Unicode)]
         public static extern void Everything_GetResultFullPathName(uint nIndex, StringBuilder lpString, uint nMaxCount);
 
-        [DllImport("Everything32.dll")]
+        [DllImport("Everything64.dll")]
         public static extern void Everything_CleanUp();
 
-        [DllImport("Everything32.dll")]
+        [DllImport("Everything64.dll")]
         public static extern uint Everything_GetMajorVersion();
 
         // Everything 1.4
-        [DllImport("Everything32.dll")]
+        [DllImport("Everything64.dll")]
         public static extern void Everything_SetRequestFlags(uint dwRequestFlags);
 
         public static List<string> Search(string query)

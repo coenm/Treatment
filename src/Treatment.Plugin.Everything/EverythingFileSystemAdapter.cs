@@ -8,7 +8,7 @@
     {
         public string[] FindFilesIncludingSubdirectories([NotNull]string rootPath, [NotNull]string mask)
         {
-            return Everything32Api.Search($"\"{rootPath}\" {mask}").ToArray();
+            return Everything64Api.Search($"\"{rootPath}\" {mask}").ToArray();
         }
     }
 }

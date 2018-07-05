@@ -15,7 +15,7 @@
             if (container == null)
                 return;
 
-            if (Everything32Api.IsInstalled())
+            if (Everything64Api.IsInstalled())
                 container.Collection.Append(typeof(ISearchProviderFactory), typeof(EverythingFileSeachFactory));
         }
     }
