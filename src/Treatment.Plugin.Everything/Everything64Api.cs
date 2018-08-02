@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.InteropServices;
     using System.Text;
 
@@ -38,21 +39,26 @@
         [DllImport("Everything64.dll")]
         public static extern void Everything_SetRequestFlags(uint dwRequestFlags);
 
-        public static List<string> Search(string query)
+        public static IEnumerable<string> Search(string query)
         {
             try
             {
-                var result = new List<string>();
                 const int BUFSIZE = 260;
-                var buf = new StringBuilder(BUFSIZE);
 
                 Everything_SetSearch(query);
                 Everything_SetRequestFlags(EVERYTHING_REQUEST_FILE_NAME | EVERYTHING_REQUEST_PATH);
                 Everything_SetMatchCase(false);
+
                 if (!Everything_Query(true))
-                    return result;
+                    return Enumerable.Empty<string>();
 
                 var nrResults = Everything_GetNumResults();
+
+                if (nrResults == 0)
+                    return Enumerable.Empty<string>();
+
+                var buf = new StringBuilder(BUFSIZE);
+                var result = new List<string>((int)nrResults);
 
                 for (uint i = 0; i < nrResults; i++)
                 {

@@ -1,5 +1,7 @@
 ﻿namespace Treatment.Plugin.Everything
 {
+    using System.Linq;
+
     using JetBrains.Annotations;
 
     using Treatment.Contract.Plugin.FileSearch;
