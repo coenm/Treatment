@@ -1,5 +1,7 @@
 ﻿namespace Treatment.Core.UseCases.UpdateProjectFiles
 {
+    using System.Threading.Tasks;
+
     using Treatment.Core.Interfaces;
     using Treatment.Contract;
 
@@ -15,9 +17,9 @@
             _summaryWriter = summaryWriter;
         }
 
-        public void Execute(TCommand command)
+        public async Task ExecuteAsync(TCommand command)
         {
-            _decorated.Execute(command);
+            await _decorated.ExecuteAsync(command).ConfigureAwait(false);
             _summaryWriter.OutputSummary();
         }
     }

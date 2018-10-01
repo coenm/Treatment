@@ -4,6 +4,7 @@
     using System.Globalization;
     using System.Linq;
     using System.Text;
+    using System.Threading.Tasks;
 
     using ApprovalTests;
 
@@ -85,14 +86,14 @@
 
 
         [Fact]
-        public void Execute_WhenCsProjIsModifiedAndAppConfigIsNew_ExecutesCleanSingleAppConfigTest()
+        public async Task Execute_WhenCsProjIsModifiedAndAppConfigIsNew_ExecutesCleanSingleAppConfigTest()
         {
             // arrange
             _fs.Add(DIR + "/a/file1.csproj", FileStatus.Modified);
             _fs.Add(DIR + "/a/app.config", FileStatus.New);
 
             // act
-            _sut.Execute(_cleanAppConfigCommand);
+            await _sut.ExecuteAsync(_cleanAppConfigCommand);
 
             // assert
             Approvals.Verify(_actionsHappened);
@@ -100,14 +101,14 @@
 
         [Theory]
         [MemberData(nameof(FileStatesExceptNew))]
-        public void Execute_WhenCsProjIsModifiedAndAppConfigIsNotNew_DoesNotExecuteCleanSingleAppConfigTest(FileStatus status)
+        public async Task Execute_WhenCsProjIsModifiedAndAppConfigIsNotNew_DoesNotExecuteCleanSingleAppConfigTest(FileStatus status)
         {
             // arrange
             _fs.Add(DIR + "/a/file1.csproj", FileStatus.Modified);
             _fs.Add(DIR + "/a/app.config", status);
 
             // act
-            _sut.Execute(_cleanAppConfigCommand);
+            await _sut.ExecuteAsync(_cleanAppConfigCommand);
 
             // assert
             A.CallTo(_cleanSingleAppConfig).MustNotHaveHappened();

@@ -1,6 +1,7 @@
 ﻿namespace Treatment.Core.UseCases.CrossCuttingConcerns
 {
     using System.Diagnostics;
+    using System.Threading.Tasks;
 
     using FluentValidation;
 
@@ -18,11 +19,11 @@
         }
 
         [DebuggerStepThrough]
-        public void Execute(TCommand command)
+        public Task ExecuteAsync(TCommand command)
         {
             _validator.ValidateAndThrow(command);
 
-            _decoratee.Execute(command);
+            return _decoratee.ExecuteAsync(command);
         }
     }
 }

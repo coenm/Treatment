@@ -1,6 +1,7 @@
 ﻿namespace Treatment.Core.UseCases.UpdateProjectFiles
 {
     using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
 
     using JetBrains.Annotations;
 
@@ -27,13 +28,15 @@
             _regex = new Regex(SEARCH, RegexOptions.Compiled);
         }
 
-        public void Execute(UpdateProjectFilesCommand command)
+        public Task ExecuteAsync(UpdateProjectFilesCommand command)
         {
             var files = GetCsFiles(command.Directory);
             foreach (var file in files)
             {
                 FixSingleFile(file);
             }
+
+            return Task.CompletedTask;
         }
 
         public string[] GetCsFiles(string rootpath)

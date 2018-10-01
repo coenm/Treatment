@@ -84,7 +84,7 @@
             using (Bootstrapper.StartSession())
             {
                 var commandHandler = Bootstrapper.Container.GetInstance<ICommandHandler<CleanAppConfigCommand>>();
-                commandHandler.Execute(new CleanAppConfigCommand(options.RootDirectory));
+                commandHandler.ExecuteAsync(new CleanAppConfigCommand(options.RootDirectory)).GetAwaiter().GetResult();
             }
 
             return 0;
@@ -122,7 +122,7 @@
             using (Bootstrapper.StartSession())
             {
                 var commandHandler = Bootstrapper.Container.GetInstance<ICommandHandler<UpdateProjectFilesCommand>>();
-                commandHandler.Execute(new UpdateProjectFilesCommand(options.RootDirectory));
+                commandHandler.ExecuteAsync(new UpdateProjectFilesCommand(options.RootDirectory)).GetAwaiter().GetResult();
             }
 
             return 0;
