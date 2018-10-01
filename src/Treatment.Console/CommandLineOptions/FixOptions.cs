@@ -6,7 +6,7 @@
 
     using Treatment.Console.CommandLineOptions.Internal;
 
-    [Verb("fix", HelpText = "Fix csproj files where hintpath of packages is fixed")]
+    [Verb("fix", HelpText = "Fix csproj files where hint path of packages is fixed")]
 
     public class FixOptions : OptionsBase,
                               IOptionsHoldOnExit,

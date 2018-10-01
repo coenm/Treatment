@@ -1,8 +1,12 @@
 ﻿namespace Treatment.Console
 {
+    using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     using CommandLine;
+
+    using Nito.AsyncEx;
 
     using SimpleInjector;
 
@@ -23,18 +27,40 @@
 
         public static int Main(params string[] args)
         {
+            return AsyncContext.Run(() => MainAsync(args));
+        }
+
+        public static async Task<int> MainAsync(params string[] args)
+        {
             if (Bootstrapper == null)
                 Bootstrapper = new Bootstrapper();
 
             Bootstrapper.Init();
             Bootstrapper.RegisterDefaultOptions();
 
-            return Parser.Default.ParseArguments<RemoveNewAppConfigOptions, ListProvidersOptions, FixOptions>(args)
-                         .MapResult(
-                                    (RemoveNewAppConfigOptions opts) => RemoveNewAppConfig(opts),
-                                    (ListProvidersOptions opts) => ListProviders(opts),
-                                    (FixOptions opts) => FixProjectFiles(opts),
-                                    HoldConsoleOnError);
+            ParserResult<object> result = Parser.Default.ParseArguments<RemoveNewAppConfigOptions, ListProvidersOptions, FixOptions>(args);
+            if (result == null)
+                throw new Exception("aap");
+
+            if (result is Parsed<object> parsed)
+            {
+                switch (parsed.Value)
+                {
+                    case RemoveNewAppConfigOptions removeNewAppConfigOptions:
+                        return await RemoveNewAppConfigAsync(removeNewAppConfigOptions).ConfigureAwait(true);
+
+                    case FixOptions fixOptions:
+                        return await FixProjectFilesAsync(fixOptions).ConfigureAwait(true);
+
+                    case ListProvidersOptions listProvidersOptions:
+                        return await ListProvidersAsync(listProvidersOptions).ConfigureAwait(true);
+
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+
+            return HoldConsoleOnError(((NotParsed<object>)result).Errors);
         }
 
         private static int HoldConsoleOnError(IEnumerable<Error> errs)
@@ -50,7 +76,7 @@
             return -1;
         }
 
-        private static int RemoveNewAppConfig(RemoveNewAppConfigOptions options)
+        private static async Task<int> RemoveNewAppConfigAsync(RemoveNewAppConfigOptions options)
         {
             VerboseLevel Map(int value)
             {
@@ -84,12 +110,12 @@
             using (Bootstrapper.StartSession())
             {
                 var commandHandler = Bootstrapper.Container.GetInstance<ICommandHandler<CleanAppConfigCommand>>();
-                commandHandler.ExecuteAsync(new CleanAppConfigCommand(options.RootDirectory)).GetAwaiter().GetResult();
+                await commandHandler.ExecuteAsync(new CleanAppConfigCommand(options.RootDirectory)).ConfigureAwait(true);
             }
 
             return 0;
         }
-        private static int FixProjectFiles(FixOptions options)
+        private static async Task<int> FixProjectFilesAsync(FixOptions options)
         {
             VerboseLevel Map(int value)
             {
@@ -122,13 +148,13 @@
             using (Bootstrapper.StartSession())
             {
                 var commandHandler = Bootstrapper.Container.GetInstance<ICommandHandler<UpdateProjectFilesCommand>>();
-                commandHandler.ExecuteAsync(new UpdateProjectFilesCommand(options.RootDirectory)).GetAwaiter().GetResult();
+                await commandHandler.ExecuteAsync(new UpdateProjectFilesCommand(options.RootDirectory)).ConfigureAwait(true);
             }
 
             return 0;
         }
 
-        private static int ListProviders(ListProvidersOptions options)
+        private static Task<int> ListProvidersAsync(ListProvidersOptions options)
         {
             Bootstrapper.Container.Register(
                                             typeof(IHoldOnExitOption),
@@ -160,7 +186,7 @@
                 }
             }
 
-            return 0;
+            return Task.FromResult(0);
         }
     }
 }
