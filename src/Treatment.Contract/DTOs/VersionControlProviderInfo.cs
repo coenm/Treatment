@@ -4,7 +4,7 @@
 
     public class VersionControlProviderInfo
     {
-        public VersionControlProviderInfo([NotNull] int priority, [NotNull] string name)
+        public VersionControlProviderInfo(int priority, [NotNull] string name)
         {
             Priority = priority;
             Name = name;

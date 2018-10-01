@@ -6,7 +6,7 @@
 
     using Treatment.Contract.Plugin.FileSearch;
 
-    public class EverythingFileSeachAdapter : IFileSearch
+    public class EverythingFileSearchAdapter : IFileSearch
     {
         public string[] FindFilesIncludingSubdirectories([NotNull]string rootPath, [NotNull]string mask)
         {

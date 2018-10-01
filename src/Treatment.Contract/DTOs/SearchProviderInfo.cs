@@ -4,7 +4,7 @@
 
     public class SearchProviderInfo
     {
-        public SearchProviderInfo([NotNull] int priority, [NotNull] string name)
+        public SearchProviderInfo(int priority, [NotNull] string name)
         {
             Priority = priority;
             Name = name;
