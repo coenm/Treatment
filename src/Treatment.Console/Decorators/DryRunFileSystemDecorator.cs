@@ -1,6 +1,7 @@
 ﻿namespace Treatment.Console.Decorators
 {
     using System.IO;
+    using System.Threading.Tasks;
 
     using JetBrains.Annotations;
 
@@ -47,9 +48,10 @@
             DummySaveContent(filename);
         }
 
-        public void SaveContent(string filename, Stream content)
+        public Task SaveContentAsync(string filename, Stream content)
         {
             DummySaveContent(filename);
+            return Task.CompletedTask;
         }
 
         public void DeleteFile(string filename)

@@ -3,4 +3,4 @@ Treatment.Contract.Plugin.FileSearch.IFileSearch.FindFilesIncludingSubdirectorie
 Treatment.Contract.Plugin.FileSearch.IFileSearch.FindFilesIncludingSubdirectories("main/directory", "App.config")
 Treatment.Contract.Plugin.SourceControl.IReadOnlySourceControl.GetFileStatus("main/directory/a/file1.csproj")
 Treatment.Contract.Plugin.SourceControl.IReadOnlySourceControl.GetFileStatus("main/directory/a/app.config")
-Treatment.Core.UseCases.CleanAppConfig.ICleanSingleAppConfig.Execute("main/directory/a/file1.csproj", "main/directory/a/app.config")
+Treatment.Core.UseCases.CleanAppConfig.ICleanSingleAppConfig.ExecuteAsync("main/directory/a/file1.csproj", "main/directory/a/app.config")

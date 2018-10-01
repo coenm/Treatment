@@ -1,6 +1,7 @@
 ﻿namespace Treatment.Core.UseCases.CleanAppConfig
 {
     using System.IO;
+    using System.Threading.Tasks;
 
     using JetBrains.Annotations;
 
@@ -17,16 +18,17 @@
         }
 
         // no verification anymore. just execute
-        public bool Execute(string projectFile, string appConfigFile)
+        public async Task<bool> ExecuteAsync(string projectFile, string appConfigFile)
         {
-            if (!RemoveAppConfigFromProjectFile(projectFile))
+            var success = await RemoveAppConfigFromProjectFile(projectFile).ConfigureAwait(false);
+            if (! success)
                 return false;
 
             _filesystem.DeleteFile(appConfigFile);
             return true;
         }
 
-        private bool RemoveAppConfigFromProjectFile(string projectFile)
+        private async Task<bool> RemoveAppConfigFromProjectFile(string projectFile)
         {
             CSharpProjectFileUpdater csProjFile;
             using (var readFile = _filesystem.ReadFile(projectFile))
@@ -45,7 +47,7 @@
             {
                 csProjFile.Save(outputStream);
                 outputStream.Position = 0;
-                _filesystem.SaveContent(projectFile, outputStream);
+                await _filesystem.SaveContentAsync(projectFile, outputStream).ConfigureAwait(false);
             }
 
             return true;

@@ -1,6 +1,7 @@
 ﻿namespace Treatment.Console.Decorators
 {
     using System.IO;
+    using System.Threading.Tasks;
 
     using JetBrains.Annotations;
 
@@ -44,10 +45,10 @@
             _decoratee.SaveContent(filename, content);
         }
 
-        public void SaveContent(string filename, Stream content)
+        public async Task SaveContentAsync(string filename, Stream content)
         {
             _console.WriteLine($"Save file '{_sanitizer.Sanitize(filename)}'");
-            _decoratee.SaveContent(filename, content);
+            await _decoratee.SaveContentAsync(filename, content).ConfigureAwait(false);
         }
 
         public void DeleteFile(string filename)

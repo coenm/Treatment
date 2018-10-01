@@ -57,7 +57,7 @@
              .ReturnsLazily(call => _fs.GetFileState(call.Arguments[0].ToString()));
 
             _cleanSingleAppConfig = A.Fake<ICleanSingleAppConfig>();
-            A.CallTo(() => _cleanSingleAppConfig.Execute(A<string>._, A<string>._))
+            A.CallTo(() => _cleanSingleAppConfig.ExecuteAsync(A<string>._, A<string>._))
              .Invokes(call => _actionsHappened.AppendLine(call.ToString()));
 
             _sut = new CleanAppConfigCommandHandler(

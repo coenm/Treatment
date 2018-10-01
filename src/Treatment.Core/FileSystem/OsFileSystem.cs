@@ -1,6 +1,7 @@
 ﻿namespace Treatment.Core.FileSystem
 {
     using System.IO;
+    using System.Threading.Tasks;
 
     using Treatment.Core.Interfaces;
 
@@ -19,6 +20,7 @@
 
         public Stream ReadFile(string filename)
         {
+            //return new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: 4096, useAsync: true);
             return File.OpenRead(filename);
         }
 
@@ -32,11 +34,11 @@
             File.WriteAllText(filename, content);
         }
 
-        public void SaveContent(string filename, Stream content)
+        public async Task SaveContentAsync(string filename, Stream content)
         {
             using (var fileStream = new FileStream(filename, FileMode.Create, FileAccess.Write))
             {
-                content.CopyTo(fileStream);
+                await content.CopyToAsync(fileStream).ConfigureAwait(false);
             }
         }
 
