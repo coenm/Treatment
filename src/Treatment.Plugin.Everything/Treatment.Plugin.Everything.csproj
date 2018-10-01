@@ -69,7 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EverythingPackage.cs" />
-    <Compile Include="EverythingFileSeachFactory.cs" />
+    <Compile Include="EverythingFileSearchFactory.cs" />
     <Compile Include="Everything64Api.cs" />
     <Compile Include="EverythingFileSystemAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

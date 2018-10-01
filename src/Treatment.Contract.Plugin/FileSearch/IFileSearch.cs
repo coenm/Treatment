@@ -1,7 +1,9 @@
 ﻿namespace Treatment.Contract.Plugin.FileSearch
 {
+    using JetBrains.Annotations;
+
     public interface IFileSearch
     {
-        string[] FindFilesIncludingSubdirectories(string rootPath, string mask);
+        string[] FindFilesIncludingSubdirectories([NotNull] string rootPath, [NotNull] string mask);
     }
 }

@@ -6,6 +6,8 @@
     using System.Runtime.InteropServices;
     using System.Text;
 
+    using JetBrains.Annotations;
+
     /// <summary>Wrapper for Everything.
     /// <see cref="https://www.voidtools.com/support/everything/sdk/csharp/"/>
     /// </summary>
@@ -39,11 +41,11 @@
         [DllImport("Everything64.dll")]
         public static extern void Everything_SetRequestFlags(uint dwRequestFlags);
 
-        public static IEnumerable<string> Search(string query)
+        public static IEnumerable<string> Search([NotNull] string query)
         {
             try
             {
-                const int BUFSIZE = 260;
+                const int BUFFER_SIZE = 260;
 
                 Everything_SetSearch(query);
                 Everything_SetRequestFlags(EVERYTHING_REQUEST_FILE_NAME | EVERYTHING_REQUEST_PATH);
@@ -57,13 +59,13 @@
                 if (nrResults == 0)
                     return Enumerable.Empty<string>();
 
-                var buf = new StringBuilder(BUFSIZE);
+                var buf = new StringBuilder(BUFFER_SIZE);
                 var result = new List<string>((int)nrResults);
 
                 for (uint i = 0; i < nrResults; i++)
                 {
                     buf.Clear();
-                    Everything_GetResultFullPathName(i, buf, BUFSIZE);
+                    Everything_GetResultFullPathName(i, buf, BUFFER_SIZE);
                     result.Add(buf.ToString());
                 }
 
@@ -88,7 +90,7 @@
             }
         }
 
-        private static void Ignore(Action action)
+        private static void Ignore([NotNull] Action action)
         {
             try
             {
