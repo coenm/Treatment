@@ -4,7 +4,7 @@
 
     using Treatment.Contract.Plugin.FileSearch;
 
-    public class EverythingFileSeachFactory : ISearchProviderFactory
+    public class EverythingFileSearchFactory : ISearchProviderFactory
     {
         public int Priority { get; } = 1;
 
@@ -23,7 +23,7 @@
 
         public IFileSearch Create()
         {
-            return new EverythingFileSeachAdapter();
+            return new EverythingFileSearchAdapter();
         }
     }
 }

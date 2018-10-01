@@ -1,5 +1,7 @@
 ﻿namespace Treatment.Contract.Plugin.SourceControl
 {
+    using JetBrains.Annotations;
+
     public interface ISourceControlAbstractFactory
     {
         string Name { get; }
@@ -8,6 +10,6 @@
 
         IReadOnlySourceControl Create();
 
-        bool CanCreate(string name);
+        bool CanCreate([NotNull] string name);
     }
 }

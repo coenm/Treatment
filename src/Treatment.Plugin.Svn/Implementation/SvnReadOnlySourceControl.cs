@@ -5,6 +5,8 @@
     using System.Linq;
     using System.Text;
 
+    using JetBrains.Annotations;
+
     using SharpSvn;
 
     using Treatment.Contract.Plugin.SourceControl;
@@ -14,9 +16,9 @@
     {
         private readonly IFileSystem _filesystem;
 
-        public SvnReadOnlySourceControl(IFileSystem filesystem)
+        public SvnReadOnlySourceControl([NotNull] IFileSystem filesystem)
         {
-            _filesystem = filesystem;
+            _filesystem = filesystem ?? throw new ArgumentNullException(nameof(filesystem));
         }
 
         public bool TryGetSvnRoot(string path, out string rootPath)
