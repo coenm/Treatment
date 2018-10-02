@@ -1,5 +1,7 @@
 ﻿namespace Treatment.Console.CrossCuttingConcerns
 {
+    using System.Threading.Tasks;
+
     using JetBrains.Annotations;
 
     using Treatment.Contract;
@@ -19,9 +21,9 @@
             _holdConsole = holdConsole;
         }
 
-        public void Execute(TCommand command)
+        public async Task ExecuteAsync(TCommand command)
         {
-            _decorated.Execute(command);
+            await _decorated.ExecuteAsync(command).ConfigureAwait(false);
             _holdConsole.Hold();
         }
     }

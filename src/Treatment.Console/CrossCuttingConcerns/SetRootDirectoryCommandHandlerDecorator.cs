@@ -1,5 +1,7 @@
 ﻿namespace Treatment.Console.CrossCuttingConcerns
 {
+    using System.Threading.Tasks;
+
     using Treatment.Contract;
     using Treatment.Contract.Commands;
 
@@ -14,12 +16,12 @@
             _decoratee = decoratee;
         }
 
-        public void Execute(TCommand command)
+        public async Task ExecuteAsync(TCommand command)
         {
             if (command is IDirectoryProperty directoryCommand)
                 _rootDirSanitizer.SetRootDir(directoryCommand.Directory);
 
-            _decoratee.Execute(command);
+            await _decoratee.ExecuteAsync(command).ConfigureAwait(false);
         }
     }
 }

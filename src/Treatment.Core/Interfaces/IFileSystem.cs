@@ -1,6 +1,7 @@
 ﻿namespace Treatment.Core.Interfaces
 {
     using System.IO;
+    using System.Threading.Tasks;
 
     public interface IFileSystem
     {
@@ -12,7 +13,7 @@
 
         void SaveContent(string filename, string content);
 
-        void SaveContent(string filename, Stream content);
+        Task SaveContentAsync(string filename, Stream content);
 
         void DeleteFile(string filename);
     }

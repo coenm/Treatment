@@ -1,6 +1,7 @@
 ﻿namespace Treatment.Core.Tests.UseCases.CleanAppConfig
 {
     using System.IO;
+    using System.Threading.Tasks;
 
     using ApprovalTests;
 
@@ -25,13 +26,13 @@
         }
 
         [Fact]
-        public void ExecuteShouldFixCsProjFileAndDeleteAppconfigFileTest()
+        public async Task ExecuteShouldFixCsProjFileAndDeleteAppconfigFileTest()
         {
             // arrange
             const string CSPROJ_FILENAME = "FileWithRelativeHintPath.txt";
             string outputContent = null;
             A.CallTo(() => _fileSystem.ReadFile(CSPROJ_FILENAME)).Returns(ResourceFile.OpenRead(CSPROJ_FILENAME));
-            A.CallTo(() => _fileSystem.SaveContent(CSPROJ_FILENAME, A<Stream>._))
+            A.CallTo(() => _fileSystem.SaveContentAsync(CSPROJ_FILENAME, A<Stream>._))
              .Invokes(call =>
                       {
                           var outputStream = call.Arguments[1] as MemoryStream;
@@ -39,7 +40,7 @@
                       });
 
             // act
-            _sut.Execute(CSPROJ_FILENAME, APPCONFIG_FILENAME);
+            await _sut.ExecuteAsync(CSPROJ_FILENAME, APPCONFIG_FILENAME);
 
             // assert
             A.CallTo(() => _fileSystem.DeleteFile(APPCONFIG_FILENAME)).MustHaveHappenedOnceExactly();
@@ -48,18 +49,18 @@
 
 
         [Fact]
-        public void ExecuteShouldNotDeleteAppConfigFileWhenCsprojFileDidNotChangeTest()
+        public async Task ExecuteAsyncShouldNotDeleteAppConfigFileWhenCsprojFileDidNotChangeTest()
         {
             // arrange
             const string CSPROJ_FILENAME = "FileWithRelativeHintPathWithoutAppConfig.txt";
             A.CallTo(() => _fileSystem.ReadFile(CSPROJ_FILENAME)).Returns(ResourceFile.OpenRead(CSPROJ_FILENAME));
 
             // act
-            _sut.Execute(CSPROJ_FILENAME, APPCONFIG_FILENAME);
+            await _sut.ExecuteAsync(CSPROJ_FILENAME, APPCONFIG_FILENAME);
 
             // assert
             A.CallTo(() => _fileSystem.DeleteFile(APPCONFIG_FILENAME)).MustNotHaveHappened();
-            A.CallTo(() => _fileSystem.SaveContent(CSPROJ_FILENAME, A<Stream>._)).MustNotHaveHappened();
+            A.CallTo(() => _fileSystem.SaveContentAsync(CSPROJ_FILENAME, A<Stream>._)).MustNotHaveHappened();
         }
     }
 }

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     using FluentAssertions;
 
@@ -54,7 +55,7 @@
         }
 
         [Fact(Skip="notworking")]
-        public void Abcdefaa()
+        public async Task Abcdefaa()
         {
             var bootstrapper = new Bootstrapper();
             bootstrapper.Init();
@@ -66,7 +67,7 @@
             using (bootstrapper.StartSession())
             {
                 var commandHandler = bootstrapper.Container.GetInstance<ICommandHandler<UpdateProjectFilesCommand>>();
-                commandHandler.Execute(new UpdateProjectFilesCommand(@"D:\tmp\aAP"));
+                await commandHandler.ExecuteAsync(new UpdateProjectFilesCommand(@"D:\tmp\aAP"));
             }
         }
     }

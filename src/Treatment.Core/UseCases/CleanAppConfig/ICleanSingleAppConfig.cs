@@ -1,7 +1,9 @@
 ﻿namespace Treatment.Core.UseCases.CleanAppConfig
 {
+    using System.Threading.Tasks;
+
     public interface ICleanSingleAppConfig
     {
-        bool Execute(string projectFile, string appConfigFile);
+        Task<bool> ExecuteAsync(string projectFile, string appConfigFile);
     }
 }

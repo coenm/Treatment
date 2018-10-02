@@ -1,7 +1,10 @@
 ﻿namespace Treatment.Core.UseCases.CleanAppConfig
 {
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Runtime.CompilerServices;
+    using System.Threading.Tasks;
 
     using JetBrains.Annotations;
 
@@ -27,24 +30,25 @@
             _cleanSingleAppConfig = cleanSingleAppConfig;
         }
 
-        public void Execute(CleanAppConfigCommand command)
+        public async Task ExecuteAsync(CleanAppConfigCommand command)
         {
             var projectFiles = GetCsFiles(command.Directory);
-            var appconfigFiles = GetAppConfigFiles(command.Directory);
+            var appConfigFiles = GetAppConfigFiles(command.Directory);
 
             foreach (var projectFile in projectFiles)
             {
                 var path = Path.GetDirectoryName(projectFile);
 
-                var appConfigFile = appconfigFiles.SingleOrDefault(file => Path.GetDirectoryName(file) == path);
+                var appConfigFile = appConfigFiles.SingleOrDefault(file => Path.GetDirectoryName(file) == path);
                 if (appConfigFile == null)
                     continue;
 
-                HandleProjectFile(projectFile, appConfigFile);
+                await HandleProjectFileAsync(projectFile, appConfigFile).ConfigureAwait(false);
             }
         }
 
-        private void HandleProjectFile(string projectFile, string appConfigFile)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private async Task HandleProjectFileAsync(string projectFile, string appConfigFile)
         {
             var status = _sourceControl.GetFileStatus(projectFile);
             if (status != FileStatus.New && status != FileStatus.Modified)
@@ -54,18 +58,20 @@
             if (status != FileStatus.New)
                 return;
 
-            _cleanSingleAppConfig.Execute(projectFile, appConfigFile);
+            await _cleanSingleAppConfig.ExecuteAsync(projectFile, appConfigFile).ConfigureAwait(false);
         }
 
-        private string[] GetCsFiles(string rootpath)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private IEnumerable<string> GetCsFiles(string rootPath)
         {
-            return _fileSearcher.FindFilesIncludingSubdirectories(rootpath, "*.csproj");
+            return _fileSearcher.FindFilesIncludingSubdirectories(rootPath, "*.csproj");
         }
 
-        private string[] GetAppConfigFiles(string rootpath)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private string[] GetAppConfigFiles(string rootPath)
         {
-            var lowerCaseResult = _fileSearcher.FindFilesIncludingSubdirectories(rootpath, "app.config");
-            var uppercaseResult = _fileSearcher.FindFilesIncludingSubdirectories(rootpath, "App.config");
+            var lowerCaseResult = _fileSearcher.FindFilesIncludingSubdirectories(rootPath, "app.config");
+            var uppercaseResult = _fileSearcher.FindFilesIncludingSubdirectories(rootPath, "App.config");
             return lowerCaseResult.Concat(uppercaseResult)
                           .Distinct()
                           .ToArray();
