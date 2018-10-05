@@ -38,9 +38,9 @@
             Bootstrapper.Init();
             Bootstrapper.RegisterDefaultOptions();
 
-            ParserResult<object> result = Parser.Default.ParseArguments<RemoveNewAppConfigOptions, ListProvidersOptions, FixOptions>(args);
+            var result = Parser.Default.ParseArguments<RemoveNewAppConfigOptions, ListProvidersOptions, FixOptions>(args);
             if (result == null)
-                throw new Exception("aap");
+                throw new Exception("no result");
 
             if (result is Parsed<object> parsed)
             {

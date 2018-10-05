@@ -41,9 +41,19 @@ namespace Treatment.UI
 
             RegisterPlugins(container);
 
+            RegisterDebug(container);
+
             container.Verify();
 
             return container;
+        }
+
+        private static void RegisterDebug([NotNull] Container container)
+        {
+            if (container == null)
+                throw new ArgumentNullException(nameof(container));
+
+            DelayCommandExecution.Register(container);
         }
 
         private static void RegisterPlugins([NotNull] Container container)
@@ -71,12 +81,16 @@ namespace Treatment.UI
 
             try
             {
-                var app = new App();
-                var mainWindow = container.GetInstance<View.MainWindow>();
-                app.Run(mainWindow);
+                using (AsyncScopedLifestyle.BeginScope(container))
+                {
+                    var app = new App();
+                    var mainWindow = container.GetInstance<View.MainWindow>();
+                    app.Run(mainWindow);
+                }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                throw e;
                 //Log the exception and exit
             }
         }

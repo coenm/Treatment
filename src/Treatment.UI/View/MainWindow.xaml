@@ -3,15 +3,37 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Treatment.UI"
         xmlns:vm="clr-namespace:Treatment.UI.ViewModel"
+        xmlns:valueConverters="clr-namespace:Treatment.UI.ValueConverters"
         mc:Ignorable="d"
         Title="MainWindow"
         Height="450"
         Width="800"
         d:DataContext="{d:DesignInstance vm:DummyMainWindowViewModel}">
-
+  <Window.Resources>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <valueConverters:NullVisibilityConverter x:Key="NullVisibilityConverter" />
+  </Window.Resources>
   <Grid>
-      <Label Content="{Binding Path=Name}"></Label>
+    <Button Command="{Binding Path=FixCsProjectFiles}" Content="FixCsProjectFiles" />
+    <Grid Visibility="{Binding FixCsProjectFiles.Execution, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=Hidden}">
+    <!--Busy indicator-->
+    <Label Content="Loading..." Visibility="{Binding FixCsProjectFiles.Execution.IsNotCompleted, Converter={StaticResource BooleanToVisibilityConverter}}" />
+    <!--Results-->
+    <Label Content="{Binding FixCsProjectFiles.Execution.Result}" Visibility="{Binding FixCsProjectFiles.Execution.IsSuccessfullyCompleted,
+    Converter={StaticResource BooleanToVisibilityConverter}}" />
+    <!--Error details-->
+    <Label Content="{Binding FixCsProjectFiles.Execution.ErrorMessage}"
+           Visibility="{Binding FixCsProjectFiles.Execution.IsFaulted, Converter={StaticResource BooleanToVisibilityConverter}}"
+           Foreground="Red" />
+    <!--Canceled-->
+    <Label Content="Canceled"
+           Visibility="{Binding FixCsProjectFiles.Execution.IsCanceled, Converter={StaticResource BooleanToVisibilityConverter}}"
+           Foreground="Blue" />
     </Grid>
+
+
+    <!-- <TextBox Text="{Binding Name}" /> -->
+
+  </Grid>
 </Window>

@@ -45,7 +45,7 @@
 
             container.Register(typeof(ICommandHandler<>), _businessLayerAssemblies, Lifestyle.Scoped);
 
-            RegisterCommandValidationCommandHandlerDecoraters(container);
+            RegisterCommandValidationCommandHandlerDecorators(container);
 
 
             // container.RegisterDecorator(typeof(ICommandHandler<>), typeof(AuthorizationCommandHandlerDecorator<>));
@@ -72,7 +72,7 @@
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void RegisterCommandValidationCommandHandlerDecoraters([NotNull] Container container)
+        private static void RegisterCommandValidationCommandHandlerDecorators([NotNull] Container container)
         {
             container.RegisterDecorator(
                                         typeof(ICommandHandler<>),
