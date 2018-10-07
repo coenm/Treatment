@@ -146,6 +146,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CapturingExceptionAsyncCommand.cs" />
     <Compile Include="ValueConverters\NullVisibilityConverter.cs" />
     <Compile Include="DelayCommandExecution.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />

@@ -1,6 +1,8 @@
 ﻿namespace Treatment.UI.ViewModel
 {
     using System;
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
 
     using JetBrains.Annotations;
 
@@ -9,7 +11,7 @@
     using Treatment.Contract;
     using Treatment.Contract.Commands;
 
-    public class MainWindowViewModel : IMainWindowViewModel
+    public class MainWindowViewModel : IMainWindowViewModel, INotifyPropertyChanged
     {
         private readonly ICommandHandler<UpdateProjectFilesCommand> _commandHandler;
 
@@ -18,24 +20,20 @@
             _commandHandler = commandHandler ?? throw new ArgumentNullException(nameof(commandHandler));
             Name = "test";
 
-            FixCsProjectFiles = new AsyncCommand(async () =>
-                                                 {
-                                                     try
-                                                     {
-                                                         await commandHandler.ExecuteAsync(new UpdateProjectFilesCommand(""));
-                                                     }
-                                                     catch (Exception e)
-                                                     {
-                                                         // do nothing;
-                                                         e = e;
-                                                     }
-                                                 });
+            FixCsProjectFiles = new CapturingExceptionAsyncCommand(async _ => await commandHandler.ExecuteAsync(new UpdateProjectFilesCommand("D:\\Users\\coen\\Downloads\\temp\\")));
 
-            // FixCsProjectFiles = new AsyncCommand(async _ => {await TestService.DownloadAndCountBytesAsync(Url);});
         }
 
         public string Name { get; set; }
 
-        public AsyncCommand FixCsProjectFiles { get; }
+        public CapturingExceptionAsyncCommand FixCsProjectFiles { get; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

@@ -6,8 +6,7 @@
     {
         string Name { get; set; }
 
-
-        AsyncCommand FixCsProjectFiles { get; }
+        CapturingExceptionAsyncCommand FixCsProjectFiles { get; }
     }
 
 
@@ -18,6 +17,5 @@
     {
         public abstract string Name { get; set; }
 
-        public abstract AsyncCommand FixCsProjectFiles { get; }
-    }
-}
+        public abstract CapturingExceptionAsyncCommand FixCsProjectFiles { get; }
+    }}

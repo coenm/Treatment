@@ -15,22 +15,39 @@
     <valueConverters:NullVisibilityConverter x:Key="NullVisibilityConverter" />
   </Window.Resources>
   <Grid>
-    <Button Command="{Binding Path=FixCsProjectFiles}" Content="FixCsProjectFiles" />
-    <Grid Visibility="{Binding FixCsProjectFiles.Execution, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=Hidden}">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+
+    <StackPanel Grid.Row="0" Orientation="Horizontal">
+      <Button Command="{Binding Path=FixCsProjectFiles}" Content="FixCsProjectFiles" />
+    </StackPanel>
+
+    <!-- <Grid Grid.Row="1" Visibility="{Binding FixCsProjectFiles.Execution, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=Hidden}"> -->
     <!--Busy indicator-->
-    <Label Content="Loading..." Visibility="{Binding FixCsProjectFiles.Execution.IsNotCompleted, Converter={StaticResource BooleanToVisibilityConverter}}" />
+    <Label Grid.Row="1" Content="Loading..." Visibility="{Binding FixCsProjectFiles.Execution.IsNotCompleted, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
     <!--Results-->
-    <Label Content="{Binding FixCsProjectFiles.Execution.Result}" Visibility="{Binding FixCsProjectFiles.Execution.IsSuccessfullyCompleted,
-    Converter={StaticResource BooleanToVisibilityConverter}}" />
+    <!-- <Label Grid.Row="2" Content="{Binding FixCsProjectFiles.Execution.Result}" Visibility="{Binding FixCsProjectFiles.Execution.IsSuccessfullyCompleted,Converter={StaticResource BooleanToVisibilityConverter}}" /> -->
+    <Label Grid.Row="2" Content="{Binding FixCsProjectFiles.Execution.Result}" />
+
     <!--Error details-->
-    <Label Content="{Binding FixCsProjectFiles.Execution.ErrorMessage}"
-           Visibility="{Binding FixCsProjectFiles.Execution.IsFaulted, Converter={StaticResource BooleanToVisibilityConverter}}"
-           Foreground="Red" />
+    <Label Grid.Row="3" Content="{Binding FixCsProjectFiles.Execution.ErrorMessage}" Foreground="Red" />
+    <!-- <Label Grid.Row="3" Content="{Binding FixCsProjectFiles.Execution.ErrorMessage}" -->
+    <!--        Visibility="{Binding FixCsProjectFiles.Execution.IsFaulted, Converter={StaticResource BooleanToVisibilityConverter}}" -->
+    <!--        Foreground="Red" /> -->
     <!--Canceled-->
-    <Label Content="Canceled"
+    <Label Grid.Row="4" Content="Canceled"
            Visibility="{Binding FixCsProjectFiles.Execution.IsCanceled, Converter={StaticResource BooleanToVisibilityConverter}}"
            Foreground="Blue" />
-    </Grid>
+    <!-- </Grid> -->
 
 
     <!-- <TextBox Text="{Binding Name}" /> -->
