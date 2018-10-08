@@ -4,7 +4,7 @@
 
     public interface IMainWindowViewModel
     {
-        string Name { get; set; }
+        string WorkingDirectory { get; set; }
 
         CapturingExceptionAsyncCommand FixCsProjectFiles { get; }
     }
@@ -15,7 +15,7 @@
     /// </remarks>>
     public abstract class DummyMainWindowViewModel : IMainWindowViewModel
     {
-        public abstract string Name { get; set; }
+        public abstract string WorkingDirectory { get; set; }
 
         public abstract CapturingExceptionAsyncCommand FixCsProjectFiles { get; }
     }}

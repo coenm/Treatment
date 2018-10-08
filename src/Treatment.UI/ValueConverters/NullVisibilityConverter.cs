@@ -5,6 +5,7 @@
     using System.Windows;
     using System.Windows.Data;
 
+    [ValueConversion(typeof(object), typeof(Visibility))]
     public class NullVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

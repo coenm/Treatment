@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:Treatment.UI.ViewModel"
         xmlns:valueConverters="clr-namespace:Treatment.UI.ValueConverters"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         Title="MainWindow"
         Height="450"
@@ -13,44 +14,40 @@
   <Window.Resources>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <valueConverters:NullVisibilityConverter x:Key="NullVisibilityConverter" />
+    <valueConverters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
   </Window.Resources>
   <Grid>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition />
-    </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
-      <RowDefinition/>
-      <RowDefinition/>
-      <RowDefinition/>
-      <RowDefinition/>
-      <RowDefinition/>
+      <RowDefinition Height="30"/> <!-- stackpanel -->
+      <RowDefinition/> <!-- grid -->
     </Grid.RowDefinitions>
 
     <StackPanel Grid.Row="0" Orientation="Horizontal">
-      <Button Command="{Binding Path=FixCsProjectFiles}" Content="FixCsProjectFiles" />
+      <TextBox Text="{Binding Path=WorkingDirectory}" Width="500" IsEnabled="{Binding FixCsProjectFiles.IsExecuting, Converter={StaticResource InverseBooleanConverter}}"/>
+      <Button Command="{Binding Path=FixCsProjectFiles}" Content="FixCsProjectFiles" Width="80" Margin="10,0,0,0"/>
+      <fa:ImageAwesome  Margin="10,0,0,0" Icon="Spinner" Spin="True"  SpinDuration="2" Visibility="{Binding FixCsProjectFiles.IsExecuting, Converter={StaticResource BooleanToVisibilityConverter}}"/>
     </StackPanel>
 
-    <!-- <Grid Grid.Row="1" Visibility="{Binding FixCsProjectFiles.Execution, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=Hidden}"> -->
-    <!--Busy indicator-->
-    <Label Grid.Row="1" Content="Loading..." Visibility="{Binding FixCsProjectFiles.Execution.IsNotCompleted, Converter={StaticResource BooleanToVisibilityConverter}}" />
+    <Grid Grid.Row="1" Visibility="{Binding FixCsProjectFiles.Execution, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=Hidden}">
+      <Grid.RowDefinitions>
+        <RowDefinition/>
+        <RowDefinition/>
+        <RowDefinition/>
+      </Grid.RowDefinitions>
 
-    <!--Results-->
-    <!-- <Label Grid.Row="2" Content="{Binding FixCsProjectFiles.Execution.Result}" Visibility="{Binding FixCsProjectFiles.Execution.IsSuccessfullyCompleted,Converter={StaticResource BooleanToVisibilityConverter}}" /> -->
-    <Label Grid.Row="2" Content="{Binding FixCsProjectFiles.Execution.Result}" />
+      <!--Results-->
+      <Label Grid.Row="0" Content="{Binding FixCsProjectFiles.Execution.Result}" Visibility="{Binding FixCsProjectFiles.Execution.IsSuccessfullyCompleted,Converter={StaticResource BooleanToVisibilityConverter}}" />
+      <!-- <Label Grid.Row="1" Content="{Binding FixCsProjectFiles.Execution.Result}" /> -->
 
-    <!--Error details-->
-    <Label Grid.Row="3" Content="{Binding FixCsProjectFiles.Execution.ErrorMessage}" Foreground="Red" />
-    <!-- <Label Grid.Row="3" Content="{Binding FixCsProjectFiles.Execution.ErrorMessage}" -->
-    <!--        Visibility="{Binding FixCsProjectFiles.Execution.IsFaulted, Converter={StaticResource BooleanToVisibilityConverter}}" -->
-    <!--        Foreground="Red" /> -->
-    <!--Canceled-->
-    <Label Grid.Row="4" Content="Canceled"
-           Visibility="{Binding FixCsProjectFiles.Execution.IsCanceled, Converter={StaticResource BooleanToVisibilityConverter}}"
-           Foreground="Blue" />
-    <!-- </Grid> -->
+      <!--Error details-->
+      <Label Grid.Row="1" Content="{Binding FixCsProjectFiles.Execution.ErrorMessage}"
+             Visibility="{Binding FixCsProjectFiles.Execution.IsFaulted, Converter={StaticResource BooleanToVisibilityConverter}}"
+             Foreground="Red" />
 
-
-    <!-- <TextBox Text="{Binding Name}" /> -->
-
+      <!--Canceled-->
+      <Label Grid.Row="2" Content="Canceled"
+             Visibility="{Binding FixCsProjectFiles.Execution.IsCanceled, Converter={StaticResource BooleanToVisibilityConverter}}"
+             Foreground="Blue" />
+    </Grid>
   </Grid>
 </Window>
