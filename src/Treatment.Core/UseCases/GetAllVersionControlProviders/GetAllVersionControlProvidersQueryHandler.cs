@@ -1,7 +1,9 @@
 ﻿namespace Treatment.Core.UseCases.GetAllVersionControlProviders
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
 
     using JetBrains.Annotations;
 
@@ -20,7 +22,7 @@
             _searchProviderFactories = versionControlProviderFactories.ToList();
         }
 
-        public List<VersionControlProviderInfo> Handle(GetAllVersionControlProvidersQuery query)
+        public List<VersionControlProviderInfo> Handle(GetAllVersionControlProvidersQuery query, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
         {
             return _searchProviderFactories
                    .OrderBy(f => f.Priority)
