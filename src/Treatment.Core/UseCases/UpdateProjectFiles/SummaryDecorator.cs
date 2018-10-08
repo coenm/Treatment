@@ -1,5 +1,7 @@
 ﻿namespace Treatment.Core.UseCases.UpdateProjectFiles
 {
+    using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using Treatment.Core.Interfaces;
@@ -17,9 +19,9 @@
             _summaryWriter = summaryWriter;
         }
 
-        public async Task ExecuteAsync(TCommand command)
+        public async Task ExecuteAsync(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
         {
-            await _decorated.ExecuteAsync(command).ConfigureAwait(false);
+            await _decorated.ExecuteAsync(command, progress, ct).ConfigureAwait(false);
             _summaryWriter.OutputSummary();
         }
     }

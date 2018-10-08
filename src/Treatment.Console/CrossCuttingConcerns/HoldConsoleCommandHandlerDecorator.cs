@@ -1,5 +1,7 @@
 ﻿namespace Treatment.Console.CrossCuttingConcerns
 {
+    using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
@@ -21,9 +23,9 @@
             _holdConsole = holdConsole;
         }
 
-        public async Task ExecuteAsync(TCommand command)
+        public async Task ExecuteAsync(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
         {
-            await _decorated.ExecuteAsync(command).ConfigureAwait(false);
+            await _decorated.ExecuteAsync(command, progress, ct).ConfigureAwait(false);
             _holdConsole.Hold();
         }
     }

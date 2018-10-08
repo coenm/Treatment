@@ -1,6 +1,8 @@
 ﻿namespace Treatment.Core.UseCases.UpdateProjectFiles
 {
+    using System;
     using System.Text.RegularExpressions;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
@@ -28,7 +30,7 @@
             _regex = new Regex(SEARCH, RegexOptions.Compiled);
         }
 
-        public Task ExecuteAsync(UpdateProjectFilesCommand command)
+        public Task ExecuteAsync(UpdateProjectFilesCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
         {
             var files = GetCsFiles(command.Directory);
             foreach (var file in files)
