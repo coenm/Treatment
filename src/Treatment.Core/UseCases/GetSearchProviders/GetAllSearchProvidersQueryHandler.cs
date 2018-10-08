@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
 
     using JetBrains.Annotations;
 
@@ -20,7 +21,7 @@
             _searchProviderFactories = searchProviderFactories.ToList();
         }
 
-        public List<SearchProviderInfo> Handle(GetAllSearchProvidersQuery query)
+        public List<SearchProviderInfo> Handle(GetAllSearchProvidersQuery query, CancellationToken ct = default(CancellationToken))
         {
             var orderedFactories = _searchProviderFactories.OrderBy(f => f.Priority).ToList();
 
