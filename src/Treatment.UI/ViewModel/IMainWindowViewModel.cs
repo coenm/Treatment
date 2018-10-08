@@ -7,6 +7,8 @@
         string WorkingDirectory { get; set; }
 
         CapturingExceptionAsyncCommand FixCsProjectFiles { get; }
+
+        string FixCsProjectFilesLog { get; set; }
     }
 
 
@@ -16,6 +18,8 @@
     public abstract class DummyMainWindowViewModel : IMainWindowViewModel
     {
         public abstract string WorkingDirectory { get; set; }
+
+        public abstract string FixCsProjectFilesLog { get; set; }
 
         public abstract CapturingExceptionAsyncCommand FixCsProjectFiles { get; }
     }}

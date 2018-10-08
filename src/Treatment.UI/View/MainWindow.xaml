@@ -19,6 +19,7 @@
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="30"/> <!-- stackpanel -->
+      <RowDefinition/> <!-- label -->
       <RowDefinition/> <!-- grid -->
     </Grid.RowDefinitions>
 
@@ -28,7 +29,9 @@
       <fa:ImageAwesome  Margin="10,0,0,0" Icon="Spinner" Spin="True"  SpinDuration="2" Visibility="{Binding FixCsProjectFiles.IsExecuting, Converter={StaticResource BooleanToVisibilityConverter}}"/>
     </StackPanel>
 
-    <Grid Grid.Row="1" Visibility="{Binding FixCsProjectFiles.Execution, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=Hidden}">
+    <Label Grid.Row="1" Content="{Binding Path=FixCsProjectFilesLog}" />
+
+    <Grid Grid.Row="2" Visibility="{Binding FixCsProjectFiles.Execution, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=Hidden}">
       <Grid.RowDefinitions>
         <RowDefinition/>
         <RowDefinition/>
