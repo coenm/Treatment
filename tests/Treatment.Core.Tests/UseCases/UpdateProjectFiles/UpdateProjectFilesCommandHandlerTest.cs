@@ -11,7 +11,7 @@
 
     public class UpdateProjectFilesCommandHandlerTests
     {
-        private readonly UpdateProjectFilesCommandHandler _sut;
+        private readonly UpdateProjectFilesCommandHandlerImplementation _sut;
         private readonly IFileSystem _filesystem;
 
         public UpdateProjectFilesCommandHandlerTests()
@@ -25,7 +25,7 @@
                                 return ResourceFile.GetContent(filename);
                             });
 
-            _sut = new UpdateProjectFilesCommandHandler(_filesystem, filesearcher);
+            _sut = new UpdateProjectFilesCommandHandlerImplementation(_filesystem, filesearcher);
         }
 
         [Fact]
