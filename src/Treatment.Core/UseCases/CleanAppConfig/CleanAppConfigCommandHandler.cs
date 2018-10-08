@@ -4,6 +4,7 @@
     using System.IO;
     using System.Linq;
     using System.Runtime.CompilerServices;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
@@ -30,7 +31,7 @@
             _cleanSingleAppConfig = cleanSingleAppConfig;
         }
 
-        public async Task ExecuteAsync(CleanAppConfigCommand command)
+        public async Task ExecuteAsync(CleanAppConfigCommand command, CancellationToken ct = default(CancellationToken))
         {
             var projectFiles = GetCsFiles(command.Directory);
             var appConfigFiles = GetAppConfigFiles(command.Directory);

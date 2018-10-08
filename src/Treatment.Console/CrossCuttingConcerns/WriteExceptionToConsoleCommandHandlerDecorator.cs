@@ -1,6 +1,7 @@
 ﻿namespace Treatment.Console.CrossCuttingConcerns
 {
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
@@ -22,11 +23,11 @@
             _console = console;
         }
 
-        public async Task ExecuteAsync(TCommand command)
+        public async Task ExecuteAsync(TCommand command, CancellationToken ct = default(CancellationToken))
         {
             try
             {
-                await _decorated.ExecuteAsync(command).ConfigureAwait(false);
+                await _decorated.ExecuteAsync(command, ct).ConfigureAwait(false);
             }
             catch (Exception e)
             {
