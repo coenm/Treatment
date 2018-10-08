@@ -1,5 +1,6 @@
 ﻿namespace Treatment.Console.CrossCuttingConcerns
 {
+    using System;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -17,12 +18,12 @@
             _decoratee = decoratee;
         }
 
-        public async Task ExecuteAsync(TCommand command, CancellationToken ct = default(CancellationToken))
+        public async Task ExecuteAsync(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
         {
             if (command is IDirectoryProperty directoryCommand)
                 _rootDirSanitizer.SetRootDir(directoryCommand.Directory);
 
-            await _decoratee.ExecuteAsync(command, ct).ConfigureAwait(false);
+            await _decoratee.ExecuteAsync(command, progress, ct).ConfigureAwait(false);
         }
     }
 }

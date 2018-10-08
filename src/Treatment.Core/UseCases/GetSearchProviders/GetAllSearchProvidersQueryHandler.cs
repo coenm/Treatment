@@ -1,5 +1,6 @@
 ﻿namespace Treatment.Core.UseCases.GetSearchProviders
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
@@ -21,7 +22,7 @@
             _searchProviderFactories = searchProviderFactories.ToList();
         }
 
-        public List<SearchProviderInfo> Handle(GetAllSearchProvidersQuery query, CancellationToken ct = default(CancellationToken))
+        public List<SearchProviderInfo> Handle(GetAllSearchProvidersQuery query, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
         {
             var orderedFactories = _searchProviderFactories.OrderBy(f => f.Priority).ToList();
 

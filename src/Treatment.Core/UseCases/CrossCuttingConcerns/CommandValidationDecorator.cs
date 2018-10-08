@@ -1,5 +1,6 @@
 ﻿namespace Treatment.Core.UseCases.CrossCuttingConcerns
 {
+    using System;
     using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
@@ -20,11 +21,11 @@
         }
 
         [DebuggerStepThrough]
-        public Task ExecuteAsync(TCommand command, CancellationToken ct = default(CancellationToken))
+        public Task ExecuteAsync(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
         {
             _validator.ValidateAndThrow(command);
 
-            return _decoratee.ExecuteAsync(command, ct);
+            return _decoratee.ExecuteAsync(command, progress, ct);
         }
     }
 }
