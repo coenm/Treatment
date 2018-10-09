@@ -25,7 +25,6 @@
         private string _workingDirectory;
         private IProgress<ProgressData> _progressFixCsProjectFiles;
         private string _fixCsProjectFilesLog;
-        private ObservableCollection<ProjectViewModel> _sources;
 
         public MainWindowViewModel([NotNull] ICommandHandler<UpdateProjectFilesCommand> commandHandler,
                                    [NotNull] IFileSearch fileSearch,
@@ -47,20 +46,9 @@
             WorkingDirectory = _configuration.RootPath ?? string.Empty;
 
             Sources = new ObservableCollection<ProjectViewModel>(CreateProjectViewModelsFromDirectory());
-
         }
 
-        public ObservableCollection<ProjectViewModel> Sources
-        {
-            get => _sources;
-            private set
-            {
-                if (_sources == value)
-                    return;
-                _sources = value;
-                OnPropertyChanged();
-            }
-        }
+        public ObservableCollection<ProjectViewModel> Sources { get; }
 
         public string FixCsProjectFilesLog
         {
@@ -107,6 +95,7 @@
                     if (filename == null)
                         continue;
 
+                    // No need to expose the filename to look for at github ;-)
                     if (Hash(filename) != "fTABLb)<0:PI1+6/8C%b5gd>4nRK{6SerJz+C)ik")
                         continue;
 
