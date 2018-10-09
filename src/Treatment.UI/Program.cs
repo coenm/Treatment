@@ -13,6 +13,7 @@ namespace Treatment.UI
     using SimpleInjector.Lifestyles;
 
     using Treatment.Core;
+    using Treatment.UI.Core;
     using Treatment.UI.ViewModel;
 
     static class Program
@@ -41,11 +42,21 @@ namespace Treatment.UI
 
             RegisterPlugins(container);
 
+            RegisterUserInterfaceDependencies(container);
+
             RegisterDebug(container);
 
             container.Verify();
 
             return container;
+        }
+
+        private static void RegisterUserInterfaceDependencies([NotNull] Container container)
+        {
+            if (container == null)
+                throw new ArgumentNullException(nameof(container));
+
+            container.RegisterSingleton<IConfiguration, AppConfigConfiguration>();
         }
 
         private static void RegisterDebug([NotNull] Container container)

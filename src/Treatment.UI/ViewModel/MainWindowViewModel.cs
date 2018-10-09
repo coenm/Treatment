@@ -1,24 +1,35 @@
 ﻿namespace Treatment.UI.ViewModel
 {
     using System;
-    using System.ComponentModel;
-    using System.Runtime.CompilerServices;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.IO;
+    using System.Linq;
+    using System.Security.Cryptography;
+    using System.Text;
+
+    using CoenM.Encoding;
 
     using JetBrains.Annotations;
 
-    using Nito.Mvvm;
-
     using Treatment.Contract;
     using Treatment.Contract.Commands;
+    using Treatment.Contract.Plugin.FileSearch;
+    using Treatment.UI.Core;
 
-    public class MainWindowViewModel : IMainWindowViewModel, INotifyPropertyChanged
+    public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     {
-        private readonly ICommandHandler<UpdateProjectFilesCommand> _commandHandler;
+        [NotNull] private readonly ICommandHandler<UpdateProjectFilesCommand> _commandHandler;
+        [NotNull] private readonly IFileSearch _fileSearch;
+        [NotNull] private readonly IConfiguration _configuration;
         private string _workingDirectory;
         private IProgress<ProgressData> _progressFixCsProjectFiles;
         private string _fixCsProjectFilesLog;
+        private ObservableCollection<ProjectViewModel> _sources;
 
-        public MainWindowViewModel([NotNull] ICommandHandler<UpdateProjectFilesCommand> commandHandler)
+        public MainWindowViewModel([NotNull] ICommandHandler<UpdateProjectFilesCommand> commandHandler,
+                                   [NotNull] IFileSearch fileSearch,
+                                   [NotNull] IConfiguration configuration)
         {
             _progressFixCsProjectFiles = new Progress<ProgressData>(data =>
                                                                     {
@@ -28,11 +39,27 @@
                                                                         // THIS IS PROBABLY NOT THE WAY TO DO THIS..
                                                                         FixCsProjectFilesLog += data.Message + Environment.NewLine;
                                                                     });
-            _commandHandler = commandHandler ?? throw new ArgumentNullException(nameof(commandHandler));
-            WorkingDirectory = "D:\\Users\\coen\\Downloads\\temp";
 
-            FixCsProjectFiles = new CapturingExceptionAsyncCommand(async _ => await commandHandler.ExecuteAsync(new UpdateProjectFilesCommand(WorkingDirectory), _progressFixCsProjectFiles));
-            // FixCsProjectFiles = new CapturingExceptionAsyncCommand(async _ => await commandHandler.ExecuteAsync(new UpdateProjectFilesCommand("D:\\Users\\coen\\Downloads\\temp\\")));
+            _commandHandler = commandHandler ?? throw new ArgumentNullException(nameof(commandHandler));
+            _fileSearch = fileSearch ?? throw new ArgumentNullException(nameof(fileSearch));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+
+            WorkingDirectory = _configuration.RootPath ?? string.Empty;
+
+            Sources = new ObservableCollection<ProjectViewModel>(CreateProjectViewModelsFromDirectory());
+
+        }
+
+        public ObservableCollection<ProjectViewModel> Sources
+        {
+            get => _sources;
+            private set
+            {
+                if (_sources == value)
+                    return;
+                _sources = value;
+                OnPropertyChanged();
+            }
         }
 
         public string FixCsProjectFilesLog
@@ -59,16 +86,66 @@
             }
         }
 
-        public CapturingExceptionAsyncCommand FixCsProjectFiles { get; }
-
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        [NotNull]
+        private IEnumerable<ProjectViewModel> CreateProjectViewModelsFromDirectory()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            var rootPath = _configuration.RootPath;
+            if (rootPath == null)
+                yield break;
+
+            if (!Directory.Exists(rootPath))
+                yield break;
+
+            var files = _fileSearch.FindFilesIncludingSubdirectories(rootPath, "*.sln");
+
+            foreach (var file in files)
+            {
+                DirectoryInfo rootDirectoryInfo;
+                try
+                {
+                    var filename = Path.GetFileName(file);
+                    if (filename == null)
+                        continue;
+
+                    if (Hash(filename) != "fTABLb)<0:PI1+6/8C%b5gd>4nRK{6SerJz+C)ik")
+                        continue;
+
+                    var fullDirectory = Path.GetDirectoryName(file);
+                    var folderName = Path.GetFileName(fullDirectory);
+
+                    if (folderName != "sln")
+                        continue;
+
+                    rootDirectoryInfo = Directory.GetParent(fullDirectory);
+                    if (rootDirectoryInfo == null)
+                        continue;
+                }
+                catch (Exception)
+                {
+                    // swallow
+                    continue;
+                }
+
+                yield return new ProjectViewModel(rootDirectoryInfo.Name, rootDirectoryInfo.FullName, _commandHandler);
+            }
+        }
+
+        private static string Hash([CanBeNull] string filename)
+        {
+            if (filename == null)
+                return string.Empty;
+
+            var crypt = new SHA256Managed();
+            var result = crypt.ComputeHash(
+                                           crypt.ComputeHash(
+                                                             new byte[] { 0, 1, 3, 5, 7, 9 }
+                                                                 .Concat(Encoding.ASCII.GetBytes(filename))
+                                                                 .ToArray())
+                                                .Concat(
+                                                        new byte[] {34, 22, 230, 33, 33, 0 })
+                                                .ToArray());
+
+            return Z85.Encode(result);
         }
     }
 }

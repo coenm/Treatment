@@ -1,14 +1,10 @@
 ﻿namespace Treatment.UI.ViewModel
 {
-    using Nito.Mvvm;
+    using System.Collections.ObjectModel;
 
     public interface IMainWindowViewModel
     {
-        string WorkingDirectory { get; set; }
-
-        CapturingExceptionAsyncCommand FixCsProjectFiles { get; }
-
-        string FixCsProjectFilesLog { get; set; }
+        ObservableCollection<ProjectViewModel> Sources { get; }
     }
 
 
@@ -17,9 +13,6 @@
     /// </remarks>>
     public abstract class DummyMainWindowViewModel : IMainWindowViewModel
     {
-        public abstract string WorkingDirectory { get; set; }
-
-        public abstract string FixCsProjectFilesLog { get; set; }
-
-        public abstract CapturingExceptionAsyncCommand FixCsProjectFiles { get; }
-    }}
+        public abstract ObservableCollection<ProjectViewModel> Sources { get; }
+    }
+}
