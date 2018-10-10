@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
+    using System.Threading.Tasks;
 
     using JetBrains.Annotations;
 
@@ -22,12 +23,12 @@
             _searchProviderFactories = versionControlProviderFactories.ToList();
         }
 
-        public List<VersionControlProviderInfo> Handle(GetAllVersionControlProvidersQuery query, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
+        public Task<List<VersionControlProviderInfo>> HandleAsync(GetAllVersionControlProvidersQuery query, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
         {
-            return _searchProviderFactories
-                   .OrderBy(f => f.Priority)
-                   .Select(f => new VersionControlProviderInfo(f.Priority, f.Name))
-                   .ToList();
+            return Task.FromResult(_searchProviderFactories
+                                   .OrderBy(f => f.Priority)
+                                   .Select(f => new VersionControlProviderInfo(f.Priority, f.Name))
+                                   .ToList());
         }
     }
 }

@@ -30,7 +30,7 @@
             return AsyncContext.Run(() => MainAsync(args));
         }
 
-        public static async Task<int> MainAsync(params string[] args)
+        private static async Task<int> MainAsync(params string[] args)
         {
             if (Bootstrapper == null)
                 Bootstrapper = new Bootstrapper();
@@ -40,7 +40,7 @@
 
             var result = Parser.Default.ParseArguments<RemoveNewAppConfigOptions, ListProvidersOptions, FixOptions>(args);
             if (result == null)
-                throw new Exception("no result");
+                throw new Exception("Something went wrong parsing the arguments..");
 
             if (result is Parsed<object> parsed)
             {
@@ -154,7 +154,7 @@
             return 0;
         }
 
-        private static Task<int> ListProvidersAsync(ListProvidersOptions options)
+        private static async Task<int> ListProvidersAsync(ListProvidersOptions options)
         {
             Bootstrapper.Container.Register(
                                             typeof(IHoldOnExitOption),
@@ -165,7 +165,7 @@
             {
                 var console = Bootstrapper.Container.GetInstance<IConsole>();
 
-                var searchProviders = Bootstrapper.ExecuteQuery(new GetAllSearchProvidersQuery());
+                var searchProviders = await Bootstrapper.ExecuteQueryAsync(new GetAllSearchProvidersQuery());
                 console.WriteLine("Installed search providers (ordered by priority):");
                 foreach (var f in searchProviders)
                     console.WriteLine($"- {f.Name}");
@@ -173,7 +173,7 @@
 
                 System.Console.WriteLine();
 
-                var versionControlProviders = Bootstrapper.ExecuteQuery(new GetAllVersionControlProvidersQuery());
+                var versionControlProviders = await Bootstrapper.ExecuteQueryAsync(new GetAllVersionControlProvidersQuery());
                 console.WriteLine("Installed version control providers (ordered by priority):");
                 foreach (var f in versionControlProviders)
                     console.WriteLine($"- {f.Name}");
@@ -186,7 +186,7 @@
                 }
             }
 
-            return Task.FromResult(0);
+            return 0;
         }
     }
 }

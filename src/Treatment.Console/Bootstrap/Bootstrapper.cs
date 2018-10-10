@@ -6,6 +6,8 @@
     using System.Linq;
     using System.Reflection;
     using System.Runtime.CompilerServices;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
@@ -34,13 +36,13 @@
 
         public object GetQueryHandler(Type queryType) => Container.GetInstance(CreateQueryHandlerType(queryType));
 
-        public TResult ExecuteQuery<TResult>(IQuery<TResult> query)
+        public async Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query, CancellationToken ct = default(CancellationToken))
         {
             var handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
 
             dynamic handler = Container.GetInstance(handlerType);
 
-            return handler.Handle((dynamic)query);
+            return await handler.HandleAsync((dynamic)query, null, ct);
         }
 
         public IEnumerable<Type> GetCommandTypes() => CoreBootstrap.GetCommandTypes();
