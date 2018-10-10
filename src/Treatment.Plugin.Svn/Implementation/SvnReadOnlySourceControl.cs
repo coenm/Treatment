@@ -12,7 +12,7 @@
     using Treatment.Contract.Plugin.SourceControl;
     using Treatment.Core.Interfaces;
 
-    public class SvnReadOnlySourceControl : IReadOnlySourceControl
+    internal class SvnReadOnlySourceControl : IReadOnlySourceControl
     {
         private readonly IFileSystem _filesystem;
 

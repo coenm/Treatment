@@ -10,8 +10,9 @@
     [UsedImplicitly]
     public class EverythingPackage : IPackage
     {
-        public void RegisterServices(Container container)
+        public void RegisterServices([NotNull] Container container)
         {
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if (container == null)
                 return;
 
