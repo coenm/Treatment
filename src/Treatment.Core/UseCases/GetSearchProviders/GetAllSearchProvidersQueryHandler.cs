@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
+    using System.Threading.Tasks;
 
     using JetBrains.Annotations;
 
@@ -22,7 +23,7 @@
             _searchProviderFactories = searchProviderFactories.ToList();
         }
 
-        public List<SearchProviderInfo> Handle(GetAllSearchProvidersQuery query, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
+        public Task<List<SearchProviderInfo>> HandleAsync(GetAllSearchProvidersQuery query, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
         {
             var orderedFactories = _searchProviderFactories.OrderBy(f => f.Priority).ToList();
 
@@ -31,7 +32,7 @@
             foreach (var f in orderedFactories)
                 result.Add(new SearchProviderInfo(f.Priority, f.Name));
 
-            return result;
+            return Task.FromResult(result);
         }
     }
 }

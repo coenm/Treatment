@@ -9,8 +9,6 @@
     using SimpleInjector;
 
     using Treatment.Console.Bootstrap;
-    using Treatment.Contract;
-    using Treatment.Contract.Commands;
     using Treatment.Contract.DTOs;
     using Treatment.Contract.Queries;
 
@@ -34,8 +32,13 @@
 
 
         [Fact]
-        public void Abcdef()
+        public async Task GetAllSearchProvidersQuery_ShouldReturnOnlyFileSystem_WhenEverythingPluginIsNotReferencedTest()
         {
+            // This test only succeeds when Everything plugin project is not referenced!
+            // Or when Everything is not installed.
+            // At this moment, we know this is the case. This test doesn't arrange this specifically
+
+            // arrange
             var bootstrapper = new Bootstrapper();
             bootstrapper.Init();
 
@@ -45,29 +48,14 @@
 
             using (bootstrapper.StartSession())
             {
-                var result = bootstrapper.ExecuteQuery(new GetAllSearchProvidersQuery());
+                // act
+                var result = await bootstrapper.ExecuteQueryAsync(new GetAllSearchProvidersQuery());
 
+                // assert
                 result.Should().BeEquivalentTo(new List<SearchProviderInfo>(1)
                                                    {
                                                        new SearchProviderInfo(int.MaxValue, "FileSystem")
                                                    });
-            }
-        }
-
-        [Fact(Skip="notworking")]
-        public async Task Abcdefaa()
-        {
-            var bootstrapper = new Bootstrapper();
-            bootstrapper.Init();
-
-            bootstrapper.RegisterDefaultOptions();
-            // bootstrapper.Container.Register(typeof(IHoldOnExitOption), () => new StaticOptions(VerboseLevel.Null, false, true, string.Empty), Lifestyle.Scoped);
-            // bootstrapper.VerifyContainer();
-
-            using (bootstrapper.StartSession())
-            {
-                var commandHandler = bootstrapper.Container.GetInstance<ICommandHandler<UpdateProjectFilesCommand>>();
-                await commandHandler.ExecuteAsync(new UpdateProjectFilesCommand(@"D:\tmp\aAP"));
             }
         }
     }
