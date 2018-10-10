@@ -1,5 +1,6 @@
 ﻿namespace Treatment.Core.DefaultPluginImplementation.FileSearch
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -17,8 +18,8 @@
             [NotNull] IEnumerable<ISearchProviderFactory> factories,
             [NotNull] ISearchProviderNameOption searchProviderName)
         {
-            _factories = factories;
-            _searchProviderName = searchProviderName;
+            _factories = factories ?? throw new ArgumentNullException(nameof(factories));
+            _searchProviderName = searchProviderName ?? throw new ArgumentNullException(nameof(searchProviderName));
         }
 
         [CanBeNull]
