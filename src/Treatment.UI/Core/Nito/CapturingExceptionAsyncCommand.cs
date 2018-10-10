@@ -1,7 +1,6 @@
 ﻿// async command doesn't capture exceptions (anymore)
 // https://github.com/StephenCleary/Mvvm.Async/issues/6#issuecomment-249306870
 
-
 // ReSharper disable once CheckNamespace
 namespace Nito.Mvvm
 {

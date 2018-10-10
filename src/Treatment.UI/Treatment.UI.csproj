@@ -155,10 +155,10 @@
     </Compile>
     <Compile Include="Core\AppConfigConfiguration.cs" />
     <Compile Include="Core\IConfiguration.cs" />
-    <Compile Include="Nito\CapturingExceptionAsyncCommand.cs" />
+    <Compile Include="Core\Nito\CapturingExceptionAsyncCommand.cs" />
     <Compile Include="ValueConverters\InverseBooleanConverter.cs" />
     <Compile Include="ValueConverters\NullVisibilityConverter.cs" />
-    <Compile Include="DelayCommandExecution.cs" />
+    <Compile Include="Core\DelayCommandExecution.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\IMainWindowViewModel.cs" />
     <Compile Include="ViewModel\ProjectViewModel.cs" />

@@ -1,4 +1,4 @@
-﻿namespace Treatment.UI
+﻿namespace Treatment.UI.Core
 {
     using System;
     using System.Diagnostics;
@@ -22,7 +22,6 @@
                 throw new ArgumentNullException(nameof(container));
 
             container.Register<IDelayService>(() => new RandomDelayService(1000, 5000), Lifestyle.Singleton);
-
 
             container.RegisterDecorator(
                                         typeof(ICommandHandler<>),
