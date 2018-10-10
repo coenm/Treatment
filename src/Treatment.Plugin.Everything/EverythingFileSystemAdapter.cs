@@ -2,13 +2,11 @@
 {
     using System.Linq;
 
-    using JetBrains.Annotations;
-
     using Treatment.Contract.Plugin.FileSearch;
 
-    public class EverythingFileSearchAdapter : IFileSearch
+    internal class EverythingFileSearchAdapter : IFileSearch
     {
-        public string[] FindFilesIncludingSubdirectories([NotNull]string rootPath, [NotNull]string mask)
+        public string[] FindFilesIncludingSubdirectories(string rootPath, string mask)
         {
             return Everything64Api.Search($"\"{rootPath}\" {mask}").ToArray();
         }

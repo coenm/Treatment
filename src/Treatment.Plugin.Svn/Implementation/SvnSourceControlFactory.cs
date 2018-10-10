@@ -3,7 +3,7 @@
     using Treatment.Contract.Plugin.SourceControl;
     using Treatment.Core.Interfaces;
 
-    public class SvnSourceControlFactory : ISourceControlAbstractFactory
+    internal class SvnSourceControlFactory : ISourceControlAbstractFactory
     {
         private readonly IFileSystem _filesystem;
 
