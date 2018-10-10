@@ -13,6 +13,7 @@ namespace Treatment.UI
     using SimpleInjector.Lifestyles;
 
     using Treatment.Core;
+    using Treatment.Core.DefaultPluginImplementation.FileSearch;
     using Treatment.UI.Core;
     using Treatment.UI.ViewModel;
 
@@ -56,6 +57,7 @@ namespace Treatment.UI
             if (container == null)
                 throw new ArgumentNullException(nameof(container));
 
+            container.RegisterSingleton<ISearchProviderNameOption, AppConfigConfiguration>();
             container.RegisterSingleton<IConfiguration, AppConfigConfiguration>();
         }
 

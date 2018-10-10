@@ -3,7 +3,9 @@
     using System;
     using System.Configuration;
 
-    internal class AppConfigConfiguration : IConfiguration
+    using Treatment.Core.DefaultPluginImplementation.FileSearch;
+
+    internal class AppConfigConfiguration : IConfiguration, ISearchProviderNameOption
     {
         public string RootPath
         {
@@ -12,6 +14,21 @@
                 try
                 {
                     return ConfigurationManager.AppSettings.Get("RootPath");
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+        }
+
+        public string SearchProviderName
+        {
+            get
+            {
+                try
+                {
+                    return ConfigurationManager.AppSettings.Get("SearchProviderName");
                 }
                 catch (Exception)
                 {
