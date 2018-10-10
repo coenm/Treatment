@@ -99,9 +99,8 @@ namespace Treatment.UI
                     app.Run(mainWindow);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
                 //Log the exception and exit
             }
         }
