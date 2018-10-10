@@ -19,14 +19,16 @@
 
     public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     {
-        [NotNull] private readonly ICommandHandler<UpdateProjectFilesCommand> _commandHandler;
+        [NotNull] private readonly ICommandHandler<UpdateProjectFilesCommand> _handlerUpdateProjectFilesCommand;
+        [NotNull] private readonly ICommandHandler<CleanAppConfigCommand> _handlerCleanAppConfigCommand;
         [NotNull] private readonly IFileSearch _fileSearch;
         [NotNull] private readonly IConfiguration _configuration;
+        [NotNull] private readonly IProgress<ProgressData> _progressFixCsProjectFiles;
         private string _workingDirectory;
-        private IProgress<ProgressData> _progressFixCsProjectFiles;
         private string _fixCsProjectFilesLog;
 
-        public MainWindowViewModel([NotNull] ICommandHandler<UpdateProjectFilesCommand> commandHandler,
+        public MainWindowViewModel([NotNull] ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand,
+                                   [NotNull] ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand,
                                    [NotNull] IFileSearch fileSearch,
                                    [NotNull] IConfiguration configuration)
         {
@@ -39,7 +41,8 @@
                                                                         FixCsProjectFilesLog += data.Message + Environment.NewLine;
                                                                     });
 
-            _commandHandler = commandHandler ?? throw new ArgumentNullException(nameof(commandHandler));
+            _handlerUpdateProjectFilesCommand = handlerUpdateProjectFilesCommand ?? throw new ArgumentNullException(nameof(handlerUpdateProjectFilesCommand));
+            _handlerCleanAppConfigCommand = handlerCleanAppConfigCommand ?? throw new ArgumentNullException(nameof(handlerCleanAppConfigCommand));
             _fileSearch = fileSearch ?? throw new ArgumentNullException(nameof(fileSearch));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 
@@ -115,7 +118,11 @@
                     continue;
                 }
 
-                yield return new ProjectViewModel(rootDirectoryInfo.Name, rootDirectoryInfo.FullName, _commandHandler);
+                yield return new ProjectViewModel(
+                                                  rootDirectoryInfo.Name,
+                                                  rootDirectoryInfo.FullName,
+                                                  _handlerUpdateProjectFilesCommand,
+                                                  _handlerCleanAppConfigCommand);
             }
         }
 
