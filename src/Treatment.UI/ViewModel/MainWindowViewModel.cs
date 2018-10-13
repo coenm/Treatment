@@ -16,6 +16,10 @@
     using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
     using Treatment.UI.Core;
+    using Treatment.UI.View;
+    using Treatment.UI.ViewModel.Settings;
+
+    using ICommand = System.Windows.Input.ICommand;
 
     public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     {
@@ -26,11 +30,14 @@
         [NotNull] private readonly IProgress<ProgressData> _progressFixCsProjectFiles;
         private string _workingDirectory;
         private string _fixCsProjectFilesLog;
+        private ProgressData? _inProgress;
 
-        public MainWindowViewModel([NotNull] ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand,
-                                   [NotNull] ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand,
-                                   [NotNull] IFileSearch fileSearch,
-                                   [NotNull] IConfiguration configuration)
+
+        public MainWindowViewModel(
+            [NotNull] ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand,
+            [NotNull] ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand,
+            [NotNull] IFileSearch fileSearch,
+            [NotNull] IConfiguration configuration)
         {
             _progressFixCsProjectFiles = new Progress<ProgressData>(data =>
                                                                     {
@@ -49,9 +56,48 @@
             WorkingDirectory = _configuration.RootPath ?? string.Empty;
 
             Sources = new ObservableCollection<ProjectViewModel>(CreateProjectViewModelsFromDirectory());
+
+            OpenSettings = new OpenSettingsCommand();
+        }
+
+        private class OpenSettingsCommand : ICommand
+        {
+            public bool CanExecute(object parameter) => true;
+
+            public void Execute(object parameter)
+            {
+                var viewModel = new SettingsViewModel();
+                var window = new SettingsWindow
+                                 {
+                                     DataContext = viewModel,
+                                     // Owner = parentWindow,
+                                 };
+
+                var result = window.ShowDialog();
+
+                // if (!result.HasValue || !result.Value)
+                // {
+                //     e.Result = false;
+                //     return;
+                // }
+                //
+                // e.Result = true;
+                // e.ProcessType = viewModel.ProcessType;
+                // e.Name = viewModel.ItemName;
+                // e.ExecutablePath = viewModel.ExecutablePath;
+                // e.Commandline = viewModel.Commandline;
+                // e.ProjectPath = viewModel.ProjectPath;
+                // e.BuildConfiguration = viewModel.BuildConfiguration;
+                // e.BuildPlatform = viewModel.BuildPlatform;
+            }
+
+
+            public event EventHandler CanExecuteChanged;
         }
 
         public ObservableCollection<ProjectViewModel> Sources { get; }
+
+        public ICommand OpenSettings { get; }
 
         public string FixCsProjectFilesLog
         {
@@ -73,6 +119,18 @@
                 if (_workingDirectory == value)
                     return;
                 _workingDirectory = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ProgressData? InProgress
+        {
+            get => _inProgress;
+            set
+            {
+                if (_inProgress == null && value == null)
+                    return;
+                _inProgress = value;
                 OnPropertyChanged();
             }
         }
@@ -138,7 +196,7 @@
                                                                  .Concat(Encoding.ASCII.GetBytes(filename))
                                                                  .ToArray())
                                                 .Concat(
-                                                        new byte[] {34, 22, 230, 33, 33, 0 })
+                                                        new byte[] { 34, 22, 230, 33, 33, 0 })
                                                 .ToArray());
 
             return Z85.Encode(result);

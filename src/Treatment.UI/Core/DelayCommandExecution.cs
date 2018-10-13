@@ -21,7 +21,7 @@
             if (container == null)
                 throw new ArgumentNullException(nameof(container));
 
-            container.Register<IDelayService>(() => new RandomDelayService(1000, 5000), Lifestyle.Singleton);
+            container.Register<IDelayService>(() => new RandomDelayService(2000, 10000), Lifestyle.Singleton);
 
             container.RegisterDecorator(
                                         typeof(ICommandHandler<>),

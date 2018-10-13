@@ -11,9 +11,11 @@
 
     public class ProjectViewModel : ViewModelBase
     {
-        public ProjectViewModel(string name, string path,
-                                [NotNull] ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand,
-                                [NotNull] ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand)
+        public ProjectViewModel(
+            string name,
+            string path,
+            [NotNull] ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand,
+            [NotNull] ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand)
         {
             if (handlerUpdateProjectFilesCommand == null)
                 throw new ArgumentNullException(nameof(handlerUpdateProjectFilesCommand));

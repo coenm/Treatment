@@ -16,6 +16,7 @@ namespace Treatment.UI
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
     using Treatment.UI.Core;
     using Treatment.UI.ViewModel;
+    using Treatment.UI.ViewModel.Settings;
 
     static class Program
     {
@@ -39,7 +40,10 @@ namespace Treatment.UI
 
             // Register your windows and view models:
             container.Register<View.MainWindow>();
+            container.Register<View.SettingsWindow>();
+
             container.Register<IMainWindowViewModel, MainWindowViewModel>();
+            container.Register<ISettingsViewModel, SettingsViewModel>();
 
             RegisterPlugins(container);
 
