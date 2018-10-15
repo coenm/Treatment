@@ -15,6 +15,7 @@ namespace Treatment.UI
     using Treatment.Core;
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
     using Treatment.UI.Core;
+    using Treatment.UI.View;
     using Treatment.UI.ViewModel;
     using Treatment.UI.ViewModel.Settings;
 
@@ -39,17 +40,20 @@ namespace Treatment.UI
             CoreBootstrap.Bootstrap(container);
 
             // Register your windows and view models:
-            container.Register<View.MainWindow>();
-            container.Register<View.SettingsWindow>();
+            container.Register<MainWindow>();
+            container.Register<IEntityEditorView<ApplicationSettings> , SettingsWindow>();
 
             container.Register<IMainWindowViewModel, MainWindowViewModel>();
-            container.Register<ISettingsViewModel, SettingsViewModel>();
+            container.Register<IEntityEditorViewModel<ApplicationSettings>, ApplicationSettingsViewModel>();
+
+            container.RegisterSingleton<IShowEntityInDialogProcessor, ShowEntityInDialogProcessor>();
 
             RegisterPlugins(container);
 
             RegisterUserInterfaceDependencies(container);
 
             RegisterDebug(container);
+
 
             container.Verify();
 
@@ -105,7 +109,7 @@ namespace Treatment.UI
                     app.Run(mainWindow);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 //Log the exception and exit
             }

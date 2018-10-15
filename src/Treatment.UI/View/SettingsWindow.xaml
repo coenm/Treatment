@@ -2,14 +2,13 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Treatment.UI.View"
         xmlns:vm="clr-namespace:Treatment.UI.ViewModel.Settings"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
         Title="SettingsWindow"
         Height="450" Width="800"
-        d:DataContext="{d:DesignInstance Type=vm:SettingsViewModel}"
+        d:DataContext="{d:DesignInstance Type=vm:ApplicationSettingsViewModel}"
 >
     <Grid>
 

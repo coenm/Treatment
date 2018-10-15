@@ -16,7 +16,6 @@
     using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
     using Treatment.UI.Core;
-    using Treatment.UI.View;
     using Treatment.UI.ViewModel.Settings;
 
     using ICommand = System.Windows.Input.ICommand;
@@ -27,6 +26,7 @@
         [NotNull] private readonly ICommandHandler<CleanAppConfigCommand> _handlerCleanAppConfigCommand;
         [NotNull] private readonly IFileSearch _fileSearch;
         [NotNull] private readonly IConfiguration _configuration;
+        [NotNull] private readonly IShowEntityInDialogProcessor _aap;
         [NotNull] private readonly IProgress<ProgressData> _progressFixCsProjectFiles;
         private string _workingDirectory;
         private string _fixCsProjectFilesLog;
@@ -37,7 +37,8 @@
             [NotNull] ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand,
             [NotNull] ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand,
             [NotNull] IFileSearch fileSearch,
-            [NotNull] IConfiguration configuration)
+            [NotNull] IConfiguration configuration,
+            [NotNull] IShowEntityInDialogProcessor aap)
         {
             _progressFixCsProjectFiles = new Progress<ProgressData>(data =>
                                                                     {
@@ -52,43 +53,30 @@
             _handlerCleanAppConfigCommand = handlerCleanAppConfigCommand ?? throw new ArgumentNullException(nameof(handlerCleanAppConfigCommand));
             _fileSearch = fileSearch ?? throw new ArgumentNullException(nameof(fileSearch));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _aap = aap;
 
             WorkingDirectory = _configuration.RootPath ?? string.Empty;
 
             Sources = new ObservableCollection<ProjectViewModel>(CreateProjectViewModelsFromDirectory());
 
-            OpenSettings = new OpenSettingsCommand();
+            OpenSettings = new OpenSettingsCommand(_aap);
         }
 
         private class OpenSettingsCommand : ICommand
         {
+            private readonly IShowEntityInDialogProcessor _aap;
+
+            public OpenSettingsCommand(IShowEntityInDialogProcessor aap)
+            {
+                _aap = aap;
+            }
+
             public bool CanExecute(object parameter) => true;
 
             public void Execute(object parameter)
             {
-                var viewModel = new SettingsViewModel();
-                var window = new SettingsWindow
-                                 {
-                                     DataContext = viewModel,
-                                     // Owner = parentWindow,
-                                 };
-
-                var result = window.ShowDialog();
-
-                // if (!result.HasValue || !result.Value)
-                // {
-                //     e.Result = false;
-                //     return;
-                // }
-                //
-                // e.Result = true;
-                // e.ProcessType = viewModel.ProcessType;
-                // e.Name = viewModel.ItemName;
-                // e.ExecutablePath = viewModel.ExecutablePath;
-                // e.Commandline = viewModel.Commandline;
-                // e.ProjectPath = viewModel.ProjectPath;
-                // e.BuildConfiguration = viewModel.BuildConfiguration;
-                // e.BuildPlatform = viewModel.BuildPlatform;
+                var applicationSettings = new ApplicationSettings();
+                var result1 = _aap.ShowDialog(applicationSettings);
             }
 
 
