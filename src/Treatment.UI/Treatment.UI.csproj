@@ -145,8 +145,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Core\IShowEntityInDialogProcessor.cs" />
-    <Compile Include="Core\ShowEntityInDialogProcessor.cs" />
+    <Compile Include="Core\UI\IShowEntityInDialogProcessor.cs" />
+    <Compile Include="Core\UI\ShowEntityInDialogProcessor.cs" />
     <Compile Include="ViewModel\Settings\ApplicationSettings.cs" />
     <Compile Include="ViewModel\Settings\ApplicationSettingsViewModel.cs" />
     <Compile Include="ViewModel\IEntityEditorViewModel.cs" />

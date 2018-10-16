@@ -165,7 +165,7 @@
             {
                 var console = Bootstrapper.Container.GetInstance<IConsole>();
 
-                var searchProviders = await Bootstrapper.ExecuteQueryAsync(new GetAllSearchProvidersQuery());
+                var searchProviders = await Bootstrapper.ExecuteQueryAsync(GetAllSearchProvidersQuery.Instance);
                 console.WriteLine("Installed search providers (ordered by priority):");
                 foreach (var f in searchProviders)
                     console.WriteLine($"- {f.Name}");
@@ -173,7 +173,7 @@
 
                 System.Console.WriteLine();
 
-                var versionControlProviders = await Bootstrapper.ExecuteQueryAsync(new GetAllVersionControlProvidersQuery());
+                var versionControlProviders = await Bootstrapper.ExecuteQueryAsync(GetAllVersionControlProvidersQuery.Instance);
                 console.WriteLine("Installed version control providers (ordered by priority):");
                 foreach (var f in versionControlProviders)
                     console.WriteLine($"- {f.Name}");

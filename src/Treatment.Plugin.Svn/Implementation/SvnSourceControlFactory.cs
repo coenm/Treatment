@@ -12,7 +12,7 @@
             _filesystem = filesystem;
         }
 
-        public string Name { get; } = "svn";
+        public string Name { get; } = "Svn";
 
         public int Priority => 10;
 

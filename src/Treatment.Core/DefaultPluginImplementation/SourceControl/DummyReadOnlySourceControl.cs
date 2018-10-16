@@ -10,19 +10,10 @@
 
         public static DummyReadOnlySourceControl Instance { get; } = new DummyReadOnlySourceControl();
 
-        public FileStatus GetFileStatus(string filename)
-        {
-            return FileStatus.Unknown;
-        }
+        public FileStatus GetFileStatus(string filename) => FileStatus.Unknown;
 
-        public string GetOriginal(string filename)
-        {
-            return null;
-        }
+        public string GetOriginal(string filename) => null;
 
-        public string GetModifications(string fileName)
-        {
-            return null;
-        }
+        public string GetModifications(string fileName) => null;
     }
 }

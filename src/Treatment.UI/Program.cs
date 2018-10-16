@@ -13,8 +13,10 @@ namespace Treatment.UI
     using SimpleInjector.Lifestyles;
 
     using Treatment.Core;
+    using Treatment.Core.Bootstrap;
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
     using Treatment.UI.Core;
+    using Treatment.UI.Core.UI;
     using Treatment.UI.View;
     using Treatment.UI.ViewModel;
     using Treatment.UI.ViewModel.Settings;

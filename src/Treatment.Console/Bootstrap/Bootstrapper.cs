@@ -19,6 +19,7 @@
     using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Core;
+    using Treatment.Core.Bootstrap;
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
     using Treatment.Core.Interfaces;
 
@@ -36,13 +37,9 @@
 
         public object GetQueryHandler(Type queryType) => Container.GetInstance(CreateQueryHandlerType(queryType));
 
-        public async Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query, CancellationToken ct = default(CancellationToken))
+        public Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query, CancellationToken ct = default(CancellationToken))
         {
-            var handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
-
-            dynamic handler = Container.GetInstance(handlerType);
-
-            return await handler.HandleAsync((dynamic)query, null, ct);
+            return Container.GetInstance<IQueryProcessor>().ExecuteQueryAsync(query, ct);
         }
 
         public IEnumerable<Type> GetCommandTypes() => CoreBootstrap.GetCommandTypes();
@@ -131,7 +128,6 @@
 
         private static Type CreateQueryHandlerType(Type queryType) =>
             typeof(IQueryHandler<,>).MakeGenericType(queryType, new QueryInfo(queryType).ResultType);
-
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

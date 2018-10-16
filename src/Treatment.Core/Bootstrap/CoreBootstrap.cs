@@ -1,4 +1,4 @@
-﻿namespace Treatment.Core
+﻿namespace Treatment.Core.Bootstrap
 {
     using System;
     using System.Collections.Generic;
@@ -67,6 +67,9 @@
             container.Register<ISourceControlNameOption, DefaultSourceControlNameOption>(Lifestyle.Singleton);
 
             container.Register<ICleanSingleAppConfig, CleanSingleAppConfig>(Lifestyle.Scoped); //??
+
+
+            container.RegisterSingleton<IQueryProcessor, QueryProcessor>();
         }
 
 

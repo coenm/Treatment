@@ -7,7 +7,7 @@
     [UsedImplicitly]
     internal class DummySourceControlFactory : ISourceControlAbstractFactory
     {
-        public string Name { get; } = "dummy";
+        public string Name { get; } = "None";
 
         public int Priority { get; } = int.MaxValue;
 

@@ -7,7 +7,7 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="Treatment"
         Height="450"
         Width="800"
         MinWidth="800"
@@ -28,7 +28,16 @@
       <RowDefinition Height="*"></RowDefinition>
     </Grid.RowDefinitions>
     <Label Grid.Row="0" Grid.Column="0" Content="Settings:"/>
-    <Button Content="Settings" Command="{Binding Path=OpenSettings}"  Grid.Row="0"  Grid.Column="1"/>
+    <Button Command="{Binding Path=OpenSettings}" Grid.Row="0" Grid.Column="1">
+      <Button.Content>
+        <StackPanel Orientation="Horizontal">
+          <fa:ImageAwesome MaxWidth="15" MaxHeight="15"
+                           Icon="wrench"
+                           VerticalAlignment="Center" HorizontalAlignment="Center"/>
+          <Label Padding="10,0,0,0">Configuration</Label>
+        </StackPanel>
+      </Button.Content>
+    </Button>
     <ListView Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" SelectionMode="Extended" ItemsSource="{Binding Path=Sources}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
       <ListView.View>
         <GridView >

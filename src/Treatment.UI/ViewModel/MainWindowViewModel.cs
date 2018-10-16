@@ -16,6 +16,7 @@
     using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
     using Treatment.UI.Core;
+    using Treatment.UI.Core.UI;
     using Treatment.UI.ViewModel.Settings;
 
     using ICommand = System.Windows.Input.ICommand;
@@ -64,21 +65,25 @@
 
         private class OpenSettingsCommand : ICommand
         {
-            private readonly IShowEntityInDialogProcessor _aap;
+            private readonly IShowEntityInDialogProcessor _showEntityInDialogProcessor;
 
-            public OpenSettingsCommand(IShowEntityInDialogProcessor aap)
+            public OpenSettingsCommand([NotNull] IShowEntityInDialogProcessor showEntityInDialogProcessor)
             {
-                _aap = aap;
+                _showEntityInDialogProcessor = showEntityInDialogProcessor ?? throw new ArgumentNullException(nameof(showEntityInDialogProcessor));
             }
 
             public bool CanExecute(object parameter) => true;
 
             public void Execute(object parameter)
             {
-                var applicationSettings = new ApplicationSettings();
-                var result1 = _aap.ShowDialog(applicationSettings);
-            }
+                var applicationSettings = new ApplicationSettings
+                                              {
+                                                  DelayExecution = true,
+                                                  SearchProviderName = "FileSystem"
+                                              };
 
+                var result1 = _showEntityInDialogProcessor.ShowDialog(applicationSettings);
+            }
 
             public event EventHandler CanExecuteChanged;
         }
