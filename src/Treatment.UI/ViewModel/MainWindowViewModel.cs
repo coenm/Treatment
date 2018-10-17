@@ -27,7 +27,6 @@
         [NotNull] private readonly ICommandHandler<CleanAppConfigCommand> _handlerCleanAppConfigCommand;
         [NotNull] private readonly IFileSearch _fileSearch;
         [NotNull] private readonly IConfiguration _configuration;
-        [NotNull] private readonly IShowEntityInDialogProcessor _aap;
         [NotNull] private readonly IProgress<ProgressData> _progressFixCsProjectFiles;
         private string _workingDirectory;
         private string _fixCsProjectFilesLog;
@@ -39,7 +38,7 @@
             [NotNull] ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand,
             [NotNull] IFileSearch fileSearch,
             [NotNull] IConfiguration configuration,
-            [NotNull] IShowEntityInDialogProcessor aap)
+            [NotNull] IShowEntityInDialogProcessor showInDialogProcessor)
         {
             _progressFixCsProjectFiles = new Progress<ProgressData>(data =>
                                                                     {
@@ -54,38 +53,14 @@
             _handlerCleanAppConfigCommand = handlerCleanAppConfigCommand ?? throw new ArgumentNullException(nameof(handlerCleanAppConfigCommand));
             _fileSearch = fileSearch ?? throw new ArgumentNullException(nameof(fileSearch));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            _aap = aap;
+            if (showInDialogProcessor == null)
+                throw new ArgumentNullException(nameof(showInDialogProcessor));
 
             WorkingDirectory = _configuration.RootPath ?? string.Empty;
 
             Sources = new ObservableCollection<ProjectViewModel>(CreateProjectViewModelsFromDirectory());
 
-            OpenSettings = new OpenSettingsCommand(_aap);
-        }
-
-        private class OpenSettingsCommand : ICommand
-        {
-            private readonly IShowEntityInDialogProcessor _showEntityInDialogProcessor;
-
-            public OpenSettingsCommand([NotNull] IShowEntityInDialogProcessor showEntityInDialogProcessor)
-            {
-                _showEntityInDialogProcessor = showEntityInDialogProcessor ?? throw new ArgumentNullException(nameof(showEntityInDialogProcessor));
-            }
-
-            public bool CanExecute(object parameter) => true;
-
-            public void Execute(object parameter)
-            {
-                var applicationSettings = new ApplicationSettings
-                                              {
-                                                  DelayExecution = true,
-                                                  SearchProviderName = "FileSystem"
-                                              };
-
-                var result1 = _showEntityInDialogProcessor.ShowDialog(applicationSettings);
-            }
-
-            public event EventHandler CanExecuteChanged;
+            OpenSettings = new OpenSettingsCommand(showInDialogProcessor, _configuration.RootPath ?? string.Empty);
         }
 
         public ObservableCollection<ProjectViewModel> Sources { get; }
@@ -193,6 +168,38 @@
                                                 .ToArray());
 
             return Z85.Encode(result);
+        }
+
+        private class OpenSettingsCommand : ICommand
+        {
+            private readonly IShowEntityInDialogProcessor _showEntityInDialogProcessor;
+            [NotNull] private readonly string _rootPath;
+
+            public OpenSettingsCommand([NotNull] IShowEntityInDialogProcessor showEntityInDialogProcessor, [NotNull] string rootPath)
+            {
+                _showEntityInDialogProcessor = showEntityInDialogProcessor ?? throw new ArgumentNullException(nameof(showEntityInDialogProcessor));
+                _rootPath = rootPath ?? throw new ArgumentNullException(nameof(rootPath));
+            }
+
+            public event EventHandler CanExecuteChanged;
+
+            public bool CanExecute(object parameter) => true;
+
+            public void Execute(object parameter)
+            {
+                var applicationSettings = new ApplicationSettings
+                                              {
+                                                  DelayExecution = true,
+                                                  SearchProviderName = "FileSystem",
+                                                  VersionControlProviderName = "SVN",
+                                                  RootDirectory = _rootPath
+                                              };
+
+                var result = _showEntityInDialogProcessor.ShowDialog(applicationSettings);
+                if (result == true)
+                {
+                }
+            }
         }
     }
 }

@@ -20,8 +20,9 @@
         private bool _delayExecution;
         private string _searchProviderName;
         private string _versionControlProviderName;
+        private string _rootDirectory;
 
-
+        [UsedImplicitly]
         public ApplicationSettingsViewModel([NotNull] IQueryProcessor queryProcessor)
         {
             if (queryProcessor == null)
@@ -69,18 +70,6 @@
         public NotifyTask GetSearchProvidersTask => _getSearchProvidersCommand.Execution;
         public NotifyTask GetVersionControlProvidersTask => _getVersionControlProvidersCommand.Execution;
 
-        public void Initialize(ApplicationSettings entity)
-        {
-            _entity = entity ?? throw new ArgumentNullException(nameof(entity));
-
-            DelayExecution = entity.DelayExecution;
-            SearchProviderName = entity.SearchProviderName;
-
-
-            ((System.Windows.Input.ICommand)_getSearchProvidersCommand).Execute(null);
-            ((System.Windows.Input.ICommand)_getVersionControlProvidersCommand).Execute(null);
-        }
-
         public bool DelayExecution
         {
             get => _delayExecution;
@@ -89,6 +78,18 @@
                 if (_delayExecution == value)
                     return;
                 _delayExecution = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string RootDirectory
+        {
+            get => _rootDirectory;
+            set
+            {
+                if (_rootDirectory == value)
+                    return;
+                _rootDirectory = value;
                 OnPropertyChanged();
             }
         }
@@ -104,6 +105,7 @@
                 OnPropertyChanged();
             }
         }
+
         public ObservableCollection<string> SearchProviderNames { get; }
 
         public string VersionControlProviderName
@@ -120,15 +122,27 @@
 
         public ObservableCollection<string> VersionControlProviderNames { get; }
 
+        public void Initialize(ApplicationSettings entity)
+        {
+            _entity = entity ?? throw new ArgumentNullException(nameof(entity));
+
+            DelayExecution = entity.DelayExecution;
+            SearchProviderName = entity.SearchProviderName;
+            VersionControlProviderName = entity.VersionControlProviderName;
+            RootDirectory = entity.RootDirectory;
+
+            ((System.Windows.Input.ICommand)_getSearchProvidersCommand).Execute(null);
+            ((System.Windows.Input.ICommand)_getVersionControlProvidersCommand).Execute(null);
+        }
 
         public ApplicationSettings Export()
         {
             return new ApplicationSettings
                        {
                            DelayExecution = DelayExecution,
-                           SearchProviderName = SearchProviderName
+                           SearchProviderName = SearchProviderName,
+                           RootDirectory = RootDirectory
                        };
         }
-
     }
 }
