@@ -28,10 +28,6 @@
         [NotNull] private readonly IFileSearch _fileSearch;
         [NotNull] private readonly IConfiguration _configuration;
         [NotNull] private readonly IProgress<ProgressData> _progressFixCsProjectFiles;
-        private string _workingDirectory;
-        private string _fixCsProjectFilesLog;
-        private ProgressData? _inProgress;
-
 
         public MainWindowViewModel(
             [NotNull] ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand,
@@ -69,38 +65,20 @@
 
         public string FixCsProjectFilesLog
         {
-            get => _fixCsProjectFilesLog;
-            set
-            {
-                if (value == _fixCsProjectFilesLog)
-                    return;
-                _fixCsProjectFilesLog = value;
-                OnPropertyChanged();
-            }
+            get => Properties.Get(string.Empty);
+            set => Properties.Set(value);
         }
 
         public string WorkingDirectory
         {
-            get => _workingDirectory;
-            set
-            {
-                if (_workingDirectory == value)
-                    return;
-                _workingDirectory = value;
-                OnPropertyChanged();
-            }
+            get => Properties.Get(string.Empty);
+            set => Properties.Set(value);
         }
 
         public ProgressData? InProgress
         {
-            get => _inProgress;
-            set
-            {
-                if (_inProgress == null && value == null)
-                    return;
-                _inProgress = value;
-                OnPropertyChanged();
-            }
+            get => Properties.Get<ProgressData>(null);
+            set => Properties.Set(value);
         }
 
         [NotNull]

@@ -17,10 +17,6 @@
         [NotNull] private readonly CapturingExceptionAsyncCommand _getSearchProvidersCommand;
         [NotNull] private readonly CapturingExceptionAsyncCommand _getVersionControlProvidersCommand;
         [CanBeNull] private ApplicationSettings _entity;
-        private bool _delayExecution;
-        private string _searchProviderName;
-        private string _versionControlProviderName;
-        private string _rootDirectory;
 
         [UsedImplicitly]
         public ApplicationSettingsViewModel([NotNull] IQueryProcessor queryProcessor)
@@ -72,52 +68,28 @@
 
         public bool DelayExecution
         {
-            get => _delayExecution;
-            set
-            {
-                if (_delayExecution == value)
-                    return;
-                _delayExecution = value;
-                OnPropertyChanged();
-            }
+            get => Properties.Get(false);
+            set => Properties.Set(value);
         }
 
         public string RootDirectory
         {
-            get => _rootDirectory;
-            set
-            {
-                if (_rootDirectory == value)
-                    return;
-                _rootDirectory = value;
-                OnPropertyChanged();
-            }
+            get => Properties.Get(string.Empty);
+            set => Properties.Set(value);
         }
 
         public string SearchProviderName
         {
-            get => _searchProviderName;
-            set
-            {
-                if (_searchProviderName == value)
-                    return;
-                _searchProviderName = value;
-                OnPropertyChanged();
-            }
+            get => Properties.Get(string.Empty);
+            set => Properties.Set(value);
         }
 
         public ObservableCollection<string> SearchProviderNames { get; }
 
         public string VersionControlProviderName
         {
-            get => _versionControlProviderName;
-            set
-            {
-                if (_versionControlProviderName == value)
-                    return;
-                _versionControlProviderName = value;
-                OnPropertyChanged();
-            }
+            get => Properties.Get(string.Empty);
+            set => Properties.Set(value);
         }
 
         public ObservableCollection<string> VersionControlProviderNames { get; }
