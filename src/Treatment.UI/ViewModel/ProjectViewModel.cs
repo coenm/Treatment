@@ -9,8 +9,10 @@
     using Treatment.Contract;
     using Treatment.Contract.Commands;
 
-    public class ProjectViewModel : ViewModelBase
+    public class ProjectViewModel : ViewModelBase, IDisposable
     {
+        [NotNull] private readonly ExecutingAsyncCommandsComposition _commandWatch;
+
         public ProjectViewModel(
             string name,
             string path,
@@ -24,8 +26,24 @@
 
             Name = name;
             Path = path;
-            FixCsProjectFiles = new CapturingExceptionAsyncCommand(async _ => await handlerUpdateProjectFilesCommand.ExecuteAsync(new UpdateProjectFilesCommand(Path)));
-            RemoveNewAppConfig = new CapturingExceptionAsyncCommand(async _ => await handlerCleanAppConfigCommand.ExecuteAsync(new CleanAppConfigCommand(Path)));
+            FixCsProjectFiles = new CapturingExceptionAsyncCommand(
+                                                                   async _ => await handlerUpdateProjectFilesCommand.ExecuteAsync(new UpdateProjectFilesCommand(Path)),
+                                                                   _ => TaskRunning == false);
+
+            RemoveNewAppConfig = new CapturingExceptionAsyncCommand(
+                                                                    async _ => await handlerCleanAppConfigCommand.ExecuteAsync(new CleanAppConfigCommand(Path)),
+                                                                    _ => TaskRunning == false);
+
+            _commandWatch = new ExecutingAsyncCommandsComposition();
+            _commandWatch.WatchCommand(FixCsProjectFiles);
+            _commandWatch.WatchCommand(RemoveNewAppConfig);
+            _commandWatch.RegisterAction(value => TaskRunning = value);
+        }
+
+        public bool TaskRunning
+        {
+            get => Properties.Get(false);
+            set => Properties.Set(value);
         }
 
         public string Name { get; }
@@ -37,5 +55,10 @@
 
         [UsedImplicitly]
         public CapturingExceptionAsyncCommand RemoveNewAppConfig { get; }
+
+        public void Dispose()
+        {
+            _commandWatch.Dispose();
+        }
     }
 }

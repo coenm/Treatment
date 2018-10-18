@@ -50,7 +50,7 @@
                   <Button Margin="0,0,0,0" Command="{Binding Path=FixCsProjectFiles}" Content="Fix $(..)" FontSize="10" Width="80" />
                   <!-- <fa:ImageAwesome Margin="10,0,0,0" Height ="10" Icon="Spinner" Spin="True" SpinDuration="2" Visibility="{Binding FixCsProjectFiles.IsExecuting, Converter={StaticResource BooleanToVisibilityConverter}}"/> -->
                   <Button Margin="10,0,0,0" Command="{Binding Path=RemoveNewAppConfig}" Content="Delete App.config" FontSize="10" Width="100" />
-                  <!-- <fa:ImageAwesome Margin="10,0,0,0" Height ="10"  Icon="Spinner" Spin="True" SpinDuration="2" Visibility="{Binding RemoveNewAppConfig.IsExecuting, Converter={StaticResource BooleanToVisibilityConverter}}"/> -->
+                  <fa:ImageAwesome Margin="10,0,0,0" Height ="10"  Icon="Spinner" Spin="True" SpinDuration="2" Visibility="{Binding TaskRunning, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 </StackPanel>
               </DataTemplate>
             </GridViewColumn.CellTemplate>
@@ -105,8 +105,8 @@
                              BorderThickness="0"
                              Background="Transparent"
                              Foreground="Orange"
-                             Visibility="{Binding Path=Content.FixCsProjectFiles.IsExecuting, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanVisibilityConverter}, ConverterParameter=Hidden}"
-                             IsIndeterminate="{Binding Path=Content.FixCsProjectFiles.IsExecuting, RelativeSource={RelativeSource TemplatedParent}}" />
+                             Visibility="{Binding Path=Content.TaskRunning, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanVisibilityConverter}, ConverterParameter=Hidden}"
+                             IsIndeterminate="{Binding Path=Content.TaskRunning, RelativeSource={RelativeSource TemplatedParent}}" />
                 </Grid>
               </ControlTemplate>
             </Setter.Value>

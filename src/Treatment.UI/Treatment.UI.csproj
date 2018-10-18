@@ -150,6 +150,7 @@
     </ApplicationDefinition>
     <Compile Include="Core\UI\IShowEntityInDialogProcessor.cs" />
     <Compile Include="Core\UI\ShowEntityInDialogProcessor.cs" />
+    <Compile Include="ViewModel\ExecutingAsyncCommandsComposition.cs" />
     <Compile Include="ViewModel\Settings\ApplicationSettings.cs" />
     <Compile Include="ViewModel\Settings\ApplicationSettingsViewModel.cs" />
     <Compile Include="ViewModel\IEntityEditorViewModel.cs" />
