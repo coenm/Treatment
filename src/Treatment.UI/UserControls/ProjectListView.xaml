@@ -9,7 +9,7 @@
              xmlns:valueConverters="clr-namespace:Treatment.UI.ValueConverters"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800"
-             d:DataContext="{d:DesignInstance vm:DummyMainWindowViewModel}">
+             d:DataContext="{d:DesignInstance vm:ProjectCollectionViewModel}">
   <UserControl.Resources>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <valueConverters:NullVisibilityConverter x:Key="NullVisibilityConverter" />
@@ -17,7 +17,7 @@
     <valueConverters:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
   </UserControl.Resources>
 
-  <ListView SelectionMode="Extended" ItemsSource="{Binding Path=Sources}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+  <ListView SelectionMode="Extended" ItemsSource="{Binding Path=Projects}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
     <ListView.View>
       <GridView >
         <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Path=Name}" />

@@ -153,7 +153,8 @@
     <Compile Include="UserControls\ProjectListView.xaml.cs">
       <DependentUpon>ProjectListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\ExecutingAsyncCommandsComposition.cs" />
+    <Compile Include="Core\ExecutingAsyncCommandsComposition.cs" />
+    <Compile Include="ViewModel\ProjectCollectionViewModel.cs" />
     <Compile Include="ViewModel\Settings\ApplicationSettings.cs" />
     <Compile Include="ViewModel\Settings\ApplicationSettingsViewModel.cs" />
     <Compile Include="ViewModel\IEntityEditorViewModel.cs" />
@@ -244,6 +245,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\Configuration\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

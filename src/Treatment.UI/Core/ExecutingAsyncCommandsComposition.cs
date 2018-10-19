@@ -1,16 +1,18 @@
-﻿namespace Treatment.UI.ViewModel
+﻿namespace Treatment.UI.Core
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
 
+    using JetBrains.Annotations;
+
     using Nito.Mvvm;
 
     internal class ExecutingAsyncCommandsComposition : IDisposable
     {
-        private readonly List<CapturingExceptionAsyncCommand> _commands;
-        private readonly List<Action<bool>> _actions;
+        [NotNull] private readonly List<CapturingExceptionAsyncCommand> _commands;
+        [NotNull] private readonly List<Action<bool>> _actions;
 
         public ExecutingAsyncCommandsComposition()
         {

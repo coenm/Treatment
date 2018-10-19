@@ -39,6 +39,6 @@
         </StackPanel>
       </Button.Content>
     </Button>
-    <userControls:ProjectListView Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" DataContext="{Binding Path=.}"/>
+    <userControls:ProjectListView Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" DataContext="{Binding Path=ProjectCollection}"/>
   </Grid>
 </Window>
