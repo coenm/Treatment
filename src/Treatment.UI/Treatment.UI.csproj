@@ -150,6 +150,9 @@
     </ApplicationDefinition>
     <Compile Include="Core\UI\IShowEntityInDialogProcessor.cs" />
     <Compile Include="Core\UI\ShowEntityInDialogProcessor.cs" />
+    <Compile Include="UserControls\ProjectListView.xaml.cs">
+      <DependentUpon>ProjectListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\ExecutingAsyncCommandsComposition.cs" />
     <Compile Include="ViewModel\Settings\ApplicationSettings.cs" />
     <Compile Include="ViewModel\Settings\ApplicationSettingsViewModel.cs" />
@@ -158,6 +161,10 @@
     <Compile Include="View\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="UserControls\ProjectListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

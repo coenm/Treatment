@@ -6,6 +6,7 @@
         xmlns:valueConverters="clr-namespace:Treatment.UI.ValueConverters"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:userControls="clr-namespace:Treatment.UI.UserControls"
         mc:Ignorable="d"
         Title="Treatment"
         Height="450"
@@ -38,81 +39,6 @@
         </StackPanel>
       </Button.Content>
     </Button>
-    <ListView Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" SelectionMode="Extended" ItemsSource="{Binding Path=Sources}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-      <ListView.View>
-        <GridView >
-          <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Path=Name}" />
-          <GridViewColumn Header="Path" Width="200" DisplayMemberBinding="{Binding Path=Path}" />
-          <GridViewColumn Header="Actions" Width="300">
-            <GridViewColumn.CellTemplate>
-              <DataTemplate DataType="{x:Type vm:ProjectViewModel}">
-                <StackPanel Orientation="Horizontal">
-                  <Button Margin="0,0,0,0" Command="{Binding Path=FixCsProjectFiles}" Content="Fix $(..)" FontSize="10" Width="80" />
-                  <!-- <fa:ImageAwesome Margin="10,0,0,0" Height ="10" Icon="Spinner" Spin="True" SpinDuration="2" Visibility="{Binding FixCsProjectFiles.IsExecuting, Converter={StaticResource BooleanToVisibilityConverter}}"/> -->
-                  <Button Margin="10,0,0,0" Command="{Binding Path=RemoveNewAppConfig}" Content="Delete App.config" FontSize="10" Width="100" />
-                  <fa:ImageAwesome Margin="10,0,0,0" Height ="10"  Icon="Spinner" Spin="True" SpinDuration="2" Visibility="{Binding TaskRunning, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </StackPanel>
-              </DataTemplate>
-            </GridViewColumn.CellTemplate>
-          </GridViewColumn>
-        </GridView>
-      </ListView.View>
-
-      <!--<ListViewItem>
-        <ListViewItem.Template>
-          <ControlTemplate TargetType='{x:Type ListViewItem}'>
-            <Grid Width="{TemplateBinding Width}">
-              <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="2"></RowDefinition>
-              </Grid.RowDefinitions>
-              ~1~ <StackPanel Background="{TemplateBinding Background}" Width="{Binding Width, RelativeSource={RelativeSource TemplatedParent}}"> @1@
-              <GridViewRowPresenter Grid.Row="0" Width="{Binding Width, RelativeSource={RelativeSource TemplatedParent}}" Content="{TemplateBinding Content}" Columns="{TemplateBinding GridView.ColumnCollection}"/>
-              <ProgressBar Grid.Row="1" Minimum="0" Maximum="100"
-                           Focusable="False"
-                           Height="2"
-                           BorderThickness="0"
-                           Background="Transparent"
-                           Foreground="Orange"
-                           Visibility="{Binding Path=Content.FixCsProjectFiles.IsExecuting, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanVisibilityConverter}, ConverterParameter=Hidden}"
-                           IsIndeterminate="{Binding Path=Content.FixCsProjectFiles.IsExecuting, RelativeSource={RelativeSource TemplatedParent}}" />
-              ~1~ </StackPanel> @1@
-              ~1~ HorizontalContentAlignment="Stretch" @1@
-            </Grid>
-          </ControlTemplate>
-        </ListViewItem.Template>
-      </ListViewItem>-->
-      <!--<ListView.Template>
-      </ListView.Template>-->
-
-      <ListView.ItemContainerStyle>
-        <Style TargetType="{x:Type ListViewItem}">
-          <!-- <Setter Property="Height" Value="20" /> -->
-          <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-          <Setter Property="VerticalContentAlignment" Value="Stretch" />
-          <Setter Property="Template">
-            <Setter.Value>
-              <ControlTemplate TargetType='{x:Type ListViewItem}'>
-                <Grid Width="{TemplateBinding Width}" >
-                  <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="2"></RowDefinition>
-                  </Grid.RowDefinitions>
-                  <GridViewRowPresenter Grid.Row="0" Width="{Binding Width, RelativeSource={RelativeSource TemplatedParent}}" Content="{TemplateBinding Content}" Columns="{TemplateBinding GridView.ColumnCollection}"/>
-                  <ProgressBar Grid.Row="1" Minimum="0" Maximum="100"
-                             Focusable="False"
-                             Height="2"
-                             BorderThickness="0"
-                             Background="Transparent"
-                             Foreground="Orange"
-                             Visibility="{Binding Path=Content.TaskRunning, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanVisibilityConverter}, ConverterParameter=Hidden}"
-                             IsIndeterminate="{Binding Path=Content.TaskRunning, RelativeSource={RelativeSource TemplatedParent}}" />
-                </Grid>
-              </ControlTemplate>
-            </Setter.Value>
-          </Setter>
-      </Style>
-      </ListView.ItemContainerStyle>
-    </ListView>
+    <userControls:ProjectListView Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" DataContext="{Binding Path=.}"/>
   </Grid>
 </Window>
