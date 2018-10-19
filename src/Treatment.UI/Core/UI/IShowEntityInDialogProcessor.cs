@@ -2,6 +2,7 @@
 {
     public interface IShowEntityInDialogProcessor
     {
-        bool? ShowDialog<TEntity>(TEntity entity) where TEntity : class;
+        bool? ShowDialog<TEntity>(TEntity entity)
+            where TEntity : class;
     }
 }

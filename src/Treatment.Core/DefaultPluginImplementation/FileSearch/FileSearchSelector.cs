@@ -11,8 +11,10 @@
     [UsedImplicitly]
     internal class FileSearchSelector : IFileSearchSelector
     {
-        [NotNull] private readonly IEnumerable<ISearchProviderFactory> _factories;
-        [NotNull] private readonly ISearchProviderNameOption _searchProviderName;
+        [NotNull]
+        private readonly IEnumerable<ISearchProviderFactory> _factories;
+        [NotNull]
+        private readonly ISearchProviderNameOption _searchProviderName;
 
         public FileSearchSelector(
             [NotNull] IEnumerable<ISearchProviderFactory> factories,

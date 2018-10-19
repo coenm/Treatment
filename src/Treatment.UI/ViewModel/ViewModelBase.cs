@@ -8,7 +8,10 @@
 
     public abstract class ViewModelBase : INotifyPropertyChanged
     {
-        [NotNull] protected readonly PropertyHelper Properties;
+        #pragma warning disable SA1401 // Fields must be private
+        [NotNull]
+        protected readonly PropertyHelper Properties;
+        #pragma warning restore SA1401 // Fields must be private
 
         protected ViewModelBase()
         {

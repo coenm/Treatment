@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
+    <CodeAnalysisRuleSet>..\..\Treatment.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
     <StartupObject>Treatment.UI.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
@@ -44,7 +47,6 @@
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
@@ -54,7 +56,6 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
@@ -154,6 +155,7 @@
       <DependentUpon>ProjectListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\ExecutingAsyncCommandsComposition.cs" />
+    <Compile Include="ValueConverters\BooleanVisibilityConverter.cs" />
     <Compile Include="ViewModel\ProjectCollectionViewModel.cs" />
     <Compile Include="ViewModel\Settings\ApplicationSettings.cs" />
     <Compile Include="ViewModel\Settings\ApplicationSettingsViewModel.cs" />

@@ -66,24 +66,25 @@
                                                     _cleanSingleAppConfig);
         }
 
-        // [Fact]
-        // public void testNameTest()
-        // {
-        //     // arrange
-        //     _fs.Add(DIR + "/a/file1.csproj", FileStatus.Unchanged);
-        //     _fs.Add(DIR + "/a/app.config", FileStatus.Unchanged);
-        //     _fs.Add(DIR + "/b/file1.csproj", FileStatus.Unchanged);
-        //     _fs.Add(DIR + "/b/App.config", FileStatus.Unchanged);
-        //     _fs.Add(DIR + "/c/file1.csproj", FileStatus.Unchanged);
-        //     _fs.Add(DIR + "/d/App.config", FileStatus.Unchanged);
-        //
-        //     // act
-        //     _sut.Execute(_cleanAppConfigCommand);
-        //
-        //     // assert
-        //     Approvals.Verify(_actionsHappened);
-        // }
+        /*
+        [Fact]
+        public void testNameTest()
+        {
+            // arrange
+            _fs.Add(DIR + "/a/file1.csproj", FileStatus.Unchanged);
+            _fs.Add(DIR + "/a/app.config", FileStatus.Unchanged);
+            _fs.Add(DIR + "/b/file1.csproj", FileStatus.Unchanged);
+            _fs.Add(DIR + "/b/App.config", FileStatus.Unchanged);
+            _fs.Add(DIR + "/c/file1.csproj", FileStatus.Unchanged);
+            _fs.Add(DIR + "/d/App.config", FileStatus.Unchanged);
 
+            // act
+            _sut.Execute(_cleanAppConfigCommand);
+
+            // assert
+            Approvals.Verify(_actionsHappened);
+        }
+        */
 
         [Fact]
         public async Task Execute_WhenCsProjIsModifiedAndAppConfigIsNew_ExecutesCleanSingleAppConfigTest()
@@ -114,9 +115,9 @@
             A.CallTo(_cleanSingleAppConfig).MustNotHaveHappened();
         }
 
-
         // ReSharper disable once MemberCanBePrivate.Global
         // Justification: Used by xUnit MemberData.
+        #pragma warning disable SA1201 // Elements must appear in the correct order
         public static IEnumerable<object[]> FileStatesExceptNew
         {
             [UsedImplicitly]
@@ -127,5 +128,6 @@
                             .Select(item => new object[] { item.Value });
             }
         }
+        #pragma warning restore SA1201 // Elements must appear in the correct order
     }
 }

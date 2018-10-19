@@ -14,9 +14,14 @@
 
     public class ApplicationSettingsViewModel : ViewModelBase, IEntityEditorViewModel<ApplicationSettings>
     {
-        [NotNull] private readonly CapturingExceptionAsyncCommand _getSearchProvidersCommand;
-        [NotNull] private readonly CapturingExceptionAsyncCommand _getVersionControlProvidersCommand;
-        [CanBeNull] private ApplicationSettings _entity;
+        [NotNull]
+        private readonly CapturingExceptionAsyncCommand _getSearchProvidersCommand;
+
+        [NotNull]
+        private readonly CapturingExceptionAsyncCommand _getVersionControlProvidersCommand;
+
+        [CanBeNull]
+        private ApplicationSettings _entity;
 
         [UsedImplicitly]
         public ApplicationSettingsViewModel([NotNull] IQueryProcessor queryProcessor)
@@ -64,6 +69,7 @@
         }
 
         public NotifyTask GetSearchProvidersTask => _getSearchProvidersCommand.Execution;
+
         public NotifyTask GetVersionControlProvidersTask => _getVersionControlProvidersCommand.Execution;
 
         public bool DelayExecution

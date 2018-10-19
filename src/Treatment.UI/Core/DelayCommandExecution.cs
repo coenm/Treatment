@@ -29,7 +29,8 @@
                                         Lifestyle.Scoped);
         }
 
-        private class CommandDelayDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : ICommand
+        private class CommandDelayDecorator<TCommand> : ICommandHandler<TCommand>
+            where TCommand : ICommand
         {
             private readonly ICommandHandler<TCommand> _decoratee;
             private readonly IDelayService _delayService;
@@ -53,14 +54,16 @@
 
         private interface IDelayService
         {
-            Task DelayAsync<TCommand>([NotNull] TCommand command, CancellationToken ct = default(CancellationToken)) where TCommand : ICommand;
+            Task DelayAsync<TCommand>([NotNull] TCommand command, CancellationToken ct = default(CancellationToken))
+                where TCommand : ICommand;
         }
 
         private class RandomDelayService : IDelayService
         {
             private readonly int _minMilliseconds;
             private readonly int _maxMilliseconds;
-            [NotNull] private readonly Random _random;
+            [NotNull]
+            private readonly Random _random;
 
             public RandomDelayService(int minMilliseconds, int maxMilliseconds)
             {
@@ -69,7 +72,8 @@
                 _random = new Random();
             }
 
-            public async Task DelayAsync<TCommand>(TCommand command, CancellationToken ct = default(CancellationToken)) where TCommand : ICommand
+            public async Task DelayAsync<TCommand>(TCommand command, CancellationToken ct = default(CancellationToken))
+                where TCommand : ICommand
             {
                 var millisecondsDelay = _random.Next(_minMilliseconds, _maxMilliseconds);
                 await Task.Delay(millisecondsDelay, ct).ConfigureAwait(false);

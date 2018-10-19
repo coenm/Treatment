@@ -20,14 +20,14 @@
         }
 
         /// <summary>
-        ///
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entity"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException">thrown when <paramref name="entity"/> is null</exception>
         /// <remarks>inspired by https://stackoverflow.com/questions/28295804/simple-injector-inject-multiple-dependency-in-baseclass/28310234#28310234 </remarks>
-        public bool? ShowDialog<TEntity>([NotNull] TEntity entity) where TEntity : class
+        public bool? ShowDialog<TEntity>([NotNull] TEntity entity)
+            where TEntity : class
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));

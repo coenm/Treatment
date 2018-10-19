@@ -112,6 +112,7 @@ namespace Nito.Mvvm
             await Execution.TaskCompleted;
             OnCanExecuteChanged();
             PropertyChanged?.Invoke(this, PropertyChangedEventArgsCache.Instance.Get("IsExecuting"));
+
             // await Execution.Task;
         }
 
@@ -121,15 +122,15 @@ namespace Nito.Mvvm
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
+        /// Raises <see cref="ICommand.CanExecuteChanged"/>.
+        /// </summary>
+        public new void OnCanExecuteChanged() => base.OnCanExecuteChanged();
+
+        /// <summary>
         /// The implementation of <see cref="ICommand.CanExecute(object)"/>. Returns <c>false</c> whenever the async command is in progress.
         /// </summary>
         /// <param name="parameter">The parameter for the command.</param>
         protected override bool CanExecute(object parameter) => !IsExecuting && _canExecute(parameter);
-
-        /// <summary>
-        /// Raises <see cref="ICommand.CanExecuteChanged"/>.
-        /// </summary>
-        public new void OnCanExecuteChanged() => base.OnCanExecuteChanged();
 
         private static async Task DoExecuteAsync(Task precondition, Func<object, Task> executeAsync, object parameter)
         {

@@ -46,7 +46,7 @@
 
             WorkingDirectory = _configuration.RootPath ?? string.Empty;
 
-            ProjectCollection = new ProjectCollectionViewModel(_handlerUpdateProjectFilesCommand, _handlerCleanAppConfigCommand, _fileSearch, _configuration); //todo
+            ProjectCollection = new ProjectCollectionViewModel(_handlerUpdateProjectFilesCommand, _handlerCleanAppConfigCommand, _fileSearch, _configuration);
             OpenSettings = new OpenSettingsCommand(showInDialogProcessor, _configuration.RootPath ?? string.Empty);
         }
 

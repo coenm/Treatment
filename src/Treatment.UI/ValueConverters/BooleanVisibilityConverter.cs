@@ -5,12 +5,14 @@
     using System.Windows;
     using System.Windows.Data;
 
-    [ValueConversion(typeof(object), typeof(Visibility))]
-    public class NullVisibilityConverter : IValueConverter
+    [ValueConversion(typeof(bool), typeof(Visibility))]
+    public class BooleanVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value != null)
+            var isVisible = value != null && (bool)value;
+
+            if (isVisible)
                 return Visibility.Visible;
 
             return parameter is string defaultInvisibility

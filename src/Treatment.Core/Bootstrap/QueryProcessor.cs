@@ -13,7 +13,8 @@
     [UsedImplicitly]
     public class QueryProcessor : IQueryProcessor
     {
-        [NotNull] private readonly Container _container;
+        [NotNull]
+        private readonly Container _container;
 
         public QueryProcessor([NotNull] Container container)
         {

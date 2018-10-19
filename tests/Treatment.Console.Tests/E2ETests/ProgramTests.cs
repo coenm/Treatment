@@ -18,8 +18,10 @@
     public class ProgramTests
     {
         private readonly FakeBootstrapper _bootstrapper;
-        [NotNull] private readonly FakeConsoleAdapter _console;
         private readonly StringBuilder _sb;
+
+        [NotNull]
+        private readonly FakeConsoleAdapter _console;
 
         public ProgramTests()
         {

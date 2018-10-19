@@ -9,14 +9,14 @@
 
     using Xunit;
 
-    public class UpdateProjectFilesCommandHandlerTests
+    public class UpdateProjectFilesCommandHandlerTest
     {
         private readonly UpdateProjectFilesCommandHandlerImplementation _sut;
         private readonly IFileSystem _filesystem;
 
-        public UpdateProjectFilesCommandHandlerTests()
+        public UpdateProjectFilesCommandHandlerTest()
         {
-            var filesearcher = A.Dummy<IFileSearch>();
+            var fileSearcher = A.Dummy<IFileSearch>();
             _filesystem = A.Fake<IFileSystem>();
             A.CallTo(() => _filesystem.GetFileContent(A<string>._))
              .ReturnsLazily(call =>
@@ -25,7 +25,7 @@
                                 return ResourceFile.GetContent(filename);
                             });
 
-            _sut = new UpdateProjectFilesCommandHandlerImplementation(_filesystem, filesearcher);
+            _sut = new UpdateProjectFilesCommandHandlerImplementation(_filesystem, fileSearcher);
         }
 
         [Fact]

@@ -12,7 +12,6 @@ namespace Treatment.UI
 
     using SimpleInjector.Lifestyles;
 
-    using Treatment.Core;
     using Treatment.Core.Bootstrap;
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
     using Treatment.UI.Core;
@@ -21,10 +20,10 @@ namespace Treatment.UI
     using Treatment.UI.ViewModel;
     using Treatment.UI.ViewModel.Settings;
 
-    static class Program
+    public static class Program
     {
         [STAThread]
-        static void Main()
+        public static void Main()
         {
             var container = Bootstrap();
 
@@ -43,7 +42,7 @@ namespace Treatment.UI
 
             // Register your windows and view models:
             container.Register<MainWindow>();
-            container.Register<IEntityEditorView<ApplicationSettings> , SettingsWindow>();
+            container.Register<IEntityEditorView<ApplicationSettings>, SettingsWindow>();
 
             container.Register<IMainWindowViewModel, MainWindowViewModel>();
             container.Register<IEntityEditorViewModel<ApplicationSettings>, ApplicationSettingsViewModel>();
@@ -55,7 +54,6 @@ namespace Treatment.UI
             RegisterUserInterfaceDependencies(container);
 
             RegisterDebug(container);
-
 
             container.Verify();
 
@@ -111,9 +109,9 @@ namespace Treatment.UI
                     app.Run(mainWindow);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                //Log the exception and exit
+                // Log the exception and exit
             }
         }
     }

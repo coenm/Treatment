@@ -47,7 +47,6 @@
 
             RegisterCommandValidationCommandHandlerDecorators(container);
 
-
             // container.RegisterDecorator(typeof(ICommandHandler<>), typeof(AuthorizationCommandHandlerDecorator<>));
 
             container.Register(typeof(IQueryHandler<,>), _businessLayerAssemblies, Lifestyle.Scoped);
@@ -66,13 +65,10 @@
             container.Register<IReadOnlySourceControl>(() => container.GetInstance<ISourceControlSelector>().CreateSourceControl(), Lifestyle.Scoped);
             container.Register<ISourceControlNameOption, DefaultSourceControlNameOption>(Lifestyle.Singleton);
 
-            container.Register<ICleanSingleAppConfig, CleanSingleAppConfig>(Lifestyle.Scoped); //??
-
+            container.Register<ICleanSingleAppConfig, CleanSingleAppConfig>(Lifestyle.Scoped); // is this correct?
 
             container.RegisterSingleton<IQueryProcessor, QueryProcessor>();
         }
-
-
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void RegisterCommandValidationCommandHandlerDecorators([NotNull] Container container)
@@ -111,14 +107,15 @@
     [DebuggerDisplay("{QueryType.Name,nq}")]
     public sealed class QueryInfo
     {
-        public readonly Type QueryType;
-        public readonly Type ResultType;
-
         public QueryInfo(Type queryType)
         {
             QueryType = queryType;
             ResultType = DetermineResultTypes(queryType).Single();
         }
+
+        public Type QueryType { get; }
+
+        public Type ResultType { get; }
 
         public static bool IsQuery(Type type) => DetermineResultTypes(type).Any();
 

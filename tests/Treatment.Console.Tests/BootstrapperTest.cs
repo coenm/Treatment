@@ -30,7 +30,6 @@
             act.Should().NotThrow();
         }
 
-
         [Fact]
         public async Task GetAllSearchProvidersQuery_ShouldReturnOnlyFileSystem_WhenEverythingPluginIsNotReferencedTest()
         {

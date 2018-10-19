@@ -18,7 +18,6 @@
     using Treatment.Contract;
     using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
-    using Treatment.Core;
     using Treatment.Core.Bootstrap;
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
     using Treatment.Core.Interfaces;
@@ -73,7 +72,6 @@
                                         Lifestyle.Scoped,
                                         ctx => typeof(IDirectoryProperty).IsAssignableFrom(ctx.ServiceType.GetGenericArguments()[0]));
 
-
             Container.RegisterDecorator(
                                         typeof(ICommandHandler<>),
                                         typeof(HoldConsoleCommandHandlerDecorator<>),
@@ -85,7 +83,6 @@
                                         typeof(WriteExceptionToConsoleCommandHandlerDecorator<>),
                                         Lifestyle.Scoped);
 
-
             Container.RegisterDecorator(
                                         typeof(IFileSystem),
                                         typeof(DryRunFileSystemDecorator),
@@ -96,7 +93,7 @@
                                         typeof(IFileSystem),
                                         typeof(VerboseFileSystemDecorator),
                                         Lifestyle.Scoped,
-                                        ctx => Container.GetInstance<IVerboseOption>().Level != VerboseLevel.Disabled );
+                                        ctx => Container.GetInstance<IVerboseOption>().Level != VerboseLevel.Disabled);
 
             Container.RegisterDecorator(
                                         typeof(IFileSearch),
@@ -104,13 +101,11 @@
                                         Lifestyle.Scoped,
                                         ctx => Container.GetInstance<IVerboseOption>().Level != VerboseLevel.Disabled);
 
-
             Container.Register<IRootDirSanitizer, RemoveRootDirSanitizer>(Lifestyle.Scoped);
             Container.Register<IHoldConsole, HoldConsole>(Lifestyle.Singleton);
 
             RegisterPlugins();
         }
-
 
         public void RegisterDefaultOptions()
         {
@@ -128,7 +123,6 @@
 
         private static Type CreateQueryHandlerType(Type queryType) =>
             typeof(IQueryHandler<,>).MakeGenericType(queryType, new QueryInfo(queryType).ResultType);
-
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void RegisterPlugins()

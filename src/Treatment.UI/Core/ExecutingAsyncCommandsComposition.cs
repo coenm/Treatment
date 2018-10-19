@@ -11,8 +11,11 @@
 
     internal class ExecutingAsyncCommandsComposition : IDisposable
     {
-        [NotNull] private readonly List<CapturingExceptionAsyncCommand> _commands;
-        [NotNull] private readonly List<Action<bool>> _actions;
+        [NotNull]
+        private readonly List<CapturingExceptionAsyncCommand> _commands;
+
+        [NotNull]
+        private readonly List<Action<bool>> _actions;
 
         public ExecutingAsyncCommandsComposition()
         {
@@ -29,14 +32,6 @@
             command.PropertyChanged += CommandOnPropertyChanged;
         }
 
-        private void CommandOnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName != nameof(CapturingExceptionAsyncCommand.IsExecuting))
-                return;
-
-            IsExecutionChanged();
-        }
-
         public void RegisterAction(Action<bool> func)
         {
             if (func == null)
@@ -51,6 +46,14 @@
 
             _commands.Clear();
             _actions.Clear();
+        }
+
+        private void CommandOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != nameof(CapturingExceptionAsyncCommand.IsExecuting))
+                return;
+
+            IsExecutionChanged();
         }
 
         private void IsExecutionChanged()

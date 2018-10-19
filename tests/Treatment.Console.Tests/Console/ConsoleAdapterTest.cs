@@ -19,8 +19,7 @@
     /// Somewhat superfluous but nice to experiment with the Pose library.
     /// Not all method are tested...
     /// </summary>
-    [SuppressMessage("ReSharper", "RedundantNameQualifier",
-        Justification = "Extra information that the System.Console.XXX method is shimmed.")]
+    [SuppressMessage("ReSharper", "RedundantNameQualifier", Justification = "Extra information that the System.Console.XXX method is shimmed.")]
     public class ConsoleAdapterTest
     {
         private readonly ConsoleAdapter _sut;
@@ -33,7 +32,7 @@
         }
 
         [Fact]
-        public void WriteLine_ShouldCallSystemConsoleWritelineTest()
+        public void WriteLine_ShouldCallSystemConsoleWriteLineTest()
         {
             // arrange
             var consoleShim = Shim.Replace(() => System.Console.WriteLine(Is.A<string>()))
@@ -47,7 +46,7 @@
         }
 
         [Fact]
-        public void WriteLine_ShouldCallSystemConsoleWritelineTest2()
+        public void WriteLine_ShouldCallSystemConsoleWriteLineTest2()
         {
             // arrange
             var consoleShim = Shim.Replace(() => System.Console.WriteLine())

@@ -16,16 +16,52 @@
                               IOptionSearchProvider,
                               IOptionSummary
     {
-        public string RootDirectory { get; [UsedImplicitly] set; }
+        public string RootDirectory
+        {
+            get;
 
-        public bool DryRun { get; [UsedImplicitly] set; }
+            [UsedImplicitly]
+            set;
+        }
 
-        public bool Summary { get; [UsedImplicitly] set; }
+        public bool DryRun
+        {
+            get;
 
-        public string SearchProvider { get; [UsedImplicitly] set; }
+            [UsedImplicitly]
+            set;
+        }
 
-        public int Verbose { get; [UsedImplicitly] set; }
+        public bool Summary
+        {
+            get;
 
-        public bool HoldOnExit { get; [UsedImplicitly] set; }
+            [UsedImplicitly]
+            set;
+        }
+
+        public string SearchProvider
+        {
+            get;
+
+            [UsedImplicitly]
+            set;
+        }
+
+        public int Verbose
+        {
+            get;
+
+            [UsedImplicitly]
+            set;
+        }
+
+        public bool HoldOnExit
+        {
+            get;
+
+            [UsedImplicitly]
+            set;
+        }
     }
 }

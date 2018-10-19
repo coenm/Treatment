@@ -26,7 +26,7 @@
         public UpdateProjectFilesCommandHandlerFacade([NotNull] IFileSystem filesystem, [NotNull] IFileSearch fileSearcher)
         {
             _filesystem = filesystem ?? throw new ArgumentNullException(nameof(filesystem));
-            _fileSearcher = fileSearcher ?? throw new ArgumentNullException(nameof(fileSearcher)) ;
+            _fileSearcher = fileSearcher ?? throw new ArgumentNullException(nameof(fileSearcher));
         }
 
         public async Task ExecuteAsync(UpdateProjectFilesCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
@@ -57,9 +57,15 @@
         /// </summary>
         private class ProgressCommandExecution : IFileSystem, IFileSearch, IDisposable
         {
-            [NotNull] private readonly IFileSystem _filesystem;
-            [NotNull] private readonly IFileSearch _fileSearch;
-            [NotNull] private readonly IProgress<ProgressData> _progress;
+            [NotNull]
+            private readonly IFileSystem _filesystem;
+
+            [NotNull]
+            private readonly IFileSearch _fileSearch;
+
+            [NotNull]
+            private readonly IProgress<ProgressData> _progress;
+
             private int _foundFileCount;
             private int _currentIndex;
 
@@ -75,6 +81,7 @@
             {
                 _progress.Report(new ProgressData("Done"));
             }
+
             bool IFileSystem.FileExists(string filename) => _filesystem.FileExists(filename);
 
             Stream IFileSystem.ReadFile(string filename) => _filesystem.ReadFile(filename);
