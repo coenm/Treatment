@@ -1,43 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\..\packages\xunit.core.2.4.0\build\xunit.core.props" Condition="Exists('..\..\packages\xunit.core.2.4.0\build\xunit.core.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{49235119-8C43-4EF0-A2A6-36A029F629C0}</ProjectGuid>
+    <ProjectGuid>{45160D45-0378-45E0-BED9-F15E295A9E2B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Treatment.Core.Tests</RootNamespace>
-    <AssemblyName>Treatment.Core.Tests</AssemblyName>
+    <RootNamespace>Treatment.UI.Tests</RootNamespace>
+    <AssemblyName>Treatment.UI.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>		
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CONTRACTS_FULL</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CONTRACTS_FULL</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -47,8 +29,8 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <Optimize>false</Optimize>
-    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
@@ -72,41 +54,23 @@
     <Reference Include="FluentAssertions, Version=5.4.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\FluentAssertions.5.4.2\lib\net47\FluentAssertions.dll</HintPath>
     </Reference>
-    <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\FluentValidation.8.0.100\lib\net45\FluentValidation.dll</HintPath>
-    </Reference>
     <Reference Include="JetBrains.Annotations, Version=2018.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\..\packages\JetBrains.Annotations.2018.2.1\lib\net20\JetBrains.Annotations.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Reflection, Version=1.1.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Mono.Reflection.Core.1.1.1\lib\net45\Mono.Reflection.dll</HintPath>
-    </Reference>
-    <Reference Include="Pose, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Pose.1.2.1\lib\netstandard2.0\Pose.dll</HintPath>
     </Reference>
     <Reference Include="SimpleInjector, Version=4.3.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SimpleInjector.4.3.0\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
-    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Data.SqlClient, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Data.SqlClient.4.5.1\lib\net461\System.Data.SqlClient.dll</HintPath>
     </Reference>
     <Reference Include="System.Management" />
     <Reference Include="System.Transactions" />
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="TextCopy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1ca091877d12ca03, processorArchitecture=MSIL">
       <HintPath>..\..\packages\TextCopy.1.5.0\lib\netstandard2.0\TextCopy.dll</HintPath>
     </Reference>
@@ -124,57 +88,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CoreBootstrapTest.cs" />
-    <Compile Include="FileSystem\DryRunFileSystemDecoratorTest.cs" />
-    <Compile Include="UseCases\CleanAppConfig\CleanAppConfigCommandHandlerTest.cs" />
-    <Compile Include="UseCases\CleanAppConfig\CleanSingleAppConfigTest.cs" />
-    <Compile Include="UseCases\CleanAppConfig\FakeFileSystem.cs" />
-    <Compile Include="UseCases\CSharpProjectFileUpdaterTest.cs" />
-    <Compile Include="UseCases\UpdateProjectFiles\UpdateProjectFilesCommandHandlerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\ResourceFile.cs" />
-    <EmbeddedResource Include="Resources\FileWithRelativeHintPath.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\FileWithRelativeHintPathFixed.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Treatment.Console\Treatment.Console.csproj">
-      <Project>{8C296460-B1AA-4528-BFD8-0D1A173A61D2}</Project>
-      <Name>Treatment.Console</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Treatment.Contract.Plugin\Treatment.Contract.Plugin.csproj">
-      <Project>{7e082598-0c9c-4f15-b1b8-bdf6f2b1660c}</Project>
-      <Name>Treatment.Contract.Plugin</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Treatment.Contract\Treatment.Contract.csproj">
-      <Project>{3A303101-54C7-493E-8A9C-D7DE22C32568}</Project>
-      <Name>Treatment.Contract</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Treatment.Core\Treatment.Core.csproj">
-      <Project>{852975da-cbf2-4659-8da4-3aa6a1b5aa25}</Project>
-      <Name>Treatment.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\packages\FakeItEasy.Analyzer.CSharp.4.9.1\analyzers\dotnet\cs\FakeItEasy.Analyzer.CSharp.dll" />
     <Analyzer Include="..\..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="UseCases\Approvals\CSharpProjectFileUpdaterTest.RemoveAppConfig_RemovedAppConfigTest.approved.txt" />
-    <Content Include="UseCases\Approvals\CSharpProjectFileUpdaterTest.RemoveEmptyItemGroups_RemovesEmptyGroupsTest.approved.txt" />
-    <Content Include="UseCases\CleanAppConfig\Approvals\CleanSingleAppConfigTest.ExecuteShouldFixCsProjFileAndDeleteAppconfigFileTest.approved.txt" />
-    <EmbeddedResource Include="Resources\FileWithRelativeHintPathWithoutAppConfig.txt" />
-    <Content Include="UseCases\Approvals\CSharpProjectFileTest.RemoveAppConfig_RemovedAppConfigTest.approved.txt" />
-    <Content Include="UseCases\Approvals\CSharpProjectFileTest.RemoveEmptyItemGroups_RemovesEmptyGroupsTest.approved.txt" />
-    <Content Include="UseCases\CleanAppConfig\Approvals\CleanAppConfigCommandHandlerTest.Execute_WhenCsProjIsModifiedAndAppConfigIsNew_ExecutesCleanSingleAppConfigTest.approved.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

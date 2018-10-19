@@ -41,7 +41,7 @@
             // arrange
 
             // act
-            var result = Program.Main("");
+            var result = Program.Main(string.Empty);
 
             // assert
             result.Should().Be(-1);

@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestHelper", "tests\TestHel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treatment.UI", "src\Treatment.UI\Treatment.UI.csproj", "{3C621AFB-C34D-40A6-8EC9-C61F3B3C96FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treatment.UI.Tests", "tests\Treatment.UI.Tests\Treatment.UI.Tests.csproj", "{45160D45-0378-45E0-BED9-F15E295A9E2B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -77,6 +79,10 @@ Global
 		{3C621AFB-C34D-40A6-8EC9-C61F3B3C96FD}.Debug|x64.Build.0 = Debug|x64
 		{3C621AFB-C34D-40A6-8EC9-C61F3B3C96FD}.Release|x64.ActiveCfg = Release|x64
 		{3C621AFB-C34D-40A6-8EC9-C61F3B3C96FD}.Release|x64.Build.0 = Release|x64
+		{45160D45-0378-45E0-BED9-F15E295A9E2B}.Debug|x64.ActiveCfg = Debug|x64
+		{45160D45-0378-45E0-BED9-F15E295A9E2B}.Debug|x64.Build.0 = Debug|x64
+		{45160D45-0378-45E0-BED9-F15E295A9E2B}.Release|x64.ActiveCfg = Release|x64
+		{45160D45-0378-45E0-BED9-F15E295A9E2B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
