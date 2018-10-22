@@ -79,8 +79,8 @@
 
             public OpenSettingsCommand([NotNull] IShowEntityInDialogProcessor showEntityInDialogProcessor, [NotNull] string rootPath)
             {
-                showEntityInDialogProcessor = showEntityInDialogProcessor ?? throw new ArgumentNullException(nameof(showEntityInDialogProcessor));
-                rootPath = rootPath ?? throw new ArgumentNullException(nameof(rootPath));
+                this.showEntityInDialogProcessor = showEntityInDialogProcessor ?? throw new ArgumentNullException(nameof(showEntityInDialogProcessor));
+                this.rootPath = rootPath ?? throw new ArgumentNullException(nameof(rootPath));
             }
 
             public event EventHandler CanExecuteChanged;

@@ -9,7 +9,7 @@
     using JetBrains.Annotations;
 
     /// <summary>Wrapper for Everything.
-    /// <see cref="https://www.voidtools.com/support/everything/sdk/csharp/"/>
+    /// <see cref="https://www.voidtools.com/support/everything/sdk/csharp/"/>.
     /// </summary>
     internal static class Everything64Api
     {

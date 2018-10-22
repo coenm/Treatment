@@ -50,6 +50,7 @@
             // container.RegisterDecorator(typeof(ICommandHandler<>), typeof(AuthorizationCommandHandlerDecorator<>));
 
             container.Register(typeof(IQueryHandler<,>), BusinessLayerAssemblies, Lifestyle.Scoped);
+
             // container.RegisterDecorator(typeof(IQueryHandler<,>), typeof(AuthorizationQueryHandlerDecorator<,>));
 
             // container.Register<IFileSystem>(() => OsFileSystem.Instance, Lifestyle.Singleton);
@@ -109,8 +110,8 @@
     {
         public QueryInfo(Type queryType)
         {
-            this.QueryType = queryType;
-            this.ResultType = DetermineResultTypes(queryType).Single();
+            QueryType = queryType;
+            ResultType = DetermineResultTypes(queryType).Single();
         }
 
         public Type QueryType { get; }

@@ -10,7 +10,8 @@
 
     /// <summary>After successfully executing the command, the console will stay open (ie. Console.ReadKey()).</summary>
     /// <typeparam name="TCommand">Command to execute.</typeparam>
-    public class HoldConsoleCommandHandlerDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : ICommand
+    public class HoldConsoleCommandHandlerDecorator<TCommand> : ICommandHandler<TCommand>
+        where TCommand : ICommand
     {
         private readonly ICommandHandler<TCommand> decorated;
         private readonly IHoldConsole holdConsole;
