@@ -1,4 +1,4 @@
-﻿namespace Treatment.Core
+﻿namespace Treatment.Core.Bootstrap
 {
     using System;
     using System.Collections.Generic;
@@ -28,7 +28,7 @@
     // all applications that use this layer (WCF and Web API). For simplicity, this class is placed inside
     // this assembly, but this does couple the business layer assembly to the used container. If this is a
     // concern, create a specific BusinessLayer.Bootstrap project with this class.
-    public class CoreBootstrap
+    public static class CoreBootstrap
     {
         private static readonly Assembly[] _contractAssemblies = { typeof(IQuery<>).Assembly };
         private static readonly Assembly[] _businessLayerAssemblies = { Assembly.GetExecutingAssembly() };
@@ -45,8 +45,7 @@
 
             container.Register(typeof(ICommandHandler<>), _businessLayerAssemblies, Lifestyle.Scoped);
 
-            RegisterCommandValidationCommandHandlerDecoraters(container);
-
+            RegisterCommandValidationCommandHandlerDecorators(container);
 
             // container.RegisterDecorator(typeof(ICommandHandler<>), typeof(AuthorizationCommandHandlerDecorator<>));
 
@@ -66,13 +65,13 @@
             container.Register<IReadOnlySourceControl>(() => container.GetInstance<ISourceControlSelector>().CreateSourceControl(), Lifestyle.Scoped);
             container.Register<ISourceControlNameOption, DefaultSourceControlNameOption>(Lifestyle.Singleton);
 
-            container.Register<ICleanSingleAppConfig, CleanSingleAppConfig>(Lifestyle.Scoped); //??
+            container.Register<ICleanSingleAppConfig, CleanSingleAppConfig>(Lifestyle.Scoped); // is this correct?
+
+            container.RegisterSingleton<IQueryProcessor, QueryProcessor>();
         }
 
-
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void RegisterCommandValidationCommandHandlerDecoraters([NotNull] Container container)
+        private static void RegisterCommandValidationCommandHandlerDecorators([NotNull] Container container)
         {
             container.RegisterDecorator(
                                         typeof(ICommandHandler<>),
@@ -108,14 +107,15 @@
     [DebuggerDisplay("{QueryType.Name,nq}")]
     public sealed class QueryInfo
     {
-        public readonly Type QueryType;
-        public readonly Type ResultType;
-
         public QueryInfo(Type queryType)
         {
             QueryType = queryType;
             ResultType = DetermineResultTypes(queryType).Single();
         }
+
+        public Type QueryType { get; }
+
+        public Type ResultType { get; }
 
         public static bool IsQuery(Type type) => DetermineResultTypes(type).Any();
 

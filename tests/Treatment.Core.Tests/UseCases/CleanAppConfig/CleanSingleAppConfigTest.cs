@@ -15,9 +15,9 @@
 
     public class CleanSingleAppConfigTest
     {
+        private const string APPCONFIG_FILENAME = "app.config";
         private readonly IFileSystem _fileSystem;
         private readonly CleanSingleAppConfig _sut;
-        private const string APPCONFIG_FILENAME = "app.config";
 
         public CleanSingleAppConfigTest()
         {
@@ -46,7 +46,6 @@
             A.CallTo(() => _fileSystem.DeleteFile(APPCONFIG_FILENAME)).MustHaveHappenedOnceExactly();
             Approvals.Verify(outputContent);
         }
-
 
         [Fact]
         public async Task ExecuteAsyncShouldNotDeleteAppConfigFileWhenCsprojFileDidNotChangeTest()

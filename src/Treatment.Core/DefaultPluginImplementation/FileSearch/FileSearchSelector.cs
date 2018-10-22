@@ -1,5 +1,6 @@
 ﻿namespace Treatment.Core.DefaultPluginImplementation.FileSearch
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -10,15 +11,17 @@
     [UsedImplicitly]
     internal class FileSearchSelector : IFileSearchSelector
     {
-        [NotNull] private readonly IEnumerable<ISearchProviderFactory> _factories;
-        [NotNull] private readonly ISearchProviderNameOption _searchProviderName;
+        [NotNull]
+        private readonly IEnumerable<ISearchProviderFactory> _factories;
+        [NotNull]
+        private readonly ISearchProviderNameOption _searchProviderName;
 
         public FileSearchSelector(
             [NotNull] IEnumerable<ISearchProviderFactory> factories,
             [NotNull] ISearchProviderNameOption searchProviderName)
         {
-            _factories = factories;
-            _searchProviderName = searchProviderName;
+            _factories = factories ?? throw new ArgumentNullException(nameof(factories));
+            _searchProviderName = searchProviderName ?? throw new ArgumentNullException(nameof(searchProviderName));
         }
 
         [CanBeNull]

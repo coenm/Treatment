@@ -7,17 +7,20 @@
 
     using FluentValidation;
 
+    using JetBrains.Annotations;
+
     using Treatment.Contract;
 
-    public class CommandValidationDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : ICommand
+    public class CommandValidationDecorator<TCommand> : ICommandHandler<TCommand>
+        where TCommand : ICommand
     {
         private readonly IValidator<TCommand> _validator;
         private readonly ICommandHandler<TCommand> _decoratee;
 
-        public CommandValidationDecorator(IValidator<TCommand> validator, ICommandHandler<TCommand> decoratee)
+        public CommandValidationDecorator([NotNull] IValidator<TCommand> validator, [NotNull] ICommandHandler<TCommand> decoratee)
         {
-            _validator = validator;
-            _decoratee = decoratee;
+            _validator = validator ?? throw new ArgumentNullException(nameof(validator));
+            _decoratee = decoratee ?? throw new ArgumentNullException(nameof(decoratee));
         }
 
         [DebuggerStepThrough]

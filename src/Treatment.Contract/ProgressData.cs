@@ -4,11 +4,25 @@
 
     public struct ProgressData
     {
-        public int CurrentStep { get; set; }
+        public ProgressData(int currentStep, int totalSteps, [CanBeNull] string message = null)
+        {
+            CurrentStep = currentStep;
+            TotalSteps = totalSteps;
+            Message = message;
+        }
 
-        public int TotalSteps { get; set; }
+        public ProgressData(string message)
+        {
+            CurrentStep = null;
+            TotalSteps = null;
+            Message = message;
+        }
+
+        public int? CurrentStep { get; }
+
+        public int? TotalSteps { get; }
 
         [CanBeNull]
-        public string Message { get; set; }
+        public string Message { get; }
     }
 }

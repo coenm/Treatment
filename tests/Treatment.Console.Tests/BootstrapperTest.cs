@@ -30,7 +30,6 @@
             act.Should().NotThrow();
         }
 
-
         [Fact]
         public async Task GetAllSearchProvidersQuery_ShouldReturnOnlyFileSystem_WhenEverythingPluginIsNotReferencedTest()
         {
@@ -49,7 +48,7 @@
             using (bootstrapper.StartSession())
             {
                 // act
-                var result = await bootstrapper.ExecuteQueryAsync(new GetAllSearchProvidersQuery());
+                var result = await bootstrapper.ExecuteQueryAsync(GetAllSearchProvidersQuery.Instance);
 
                 // assert
                 result.Should().BeEquivalentTo(new List<SearchProviderInfo>(1)

@@ -10,8 +10,11 @@
     [UsedImplicitly]
     internal class SourceControlSelector : ISourceControlSelector
     {
-        [NotNull] private readonly IEnumerable<ISourceControlAbstractFactory> _factories;
-        [NotNull] private readonly ISourceControlNameOption _searchProviderName;
+        [NotNull]
+        private readonly IEnumerable<ISourceControlAbstractFactory> _factories;
+
+        [NotNull]
+        private readonly ISourceControlNameOption _searchProviderName;
 
         public SourceControlSelector(
             [NotNull] IEnumerable<ISourceControlAbstractFactory> factories,

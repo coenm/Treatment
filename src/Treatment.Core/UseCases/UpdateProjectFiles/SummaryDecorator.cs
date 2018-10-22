@@ -4,11 +4,12 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using Treatment.Core.Interfaces;
     using Treatment.Contract;
+    using Treatment.Core.Interfaces;
 
     // todo only for UpdateProjectFilesCommand
-    public class SummaryDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : ICommand
+    public class SummaryDecorator<TCommand> : ICommandHandler<TCommand>
+        where TCommand : ICommand
     {
         private readonly ICommandHandler<TCommand> _decorated;
         private readonly ISummaryWriter _summaryWriter;

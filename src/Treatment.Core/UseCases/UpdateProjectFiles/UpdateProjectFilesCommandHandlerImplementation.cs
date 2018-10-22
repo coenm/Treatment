@@ -12,8 +12,7 @@
     using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Core.Interfaces;
 
-    [UsedImplicitly]
-    public class UpdateProjectFilesCommandHandler : ICommandHandler<UpdateProjectFilesCommand>
+    public class UpdateProjectFilesCommandHandlerImplementation /*: ICommandHandler<UpdateProjectFilesCommand>*/
     {
         //todo don't use regex but xml serializer
         private const string SEARCH = @"<HintPath>[\.\.\\]+Packages\\(.+\.dll)</HintPath>";
@@ -23,10 +22,10 @@
         private readonly IFileSearch _fileSearcher;
         private readonly Regex _regex;
 
-        public UpdateProjectFilesCommandHandler(IFileSystem filesystem, IFileSearch fileSearcher)
+        public UpdateProjectFilesCommandHandlerImplementation([NotNull] IFileSystem filesystem, [NotNull] IFileSearch fileSearcher)
         {
-            _filesystem = filesystem;
-            _fileSearcher = fileSearcher;
+            _filesystem = filesystem ?? throw new ArgumentNullException(nameof(filesystem));
+            _fileSearcher = fileSearcher ?? throw new ArgumentNullException(nameof(fileSearcher));
             _regex = new Regex(SEARCH, RegexOptions.Compiled);
         }
 
