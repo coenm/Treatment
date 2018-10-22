@@ -91,6 +91,7 @@
                     case 0:
                         return VerboseLevel.Disabled;
                 }
+
                 return VerboseLevel.Disabled;
             }
 
@@ -115,6 +116,7 @@
 
             return 0;
         }
+
         private static async Task<int> FixProjectFilesAsync(FixOptions options)
         {
             VerboseLevel Map(int value)
@@ -130,6 +132,7 @@
                     case 0:
                         return VerboseLevel.Disabled;
                 }
+
                 return VerboseLevel.Disabled;
             }
 
@@ -170,14 +173,12 @@
                 foreach (var f in searchProviders)
                     console.WriteLine($"- {f.Name}");
 
-
                 System.Console.WriteLine();
 
                 var versionControlProviders = await Bootstrapper.ExecuteQueryAsync(new GetAllVersionControlProvidersQuery());
                 console.WriteLine("Installed version control providers (ordered by priority):");
                 foreach (var f in versionControlProviders)
                     console.WriteLine($"- {f.Name}");
-
 
                 if (options.HoldOnExit)
                 {

@@ -99,14 +99,13 @@
                                         typeof(IFileSystem),
                                         typeof(VerboseFileSystemDecorator),
                                         Lifestyle.Scoped,
-                                        ctx => Container.GetInstance<IVerboseOption>().Level != VerboseLevel.Disabled );
+                                        ctx => Container.GetInstance<IVerboseOption>().Level != VerboseLevel.Disabled);
 
             Container.RegisterDecorator(
                                         typeof(IFileSearch),
                                         typeof(VerboseFileSearchDecorator),
                                         Lifestyle.Scoped,
                                         ctx => Container.GetInstance<IVerboseOption>().Level != VerboseLevel.Disabled);
-
 
             Container.Register<IRootDirSanitizer, RemoveRootDirSanitizer>(Lifestyle.Scoped);
             Container.Register<IHoldConsole, HoldConsole>(Lifestyle.Singleton);
@@ -131,8 +130,6 @@
 
         private static Type CreateQueryHandlerType(Type queryType) =>
             typeof(IQueryHandler<,>).MakeGenericType(queryType, new QueryInfo(queryType).ResultType);
-
-
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void RegisterPlugins()

@@ -25,6 +25,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treatment.Plugin.Svn.Tests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestHelper", "tests\TestHelper\TestHelper.csproj", "{23122F84-D689-4871-9078-D95C8D973BDA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{009E6DA2-D5AA-4552-9B1C-1385BF5EE23B}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Treatment.ruleset = Treatment.ruleset
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
