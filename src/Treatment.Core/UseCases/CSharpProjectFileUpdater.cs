@@ -9,8 +9,10 @@
 
     public class CSharpProjectFileUpdater
     {
-        [NotNull] private readonly XDocument _doc;
-        [NotNull] private readonly XNamespace _msbuildNamespace;
+        [NotNull]
+        private readonly XDocument _doc;
+        [NotNull]
+        private readonly XNamespace _msbuildNamespace;
 
         private CSharpProjectFileUpdater(XDocument doc)
         {
@@ -27,19 +29,22 @@
             return new CSharpProjectFileUpdater(doc);
         }
 
-        // [NotNull, PublicAPI]
-        // //private const string SEARCH = @"<HintPath>[\.\.\\]+Packages\\(.+\.dll)</HintPath>";
-        // //private const string REPLACE = @"<HintPath>$(PackagesDir)\$1</HintPath>";
-        // public CSharpProjectFileUpdater UpdateRelativeHintPathsWithVariable(string packagesVariable = "$(PackagesDir)")
-        // {
-        //     if (packagesVariable == null) // empty is okay
-        //         throw new ArgumentNullException(nameof(packagesVariable));
-        //
-        //     throw new NotImplementedException();
-        //     return this;
-        // }
-
+        /*
         [NotNull, PublicAPI]
+        //private const string SEARCH = @"<HintPath>[\.\.\\]+Packages\\(.+\.dll)</HintPath>";
+        //private const string REPLACE = @"<HintPath>$(PackagesDir)\$1</HintPath>";
+        public CSharpProjectFileUpdater UpdateRelativeHintPathsWithVariable(string packagesVariable = "$(PackagesDir)")
+        {
+            if (packagesVariable == null) // empty is okay
+                throw new ArgumentNullException(nameof(packagesVariable));
+
+            throw new NotImplementedException();
+            return this;
+        }
+        */
+
+        [NotNull]
+        [PublicAPI]
         public CSharpProjectFileUpdater RemoveEmptyItemGroups()
         {
             if (_doc.Root == null)
@@ -65,8 +70,8 @@
         /// <summary>
         /// Removes the 'app.config' or 'App.config' file from the project (csproj) file.
         /// </summary>
-        /// <returns></returns>
-        [NotNull, PublicAPI]
+        [NotNull]
+        [PublicAPI]
         public CSharpProjectFileUpdater RemoveAppConfig()
         {
             if (_doc.Root == null)

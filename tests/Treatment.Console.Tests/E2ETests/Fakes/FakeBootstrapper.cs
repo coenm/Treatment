@@ -19,7 +19,6 @@
             _verified = new ManualResetEventSlim(false);
         }
 
-
         public override IDisposable StartSession()
         {
             if (!_verified.IsSet)

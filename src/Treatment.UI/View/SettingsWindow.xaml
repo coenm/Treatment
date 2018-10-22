@@ -1,0 +1,89 @@
+﻿<Window x:Class="Treatment.UI.View.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Treatment.UI.ViewModel.Settings"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:valueConverters="clr-namespace:Treatment.UI.ValueConverters"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        Title="Treatment - Settings"
+        Height="255" Width="500"
+        d:DataContext="{d:DesignInstance Type=vm:ApplicationSettingsViewModel}"
+>
+  <Window.Resources>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <valueConverters:NullVisibilityConverter x:Key="NullVisibilityConverter" />
+    <valueConverters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+    <valueConverters:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
+
+    <GridLength x:Key="SettingRowHeight">26</GridLength>
+  </Window.Resources>
+
+  <Grid Margin="10">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+
+    <Grid Grid.Row="0" Grid.Column="0">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="{StaticResource SettingRowHeight}" />
+        <RowDefinition Height="{StaticResource SettingRowHeight}" />
+        <RowDefinition Height="{StaticResource SettingRowHeight}" />
+        <RowDefinition Height="{StaticResource SettingRowHeight}" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" MinWidth="250" />
+        <ColumnDefinition Width="30" />
+      </Grid.ColumnDefinitions>
+
+      <Label Grid.Row="0" Grid.Column="0" Content="Root directory" />
+      <TextBox Grid.Row="0" Grid.Column="1" Margin="2"
+                Text="{Binding Path=RootDirectory}" />
+      <Button Grid.Row="0" Grid.Column="2" Margin="2" ToolTip="Browse (doesn't work yet!)">
+        <fa:ImageAwesome  MaxWidth="15" MaxHeight="15"
+                         Icon="EllipsisH"
+                         VerticalAlignment="Center" HorizontalAlignment="Center" />
+      </Button>
+
+      <Label Grid.Row="1" Grid.Column="0" Content="Search Provider" />
+      <ComboBox Grid.Row="1" Grid.Column="1" Margin="2"
+                ItemsSource="{Binding Path=SearchProviderNames}"
+                SelectedItem="{Binding Path=SearchProviderName}"
+                IsEnabled="{Binding Path=GetSearchProvidersTask.IsCompleted}"/>
+      <fa:ImageAwesome Grid.Row="1" Grid.Column="2" MaxWidth="15" MaxHeight="15"
+                       Icon="Spinner" Spin="True" SpinDuration="1"
+                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                       Visibility="{Binding Path=GetSearchProvidersTask.IsNotCompleted, Converter={StaticResource BooleanVisibilityConverter}, ConverterParameter=Hidden}"/>
+
+      <Label Grid.Row="2" Grid.Column="0" Content="Version Control Provider" />
+      <ComboBox Grid.Row="2" Grid.Column="1" Margin="2"
+                ItemsSource="{Binding Path=VersionControlProviderNames}"
+                SelectedItem="{Binding Path=VersionControlProviderName}"
+                IsEnabled="{Binding Path=GetVersionControlProvidersTask.IsCompleted}"/>
+      <fa:ImageAwesome Grid.Row="2" Grid.Column="2" MaxWidth="15" MaxHeight="15"
+                       Icon="Spinner" Spin="True" SpinDuration="1"
+                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                       Visibility="{Binding Path=GetVersionControlProvidersTask.IsNotCompleted, Converter={StaticResource BooleanVisibilityConverter}, ConverterParameter=Hidden}"
+      />
+
+      <Label Grid.Row="3" Grid.Column="0" Content="Delay execution" />
+      <CheckBox Grid.Row="3" Grid.Column="1" Margin="2" IsChecked="{Binding Path=DelayExecution}" />
+    </Grid>
+
+  <StackPanel Grid.Row="1"  Orientation="Horizontal" HorizontalAlignment="Right">
+    <Button Margin="2" Width="75" IsDefault="True" Click="ButtonOk_OnClick" Content="Ok" />
+    <Button Margin="2" Width="75" IsCancel="True" Content="Cancel" />
+  </StackPanel>
+
+  </Grid>
+
+</Window>

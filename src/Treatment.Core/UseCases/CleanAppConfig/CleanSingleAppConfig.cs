@@ -21,7 +21,7 @@
         public async Task<bool> ExecuteAsync(string projectFile, string appConfigFile)
         {
             var success = await RemoveAppConfigFromProjectFile(projectFile).ConfigureAwait(false);
-            if (! success)
+            if (!success)
                 return false;
 
             _filesystem.DeleteFile(appConfigFile);

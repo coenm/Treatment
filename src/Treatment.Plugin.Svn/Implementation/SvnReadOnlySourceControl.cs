@@ -80,7 +80,6 @@
             {
                 // expected when root does not exists.
                 // do nothing specific
-
                 if (_filesystem.FileExists(path))
                     return FileStatus.Unknown;
 

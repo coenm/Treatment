@@ -8,6 +8,8 @@
 
     using FluentAssertions;
 
+    using JetBrains.Annotations;
+
     using Treatment.Console.Console;
     using Treatment.Console.Tests.E2ETests.Fakes;
 
@@ -16,8 +18,10 @@
     public class ProgramTests
     {
         private readonly FakeBootstrapper _bootstrapper;
-        private readonly FakeConsoleAdapter _console;
         private readonly StringBuilder _sb;
+
+        [NotNull]
+        private readonly FakeConsoleAdapter _console;
 
         public ProgramTests()
         {
@@ -41,7 +45,7 @@
             // arrange
 
             // act
-            var result = Program.Main("");
+            var result = Program.Main(string.Empty);
 
             // assert
             result.Should().Be(-1);
@@ -57,7 +61,7 @@
 
             // assert
             result.Should().Be(0);
-            Approvals.Verify(_console.ToString());
+            Approvals.Verify(this._console.ToString());
         }
     }
 }

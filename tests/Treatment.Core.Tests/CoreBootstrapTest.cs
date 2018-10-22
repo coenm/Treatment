@@ -6,6 +6,8 @@
 
     using SimpleInjector;
 
+    using Treatment.Core.Bootstrap;
+
     using Xunit;
 
     public class CoreBootstrapTest

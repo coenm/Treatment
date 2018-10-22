@@ -18,6 +18,7 @@
             SourceControlProviderName = sourceControlProviderName;
             Level = level;
         }
+
         public VerboseLevel Level { get; }
 
         public bool IsDryRun { get; }
