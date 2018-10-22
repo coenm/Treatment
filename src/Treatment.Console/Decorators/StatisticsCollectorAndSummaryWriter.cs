@@ -10,38 +10,38 @@
     [UsedImplicitly]
     public class StatisticsCollectorAndSummaryWriter : IStatistics, ISummaryWriter
     {
-        private readonly IConsole _console;
-        private readonly List<string> _filesRead = new List<string>();
-        private readonly List<string> _filesChanged = new List<string>();
-        private readonly List<string> _foundFiles = new List<string>();
+        private readonly IConsole console;
+        private readonly List<string> filesRead = new List<string>();
+        private readonly List<string> filesChanged = new List<string>();
+        private readonly List<string> foundFiles = new List<string>();
 
         public StatisticsCollectorAndSummaryWriter(IConsole console)
         {
-            _console = console;
+            this.console = console;
         }
 
         public void AddFileRead(string filename)
         {
-            _filesRead.Add(filename);
+            filesRead.Add(filename);
         }
 
         public void AddFileUpdate(string filename)
         {
-            _filesChanged.Add(filename);
+            filesChanged.Add(filename);
         }
 
         public void AddFoundFiles(string[] filenames)
         {
-            _foundFiles.AddRange(filenames);
+            foundFiles.AddRange(filenames);
         }
 
         public void OutputSummary()
         {
-            _console.WriteLine(string.Empty);
-            _console.WriteLine("Summary:");
-            _console.WriteLine($"- Files found: {_foundFiles.Count}");
-            _console.WriteLine($"- Files read: {_filesRead.Count}");
-            _console.WriteLine($"- Files updated: {_filesChanged.Count}");
+            console.WriteLine(string.Empty);
+            console.WriteLine("Summary:");
+            console.WriteLine($"- Files found: {foundFiles.Count}");
+            console.WriteLine($"- Files read: {filesRead.Count}");
+            console.WriteLine($"- Files updated: {filesChanged.Count}");
         }
     }
 }

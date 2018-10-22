@@ -13,18 +13,18 @@
 
      public class DryRunFileSystemDecoratorTest
      {
-         private readonly DryRunFileSystemDecorator _sut;
-         private readonly IFileSystem _decoratee;
-         private readonly IConsole _console;
+         private readonly DryRunFileSystemDecorator sut;
+         private readonly IFileSystem decoratee;
+         private readonly IConsole console;
 
          public DryRunFileSystemDecoratorTest()
          {
-             _console = A.Dummy<IConsole>();
-             _decoratee = A.Fake<IFileSystem>();
+             console = A.Dummy<IConsole>();
+             decoratee = A.Fake<IFileSystem>();
              var sanitizer = A.Fake<IRootDirSanitizer>();
              A.CallTo(() => sanitizer.Sanitize(A<string>._)).Returns(string.Empty);
 
-             _sut = new DryRunFileSystemDecorator(_decoratee, sanitizer, _console);
+             sut = new DryRunFileSystemDecorator(decoratee, sanitizer, console);
          }
 
          [Fact]
@@ -35,10 +35,10 @@
              const string CONTENT = "data";
 
              // act
-             _sut.SaveContent(FILENAME, CONTENT);
+             sut.SaveContent(FILENAME, CONTENT);
 
              // assert
-             A.CallTo(() => _decoratee.SaveContent(FILENAME, CONTENT)).MustNotHaveHappened();
+             A.CallTo(() => decoratee.SaveContent(FILENAME, CONTENT)).MustNotHaveHappened();
          }
 
          [Fact]
@@ -47,14 +47,14 @@
              // arrange
              const string FILENAME = "a.txt";
              const string CONTENT = "data";
-             A.CallTo(() => _decoratee.GetFileContent(FILENAME)).Returns(CONTENT);
+             A.CallTo(() => decoratee.GetFileContent(FILENAME)).Returns(CONTENT);
 
              // act
-             var result = _sut.GetFileContent(FILENAME);
+             var result = sut.GetFileContent(FILENAME);
 
              // assert
              result.Should().Be(CONTENT);
-             A.CallTo(() => _decoratee.GetFileContent(FILENAME)).MustHaveHappenedOnceExactly();
+             A.CallTo(() => decoratee.GetFileContent(FILENAME)).MustHaveHappenedOnceExactly();
          }
      }
  }

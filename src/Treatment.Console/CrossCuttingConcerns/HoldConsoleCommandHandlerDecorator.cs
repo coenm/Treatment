@@ -13,20 +13,20 @@
     public class HoldConsoleCommandHandlerDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : ICommand
     {
         private readonly ICommandHandler<TCommand> decorated;
-        private readonly IHoldConsole _holdConsole;
+        private readonly IHoldConsole holdConsole;
 
         public HoldConsoleCommandHandlerDecorator(
             [NotNull] ICommandHandler<TCommand> decorated,
             [NotNull] IHoldConsole holdConsole)
         {
             this.decorated = decorated;
-            _holdConsole = holdConsole;
+            this.holdConsole = holdConsole;
         }
 
         public async Task ExecuteAsync(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
         {
-            await this.decorated.ExecuteAsync(command, progress, ct).ConfigureAwait(false);
-            _holdConsole.Hold();
+            await decorated.ExecuteAsync(command, progress, ct).ConfigureAwait(false);
+            holdConsole.Hold();
         }
     }
 }

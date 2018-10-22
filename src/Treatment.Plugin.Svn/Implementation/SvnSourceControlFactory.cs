@@ -5,11 +5,11 @@
 
     internal class SvnSourceControlFactory : ISourceControlAbstractFactory
     {
-        private readonly IFileSystem _filesystem;
+        private readonly IFileSystem filesystem;
 
         public SvnSourceControlFactory(IFileSystem filesystem)
         {
-            _filesystem = filesystem;
+            this.filesystem = filesystem;
         }
 
         public string Name { get; } = "Svn";
@@ -18,12 +18,12 @@
 
         public IReadOnlySourceControl Create()
         {
-            return new SvnReadOnlySourceControl(_filesystem);
+            return new SvnReadOnlySourceControl(this.filesystem);
         }
 
         public bool CanCreate(string name)
         {
-            return Name.Equals(name);
+            return this.Name.Equals(name);
         }
     }
 }

@@ -17,13 +17,13 @@
 
     public class SvnReadOnlySourceControlTest
     {
-        private readonly SvnReadOnlySourceControl _sut;
-        private readonly string _expectedSvnRootDirectory;
+        private readonly SvnReadOnlySourceControl sut;
+        private readonly string expectedSvnRootDirectory;
 
         public SvnReadOnlySourceControlTest()
         {
-            _expectedSvnRootDirectory = TestEnvironment.GetFullPath("tests", "TestData", "SvnCheckout");
-            _sut = new SvnReadOnlySourceControl(OsFileSystem.Instance);
+            this.expectedSvnRootDirectory = TestEnvironment.GetFullPath("tests", "TestData", "SvnCheckout");
+            this.sut = new SvnReadOnlySourceControl(OsFileSystem.Instance);
         }
 
         [Theory]
@@ -37,7 +37,7 @@
             var fullPath = TestEnvironment.GetFullPath(path);
 
             // act
-            var result = _sut.TryGetSvnRoot(fullPath, out var root);
+            var result = this.sut.TryGetSvnRoot(fullPath, out var root);
 
             // assert
             if (!expectedRepoFound)
@@ -48,7 +48,7 @@
             else
             {
                 result.Should().BeTrue();
-                root.Should().Be(_expectedSvnRootDirectory);
+                root.Should().Be(this.expectedSvnRootDirectory);
             }
         }
 
@@ -70,7 +70,7 @@
             var fullPath = TestEnvironment.GetFullPath(path);
 
             // act
-            var result = _sut.GetFileStatus(fullPath);
+            var result = this.sut.GetFileStatus(fullPath);
 
             // assert
             result.Should().Be(expectedState);
@@ -85,7 +85,7 @@
             var fullPath = TestEnvironment.GetFullPath(path);
 
             // act
-            var result = _sut.GetModifications(fullPath);
+            var result = this.sut.GetModifications(fullPath);
 
             // assert
             result.Should().Be(expectedState);
@@ -100,7 +100,7 @@
             var fullPath = TestEnvironment.GetFullPath("tests", "TestData", "SvnCheckout", "txt", "dir1", "file1.txt");
 
             // act
-            var result = _sut.GetModifications(fullPath);
+            var result = this.sut.GetModifications(fullPath);
 
             // assert
             var sanitizedResult = Sanitizer(result);

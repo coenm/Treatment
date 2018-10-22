@@ -15,13 +15,13 @@
     public class ApplicationSettingsViewModel : ViewModelBase, IEntityEditorViewModel<ApplicationSettings>
     {
         [NotNull]
-        private readonly CapturingExceptionAsyncCommand _getSearchProvidersCommand;
+        private readonly CapturingExceptionAsyncCommand getSearchProvidersCommand;
 
         [NotNull]
-        private readonly CapturingExceptionAsyncCommand _getVersionControlProvidersCommand;
+        private readonly CapturingExceptionAsyncCommand getVersionControlProvidersCommand;
 
         [CanBeNull]
-        private ApplicationSettings _entity;
+        private ApplicationSettings entity;
 
         [UsedImplicitly]
         public ApplicationSettingsViewModel([NotNull] IQueryProcessor queryProcessor)
@@ -30,9 +30,9 @@
                 throw new ArgumentNullException(nameof(queryProcessor));
 
             SearchProviderNames = new ObservableCollection<string>();
-            _getSearchProvidersCommand = new CapturingExceptionAsyncCommand(async () =>
+            getSearchProvidersCommand = new CapturingExceptionAsyncCommand(async () =>
                                                                             {
-                                                                                if (_entity?.DelayExecution ?? true)
+                                                                                if (entity?.DelayExecution ?? true)
                                                                                     await Task.Delay(1000);
 
                                                                                 var result = await queryProcessor.ExecuteQueryAsync(GetAllSearchProvidersQuery.Instance);
@@ -49,9 +49,9 @@
                                                                             });
 
             VersionControlProviderNames = new ObservableCollection<string>();
-            _getVersionControlProvidersCommand = new CapturingExceptionAsyncCommand(async () =>
+            getVersionControlProvidersCommand = new CapturingExceptionAsyncCommand(async () =>
                                                                                     {
-                                                                                        if (_entity?.DelayExecution ?? true)
+                                                                                        if (entity?.DelayExecution ?? true)
                                                                                             await Task.Delay(800);
 
                                                                                         var result = await queryProcessor.ExecuteQueryAsync(GetAllVersionControlProvidersQuery.Instance);
@@ -68,9 +68,9 @@
                                                                                     });
         }
 
-        public NotifyTask GetSearchProvidersTask => _getSearchProvidersCommand.Execution;
+        public NotifyTask GetSearchProvidersTask => getSearchProvidersCommand.Execution;
 
-        public NotifyTask GetVersionControlProvidersTask => _getVersionControlProvidersCommand.Execution;
+        public NotifyTask GetVersionControlProvidersTask => getVersionControlProvidersCommand.Execution;
 
         public bool DelayExecution
         {
@@ -102,15 +102,15 @@
 
         public void Initialize(ApplicationSettings entity)
         {
-            _entity = entity ?? throw new ArgumentNullException(nameof(entity));
+            this.entity = entity ?? throw new ArgumentNullException(nameof(entity));
 
             DelayExecution = entity.DelayExecution;
             SearchProviderName = entity.SearchProviderName;
             VersionControlProviderName = entity.VersionControlProviderName;
             RootDirectory = entity.RootDirectory;
 
-            ((System.Windows.Input.ICommand)_getSearchProvidersCommand).Execute(null);
-            ((System.Windows.Input.ICommand)_getVersionControlProvidersCommand).Execute(null);
+            ((System.Windows.Input.ICommand)getSearchProvidersCommand).Execute(null);
+            ((System.Windows.Input.ICommand)getVersionControlProvidersCommand).Execute(null);
         }
 
         public ApplicationSettings Export()
@@ -119,7 +119,7 @@
                        {
                            DelayExecution = DelayExecution,
                            SearchProviderName = SearchProviderName,
-                           RootDirectory = RootDirectory
+                           RootDirectory = RootDirectory,
                        };
         }
     }

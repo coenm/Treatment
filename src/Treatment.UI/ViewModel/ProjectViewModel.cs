@@ -12,7 +12,7 @@
 
     public class ProjectViewModel : ViewModelBase, IDisposable
     {
-        [NotNull] private readonly ExecutingAsyncCommandsComposition _commandWatch;
+        [NotNull] private readonly ExecutingAsyncCommandsComposition commandWatch;
 
         public ProjectViewModel(
             string name,
@@ -35,10 +35,10 @@
                                                                     async _ => await handlerCleanAppConfigCommand.ExecuteAsync(new CleanAppConfigCommand(Path)),
                                                                     _ => TaskRunning == false);
 
-            _commandWatch = new ExecutingAsyncCommandsComposition();
-            _commandWatch.WatchCommand(FixCsProjectFiles);
-            _commandWatch.WatchCommand(RemoveNewAppConfig);
-            _commandWatch.RegisterAction(value => TaskRunning = value);
+            commandWatch = new ExecutingAsyncCommandsComposition();
+            commandWatch.WatchCommand(FixCsProjectFiles);
+            commandWatch.WatchCommand(RemoveNewAppConfig);
+            commandWatch.RegisterAction(value => TaskRunning = value);
         }
 
         public bool TaskRunning
@@ -59,7 +59,7 @@
 
         public void Dispose()
         {
-            _commandWatch.Dispose();
+            commandWatch.Dispose();
         }
     }
 }

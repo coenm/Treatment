@@ -22,13 +22,13 @@
     [SuppressMessage("ReSharper", "RedundantNameQualifier", Justification = "Extra information that the System.Console.XXX method is shimmed.")]
     public class ConsoleAdapterTest
     {
-        private readonly ConsoleAdapter _sut;
-        private readonly List<string> _shimResult;
+        private readonly ConsoleAdapter sut;
+        private readonly List<string> shimResult;
 
         public ConsoleAdapterTest()
         {
-            _sut = ConsoleAdapter.Instance;
-            _shimResult = new List<string>(10);
+            sut = ConsoleAdapter.Instance;
+            shimResult = new List<string>(10);
         }
 
         [Fact]
@@ -36,13 +36,13 @@
         {
             // arrange
             var consoleShim = Shim.Replace(() => System.Console.WriteLine(Is.A<string>()))
-                                  .With((string s) => _shimResult.Add("shimmed: " + s));
+                                  .With((string s) => shimResult.Add("shimmed: " + s));
 
             // act
-            PoseContext.Isolate(() => _sut.WriteLine("monkey"), consoleShim);
+            PoseContext.Isolate(() => sut.WriteLine("monkey"), consoleShim);
 
             // assert
-            _shimResult.Should().BeEquivalentTo("shimmed: monkey");
+            shimResult.Should().BeEquivalentTo("shimmed: monkey");
         }
 
         [Fact]
@@ -50,13 +50,13 @@
         {
             // arrange
             var consoleShim = Shim.Replace(() => System.Console.WriteLine())
-                                  .With(() => _shimResult.Add("called"));
+                                  .With(() => shimResult.Add("called"));
 
             // act
-            PoseContext.Isolate(() => _sut.WriteLine(), consoleShim);
+            PoseContext.Isolate(() => sut.WriteLine(), consoleShim);
 
             // assert
-            _shimResult.Should().BeEquivalentTo("called");
+            shimResult.Should().BeEquivalentTo("called");
         }
 
         [Fact]
@@ -77,7 +77,7 @@
             var result = default(ConsoleKeyInfo);
             var readKeyTask = Task.Run(() =>
                                            PoseContext.Isolate(
-                                                               () => result = _sut.ReadKey(),
+                                                               () => result = sut.ReadKey(),
                                                                consoleShim));
 
             // wait until the System.Console is 'reading the key'.

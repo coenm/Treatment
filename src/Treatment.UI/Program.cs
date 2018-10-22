@@ -105,7 +105,7 @@ namespace Treatment.UI
                 using (AsyncScopedLifestyle.BeginScope(container))
                 {
                     var app = new App();
-                    var mainWindow = container.GetInstance<View.MainWindow>();
+                    var mainWindow = container.GetInstance<MainWindow>();
                     app.Run(mainWindow);
                 }
             }

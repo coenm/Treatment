@@ -10,11 +10,11 @@
     [UsedImplicitly]
     public class CleanSingleAppConfig : ICleanSingleAppConfig
     {
-        private readonly IFileSystem _filesystem;
+        private readonly IFileSystem filesystem;
 
         public CleanSingleAppConfig([NotNull] IFileSystem filesystem)
         {
-            _filesystem = filesystem;
+            this.filesystem = filesystem;
         }
 
         // no verification anymore. just execute
@@ -24,14 +24,14 @@
             if (!success)
                 return false;
 
-            _filesystem.DeleteFile(appConfigFile);
+            filesystem.DeleteFile(appConfigFile);
             return true;
         }
 
         private async Task<bool> RemoveAppConfigFromProjectFile(string projectFile)
         {
             CSharpProjectFileUpdater csProjFile;
-            using (var readFile = _filesystem.ReadFile(projectFile))
+            using (var readFile = filesystem.ReadFile(projectFile))
             {
                 csProjFile = CSharpProjectFileUpdater.Create(readFile);
 
@@ -47,7 +47,7 @@
             {
                 csProjFile.Save(outputStream);
                 outputStream.Position = 0;
-                await _filesystem.SaveContentAsync(projectFile, outputStream).ConfigureAwait(false);
+                await filesystem.SaveContentAsync(projectFile, outputStream).ConfigureAwait(false);
             }
 
             return true;

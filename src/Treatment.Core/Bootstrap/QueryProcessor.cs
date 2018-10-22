@@ -14,11 +14,11 @@
     public class QueryProcessor : IQueryProcessor
     {
         [NotNull]
-        private readonly Container _container;
+        private readonly Container container;
 
         public QueryProcessor([NotNull] Container container)
         {
-            _container = container ?? throw new ArgumentNullException(nameof(container));
+            this.container = container ?? throw new ArgumentNullException(nameof(container));
         }
 
         public async Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query, CancellationToken ct = default(CancellationToken))
@@ -28,7 +28,7 @@
 
             var handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
 
-            dynamic handler = _container.GetInstance(handlerType);
+            dynamic handler = container.GetInstance(handlerType);
 
             return await handler.HandleAsync((dynamic)query, null, ct);
         }

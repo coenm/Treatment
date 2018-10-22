@@ -12,11 +12,11 @@
 
     public class ShowEntityInDialogProcessor : IShowEntityInDialogProcessor
     {
-        private readonly Container _container;
+        private readonly Container container;
 
         public ShowEntityInDialogProcessor([NotNull] Container container)
         {
-            _container = container ?? throw new ArgumentNullException(nameof(container));
+            this.container = container ?? throw new ArgumentNullException(nameof(container));
         }
 
         /// <summary>
@@ -39,13 +39,13 @@
 
             // Ask SimpleInjector for the corresponding ViewModel,
             // which is responsible for editing this type of entity
-            var editEntityViewModel = (IEntityEditorViewModel<TEntity>)_container.GetInstance(editEntityViewModelType);
+            var editEntityViewModel = (IEntityEditorViewModel<TEntity>)container.GetInstance(editEntityViewModelType);
 
             // give the viewmodel the entity to be edited
             editEntityViewModel.Initialize(entity);
 
             var editEntityViewType = typeof(IEntityEditorView<>).MakeGenericType(entityType);
-            var view = (IEntityEditorView<TEntity>)_container.GetInstance(editEntityViewType);
+            var view = (IEntityEditorView<TEntity>)container.GetInstance(editEntityViewType);
 
             // give the view the viewmodel
             view.Set(editEntityViewModel);

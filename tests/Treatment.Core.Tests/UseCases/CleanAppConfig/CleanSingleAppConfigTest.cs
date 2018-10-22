@@ -16,13 +16,13 @@
     public class CleanSingleAppConfigTest
     {
         private const string APPCONFIG_FILENAME = "app.config";
-        private readonly IFileSystem _fileSystem;
-        private readonly CleanSingleAppConfig _sut;
+        private readonly IFileSystem fileSystem;
+        private readonly CleanSingleAppConfig sut;
 
         public CleanSingleAppConfigTest()
         {
-            _fileSystem = A.Fake<IFileSystem>();
-            _sut = new CleanSingleAppConfig(_fileSystem);
+            fileSystem = A.Fake<IFileSystem>();
+            sut = new CleanSingleAppConfig(fileSystem);
         }
 
         [Fact]
@@ -31,8 +31,8 @@
             // arrange
             const string CSPROJ_FILENAME = "FileWithRelativeHintPath.txt";
             string outputContent = null;
-            A.CallTo(() => _fileSystem.ReadFile(CSPROJ_FILENAME)).Returns(ResourceFile.OpenRead(CSPROJ_FILENAME));
-            A.CallTo(() => _fileSystem.SaveContentAsync(CSPROJ_FILENAME, A<Stream>._))
+            A.CallTo(() => fileSystem.ReadFile(CSPROJ_FILENAME)).Returns(ResourceFile.OpenRead(CSPROJ_FILENAME));
+            A.CallTo(() => fileSystem.SaveContentAsync(CSPROJ_FILENAME, A<Stream>._))
              .Invokes(call =>
                       {
                           var outputStream = call.Arguments[1] as MemoryStream;
@@ -40,10 +40,10 @@
                       });
 
             // act
-            await _sut.ExecuteAsync(CSPROJ_FILENAME, APPCONFIG_FILENAME);
+            await sut.ExecuteAsync(CSPROJ_FILENAME, APPCONFIG_FILENAME);
 
             // assert
-            A.CallTo(() => _fileSystem.DeleteFile(APPCONFIG_FILENAME)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fileSystem.DeleteFile(APPCONFIG_FILENAME)).MustHaveHappenedOnceExactly();
             Approvals.Verify(outputContent);
         }
 
@@ -52,14 +52,14 @@
         {
             // arrange
             const string CSPROJ_FILENAME = "FileWithRelativeHintPathWithoutAppConfig.txt";
-            A.CallTo(() => _fileSystem.ReadFile(CSPROJ_FILENAME)).Returns(ResourceFile.OpenRead(CSPROJ_FILENAME));
+            A.CallTo(() => fileSystem.ReadFile(CSPROJ_FILENAME)).Returns(ResourceFile.OpenRead(CSPROJ_FILENAME));
 
             // act
-            await _sut.ExecuteAsync(CSPROJ_FILENAME, APPCONFIG_FILENAME);
+            await sut.ExecuteAsync(CSPROJ_FILENAME, APPCONFIG_FILENAME);
 
             // assert
-            A.CallTo(() => _fileSystem.DeleteFile(APPCONFIG_FILENAME)).MustNotHaveHappened();
-            A.CallTo(() => _fileSystem.SaveContentAsync(CSPROJ_FILENAME, A<Stream>._)).MustNotHaveHappened();
+            A.CallTo(() => fileSystem.DeleteFile(APPCONFIG_FILENAME)).MustNotHaveHappened();
+            A.CallTo(() => fileSystem.SaveContentAsync(CSPROJ_FILENAME, A<Stream>._)).MustNotHaveHappened();
         }
     }
 }

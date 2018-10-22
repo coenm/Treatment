@@ -699,5 +699,6 @@ public void $TEST_NAME$()&#xD;
 	<s:String x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=6E284E719378B843944F29F661F05BFA/Name/@EntryValue">Note</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=6E284E719378B843944F29F661F05BFA/Pattern/@EntryValue">(\W|^)(?&lt;TAG&gt;NOTE)(\W|$)(.*)</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=6E284E719378B843944F29F661F05BFA/TodoIconStyle/@EntryValue">Warning</s:String>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=decoratee/@EntryIndexedValue">True</s:Boolean>
 	
 	</wpf:ResourceDictionary>

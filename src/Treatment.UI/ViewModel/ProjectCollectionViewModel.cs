@@ -20,16 +20,16 @@
     public class ProjectCollectionViewModel : ViewModelBase, IDisposable
     {
         [NotNull]
-        private readonly ICommandHandler<UpdateProjectFilesCommand> _handlerUpdateProjectFilesCommand;
+        private readonly ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand;
 
         [NotNull]
-        private readonly ICommandHandler<CleanAppConfigCommand> _handlerCleanAppConfigCommand;
+        private readonly ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand;
 
         [NotNull]
-        private readonly IFileSearch _fileSearch;
+        private readonly IFileSearch fileSearch;
 
         [NotNull]
-        private readonly IConfiguration _configuration;
+        private readonly IConfiguration configuration;
 
         public ProjectCollectionViewModel(
             [NotNull] ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand,
@@ -37,10 +37,10 @@
             [NotNull] IFileSearch fileSearch,
             [NotNull] IConfiguration configuration)
         {
-            _handlerUpdateProjectFilesCommand = handlerUpdateProjectFilesCommand ?? throw new ArgumentNullException(nameof(handlerUpdateProjectFilesCommand));
-            _handlerCleanAppConfigCommand = handlerCleanAppConfigCommand ?? throw new ArgumentNullException(nameof(handlerCleanAppConfigCommand));
-            _fileSearch = fileSearch ?? throw new ArgumentNullException(nameof(fileSearch));
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            this.handlerUpdateProjectFilesCommand = handlerUpdateProjectFilesCommand ?? throw new ArgumentNullException(nameof(handlerUpdateProjectFilesCommand));
+            this.handlerCleanAppConfigCommand = handlerCleanAppConfigCommand ?? throw new ArgumentNullException(nameof(handlerCleanAppConfigCommand));
+            this.fileSearch = fileSearch ?? throw new ArgumentNullException(nameof(fileSearch));
+            this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 
             Projects = new ObservableCollection<ProjectViewModel>();
 
@@ -58,14 +58,14 @@
         [NotNull]
         private IEnumerable<ProjectViewModel> CreateProjectViewModelsFromDirectory()
         {
-            var rootPath = _configuration.RootPath;
+            var rootPath = configuration.RootPath;
             if (rootPath == null)
                 yield break;
 
             if (!Directory.Exists(rootPath))
                 yield break;
 
-            var files = _fileSearch.FindFilesIncludingSubdirectories(rootPath, "*.sln");
+            var files = fileSearch.FindFilesIncludingSubdirectories(rootPath, "*.sln");
 
             foreach (var file in files)
             {
@@ -99,8 +99,8 @@
                 yield return new ProjectViewModel(
                                                   rootDirectoryInfo.Name,
                                                   rootDirectoryInfo.FullName,
-                                                  _handlerUpdateProjectFilesCommand,
-                                                  _handlerCleanAppConfigCommand);
+                                                  handlerUpdateProjectFilesCommand,
+                                                  handlerCleanAppConfigCommand);
             }
         }
 

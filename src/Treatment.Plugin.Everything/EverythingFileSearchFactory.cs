@@ -15,7 +15,7 @@
             if (name == null)
                 return false;
 
-            if (name.Equals(Name, StringComparison.InvariantCultureIgnoreCase))
+            if (name.Equals(this.Name, StringComparison.InvariantCultureIgnoreCase))
                 return true;
 
             return false;

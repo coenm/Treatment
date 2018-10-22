@@ -11,25 +11,25 @@
     internal class SourceControlSelector : ISourceControlSelector
     {
         [NotNull]
-        private readonly IEnumerable<ISourceControlAbstractFactory> _factories;
+        private readonly IEnumerable<ISourceControlAbstractFactory> factories;
 
         [NotNull]
-        private readonly ISourceControlNameOption _searchProviderName;
+        private readonly ISourceControlNameOption searchProviderName;
 
         public SourceControlSelector(
             [NotNull] IEnumerable<ISourceControlAbstractFactory> factories,
             [NotNull] ISourceControlNameOption searchProviderName)
         {
-            _factories = factories;
-            _searchProviderName = searchProviderName;
+            this.factories = factories;
+            this.searchProviderName = searchProviderName;
         }
 
         [NotNull]
         public IReadOnlySourceControl CreateSourceControl()
         {
-            var factory = _factories
+            var factory = factories
                           .OrderBy(f => f.Priority)
-                          .FirstOrDefault(item => item.CanCreate(_searchProviderName.SourceControlProviderName));
+                          .FirstOrDefault(item => item.CanCreate(searchProviderName.SourceControlProviderName));
 
             if (factory == null)
                 return new DummySourceControlFactory().Create();

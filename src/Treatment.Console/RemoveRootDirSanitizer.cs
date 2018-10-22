@@ -2,22 +2,22 @@
 {
     public class RemoveRootDirSanitizer : IRootDirSanitizer
     {
-        private string _rootDir;
+        private string rootDir;
 
         public RemoveRootDirSanitizer()
         {
-            _rootDir = string.Empty;
+            rootDir = string.Empty;
         }
 
         public void SetRootDir(string input)
         {
-            _rootDir = input;
+            rootDir = input;
         }
 
         public string Sanitize(string input)
         {
             // needs some work.
-            return input.Replace(_rootDir, string.Empty);
+            return input.Replace(rootDir, string.Empty);
         }
     }
 }

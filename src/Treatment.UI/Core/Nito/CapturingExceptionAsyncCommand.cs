@@ -17,12 +17,12 @@ namespace Nito.Mvvm
         /// <summary>
         /// The implementation of <see cref="IAsyncCommand.ExecuteAsync(object)"/>.
         /// </summary>
-        private readonly Func<object, Task> _executeAsync;
+        private readonly Func<object, Task> executeAsync;
 
         /// <summary>
         /// The implementation of <see cref="ICommand.CanExecute(object)"/>.
         /// </summary>
-        private readonly Func<object, bool> _canExecute;
+        private readonly Func<object, bool> canExecute;
 
         /// <summary>
         /// Creates a new asynchronous command, with the specified asynchronous delegate as its implementation.
@@ -33,8 +33,8 @@ namespace Nito.Mvvm
         public CapturingExceptionAsyncCommand(Func<object, Task> executeAsync, Func<object, bool> canExecute, Func<object, ICanExecuteChanged> canExecuteChangedFactory)
             : base(canExecuteChangedFactory)
         {
-            _executeAsync = executeAsync;
-            _canExecute = canExecute;
+            this.executeAsync = executeAsync;
+            this.canExecute = canExecute;
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Nito.Mvvm
         public override async Task ExecuteAsync(object parameter)
         {
             var tcs = new TaskCompletionSource<object>();
-            Execution = NotifyTask.Create(DoExecuteAsync(tcs.Task, _executeAsync, parameter));
+            Execution = NotifyTask.Create(DoExecuteAsync(tcs.Task, executeAsync, parameter));
             OnCanExecuteChanged();
             var propertyChanged = PropertyChanged;
             propertyChanged?.Invoke(this, PropertyChangedEventArgsCache.Instance.Get("Execution"));
@@ -130,7 +130,7 @@ namespace Nito.Mvvm
         /// The implementation of <see cref="ICommand.CanExecute(object)"/>. Returns <c>false</c> whenever the async command is in progress.
         /// </summary>
         /// <param name="parameter">The parameter for the command.</param>
-        protected override bool CanExecute(object parameter) => !IsExecuting && _canExecute(parameter);
+        protected override bool CanExecute(object parameter) => !IsExecuting && canExecute(parameter);
 
         private static async Task DoExecuteAsync(Task precondition, Func<object, Task> executeAsync, object parameter)
         {

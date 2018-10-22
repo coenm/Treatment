@@ -11,21 +11,21 @@
 
     public class UpdateProjectFilesCommandHandlerTest
     {
-        private readonly UpdateProjectFilesCommandHandlerImplementation _sut;
-        private readonly IFileSystem _filesystem;
+        private readonly UpdateProjectFilesCommandHandlerImplementation sut;
+        private readonly IFileSystem filesystem;
 
         public UpdateProjectFilesCommandHandlerTest()
         {
             var fileSearcher = A.Dummy<IFileSearch>();
-            _filesystem = A.Fake<IFileSystem>();
-            A.CallTo(() => _filesystem.GetFileContent(A<string>._))
+            filesystem = A.Fake<IFileSystem>();
+            A.CallTo(() => filesystem.GetFileContent(A<string>._))
              .ReturnsLazily(call =>
                             {
                                 var filename = call.Arguments[0] as string;
                                 return ResourceFile.GetContent(filename);
                             });
 
-            _sut = new UpdateProjectFilesCommandHandlerImplementation(_filesystem, fileSearcher);
+            sut = new UpdateProjectFilesCommandHandlerImplementation(filesystem, fileSearcher);
         }
 
         [Fact]
@@ -36,10 +36,10 @@
             var expectedContent = ResourceFile.GetContent("FileWithRelativeHintPathFixed.txt");
 
             // act
-            _sut.FixSingleFile(FILENAME);
+            sut.FixSingleFile(FILENAME);
 
             // assert
-            A.CallTo(() => _filesystem.SaveContent(FILENAME, expectedContent))
+            A.CallTo(() => filesystem.SaveContent(FILENAME, expectedContent))
              .MustHaveHappenedOnceExactly();
         }
     }

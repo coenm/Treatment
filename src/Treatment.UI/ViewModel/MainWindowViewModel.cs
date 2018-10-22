@@ -15,11 +15,11 @@
 
     public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     {
-        [NotNull] private readonly ICommandHandler<UpdateProjectFilesCommand> _handlerUpdateProjectFilesCommand;
-        [NotNull] private readonly ICommandHandler<CleanAppConfigCommand> _handlerCleanAppConfigCommand;
-        [NotNull] private readonly IFileSearch _fileSearch;
-        [NotNull] private readonly IConfiguration _configuration;
-        [NotNull] private readonly IProgress<ProgressData> _progressFixCsProjectFiles;
+        [NotNull] private readonly ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand;
+        [NotNull] private readonly ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand;
+        [NotNull] private readonly IFileSearch fileSearch;
+        [NotNull] private readonly IConfiguration configuration;
+        [NotNull] private readonly IProgress<ProgressData> progressFixCsProjectFiles;
 
         public MainWindowViewModel(
             [NotNull] ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand,
@@ -28,7 +28,7 @@
             [NotNull] IConfiguration configuration,
             [NotNull] IShowEntityInDialogProcessor showInDialogProcessor)
         {
-            _progressFixCsProjectFiles = new Progress<ProgressData>(data =>
+            progressFixCsProjectFiles = new Progress<ProgressData>(data =>
                                                                     {
                                                                         if (string.IsNullOrEmpty(data.Message))
                                                                             return;
@@ -37,17 +37,17 @@
                                                                         FixCsProjectFilesLog += data.Message + Environment.NewLine;
                                                                     });
 
-            _handlerUpdateProjectFilesCommand = handlerUpdateProjectFilesCommand ?? throw new ArgumentNullException(nameof(handlerUpdateProjectFilesCommand));
-            _handlerCleanAppConfigCommand = handlerCleanAppConfigCommand ?? throw new ArgumentNullException(nameof(handlerCleanAppConfigCommand));
-            _fileSearch = fileSearch ?? throw new ArgumentNullException(nameof(fileSearch));
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            this.handlerUpdateProjectFilesCommand = handlerUpdateProjectFilesCommand ?? throw new ArgumentNullException(nameof(handlerUpdateProjectFilesCommand));
+            this.handlerCleanAppConfigCommand = handlerCleanAppConfigCommand ?? throw new ArgumentNullException(nameof(handlerCleanAppConfigCommand));
+            this.fileSearch = fileSearch ?? throw new ArgumentNullException(nameof(fileSearch));
+            this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             if (showInDialogProcessor == null)
                 throw new ArgumentNullException(nameof(showInDialogProcessor));
 
-            WorkingDirectory = _configuration.RootPath ?? string.Empty;
+            WorkingDirectory = this.configuration.RootPath ?? string.Empty;
 
-            ProjectCollection = new ProjectCollectionViewModel(_handlerUpdateProjectFilesCommand, _handlerCleanAppConfigCommand, _fileSearch, _configuration);
-            OpenSettings = new OpenSettingsCommand(showInDialogProcessor, _configuration.RootPath ?? string.Empty);
+            ProjectCollection = new ProjectCollectionViewModel(this.handlerUpdateProjectFilesCommand, this.handlerCleanAppConfigCommand, this.fileSearch, this.configuration);
+            OpenSettings = new OpenSettingsCommand(showInDialogProcessor, this.configuration.RootPath ?? string.Empty);
         }
 
         public ProjectCollectionViewModel ProjectCollection { get; }
@@ -74,13 +74,13 @@
 
         private class OpenSettingsCommand : ICommand
         {
-            private readonly IShowEntityInDialogProcessor _showEntityInDialogProcessor;
-            [NotNull] private readonly string _rootPath;
+            private readonly IShowEntityInDialogProcessor showEntityInDialogProcessor;
+            [NotNull] private readonly string rootPath;
 
             public OpenSettingsCommand([NotNull] IShowEntityInDialogProcessor showEntityInDialogProcessor, [NotNull] string rootPath)
             {
-                _showEntityInDialogProcessor = showEntityInDialogProcessor ?? throw new ArgumentNullException(nameof(showEntityInDialogProcessor));
-                _rootPath = rootPath ?? throw new ArgumentNullException(nameof(rootPath));
+                showEntityInDialogProcessor = showEntityInDialogProcessor ?? throw new ArgumentNullException(nameof(showEntityInDialogProcessor));
+                rootPath = rootPath ?? throw new ArgumentNullException(nameof(rootPath));
             }
 
             public event EventHandler CanExecuteChanged;
@@ -94,10 +94,10 @@
                                                   DelayExecution = true,
                                                   SearchProviderName = "FileSystem",
                                                   VersionControlProviderName = "SVN",
-                                                  RootDirectory = _rootPath
+                                                  RootDirectory = rootPath,
                                               };
 
-                var result = _showEntityInDialogProcessor.ShowDialog(applicationSettings);
+                var result = showEntityInDialogProcessor.ShowDialog(applicationSettings);
                 if (result == true)
                 {
                 }

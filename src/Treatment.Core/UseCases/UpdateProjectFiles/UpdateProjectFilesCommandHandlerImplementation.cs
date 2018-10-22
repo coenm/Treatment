@@ -18,15 +18,15 @@
         private const string SEARCH = @"<HintPath>[\.\.\\]+Packages\\(.+\.dll)</HintPath>";
         private const string REPLACE = @"<HintPath>$(PackagesDir)\$1</HintPath>";
 
-        private readonly IFileSystem _filesystem;
-        private readonly IFileSearch _fileSearcher;
-        private readonly Regex _regex;
+        private readonly IFileSystem filesystem;
+        private readonly IFileSearch fileSearcher;
+        private readonly Regex regex;
 
         public UpdateProjectFilesCommandHandlerImplementation([NotNull] IFileSystem filesystem, [NotNull] IFileSearch fileSearcher)
         {
-            _filesystem = filesystem ?? throw new ArgumentNullException(nameof(filesystem));
-            _fileSearcher = fileSearcher ?? throw new ArgumentNullException(nameof(fileSearcher));
-            _regex = new Regex(SEARCH, RegexOptions.Compiled);
+            this.filesystem = filesystem ?? throw new ArgumentNullException(nameof(filesystem));
+            this.fileSearcher = fileSearcher ?? throw new ArgumentNullException(nameof(fileSearcher));
+            regex = new Regex(SEARCH, RegexOptions.Compiled);
         }
 
         public Task ExecuteAsync(UpdateProjectFilesCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
@@ -42,29 +42,29 @@
 
         public string[] GetCsFiles(string rootpath)
         {
-            return _fileSearcher.FindFilesIncludingSubdirectories(rootpath, "*.csproj");
+            return fileSearcher.FindFilesIncludingSubdirectories(rootpath, "*.csproj");
         }
 
         public void FixSingleFile(string filename)
         {
-            var originalContent = _filesystem.GetFileContent(filename);
+            var originalContent = filesystem.GetFileContent(filename);
 
             var updatedContent = FixContent(originalContent);
 
             if (originalContent.Equals(updatedContent))
                 return;
 
-            _filesystem.SaveContent(filename, updatedContent);
+            filesystem.SaveContent(filename, updatedContent);
         }
 
         private string FixContent(string data)
         {
             var result = data;
-            var match = _regex.Match(result);
+            var match = regex.Match(result);
             while (match.Success)
             {
-                result = _regex.Replace(data, REPLACE);
-                match = _regex.Match(result);
+                result = regex.Replace(data, REPLACE);
+                match = regex.Match(result);
             }
 
             return result;

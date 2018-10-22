@@ -8,31 +8,31 @@
 
     internal class FakeFileSystem
     {
-        private readonly List<FakeFileItem> _fileSystem;
+        private readonly List<FakeFileItem> fileSystem;
 
         public FakeFileSystem()
         {
-            _fileSystem = new List<FakeFileItem>();
+            fileSystem = new List<FakeFileItem>();
         }
 
         public void Add(string filename, FileStatus state)
         {
-            _fileSystem.Add(new FakeFileItem(filename, state));
+            fileSystem.Add(new FakeFileItem(filename, state));
         }
 
         public void Clear()
         {
-            _fileSystem.Clear();
+            fileSystem.Clear();
         }
 
         public string[] GetFiles()
         {
-            return _fileSystem.Select(x => x.Filename).ToArray();
+            return fileSystem.Select(x => x.Filename).ToArray();
         }
 
         public FileStatus GetFileState(string filename)
         {
-            var result = _fileSystem.FirstOrDefault(x => x.Filename == filename);
+            var result = fileSystem.FirstOrDefault(x => x.Filename == filename);
 
             if (result == null)
                 throw new Exception();

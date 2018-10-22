@@ -11,50 +11,50 @@
     [UsedImplicitly]
     public class VerboseFileSystemDecorator : IFileSystem
     {
-        private readonly IFileSystem _decoratee;
-        private readonly IRootDirSanitizer _sanitizer;
-        private readonly IConsole _console;
+        private readonly IFileSystem decoratee;
+        private readonly IRootDirSanitizer sanitizer;
+        private readonly IConsole console;
 
         public VerboseFileSystemDecorator(IFileSystem decoratee, IRootDirSanitizer sanitizer, IConsole console)
         {
-            _decoratee = decoratee;
-            _sanitizer = sanitizer;
-            _console = console;
+            this.decoratee = decoratee;
+            this.sanitizer = sanitizer;
+            this.console = console;
         }
 
         public bool FileExists(string filename)
         {
-            return _decoratee.FileExists(filename);
+            return decoratee.FileExists(filename);
         }
 
         public Stream ReadFile(string filename)
         {
-            _console.WriteLine($"Read file '{_sanitizer.Sanitize(filename)}'");
-            return _decoratee.ReadFile(filename);
+            console.WriteLine($"Read file '{sanitizer.Sanitize(filename)}'");
+            return decoratee.ReadFile(filename);
         }
 
         public string GetFileContent(string filename)
         {
-            _console.WriteLine($"Get file content of '{_sanitizer.Sanitize(filename)}'");
-            return _decoratee.GetFileContent(filename);
+            console.WriteLine($"Get file content of '{sanitizer.Sanitize(filename)}'");
+            return decoratee.GetFileContent(filename);
         }
 
         public void SaveContent(string filename, string content)
         {
-            _console.WriteLine($"Save file '{_sanitizer.Sanitize(filename)}'");
-            _decoratee.SaveContent(filename, content);
+            console.WriteLine($"Save file '{sanitizer.Sanitize(filename)}'");
+            decoratee.SaveContent(filename, content);
         }
 
         public async Task SaveContentAsync(string filename, Stream content)
         {
-            _console.WriteLine($"Save file '{_sanitizer.Sanitize(filename)}'");
-            await _decoratee.SaveContentAsync(filename, content).ConfigureAwait(false);
+            console.WriteLine($"Save file '{sanitizer.Sanitize(filename)}'");
+            await decoratee.SaveContentAsync(filename, content).ConfigureAwait(false);
         }
 
         public void DeleteFile(string filename)
         {
-            _console.WriteLine($"Delete file '{_sanitizer.Sanitize(filename)}'");
-            _decoratee.DeleteFile(filename);
+            console.WriteLine($"Delete file '{sanitizer.Sanitize(filename)}'");
+            decoratee.DeleteFile(filename);
         }
     }
 }

@@ -10,21 +10,21 @@
 
     internal class FakeBootstrapper : Bootstrapper
     {
-        private readonly List<Action<Container>> _actions;
-        private readonly ManualResetEventSlim _verified;
+        private readonly List<Action<Container>> actions;
+        private readonly ManualResetEventSlim verified;
 
         public FakeBootstrapper()
         {
-            _actions = new List<Action<Container>>();
-            _verified = new ManualResetEventSlim(false);
+            actions = new List<Action<Container>>();
+            verified = new ManualResetEventSlim(false);
         }
 
         public override IDisposable StartSession()
         {
-            if (!_verified.IsSet)
+            if (!verified.IsSet)
             {
                 PostRegister();
-                _verified.Set();
+                verified.Set();
             }
 
             return base.StartSession();
@@ -32,12 +32,12 @@
 
         public void RegisterPostRegisterAction(Action<Container> action)
         {
-            _actions.Add(action);
+            actions.Add(action);
         }
 
         private void PostRegister()
         {
-            _actions.ForEach(a => a.Invoke(Container));
+            actions.ForEach(a => a.Invoke(Container));
         }
     }
 }
