@@ -29,7 +29,7 @@
             this.fileSearcher = fileSearcher ?? throw new ArgumentNullException(nameof(fileSearcher));
         }
 
-        public async Task ExecuteAsync(UpdateProjectFilesCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
+        public async Task ExecuteAsync(UpdateProjectFilesCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)
         {
             // so if progress is null, we don't have to decorate the filesystem and file searcher.
             // create the 'real' command handler and let it handle the command.
@@ -57,14 +57,9 @@
         /// </summary>
         private class ProgressCommandExecution : IFileSystem, IFileSearch, IDisposable
         {
-            [NotNull]
-            private readonly IFileSystem filesystem;
-
-            [NotNull]
-            private readonly IFileSearch fileSearch;
-
-            [NotNull]
-            private readonly IProgress<ProgressData> progress;
+            [NotNull] private readonly IFileSystem filesystem;
+            [NotNull] private readonly IFileSearch fileSearch;
+            [NotNull] private readonly IProgress<ProgressData> progress;
 
             private int foundFileCount;
             private int currentIndex;

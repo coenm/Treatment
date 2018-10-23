@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using Treatment.Contract;
-
-namespace Treatment.Core.Bootstrap
+﻿namespace Treatment.Core.Bootstrap
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+
+    using Treatment.Contract;
+
     [DebuggerDisplay("{QueryType.Name,nq}")]
     public sealed class QueryInfo
     {

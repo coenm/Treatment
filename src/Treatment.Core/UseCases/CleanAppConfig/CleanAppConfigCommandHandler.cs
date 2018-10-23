@@ -32,7 +32,7 @@
             this.cleanSingleAppConfig = cleanSingleAppConfig;
         }
 
-        public async Task ExecuteAsync(CleanAppConfigCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
+        public async Task ExecuteAsync(CleanAppConfigCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)
         {
             var projectFiles = GetCsFiles(command.Directory);
             var appConfigFiles = GetAppConfigFiles(command.Directory);

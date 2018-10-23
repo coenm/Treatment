@@ -21,7 +21,7 @@
             this.container = container ?? throw new ArgumentNullException(nameof(container));
         }
 
-        public async Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query, CancellationToken ct = default(CancellationToken))
+        public async Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query, CancellationToken ct = default)
         {
             if (query == null)
                 throw new ArgumentNullException(nameof(query));

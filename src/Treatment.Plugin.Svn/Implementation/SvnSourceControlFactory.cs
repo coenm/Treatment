@@ -18,12 +18,12 @@
 
         public IReadOnlySourceControl Create()
         {
-            return new SvnReadOnlySourceControl(this.filesystem);
+            return new SvnReadOnlySourceControl(filesystem);
         }
 
         public bool CanCreate(string name)
         {
-            return this.Name.Equals(name);
+            return Name.Equals(name);
         }
     }
 }
