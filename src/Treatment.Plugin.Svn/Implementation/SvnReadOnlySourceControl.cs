@@ -80,7 +80,7 @@
             {
                 // expected when root does not exists.
                 // do nothing specific
-                if (this.filesystem.FileExists(path))
+                if (filesystem.FileExists(path))
                     return FileStatus.Unknown;
 
                 return FileStatus.NotExist;
@@ -88,7 +88,7 @@
             catch (SvnWorkingCopyPathNotFoundException)
             {
                 // path can exist on filesystem but then the file is placed in a path that is not under version control
-                if (this.filesystem.FileExists(path))
+                if (filesystem.FileExists(path))
                     return FileStatus.New;
 
                 return FileStatus.NotExist;
@@ -108,7 +108,7 @@
 
         public string GetModifications(string fileName)
         {
-            if (!this.filesystem.FileExists(fileName))
+            if (!filesystem.FileExists(fileName))
                 throw new Exception("File does not exists");
 
             try

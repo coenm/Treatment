@@ -29,13 +29,13 @@
             [NotNull] IShowEntityInDialogProcessor showInDialogProcessor)
         {
             progressFixCsProjectFiles = new Progress<ProgressData>(data =>
-                                                                    {
-                                                                        if (string.IsNullOrEmpty(data.Message))
-                                                                            return;
+            {
+                if (string.IsNullOrEmpty(data.Message))
+                    return;
 
-                                                                        // THIS IS PROBABLY NOT THE WAY TO DO THIS..
-                                                                        FixCsProjectFilesLog += data.Message + Environment.NewLine;
-                                                                    });
+                // THIS IS PROBABLY NOT THE WAY TO DO THIS..
+                FixCsProjectFilesLog += data.Message + Environment.NewLine;
+            });
 
             this.handlerUpdateProjectFilesCommand = handlerUpdateProjectFilesCommand ?? throw new ArgumentNullException(nameof(handlerUpdateProjectFilesCommand));
             this.handlerCleanAppConfigCommand = handlerCleanAppConfigCommand ?? throw new ArgumentNullException(nameof(handlerCleanAppConfigCommand));
