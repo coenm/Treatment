@@ -1,10 +1,7 @@
-﻿using System.Windows;
-
-namespace Treatment.UI
+﻿namespace Treatment.UI
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
+    using System.Windows;
+
     public partial class App : Application
     {
     }

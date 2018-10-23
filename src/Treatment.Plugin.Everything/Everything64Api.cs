@@ -8,9 +8,8 @@
 
     using JetBrains.Annotations;
 
-    /// <summary>Wrapper for Everything.
-    /// <see cref="https://www.voidtools.com/support/everything/sdk/csharp/"/>.
-    /// </summary>
+    /// <summary>Wrapper for Everything.</summary>
+    /// <remarks>See <see cref="https://www.voidtools.com/support/everything/sdk/csharp/"/> for the SDK.</remarks>
     internal static class Everything64Api
     {
         private const int EVERYTHING_REQUEST_FILE_NAME = 0x00000001;
@@ -81,7 +80,7 @@
         {
             try
             {
-                var _ = Everything_GetMajorVersion();
+                Everything_GetMajorVersion();
                 return true;
             }
             catch (Exception)

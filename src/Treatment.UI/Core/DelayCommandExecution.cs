@@ -12,7 +12,7 @@
     using Treatment.Contract;
 
     /// <summary>
-    /// For testing purposes
+    /// For testing purposes.
     /// </summary>
     public static class DelayCommandExecution
     {
