@@ -94,6 +94,7 @@ namespace Nito.Mvvm
         /// <summary>
         /// Whether the asynchronous command is currently executing.
         /// </summary>
+        /// <returns><c>true</c> when the command is currently executing. Otherwise <c>false</c>.</returns>
         public bool IsExecuting => Execution != null && Execution.IsNotCompleted;
 
         /// <summary>

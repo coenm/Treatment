@@ -21,7 +21,7 @@
             if (container == null)
                 throw new ArgumentNullException(nameof(container));
 
-            container.Register<IDelayService>(() => new RandomDelayService(2000, 10000), Lifestyle.Singleton);
+            container.Register(() => new RandomDelayService(2000, 10000), Lifestyle.Singleton);
 
             container.RegisterDecorator(
                                         typeof(ICommandHandler<>),
@@ -33,9 +33,9 @@
             where TCommand : ICommand
         {
             private readonly ICommandHandler<TCommand> decoratee;
-            private readonly IDelayService delayService;
+            private readonly RandomDelayService delayService;
 
-            public CommandDelayDecorator([NotNull] IDelayService delayService, [NotNull] ICommandHandler<TCommand> decoratee)
+            public CommandDelayDecorator([NotNull] RandomDelayService delayService, [NotNull] ICommandHandler<TCommand> decoratee)
             {
                 this.delayService = delayService ?? throw new ArgumentNullException(nameof(delayService));
                 this.decoratee = decoratee ?? throw new ArgumentNullException(nameof(decoratee));
@@ -52,18 +52,11 @@
             }
         }
 
-        private interface IDelayService
-        {
-            Task DelayAsync<TCommand>([NotNull] TCommand command, CancellationToken ct = default(CancellationToken))
-                where TCommand : ICommand;
-        }
-
-        private class RandomDelayService : IDelayService
+        private class RandomDelayService
         {
             private readonly int minMilliseconds;
             private readonly int maxMilliseconds;
-            [NotNull]
-            private readonly Random random;
+            [NotNull] private readonly Random random;
 
             public RandomDelayService(int minMilliseconds, int maxMilliseconds)
             {
