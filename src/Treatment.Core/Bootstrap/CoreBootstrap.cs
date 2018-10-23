@@ -47,7 +47,6 @@
             RegisterCommandValidationCommandHandlerDecorators(container);
 
             // container.RegisterDecorator(typeof(ICommandHandler<>), typeof(AuthorizationCommandHandlerDecorator<>));
-
             container.Register(typeof(IQueryHandler<,>), BusinessLayerAssemblies, Lifestyle.Scoped);
 
             // container.RegisterDecorator(typeof(IQueryHandler<,>), typeof(AuthorizationQueryHandlerDecorator<,>));
@@ -70,6 +69,23 @@
             container.RegisterSingleton<IQueryProcessor, QueryProcessor>();
         }
 
+        // TODO: use ICommand interface instead of EndsWith "Command"
+        public static IEnumerable<Type> GetCommandTypes()
+        {
+            return from assembly in ContractAssemblies
+                from type in assembly.GetExportedTypes()
+                where type.Name.EndsWith("Command")
+                select type;
+        }
+
+        public static IEnumerable<QueryInfo> GetQueryTypes()
+        {
+            return from assembly in ContractAssemblies
+                from type in assembly.GetExportedTypes()
+                where QueryInfo.IsQuery(type)
+                select new QueryInfo(type);
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void RegisterCommandValidationCommandHandlerDecorators([NotNull] Container container)
         {
@@ -84,23 +100,6 @@
         {
             // var assemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
             container.Register(typeof(IValidator<>), BusinessLayerAssemblies, Lifestyle.Scoped);
-        }
-
-        // TOOD not okay
-        public static IEnumerable<Type> GetCommandTypes()
-        {
-            return from assembly in ContractAssemblies
-                   from type in assembly.GetExportedTypes()
-                   where type.Name.EndsWith("Command")
-                   select type;
-        }
-
-        public static IEnumerable<QueryInfo> GetQueryTypes()
-        {
-            return from assembly in ContractAssemblies
-                   from type in assembly.GetExportedTypes()
-                   where QueryInfo.IsQuery(type)
-                   select new QueryInfo(type);
         }
     }
 }
