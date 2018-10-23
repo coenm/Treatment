@@ -6,9 +6,6 @@
     using Treatment.UI.ViewModel;
     using Treatment.UI.ViewModel.Settings;
 
-    /// <summary>
-    /// Interaction logic for SettingsWindow.xaml
-    /// </summary>
     public partial class SettingsWindow : Window, IEntityEditorView<ApplicationSettings>
     {
         public SettingsWindow()

@@ -8,7 +8,7 @@
 
     public static class TestEnvironment
     {
-        private const string REPOSITORY_ROOT = "REPOSITORY_ROOT";
+        private const string RepositoryRoot = "REPOSITORY_ROOT";
         private static readonly Lazy<string> LazyRootDirectoryFullPath = new Lazy<string>(GetRootDirectoryFullPathImpl);
         private static readonly Lazy<bool> RunsOnContinuousIntegration = new Lazy<bool>(IsContinuousIntegrationImpl);
         private static readonly Lazy<bool> RunsOnContinuousIntegrationTravis = new Lazy<bool>(IsRunningOnTravisImpl);
@@ -33,8 +33,8 @@
         /// <summary>
         /// Convert relative path to full path based on solution directory.
         /// </summary>
-        /// <param name="relativePath">relative path from root directory</param>
-        /// <returns>Full path</returns>
+        /// <param name="relativePath">relative path from root directory.</param>
+        /// <returns>Full path.</returns>
         public static string GetFullPath(params string[] relativePath)
         {
             var paths = new[] { RootDirectoryFullPath }.Concat(relativePath).ToArray();
@@ -69,7 +69,7 @@
             if (directory == null)
                 throw new Exception($"Unable to find root directory from '{assemblyLocation}'!");
 
-            while (!directory.EnumerateFiles(REPOSITORY_ROOT).Any())
+            while (!directory.EnumerateFiles(RepositoryRoot).Any())
             {
                 try
                 {

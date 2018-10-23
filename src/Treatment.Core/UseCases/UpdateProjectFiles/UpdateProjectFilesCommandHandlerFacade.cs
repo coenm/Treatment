@@ -53,7 +53,7 @@
         /// <summary>
         /// This class decorates <see cref="IFileSystem"/> and <see cref="IFileSearch"/>
         /// in order to report to <see cref="IProgress{ProgressData}"/>
-        /// when <see cref="UpdateProjectFilesCommandHandlerImplementation"/> is handling a <see cref="UpdateProjectFilesCommand"/>
+        /// when <see cref="UpdateProjectFilesCommandHandlerImplementation"/> is handling a <see cref="UpdateProjectFilesCommand"/>.
         /// </summary>
         private class ProgressCommandExecution : IFileSystem, IFileSearch, IDisposable
         {

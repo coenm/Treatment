@@ -29,8 +29,11 @@
 
             bootstrapper = new FakeBootstrapper();
             bootstrapper.RegisterPostRegisterAction(container => container.RegisterInstance<IConsole>(console));
-            // _bootstrapper.RegisterPostRegisterAction(container => container.RegisterInstance<IFileSystem>(_console));
-            // container.RegisterInstance<IFileSystem>(OsFileSystem.Instance);
+
+            /*
+            _bootstrapper.RegisterPostRegisterAction(container => container.RegisterInstance<IFileSystem>(_console));
+            container.RegisterInstance<IFileSystem>(OsFileSystem.Instance);
+             */
 
             sb = new StringBuilder();
             Console.SetOut(new StringWriter(sb));

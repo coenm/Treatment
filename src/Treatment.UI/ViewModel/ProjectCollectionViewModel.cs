@@ -19,17 +19,10 @@
 
     public class ProjectCollectionViewModel : ViewModelBase, IDisposable
     {
-        [NotNull]
-        private readonly ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand;
-
-        [NotNull]
-        private readonly ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand;
-
-        [NotNull]
-        private readonly IFileSearch fileSearch;
-
-        [NotNull]
-        private readonly IConfiguration configuration;
+        [NotNull] private readonly ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand;
+        [NotNull] private readonly ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand;
+        [NotNull] private readonly IFileSearch fileSearch;
+        [NotNull] private readonly IConfiguration configuration;
 
         public ProjectCollectionViewModel(
             [NotNull] ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand,
