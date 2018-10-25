@@ -8,13 +8,12 @@
 
     using JetBrains.Annotations;
 
-    /// <summary>Wrapper for Everything.
-    /// <see cref="https://www.voidtools.com/support/everything/sdk/csharp/"/>
-    /// </summary>
+    /// <summary>Wrapper for Everything.</summary>
+    /// <remarks>See <see cref="https://www.voidtools.com/support/everything/sdk/csharp/"/> for the SDK.</remarks>
     internal static class Everything64Api
     {
-        private const int EVERYTHING_REQUEST_FILE_NAME = 0x00000001;
-        private const int EVERYTHING_REQUEST_PATH = 0x00000002;
+        private const int EverythingRequestFileName = 0x00000001;
+        private const int EverythingRequestPath = 0x00000002;
 
         [DllImport("Everything64.dll", CharSet = CharSet.Unicode)]
         public static extern void Everything_SetSearch(string lpSearchString);
@@ -48,7 +47,7 @@
                 const int BUFFER_SIZE = 260;
 
                 Everything_SetSearch(query);
-                Everything_SetRequestFlags(EVERYTHING_REQUEST_FILE_NAME | EVERYTHING_REQUEST_PATH);
+                Everything_SetRequestFlags(EverythingRequestFileName | EverythingRequestPath);
                 Everything_SetMatchCase(false);
 
                 if (!Everything_Query(true))
@@ -81,7 +80,7 @@
         {
             try
             {
-                var _ = Everything_GetMajorVersion();
+                Everything_GetMajorVersion();
                 return true;
             }
             catch (Exception)

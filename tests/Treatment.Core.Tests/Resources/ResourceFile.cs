@@ -5,12 +5,12 @@
 
     public static class ResourceFile
     {
-        private static readonly string _embeddedResourceNs = typeof(ResourceFile).Namespace;
-        private static readonly Assembly _assembly = Assembly.GetExecutingAssembly();
+        private static readonly string EmbeddedResourceNs = typeof(ResourceFile).Namespace;
+        private static readonly Assembly Assembly = Assembly.GetExecutingAssembly();
 
         public static Stream OpenRead(string filename)
         {
-            return _assembly.GetManifestResourceStream(_embeddedResourceNs + "." + filename);
+            return Assembly.GetManifestResourceStream(EmbeddedResourceNs + "." + filename);
         }
 
         public static string GetContent(string filename)

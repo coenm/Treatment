@@ -13,48 +13,47 @@
 
      public class DryRunFileSystemDecoratorTest
      {
-         private readonly DryRunFileSystemDecorator _sut;
-         private readonly IFileSystem _decoratee;
-         private readonly IConsole _console;
+         private readonly DryRunFileSystemDecorator sut;
+         private readonly IFileSystem decoratee;
 
          public DryRunFileSystemDecoratorTest()
          {
-             _console = A.Dummy<IConsole>();
-             _decoratee = A.Fake<IFileSystem>();
+             var console = A.Dummy<IConsole>();
+             decoratee = A.Fake<IFileSystem>();
              var sanitizer = A.Fake<IRootDirSanitizer>();
              A.CallTo(() => sanitizer.Sanitize(A<string>._)).Returns(string.Empty);
 
-             _sut = new DryRunFileSystemDecorator(_decoratee, sanitizer, _console);
+             sut = new DryRunFileSystemDecorator(decoratee, sanitizer, console);
          }
 
          [Fact]
          public void SaveContent_NeverCallsDecorateeSaveContentTest()
          {
              // arrange
-             const string FILENAME = "a.txt";
-             const string CONTENT = "data";
+             const string filename = "a.txt";
+             const string content = "data";
 
              // act
-             _sut.SaveContent(FILENAME, CONTENT);
+             sut.SaveContent(filename, content);
 
              // assert
-             A.CallTo(() => _decoratee.SaveContent(FILENAME, CONTENT)).MustNotHaveHappened();
+             A.CallTo(() => decoratee.SaveContent(filename, content)).MustNotHaveHappened();
          }
 
          [Fact]
          public void GetFileContent_ShouldReturnDecorateeGetFileContentTest()
          {
              // arrange
-             const string FILENAME = "a.txt";
-             const string CONTENT = "data";
-             A.CallTo(() => _decoratee.GetFileContent(FILENAME)).Returns(CONTENT);
+             const string filename = "a.txt";
+             const string content = "data";
+             A.CallTo(() => decoratee.GetFileContent(filename)).Returns(content);
 
              // act
-             var result = _sut.GetFileContent(FILENAME);
+             var result = sut.GetFileContent(filename);
 
              // assert
-             result.Should().Be(CONTENT);
-             A.CallTo(() => _decoratee.GetFileContent(FILENAME)).MustHaveHappenedOnceExactly();
+             result.Should().Be(content);
+             A.CallTo(() => decoratee.GetFileContent(filename)).MustHaveHappenedOnceExactly();
          }
      }
  }

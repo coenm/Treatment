@@ -14,11 +14,11 @@
 
     internal class SvnReadOnlySourceControl : IReadOnlySourceControl
     {
-        private readonly IFileSystem _filesystem;
+        private readonly IFileSystem filesystem;
 
         public SvnReadOnlySourceControl([NotNull] IFileSystem filesystem)
         {
-            _filesystem = filesystem ?? throw new ArgumentNullException(nameof(filesystem));
+            this.filesystem = filesystem ?? throw new ArgumentNullException(nameof(filesystem));
         }
 
         public bool TryGetSvnRoot(string path, out string rootPath)
@@ -80,7 +80,7 @@
             {
                 // expected when root does not exists.
                 // do nothing specific
-                if (_filesystem.FileExists(path))
+                if (filesystem.FileExists(path))
                     return FileStatus.Unknown;
 
                 return FileStatus.NotExist;
@@ -88,7 +88,7 @@
             catch (SvnWorkingCopyPathNotFoundException)
             {
                 // path can exist on filesystem but then the file is placed in a path that is not under version control
-                if (_filesystem.FileExists(path))
+                if (filesystem.FileExists(path))
                     return FileStatus.New;
 
                 return FileStatus.NotExist;
@@ -108,7 +108,7 @@
 
         public string GetModifications(string fileName)
         {
-            if (!_filesystem.FileExists(fileName))
+            if (!filesystem.FileExists(fileName))
                 throw new Exception("File does not exists");
 
             try

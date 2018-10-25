@@ -20,22 +20,22 @@
     [UsedImplicitly]
     public class UpdateProjectFilesCommandHandlerFacade : ICommandHandler<UpdateProjectFilesCommand>
     {
-        private readonly IFileSystem _filesystem;
-        private readonly IFileSearch _fileSearcher;
+        private readonly IFileSystem filesystem;
+        private readonly IFileSearch fileSearcher;
 
         public UpdateProjectFilesCommandHandlerFacade([NotNull] IFileSystem filesystem, [NotNull] IFileSearch fileSearcher)
         {
-            _filesystem = filesystem ?? throw new ArgumentNullException(nameof(filesystem));
-            _fileSearcher = fileSearcher ?? throw new ArgumentNullException(nameof(fileSearcher));
+            this.filesystem = filesystem ?? throw new ArgumentNullException(nameof(filesystem));
+            this.fileSearcher = fileSearcher ?? throw new ArgumentNullException(nameof(fileSearcher));
         }
 
-        public async Task ExecuteAsync(UpdateProjectFilesCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
+        public async Task ExecuteAsync(UpdateProjectFilesCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)
         {
             // so if progress is null, we don't have to decorate the filesystem and file searcher.
             // create the 'real' command handler and let it handle the command.
             if (progress == null)
             {
-                var handler = new UpdateProjectFilesCommandHandlerImplementation(_filesystem, _fileSearcher);
+                var handler = new UpdateProjectFilesCommandHandlerImplementation(filesystem, fileSearcher);
                 await handler.ExecuteAsync(command, null, ct).ConfigureAwait(false);
                 return;
             }
@@ -43,7 +43,7 @@
             // progress is not null (progress feedback if desired).
             // Decorate the filesystem and fileSearcher to do the actual progress feedback (done in ProgressCommandExecution),
             // and instantiate the 'real' command handler and let it handle the command.
-            using (var progressCommandExecution = new ProgressCommandExecution(_filesystem, _fileSearcher, progress))
+            using (var progressCommandExecution = new ProgressCommandExecution(filesystem, fileSearcher, progress))
             {
                 var handler = new UpdateProjectFilesCommandHandlerImplementation(progressCommandExecution, progressCommandExecution);
                 await handler.ExecuteAsync(command, null, ct).ConfigureAwait(false);
@@ -53,67 +53,62 @@
         /// <summary>
         /// This class decorates <see cref="IFileSystem"/> and <see cref="IFileSearch"/>
         /// in order to report to <see cref="IProgress{ProgressData}"/>
-        /// when <see cref="UpdateProjectFilesCommandHandlerImplementation"/> is handling a <see cref="UpdateProjectFilesCommand"/>
+        /// when <see cref="UpdateProjectFilesCommandHandlerImplementation"/> is handling a <see cref="UpdateProjectFilesCommand"/>.
         /// </summary>
         private class ProgressCommandExecution : IFileSystem, IFileSearch, IDisposable
         {
-            [NotNull]
-            private readonly IFileSystem _filesystem;
+            [NotNull] private readonly IFileSystem filesystem;
+            [NotNull] private readonly IFileSearch fileSearch;
+            [NotNull] private readonly IProgress<ProgressData> progress;
 
-            [NotNull]
-            private readonly IFileSearch _fileSearch;
-
-            [NotNull]
-            private readonly IProgress<ProgressData> _progress;
-
-            private int _foundFileCount;
-            private int _currentIndex;
+            private int foundFileCount;
+            private int currentIndex;
 
             internal ProgressCommandExecution([NotNull] IFileSystem filesystem, [NotNull] IFileSearch fileSearch, [NotNull] IProgress<ProgressData> progress)
             {
-                _filesystem = filesystem ?? throw new ArgumentNullException(nameof(filesystem));
-                _fileSearch = fileSearch ?? throw new ArgumentNullException(nameof(fileSearch));
-                _progress = progress ?? throw new ArgumentNullException(nameof(progress));
-                _foundFileCount = 0;
+                this.filesystem = filesystem ?? throw new ArgumentNullException(nameof(filesystem));
+                this.fileSearch = fileSearch ?? throw new ArgumentNullException(nameof(fileSearch));
+                this.progress = progress ?? throw new ArgumentNullException(nameof(progress));
+                foundFileCount = 0;
             }
 
             public void Dispose()
             {
-                _progress.Report(new ProgressData("Done"));
+                progress.Report(new ProgressData("Done"));
             }
 
-            bool IFileSystem.FileExists(string filename) => _filesystem.FileExists(filename);
+            bool IFileSystem.FileExists(string filename) => filesystem.FileExists(filename);
 
-            Stream IFileSystem.ReadFile(string filename) => _filesystem.ReadFile(filename);
+            Stream IFileSystem.ReadFile(string filename) => filesystem.ReadFile(filename);
 
             string IFileSystem.GetFileContent(string filename)
             {
-                _currentIndex++;
-                _progress.Report(new ProgressData(_currentIndex, _foundFileCount, $"Processing '{filename}'"));
-                return _filesystem.GetFileContent(filename);
+                currentIndex++;
+                progress.Report(new ProgressData(currentIndex, foundFileCount, $"Processing '{filename}'"));
+                return filesystem.GetFileContent(filename);
             }
 
             void IFileSystem.SaveContent(string filename, string content)
             {
-                _progress.Report(new ProgressData(_currentIndex, _foundFileCount, $"File {filename} updated"));
-                _filesystem.SaveContent(filename, content);
+                progress.Report(new ProgressData(currentIndex, foundFileCount, $"File {filename} updated"));
+                filesystem.SaveContent(filename, content);
             }
 
-            Task IFileSystem.SaveContentAsync(string filename, Stream content) => _filesystem.SaveContentAsync(filename, content);
+            Task IFileSystem.SaveContentAsync(string filename, Stream content) => filesystem.SaveContentAsync(filename, content);
 
-            void IFileSystem.DeleteFile(string filename) => _filesystem.DeleteFile(filename);
+            void IFileSystem.DeleteFile(string filename) => filesystem.DeleteFile(filename);
 
             string[] IFileSearch.FindFilesIncludingSubdirectories(string rootPath, string mask)
             {
-                _progress.Report(new ProgressData($"Find cs files within directory {rootPath}"));
+                progress.Report(new ProgressData($"Find cs files within directory {rootPath}"));
 
-                var result = _fileSearch.FindFilesIncludingSubdirectories(rootPath, mask);
+                var result = fileSearch.FindFilesIncludingSubdirectories(rootPath, mask);
 
-                _foundFileCount = result.Length;
-                _currentIndex = 0;
+                foundFileCount = result.Length;
+                currentIndex = 0;
 
-                if (_foundFileCount == 0)
-                    _progress.Report(new ProgressData("No files found"));
+                if (foundFileCount == 0)
+                    progress.Report(new ProgressData("No files found"));
 
                 return result;
             }

@@ -20,7 +20,7 @@
 
         public Stream ReadFile(string filename)
         {
-            //return new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: 4096, useAsync: true);
+            // return new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: 4096, useAsync: true);
             return File.OpenRead(filename);
         }
 

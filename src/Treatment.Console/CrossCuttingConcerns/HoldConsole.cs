@@ -8,18 +8,18 @@
     public class HoldConsole : IHoldConsole
     {
         [NotNull]
-        private readonly IConsole _console;
+        private readonly IConsole console;
 
         public HoldConsole([NotNull] IConsole console)
         {
-            _console = console;
+            this.console = console;
         }
 
         public void Hold()
         {
-            _console.WriteLine();
-            _console.WriteLine("Press enter to exit");
-            _console.ReadLine();
+            console.WriteLine();
+            console.WriteLine("Press enter to exit");
+            console.ReadLine();
         }
     }
 }

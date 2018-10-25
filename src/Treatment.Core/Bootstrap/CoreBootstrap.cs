@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using System.Reflection;
     using System.Runtime.CompilerServices;
@@ -30,8 +29,8 @@
     // concern, create a specific BusinessLayer.Bootstrap project with this class.
     public static class CoreBootstrap
     {
-        private static readonly Assembly[] _contractAssemblies = { typeof(IQuery<>).Assembly };
-        private static readonly Assembly[] _businessLayerAssemblies = { Assembly.GetExecutingAssembly() };
+        private static readonly Assembly[] ContractAssemblies = { typeof(IQuery<>).Assembly };
+        private static readonly Assembly[] BusinessLayerAssemblies = { Assembly.GetExecutingAssembly() };
 
         public static void Bootstrap([NotNull] Container container)
         {
@@ -43,13 +42,13 @@
 
             RegisterFluentValidationValidators(container);
 
-            container.Register(typeof(ICommandHandler<>), _businessLayerAssemblies, Lifestyle.Scoped);
+            container.Register(typeof(ICommandHandler<>), BusinessLayerAssemblies, Lifestyle.Scoped);
 
             RegisterCommandValidationCommandHandlerDecorators(container);
 
             // container.RegisterDecorator(typeof(ICommandHandler<>), typeof(AuthorizationCommandHandlerDecorator<>));
+            container.Register(typeof(IQueryHandler<,>), BusinessLayerAssemblies, Lifestyle.Scoped);
 
-            container.Register(typeof(IQueryHandler<,>), _businessLayerAssemblies, Lifestyle.Scoped);
             // container.RegisterDecorator(typeof(IQueryHandler<,>), typeof(AuthorizationQueryHandlerDecorator<,>));
 
             // container.Register<IFileSystem>(() => OsFileSystem.Instance, Lifestyle.Singleton);
@@ -70,6 +69,23 @@
             container.RegisterSingleton<IQueryProcessor, QueryProcessor>();
         }
 
+        // TODO: use ICommand interface instead of EndsWith "Command"
+        public static IEnumerable<Type> GetCommandTypes()
+        {
+            return from assembly in ContractAssemblies
+                from type in assembly.GetExportedTypes()
+                where type.Name.EndsWith("Command")
+                select type;
+        }
+
+        public static IEnumerable<QueryInfo> GetQueryTypes()
+        {
+            return from assembly in ContractAssemblies
+                from type in assembly.GetExportedTypes()
+                where QueryInfo.IsQuery(type)
+                select new QueryInfo(type);
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void RegisterCommandValidationCommandHandlerDecorators([NotNull] Container container)
         {
@@ -83,48 +99,7 @@
         private static void RegisterFluentValidationValidators(Container container)
         {
             // var assemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
-            container.Register(typeof(IValidator<>), _businessLayerAssemblies, Lifestyle.Scoped);
-        }
-
-        // TOOD not okay
-        public static IEnumerable<Type> GetCommandTypes()
-        {
-            return from assembly in _contractAssemblies
-                   from type in assembly.GetExportedTypes()
-                   where type.Name.EndsWith("Command")
-                   select type;
-        }
-
-        public static IEnumerable<QueryInfo> GetQueryTypes()
-        {
-            return from assembly in _contractAssemblies
-                   from type in assembly.GetExportedTypes()
-                   where QueryInfo.IsQuery(type)
-                   select new QueryInfo(type);
-        }
-    }
-
-    [DebuggerDisplay("{QueryType.Name,nq}")]
-    public sealed class QueryInfo
-    {
-        public QueryInfo(Type queryType)
-        {
-            QueryType = queryType;
-            ResultType = DetermineResultTypes(queryType).Single();
-        }
-
-        public Type QueryType { get; }
-
-        public Type ResultType { get; }
-
-        public static bool IsQuery(Type type) => DetermineResultTypes(type).Any();
-
-        private static IEnumerable<Type> DetermineResultTypes(Type type)
-        {
-            return from interfaceType in type.GetInterfaces()
-                   where interfaceType.IsGenericType
-                   where interfaceType.GetGenericTypeDefinition() == typeof(IQuery<>)
-                   select interfaceType.GetGenericArguments()[0];
+            container.Register(typeof(IValidator<>), BusinessLayerAssemblies, Lifestyle.Scoped);
         }
     }
 }

@@ -12,24 +12,24 @@
     internal class FileSearchSelector : IFileSearchSelector
     {
         [NotNull]
-        private readonly IEnumerable<ISearchProviderFactory> _factories;
+        private readonly IEnumerable<ISearchProviderFactory> factories;
         [NotNull]
-        private readonly ISearchProviderNameOption _searchProviderName;
+        private readonly ISearchProviderNameOption searchProviderName;
 
         public FileSearchSelector(
             [NotNull] IEnumerable<ISearchProviderFactory> factories,
             [NotNull] ISearchProviderNameOption searchProviderName)
         {
-            _factories = factories ?? throw new ArgumentNullException(nameof(factories));
-            _searchProviderName = searchProviderName ?? throw new ArgumentNullException(nameof(searchProviderName));
+            this.factories = factories ?? throw new ArgumentNullException(nameof(factories));
+            this.searchProviderName = searchProviderName ?? throw new ArgumentNullException(nameof(searchProviderName));
         }
 
         [CanBeNull]
         public IFileSearch CreateSearchProvider()
         {
-            var factory = _factories
+            var factory = factories
                           .OrderBy(f => f.Priority)
-                          .FirstOrDefault(item => item.CanCreate(_searchProviderName.SearchProviderName));
+                          .FirstOrDefault(item => item.CanCreate(searchProviderName.SearchProviderName));
 
             return factory?.Create();
         }

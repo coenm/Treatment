@@ -1,15 +1,13 @@
-﻿using System;
-
-using SimpleInjector;
-
-namespace Treatment.UI
+﻿namespace Treatment.UI
 {
+    using System;
     using System.IO;
     using System.Linq;
     using System.Reflection;
 
     using JetBrains.Annotations;
 
+    using SimpleInjector;
     using SimpleInjector.Lifestyles;
 
     using Treatment.Core.Bootstrap;
@@ -105,7 +103,7 @@ namespace Treatment.UI
                 using (AsyncScopedLifestyle.BeginScope(container))
                 {
                     var app = new App();
-                    var mainWindow = container.GetInstance<View.MainWindow>();
+                    var mainWindow = container.GetInstance<MainWindow>();
                     app.Run(mainWindow);
                 }
             }

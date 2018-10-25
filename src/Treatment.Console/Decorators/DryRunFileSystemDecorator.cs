@@ -9,43 +9,43 @@
     using Treatment.Core.Interfaces;
 
     /// <summary>
-    /// Decorate IFileSystem not to save data to disk
+    /// Decorate IFileSystem not to save data to disk.
     /// </summary>
     [UsedImplicitly]
     public class DryRunFileSystemDecorator : IFileSystem
     {
         [NotNull]
-        private readonly IFileSystem _decoratee;
+        private readonly IFileSystem decoratee;
 
         [NotNull]
-        private readonly IRootDirSanitizer _sanitizer;
+        private readonly IRootDirSanitizer sanitizer;
 
         [NotNull]
-        private readonly IConsole _console;
+        private readonly IConsole console;
 
         public DryRunFileSystemDecorator(
             [NotNull] IFileSystem decoratee,
             [NotNull] IRootDirSanitizer sanitizer,
             [NotNull] IConsole console)
         {
-            _decoratee = decoratee;
-            _sanitizer = sanitizer;
-            _console = console;
+            this.decoratee = decoratee;
+            this.sanitizer = sanitizer;
+            this.console = console;
         }
 
         public bool FileExists(string filename)
         {
-            return _decoratee.FileExists(filename);
+            return decoratee.FileExists(filename);
         }
 
         public Stream ReadFile(string filename)
         {
-            return _decoratee.ReadFile(filename);
+            return decoratee.ReadFile(filename);
         }
 
         public string GetFileContent(string filename)
         {
-            return _decoratee.GetFileContent(filename);
+            return decoratee.GetFileContent(filename);
         }
 
         public void SaveContent(string filename, string content)
@@ -61,12 +61,12 @@
 
         public void DeleteFile(string filename)
         {
-            _console.WriteLine($"Would have deleted '{_sanitizer.Sanitize(filename)}'");
+            console.WriteLine($"Would have deleted '{sanitizer.Sanitize(filename)}'");
         }
 
         private void DummySaveContent(string filename)
         {
-            _console.WriteLine($"Would save content to '{_sanitizer.Sanitize(filename)}'");
+            console.WriteLine($"Would save content to '{sanitizer.Sanitize(filename)}'");
         }
     }
 }

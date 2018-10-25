@@ -15,7 +15,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Treatment.ico</ApplicationIcon>
-	<CodeAnalysisRuleSet>..\..\Treatment.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\..\Treatment.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
     <NoWin32Manifest>true</NoWin32Manifest>
@@ -103,6 +103,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <AdditionalFiles Include="..\..\stylecop.json" /> 
+  </ItemGroup>  
+  <ItemGroup>
     <Compile Include="Bootstrap\Bootstrapper.cs" />
     <Compile Include="Bootstrap\DefaultOptions.cs" />
     <Compile Include="Bootstrap\IDryRunOption.cs" />
@@ -165,10 +168,11 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="..\..\Treatment.ruleset" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
-    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.1.0-beta009\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.1.0-beta009\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -53,7 +53,7 @@
                 // assert
                 result.Should().BeEquivalentTo(new List<SearchProviderInfo>(1)
                                                    {
-                                                       new SearchProviderInfo(int.MaxValue, "FileSystem")
+                                                       new SearchProviderInfo(int.MaxValue, "FileSystem"),
                                                    });
             }
         }

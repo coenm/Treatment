@@ -12,6 +12,5 @@
         }
 
         public static GetAllSearchProvidersQuery Instance { get; } = new GetAllSearchProvidersQuery();
-
     }
 }

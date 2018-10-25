@@ -10,14 +10,14 @@
     public class CSharpProjectFileUpdater
     {
         [NotNull]
-        private readonly XDocument _doc;
+        private readonly XDocument doc;
         [NotNull]
-        private readonly XNamespace _msbuildNamespace;
+        private readonly XNamespace msbuildNamespace;
 
         private CSharpProjectFileUpdater(XDocument doc)
         {
-            _msbuildNamespace = "http://schemas.microsoft.com/developer/msbuild/2003";
-            _doc = doc ?? throw new ArgumentNullException(nameof(doc));
+            msbuildNamespace = "http://schemas.microsoft.com/developer/msbuild/2003";
+            this.doc = doc ?? throw new ArgumentNullException(nameof(doc));
         }
 
         [PublicAPI]
@@ -47,15 +47,15 @@
         [PublicAPI]
         public CSharpProjectFileUpdater RemoveEmptyItemGroups()
         {
-            if (_doc.Root == null)
+            if (doc.Root == null)
                 return this;
 
-            if (!_doc.Root.HasElements)
+            if (!doc.Root.HasElements)
                 return this;
 
-            var itemGroups = _doc
-                             .Element(_msbuildNamespace + "Project")
-                             .Elements(_msbuildNamespace + "ItemGroup")
+            var itemGroups = doc
+                             .Element(msbuildNamespace + "Project")
+                             .Elements(msbuildNamespace + "ItemGroup")
                              .Where(itemGroup => itemGroup.HasElements == false);
 
             foreach (var itemGroup in itemGroups)
@@ -74,18 +74,18 @@
         [PublicAPI]
         public CSharpProjectFileUpdater RemoveAppConfig()
         {
-            if (_doc.Root == null)
+            if (doc.Root == null)
                 return this;
 
-            if (!_doc.Root.HasElements)
+            if (!doc.Root.HasElements)
                 return this;
 
-            var itemGroups = _doc
-                             .Element(_msbuildNamespace + "Project")
-                             .Elements(_msbuildNamespace + "ItemGroup")
-                             .Where(itemGroup => itemGroup.Elements(_msbuildNamespace + "None") != null
+            var itemGroups = doc
+                             .Element(msbuildNamespace + "Project")
+                             .Elements(msbuildNamespace + "ItemGroup")
+                             .Where(itemGroup => itemGroup.Elements(msbuildNamespace + "None") != null
                                                  &&
-                                                 itemGroup.Elements(_msbuildNamespace + "None")
+                                                 itemGroup.Elements(msbuildNamespace + "None")
                                                           .Any(noneElement => noneElement.Attribute("Include") != null
                                                                               &&
                                                                               (noneElement.Attribute("Include").Value == "app.config"
@@ -93,14 +93,16 @@
                                                                                noneElement.Attribute("Include").Value == "App.config")));
 
             foreach (var itemGroup in itemGroups)
-            foreach (var noneElement in itemGroup.Elements(_msbuildNamespace + "None"))
             {
-                var value = noneElement.Attribute("Include")?.Value;
-                if (string.IsNullOrWhiteSpace(value) || string.Compare(value, "app.config", StringComparison.InvariantCultureIgnoreCase) != 0)
-                    continue;
+                foreach (var noneElement in itemGroup.Elements(msbuildNamespace + "None"))
+                {
+                    var value = noneElement.Attribute("Include")?.Value;
+                    if (string.IsNullOrWhiteSpace(value) || string.Compare(value, "app.config", StringComparison.InvariantCultureIgnoreCase) != 0)
+                        continue;
 
-                noneElement.Remove();
-                HasChanges = true;
+                    noneElement.Remove();
+                    HasChanges = true;
+                }
             }
 
             return this;
@@ -121,7 +123,7 @@
             if (stream.CanWrite == false)
                 throw new NotSupportedException($"Cannot write to stream '{nameof(stream)}'.");
 
-            _doc.Save(stream/*, SaveOptions.DisableFormatting*/);
+            doc.Save(stream/*, SaveOptions.DisableFormatting*/);
         }
     }
 }

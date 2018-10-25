@@ -14,21 +14,21 @@
     public class CommandValidationDecorator<TCommand> : ICommandHandler<TCommand>
         where TCommand : ICommand
     {
-        private readonly IValidator<TCommand> _validator;
-        private readonly ICommandHandler<TCommand> _decoratee;
+        private readonly IValidator<TCommand> validator;
+        private readonly ICommandHandler<TCommand> decoratee;
 
         public CommandValidationDecorator([NotNull] IValidator<TCommand> validator, [NotNull] ICommandHandler<TCommand> decoratee)
         {
-            _validator = validator ?? throw new ArgumentNullException(nameof(validator));
-            _decoratee = decoratee ?? throw new ArgumentNullException(nameof(decoratee));
+            this.validator = validator ?? throw new ArgumentNullException(nameof(validator));
+            this.decoratee = decoratee ?? throw new ArgumentNullException(nameof(decoratee));
         }
 
         [DebuggerStepThrough]
-        public Task ExecuteAsync(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
+        public Task ExecuteAsync(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)
         {
-            _validator.ValidateAndThrow(command);
+            validator.ValidateAndThrow(command);
 
-            return _decoratee.ExecuteAsync(command, progress, ct);
+            return decoratee.ExecuteAsync(command, progress, ct);
         }
     }
 }

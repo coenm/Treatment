@@ -19,17 +19,10 @@
 
     public class ProjectCollectionViewModel : ViewModelBase, IDisposable
     {
-        [NotNull]
-        private readonly ICommandHandler<UpdateProjectFilesCommand> _handlerUpdateProjectFilesCommand;
-
-        [NotNull]
-        private readonly ICommandHandler<CleanAppConfigCommand> _handlerCleanAppConfigCommand;
-
-        [NotNull]
-        private readonly IFileSearch _fileSearch;
-
-        [NotNull]
-        private readonly IConfiguration _configuration;
+        [NotNull] private readonly ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand;
+        [NotNull] private readonly ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand;
+        [NotNull] private readonly IFileSearch fileSearch;
+        [NotNull] private readonly IConfiguration configuration;
 
         public ProjectCollectionViewModel(
             [NotNull] ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand,
@@ -37,10 +30,10 @@
             [NotNull] IFileSearch fileSearch,
             [NotNull] IConfiguration configuration)
         {
-            _handlerUpdateProjectFilesCommand = handlerUpdateProjectFilesCommand ?? throw new ArgumentNullException(nameof(handlerUpdateProjectFilesCommand));
-            _handlerCleanAppConfigCommand = handlerCleanAppConfigCommand ?? throw new ArgumentNullException(nameof(handlerCleanAppConfigCommand));
-            _fileSearch = fileSearch ?? throw new ArgumentNullException(nameof(fileSearch));
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            this.handlerUpdateProjectFilesCommand = handlerUpdateProjectFilesCommand ?? throw new ArgumentNullException(nameof(handlerUpdateProjectFilesCommand));
+            this.handlerCleanAppConfigCommand = handlerCleanAppConfigCommand ?? throw new ArgumentNullException(nameof(handlerCleanAppConfigCommand));
+            this.fileSearch = fileSearch ?? throw new ArgumentNullException(nameof(fileSearch));
+            this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 
             Projects = new ObservableCollection<ProjectViewModel>();
 
@@ -55,17 +48,35 @@
         {
         }
 
+        private static string Hash([CanBeNull] string filename)
+        {
+            if (filename == null)
+                return string.Empty;
+
+            var crypt = new SHA256Managed();
+            var result = crypt.ComputeHash(
+                crypt.ComputeHash(
+                        new byte[] { 0, 1, 3, 5, 7, 9 }
+                            .Concat(Encoding.ASCII.GetBytes(filename))
+                            .ToArray())
+                    .Concat(
+                        new byte[] { 34, 22, 230, 33, 33, 0 })
+                    .ToArray());
+
+            return Z85.Encode(result);
+        }
+
         [NotNull]
         private IEnumerable<ProjectViewModel> CreateProjectViewModelsFromDirectory()
         {
-            var rootPath = _configuration.RootPath;
+            var rootPath = configuration.RootPath;
             if (rootPath == null)
                 yield break;
 
             if (!Directory.Exists(rootPath))
                 yield break;
 
-            var files = _fileSearch.FindFilesIncludingSubdirectories(rootPath, "*.sln");
+            var files = fileSearch.FindFilesIncludingSubdirectories(rootPath, "*.sln");
 
             foreach (var file in files)
             {
@@ -99,27 +110,9 @@
                 yield return new ProjectViewModel(
                                                   rootDirectoryInfo.Name,
                                                   rootDirectoryInfo.FullName,
-                                                  _handlerUpdateProjectFilesCommand,
-                                                  _handlerCleanAppConfigCommand);
+                                                  handlerUpdateProjectFilesCommand,
+                                                  handlerCleanAppConfigCommand);
             }
-        }
-
-        private static string Hash([CanBeNull] string filename)
-        {
-            if (filename == null)
-                return string.Empty;
-
-            var crypt = new SHA256Managed();
-            var result = crypt.ComputeHash(
-                                           crypt.ComputeHash(
-                                                             new byte[] { 0, 1, 3, 5, 7, 9 }
-                                                                 .Concat(Encoding.ASCII.GetBytes(filename))
-                                                                 .ToArray())
-                                                .Concat(
-                                                        new byte[] { 34, 22, 230, 33, 33, 0 })
-                                                .ToArray());
-
-            return Z85.Encode(result);
         }
     }
 }

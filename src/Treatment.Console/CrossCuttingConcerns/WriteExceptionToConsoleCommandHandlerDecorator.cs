@@ -10,33 +10,33 @@
     using Treatment.Contract;
 
     /// <summary>Catch, and write exception message to console.</summary>
-    /// <typeparam name="TCommand">Command to handle</typeparam>
+    /// <typeparam name="TCommand">Command to handle.</typeparam>
     [UsedImplicitly]
     public class WriteExceptionToConsoleCommandHandlerDecorator<TCommand> : ICommandHandler<TCommand>
         where TCommand : ICommand
     {
-        private readonly ICommandHandler<TCommand> _decorated;
-        private readonly IConsole _console;
+        private readonly ICommandHandler<TCommand> decorated;
+        private readonly IConsole console;
 
         public WriteExceptionToConsoleCommandHandlerDecorator(ICommandHandler<TCommand> decorated, IConsole console)
         {
-            _decorated = decorated;
-            _console = console;
+            this.decorated = decorated;
+            this.console = console;
         }
 
         public async Task ExecuteAsync(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
         {
             try
             {
-                await _decorated.ExecuteAsync(command, progress, ct).ConfigureAwait(false);
+                await decorated.ExecuteAsync(command, progress, ct).ConfigureAwait(false);
             }
             catch (Exception e)
             {
-                _console.WriteLine(e.Message);
+                console.WriteLine(e.Message);
 
-                _console.WriteLine();
-                _console.WriteLine("Press enter to continue");
-                _console.ReadLine();
+                console.WriteLine();
+                console.WriteLine("Press enter to continue");
+                console.ReadLine();
             }
         }
     }

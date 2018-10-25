@@ -17,13 +17,13 @@
 
     public class SvnReadOnlySourceControlTest
     {
-        private readonly SvnReadOnlySourceControl _sut;
-        private readonly string _expectedSvnRootDirectory;
+        private readonly SvnReadOnlySourceControl sut;
+        private readonly string expectedSvnRootDirectory;
 
         public SvnReadOnlySourceControlTest()
         {
-            _expectedSvnRootDirectory = TestEnvironment.GetFullPath("tests", "TestData", "SvnCheckout");
-            _sut = new SvnReadOnlySourceControl(OsFileSystem.Instance);
+            expectedSvnRootDirectory = TestEnvironment.GetFullPath("tests", "TestData", "SvnCheckout");
+            sut = new SvnReadOnlySourceControl(OsFileSystem.Instance);
         }
 
         [Theory]
@@ -37,7 +37,7 @@
             var fullPath = TestEnvironment.GetFullPath(path);
 
             // act
-            var result = _sut.TryGetSvnRoot(fullPath, out var root);
+            var result = sut.TryGetSvnRoot(fullPath, out var root);
 
             // assert
             if (!expectedRepoFound)
@@ -48,7 +48,7 @@
             else
             {
                 result.Should().BeTrue();
-                root.Should().Be(_expectedSvnRootDirectory);
+                root.Should().Be(expectedSvnRootDirectory);
             }
         }
 
@@ -58,7 +58,7 @@
         [InlineData("tests\\TestData\\SvnCheckout\\txt\\fileInsideRepoNotExists.txt", FileStatus.NotExist)]
         [InlineData("tests\\TestData\\SvnCheckout\\txt\\file1.txt", FileStatus.Unchanged)]
         [InlineData("tests\\TestData\\SvnCheckout\\txt\\dir1\\file1.txt", FileStatus.Modified)]
-        [InlineData("tests\\TestData\\SvnCheckout\\txt\\dir1\\file2.txt", FileStatus.Modified)] // renamed from file2.txt -> file2.renamed.txt. Marked as modiefied. Not sure if this is what i want.
+        [InlineData("tests\\TestData\\SvnCheckout\\txt\\dir1\\file2.txt", FileStatus.Modified)] // renamed from file2.txt -> file2.renamed.txt. Marked as modified. Not sure if this is what i want.
         [InlineData("tests\\TestData\\SvnCheckout\\txt\\dir1\\file2.renamed.txt", FileStatus.New)]
         [InlineData("tests\\TestData\\SvnCheckout\\txt\\dir1\\new file marked as added.txt", FileStatus.New)]
         [InlineData("tests\\TestData\\SvnCheckout\\txt\\dir1\\new file not marked as added.txt", FileStatus.New)]
@@ -70,7 +70,7 @@
             var fullPath = TestEnvironment.GetFullPath(path);
 
             // act
-            var result = _sut.GetFileStatus(fullPath);
+            var result = sut.GetFileStatus(fullPath);
 
             // assert
             result.Should().Be(expectedState);
@@ -85,7 +85,7 @@
             var fullPath = TestEnvironment.GetFullPath(path);
 
             // act
-            var result = _sut.GetModifications(fullPath);
+            var result = sut.GetModifications(fullPath);
 
             // assert
             result.Should().Be(expectedState);
@@ -100,7 +100,7 @@
             var fullPath = TestEnvironment.GetFullPath("tests", "TestData", "SvnCheckout", "txt", "dir1", "file1.txt");
 
             // act
-            var result = _sut.GetModifications(fullPath);
+            var result = sut.GetModifications(fullPath);
 
             // assert
             var sanitizedResult = Sanitizer(result);
@@ -109,8 +109,7 @@
 
         private static string Sanitizer(string input)
         {
-            var rootPath = TestEnvironment.GetFullPath()
-                                          .Replace("\\", "/");
+            var rootPath = TestEnvironment.GetFullPath().Replace("\\", "/");
             return input.Replace(rootPath, "ROOTPATH");
         }
     }

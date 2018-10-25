@@ -16,16 +16,16 @@
     [UsedImplicitly]
     public class GetAllVersionControlProvidersQueryHandler : IQueryHandler<GetAllVersionControlProvidersQuery, List<VersionControlProviderInfo>>
     {
-        private readonly List<ISourceControlAbstractFactory> _searchProviderFactories;
+        private readonly List<ISourceControlAbstractFactory> searchProviderFactories;
 
         public GetAllVersionControlProvidersQueryHandler([NotNull] IEnumerable<ISourceControlAbstractFactory> versionControlProviderFactories)
         {
-            _searchProviderFactories = versionControlProviderFactories.ToList();
+            searchProviderFactories = versionControlProviderFactories.ToList();
         }
 
-        public Task<List<VersionControlProviderInfo>> HandleAsync(GetAllVersionControlProvidersQuery query, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
+        public Task<List<VersionControlProviderInfo>> HandleAsync(GetAllVersionControlProvidersQuery query, IProgress<ProgressData> progress = null, CancellationToken ct = default)
         {
-            return Task.FromResult(_searchProviderFactories
+            return Task.FromResult(searchProviderFactories
                                    .OrderBy(f => f.Priority)
                                    .Select(f => new VersionControlProviderInfo(f.Priority, f.Name))
                                    .ToList());

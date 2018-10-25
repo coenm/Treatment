@@ -15,24 +15,24 @@
 
     public class CleanSingleAppConfigTest
     {
-        private const string APPCONFIG_FILENAME = "app.config";
-        private readonly IFileSystem _fileSystem;
-        private readonly CleanSingleAppConfig _sut;
+        private const string AppConfigFilename = "app.config";
+        private readonly IFileSystem fileSystem;
+        private readonly CleanSingleAppConfig sut;
 
         public CleanSingleAppConfigTest()
         {
-            _fileSystem = A.Fake<IFileSystem>();
-            _sut = new CleanSingleAppConfig(_fileSystem);
+            fileSystem = A.Fake<IFileSystem>();
+            sut = new CleanSingleAppConfig(fileSystem);
         }
 
         [Fact]
         public async Task ExecuteShouldFixCsProjFileAndDeleteAppconfigFileTest()
         {
             // arrange
-            const string CSPROJ_FILENAME = "FileWithRelativeHintPath.txt";
+            const string csprojFilename = "FileWithRelativeHintPath.txt";
             string outputContent = null;
-            A.CallTo(() => _fileSystem.ReadFile(CSPROJ_FILENAME)).Returns(ResourceFile.OpenRead(CSPROJ_FILENAME));
-            A.CallTo(() => _fileSystem.SaveContentAsync(CSPROJ_FILENAME, A<Stream>._))
+            A.CallTo(() => fileSystem.ReadFile(csprojFilename)).Returns(ResourceFile.OpenRead(csprojFilename));
+            A.CallTo(() => fileSystem.SaveContentAsync(csprojFilename, A<Stream>._))
              .Invokes(call =>
                       {
                           var outputStream = call.Arguments[1] as MemoryStream;
@@ -40,10 +40,10 @@
                       });
 
             // act
-            await _sut.ExecuteAsync(CSPROJ_FILENAME, APPCONFIG_FILENAME);
+            await sut.ExecuteAsync(csprojFilename, AppConfigFilename);
 
             // assert
-            A.CallTo(() => _fileSystem.DeleteFile(APPCONFIG_FILENAME)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fileSystem.DeleteFile(AppConfigFilename)).MustHaveHappenedOnceExactly();
             Approvals.Verify(outputContent);
         }
 
@@ -51,15 +51,15 @@
         public async Task ExecuteAsyncShouldNotDeleteAppConfigFileWhenCsprojFileDidNotChangeTest()
         {
             // arrange
-            const string CSPROJ_FILENAME = "FileWithRelativeHintPathWithoutAppConfig.txt";
-            A.CallTo(() => _fileSystem.ReadFile(CSPROJ_FILENAME)).Returns(ResourceFile.OpenRead(CSPROJ_FILENAME));
+            const string csprojFilename = "FileWithRelativeHintPathWithoutAppConfig.txt";
+            A.CallTo(() => fileSystem.ReadFile(csprojFilename)).Returns(ResourceFile.OpenRead(csprojFilename));
 
             // act
-            await _sut.ExecuteAsync(CSPROJ_FILENAME, APPCONFIG_FILENAME);
+            await sut.ExecuteAsync(csprojFilename, AppConfigFilename);
 
             // assert
-            A.CallTo(() => _fileSystem.DeleteFile(APPCONFIG_FILENAME)).MustNotHaveHappened();
-            A.CallTo(() => _fileSystem.SaveContentAsync(CSPROJ_FILENAME, A<Stream>._)).MustNotHaveHappened();
+            A.CallTo(() => fileSystem.DeleteFile(AppConfigFilename)).MustNotHaveHappened();
+            A.CallTo(() => fileSystem.SaveContentAsync(csprojFilename, A<Stream>._)).MustNotHaveHappened();
         }
     }
 }

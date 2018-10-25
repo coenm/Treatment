@@ -11,19 +11,19 @@
     public class SummaryDecorator<TCommand> : ICommandHandler<TCommand>
         where TCommand : ICommand
     {
-        private readonly ICommandHandler<TCommand> _decorated;
-        private readonly ISummaryWriter _summaryWriter;
+        private readonly ICommandHandler<TCommand> decorated;
+        private readonly ISummaryWriter summaryWriter;
 
         public SummaryDecorator(ICommandHandler<TCommand> decorated, ISummaryWriter summaryWriter)
         {
-            _decorated = decorated;
-            _summaryWriter = summaryWriter;
+            this.decorated = decorated;
+            this.summaryWriter = summaryWriter;
         }
 
-        public async Task ExecuteAsync(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
+        public async Task ExecuteAsync(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)
         {
-            await _decorated.ExecuteAsync(command, progress, ct).ConfigureAwait(false);
-            _summaryWriter.OutputSummary();
+            await decorated.ExecuteAsync(command, progress, ct).ConfigureAwait(false);
+            summaryWriter.OutputSummary();
         }
     }
 }

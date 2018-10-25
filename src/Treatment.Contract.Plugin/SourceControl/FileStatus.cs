@@ -5,12 +5,24 @@
     [Flags]
     public enum FileStatus
     {
+        /// <summary>
+        /// Item is new to source control
+        /// </summary>
         New = 1 << 0,
 
+        /// <summary>
+        /// Item has been modified.
+        /// </summary>
         Modified = 1 << 1,
 
+        /// <summary>
+        /// Item is unchanged.
+        /// </summary>
         Unchanged = 1 << 2,
 
+        /// <summary>
+        /// Item exists
+        /// </summary>
         Exist = 1 << 3,
 
         /// <summary>

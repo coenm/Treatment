@@ -16,16 +16,16 @@
     [UsedImplicitly]
     public class GetAllSearchProvidersQueryHandler : IQueryHandler<GetAllSearchProvidersQuery, List<SearchProviderInfo>>
     {
-        private readonly IEnumerable<ISearchProviderFactory> _searchProviderFactories;
+        private readonly IEnumerable<ISearchProviderFactory> searchProviderFactories;
 
         public GetAllSearchProvidersQueryHandler([NotNull] IEnumerable<ISearchProviderFactory> searchProviderFactories)
         {
-            _searchProviderFactories = searchProviderFactories.ToList();
+            this.searchProviderFactories = searchProviderFactories.ToList();
         }
 
-        public Task<List<SearchProviderInfo>> HandleAsync(GetAllSearchProvidersQuery query, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
+        public Task<List<SearchProviderInfo>> HandleAsync(GetAllSearchProvidersQuery query, IProgress<ProgressData> progress = null, CancellationToken ct = default)
         {
-            var orderedFactories = _searchProviderFactories.OrderBy(f => f.Priority).ToList();
+            var orderedFactories = searchProviderFactories.OrderBy(f => f.Priority).ToList();
 
             var result = new List<SearchProviderInfo>(orderedFactories.Count);
 

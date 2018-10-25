@@ -17,12 +17,12 @@ namespace Nito.Mvvm
         /// <summary>
         /// The implementation of <see cref="IAsyncCommand.ExecuteAsync(object)"/>.
         /// </summary>
-        private readonly Func<object, Task> _executeAsync;
+        private readonly Func<object, Task> executeAsync;
 
         /// <summary>
         /// The implementation of <see cref="ICommand.CanExecute(object)"/>.
         /// </summary>
-        private readonly Func<object, bool> _canExecute;
+        private readonly Func<object, bool> canExecute;
 
         /// <summary>
         /// Creates a new asynchronous command, with the specified asynchronous delegate as its implementation.
@@ -33,8 +33,8 @@ namespace Nito.Mvvm
         public CapturingExceptionAsyncCommand(Func<object, Task> executeAsync, Func<object, bool> canExecute, Func<object, ICanExecuteChanged> canExecuteChangedFactory)
             : base(canExecuteChangedFactory)
         {
-            _executeAsync = executeAsync;
-            _canExecute = canExecute;
+            this.executeAsync = executeAsync;
+            this.canExecute = canExecute;
         }
 
         /// <summary>
@@ -87,6 +87,11 @@ namespace Nito.Mvvm
         }
 
         /// <summary>
+        /// Raised when any properties on this instance have changed.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
         /// Represents the most recent execution of the asynchronous command. Returns <c>null</c> until the first execution of this command.
         /// </summary>
         public NotifyTask Execution { get; private set; }
@@ -94,6 +99,7 @@ namespace Nito.Mvvm
         /// <summary>
         /// Whether the asynchronous command is currently executing.
         /// </summary>
+        /// <returns><c>true</c> when the command is currently executing. Otherwise <c>false</c>.</returns>
         public bool IsExecuting => Execution != null && Execution.IsNotCompleted;
 
         /// <summary>
@@ -103,7 +109,7 @@ namespace Nito.Mvvm
         public override async Task ExecuteAsync(object parameter)
         {
             var tcs = new TaskCompletionSource<object>();
-            Execution = NotifyTask.Create(DoExecuteAsync(tcs.Task, _executeAsync, parameter));
+            Execution = NotifyTask.Create(DoExecuteAsync(tcs.Task, executeAsync, parameter));
             OnCanExecuteChanged();
             var propertyChanged = PropertyChanged;
             propertyChanged?.Invoke(this, PropertyChangedEventArgsCache.Instance.Get("Execution"));
@@ -117,11 +123,6 @@ namespace Nito.Mvvm
         }
 
         /// <summary>
-        /// Raised when any properties on this instance have changed.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
         /// Raises <see cref="ICommand.CanExecuteChanged"/>.
         /// </summary>
         public new void OnCanExecuteChanged() => base.OnCanExecuteChanged();
@@ -130,7 +131,7 @@ namespace Nito.Mvvm
         /// The implementation of <see cref="ICommand.CanExecute(object)"/>. Returns <c>false</c> whenever the async command is in progress.
         /// </summary>
         /// <param name="parameter">The parameter for the command.</param>
-        protected override bool CanExecute(object parameter) => !IsExecuting && _canExecute(parameter);
+        protected override bool CanExecute(object parameter) => !IsExecuting && canExecute(parameter);
 
         private static async Task DoExecuteAsync(Task precondition, Func<object, Task> executeAsync, object parameter)
         {

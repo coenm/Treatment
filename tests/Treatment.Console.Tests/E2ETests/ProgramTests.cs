@@ -17,26 +17,29 @@
 
     public class ProgramTests
     {
-        private readonly FakeBootstrapper _bootstrapper;
-        private readonly StringBuilder _sb;
+        private readonly FakeBootstrapper bootstrapper;
+        private readonly StringBuilder sb;
 
         [NotNull]
-        private readonly FakeConsoleAdapter _console;
+        private readonly FakeConsoleAdapter console;
 
         public ProgramTests()
         {
-            _console = new FakeConsoleAdapter();
+            console = new FakeConsoleAdapter();
 
-            _bootstrapper = new FakeBootstrapper();
-            _bootstrapper.RegisterPostRegisterAction(container => container.RegisterInstance<IConsole>(_console));
-            // _bootstrapper.RegisterPostRegisterAction(container => container.RegisterInstance<IFileSystem>(_console));
-            // container.RegisterInstance<IFileSystem>(OsFileSystem.Instance);
+            bootstrapper = new FakeBootstrapper();
+            bootstrapper.RegisterPostRegisterAction(container => container.RegisterInstance<IConsole>(console));
 
-            _sb = new StringBuilder();
-            Console.SetOut(new StringWriter(_sb));
-            Console.SetError(new StringWriter(_sb));
+            /*
+            _bootstrapper.RegisterPostRegisterAction(container => container.RegisterInstance<IFileSystem>(_console));
+            container.RegisterInstance<IFileSystem>(OsFileSystem.Instance);
+             */
 
-            Program.Bootstrapper = _bootstrapper;
+            sb = new StringBuilder();
+            Console.SetOut(new StringWriter(sb));
+            Console.SetError(new StringWriter(sb));
+
+            Program.Bootstrapper = bootstrapper;
         }
 
         [Fact]
@@ -61,7 +64,7 @@
 
             // assert
             result.Should().Be(0);
-            Approvals.Verify(this._console.ToString());
+            Approvals.Verify(console.ToString());
         }
     }
 }
