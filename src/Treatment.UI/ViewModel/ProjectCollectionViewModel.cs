@@ -48,6 +48,24 @@
         {
         }
 
+        private static string Hash([CanBeNull] string filename)
+        {
+            if (filename == null)
+                return string.Empty;
+
+            var crypt = new SHA256Managed();
+            var result = crypt.ComputeHash(
+                crypt.ComputeHash(
+                        new byte[] { 0, 1, 3, 5, 7, 9 }
+                            .Concat(Encoding.ASCII.GetBytes(filename))
+                            .ToArray())
+                    .Concat(
+                        new byte[] { 34, 22, 230, 33, 33, 0 })
+                    .ToArray());
+
+            return Z85.Encode(result);
+        }
+
         [NotNull]
         private IEnumerable<ProjectViewModel> CreateProjectViewModelsFromDirectory()
         {
@@ -95,24 +113,6 @@
                                                   handlerUpdateProjectFilesCommand,
                                                   handlerCleanAppConfigCommand);
             }
-        }
-
-        private static string Hash([CanBeNull] string filename)
-        {
-            if (filename == null)
-                return string.Empty;
-
-            var crypt = new SHA256Managed();
-            var result = crypt.ComputeHash(
-                                           crypt.ComputeHash(
-                                                             new byte[] { 0, 1, 3, 5, 7, 9 }
-                                                                 .Concat(Encoding.ASCII.GetBytes(filename))
-                                                                 .ToArray())
-                                                .Concat(
-                                                        new byte[] { 34, 22, 230, 33, 33, 0 })
-                                                .ToArray());
-
-            return Z85.Encode(result);
         }
     }
 }

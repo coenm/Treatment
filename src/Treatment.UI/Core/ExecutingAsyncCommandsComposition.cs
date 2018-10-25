@@ -48,6 +48,18 @@
             actions.Clear();
         }
 
+        private static void IgnoreException(Action action)
+        {
+            try
+            {
+                action.Invoke();
+            }
+            catch (Exception)
+            {
+                // ignore
+            }
+        }
+
         private void CommandOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName != nameof(CapturingExceptionAsyncCommand.IsExecuting))
@@ -67,18 +79,6 @@
 
             foreach (var cmd in commands)
                 cmd.OnCanExecuteChanged();
-        }
-
-        private static void IgnoreException(Action action)
-        {
-            try
-            {
-                action.Invoke();
-            }
-            catch (Exception)
-            {
-                // ignore
-            }
         }
     }
 }

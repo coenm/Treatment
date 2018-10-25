@@ -87,6 +87,11 @@ namespace Nito.Mvvm
         }
 
         /// <summary>
+        /// Raised when any properties on this instance have changed.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
         /// Represents the most recent execution of the asynchronous command. Returns <c>null</c> until the first execution of this command.
         /// </summary>
         public NotifyTask Execution { get; private set; }
@@ -116,11 +121,6 @@ namespace Nito.Mvvm
 
             // await Execution.Task;
         }
-
-        /// <summary>
-        /// Raised when any properties on this instance have changed.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Raises <see cref="ICommand.CanExecuteChanged"/>.
