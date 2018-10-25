@@ -9,7 +9,7 @@
     using JetBrains.Annotations;
 
     /// <summary>Wrapper for Everything.</summary>
-    /// <remarks>See <see cref="https://www.voidtools.com/support/everything/sdk/csharp/"/> for the SDK.</remarks>
+    /// <remarks>See <see href="https://www.voidtools.com/support/everything/sdk/csharp/"/> for the SDK.</remarks>
     internal static class Everything64Api
     {
         private const int EverythingRequestFileName = 0x00000001;
