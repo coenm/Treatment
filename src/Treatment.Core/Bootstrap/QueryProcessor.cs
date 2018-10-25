@@ -5,16 +5,13 @@
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
-
     using SimpleInjector;
-
     using Treatment.Contract;
 
     [UsedImplicitly]
     public class QueryProcessor : IQueryProcessor
     {
-        [NotNull]
-        private readonly Container container;
+        [NotNull] private readonly Container container;
 
         public QueryProcessor([NotNull] Container container)
         {

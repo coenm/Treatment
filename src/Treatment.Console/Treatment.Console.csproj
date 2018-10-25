@@ -103,6 +103,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <AdditionalFiles Include="..\..\stylecop.json" /> 
+  </ItemGroup>  
+  <ItemGroup>
     <Compile Include="Bootstrap\Bootstrapper.cs" />
     <Compile Include="Bootstrap\DefaultOptions.cs" />
     <Compile Include="Bootstrap\IDryRunOption.cs" />

@@ -17,7 +17,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\stylecop.json" /> 
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Treatment.Contract.Plugin\Treatment.Contract.Plugin.csproj" />
     <ProjectReference Include="..\Treatment.Contract\Treatment.Contract.csproj" />
