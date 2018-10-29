@@ -1,4 +1,6 @@
-﻿namespace Treatment.UI
+﻿using Treatment.UI.Core.Configuration;
+
+namespace Treatment.UI
 {
     using System;
     using System.IO;
@@ -46,6 +48,10 @@
             container.Register<IEntityEditorViewModel<ApplicationSettings>, ApplicationSettingsViewModel>();
 
             container.RegisterSingleton<IShowEntityInDialogProcessor, ShowEntityInDialogProcessor>();
+
+            container.RegisterSingleton<IConfigurationService, FileBasedConfigurationService>();
+            container.RegisterDecorator<IConfigurationService, CacheConfigurationServiceDecorator>(Lifestyle.Singleton);
+            container.RegisterDecorator<IConfigurationService, ConcurrentConfigurationServiceDecorator>(Lifestyle.Singleton);
 
             RegisterPlugins(container);
 

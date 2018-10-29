@@ -1,4 +1,6 @@
-﻿namespace Treatment.UI.ViewModel
+﻿using Treatment.UI.Core.Configuration;
+
+namespace Treatment.UI.ViewModel
 {
     using System;
     using System.Collections.Generic;
@@ -15,7 +17,6 @@
     using Treatment.Contract;
     using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
-    using Treatment.UI.Core;
 
     public class ProjectCollectionViewModel : ViewModelBase, IDisposable
     {

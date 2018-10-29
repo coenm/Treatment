@@ -1,4 +1,6 @@
-﻿namespace Treatment.UI.View
+﻿using Treatment.UI.Core.Configuration;
+
+namespace Treatment.UI.View
 {
     using System;
     using System.Windows;

@@ -1,7 +1,7 @@
-﻿namespace Treatment.UI.Core
-{
-    using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 
+namespace Treatment.UI.Core.Configuration
+{
     public interface IConfiguration
     {
         [CanBeNull]

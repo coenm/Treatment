@@ -1,4 +1,4 @@
-﻿namespace Treatment.UI.ViewModel.Settings
+﻿namespace Treatment.UI.Core.Configuration
 {
     public class ApplicationSettings
     {

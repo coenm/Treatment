@@ -1,4 +1,6 @@
-﻿namespace Treatment.UI.ViewModel
+﻿using Treatment.UI.Core.Configuration;
+
+namespace Treatment.UI.ViewModel
 {
     using System;
 
@@ -7,9 +9,7 @@
     using Treatment.Contract;
     using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
-    using Treatment.UI.Core;
     using Treatment.UI.Core.UI;
-    using Treatment.UI.ViewModel.Settings;
 
     using ICommand = System.Windows.Input.ICommand;
 
@@ -18,14 +18,14 @@
         [NotNull] private readonly ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand;
         [NotNull] private readonly ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand;
         [NotNull] private readonly IFileSearch fileSearch;
-        [NotNull] private readonly IConfiguration configuration;
+        [NotNull] private readonly IConfigurationService configurationService;
         [NotNull] private readonly IProgress<ProgressData> progressFixCsProjectFiles;
 
         public MainWindowViewModel(
             [NotNull] ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand,
             [NotNull] ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand,
             [NotNull] IFileSearch fileSearch,
-            [NotNull] IConfiguration configuration,
+            [NotNull] IConfigurationService configurationService,
             [NotNull] IShowEntityInDialogProcessor showInDialogProcessor)
         {
             progressFixCsProjectFiles = new Progress<ProgressData>(data =>
@@ -40,14 +40,19 @@
             this.handlerUpdateProjectFilesCommand = handlerUpdateProjectFilesCommand ?? throw new ArgumentNullException(nameof(handlerUpdateProjectFilesCommand));
             this.handlerCleanAppConfigCommand = handlerCleanAppConfigCommand ?? throw new ArgumentNullException(nameof(handlerCleanAppConfigCommand));
             this.fileSearch = fileSearch ?? throw new ArgumentNullException(nameof(fileSearch));
-            this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            this.configurationService = configurationService ?? throw new ArgumentNullException(nameof(configurationService));
             if (showInDialogProcessor == null)
                 throw new ArgumentNullException(nameof(showInDialogProcessor));
 
-            WorkingDirectory = this.configuration.RootPath ?? string.Empty;
+            WorkingDirectory = configurationService.GetConfiguration().RootPath ?? string.Empty;
 
-            ProjectCollection = new ProjectCollectionViewModel(this.handlerUpdateProjectFilesCommand, this.handlerCleanAppConfigCommand, this.fileSearch, this.configuration);
-            OpenSettings = new OpenSettingsCommand(showInDialogProcessor, this.configuration.RootPath ?? string.Empty);
+            ProjectCollection = new ProjectCollectionViewModel(
+                this.handlerUpdateProjectFilesCommand,
+                this.handlerCleanAppConfigCommand,
+                this.fileSearch,
+                this.configurationService.GetConfiguration());
+
+            OpenSettings = new OpenSettingsCommand(showInDialogProcessor, configurationService);
         }
 
         public ProjectCollectionViewModel ProjectCollection { get; }
@@ -75,12 +80,14 @@
         private class OpenSettingsCommand : ICommand
         {
             private readonly IShowEntityInDialogProcessor showEntityInDialogProcessor;
-            [NotNull] private readonly string rootPath;
+            [NotNull] private IConfigurationService configurationService;
 
-            public OpenSettingsCommand([NotNull] IShowEntityInDialogProcessor showEntityInDialogProcessor, [NotNull] string rootPath)
+            public OpenSettingsCommand(
+                [NotNull] IShowEntityInDialogProcessor showEntityInDialogProcessor,
+                [NotNull] IConfigurationService configurationService)
             {
                 this.showEntityInDialogProcessor = showEntityInDialogProcessor ?? throw new ArgumentNullException(nameof(showEntityInDialogProcessor));
-                this.rootPath = rootPath ?? throw new ArgumentNullException(nameof(rootPath));
+                this.configurationService = configurationService ?? throw new ArgumentNullException(nameof(configurationService));
             }
 
             public event EventHandler CanExecuteChanged;
@@ -94,12 +101,14 @@
                                                   DelayExecution = true,
                                                   SearchProviderName = "FileSystem",
                                                   VersionControlProviderName = "SVN",
-                                                  RootDirectory = rootPath,
+                                                  RootDirectory = configurationService.GetConfiguration().RootPath,
                                               };
 
                 var result = showEntityInDialogProcessor.ShowDialog(applicationSettings);
                 if (result == true)
                 {
+                    // todo
+                    configurationService.UpdateAsync(applicationSettings);
                 }
             }
         }

@@ -1,4 +1,6 @@
-﻿namespace Treatment.UI.ViewModel.Settings
+﻿using Treatment.UI.Core.Configuration;
+
+namespace Treatment.UI.ViewModel.Settings
 {
     using System;
     using System.Collections.ObjectModel;
@@ -31,41 +33,41 @@
 
             SearchProviderNames = new ObservableCollection<string>();
             getSearchProvidersCommand = new CapturingExceptionAsyncCommand(async () =>
-                                                                            {
-                                                                                if (entity?.DelayExecution ?? true)
-                                                                                    await Task.Delay(1000);
+            {
+                if (entity?.DelayExecution ?? true)
+                    await Task.Delay(1000);
 
-                                                                                var result = await queryProcessor.ExecuteQueryAsync(GetAllSearchProvidersQuery.Instance);
-                                                                                foreach (var item in result.OrderBy(x => x.Priority))
-                                                                                    SearchProviderNames.Add(item.Name);
+                var result = await queryProcessor.ExecuteQueryAsync(GetAllSearchProvidersQuery.Instance);
+                foreach (var item in result.OrderBy(x => x.Priority))
+                    SearchProviderNames.Add(item.Name);
 
-                                                                                if (SearchProviderNames.Contains(SearchProviderName))
-                                                                                    return;
+                if (SearchProviderNames.Contains(SearchProviderName))
+                    return;
 
-                                                                                SearchProviderName = result
-                                                                                                     .OrderBy(x => x.Priority)
-                                                                                                     .FirstOrDefault()
-                                                                                                     ?.Name;
-                                                                            });
+                SearchProviderName = result
+                    .OrderBy(x => x.Priority)
+                    .FirstOrDefault()
+                    ?.Name;
+            });
 
             VersionControlProviderNames = new ObservableCollection<string>();
             getVersionControlProvidersCommand = new CapturingExceptionAsyncCommand(async () =>
-                                                                                    {
-                                                                                        if (entity?.DelayExecution ?? true)
-                                                                                            await Task.Delay(800);
+            {
+                if (entity?.DelayExecution ?? true)
+                    await Task.Delay(800);
 
-                                                                                        var result = await queryProcessor.ExecuteQueryAsync(GetAllVersionControlProvidersQuery.Instance);
-                                                                                        foreach (var item in result.OrderBy(x => x.Priority))
-                                                                                            VersionControlProviderNames.Add(item.Name);
+                var result = await queryProcessor.ExecuteQueryAsync(GetAllVersionControlProvidersQuery.Instance);
+                foreach (var item in result.OrderBy(x => x.Priority))
+                    VersionControlProviderNames.Add(item.Name);
 
-                                                                                        if (VersionControlProviderNames.Contains(VersionControlProviderName))
-                                                                                            return;
+                if (VersionControlProviderNames.Contains(VersionControlProviderName))
+                    return;
 
-                                                                                        VersionControlProviderName = result
-                                                                                                                     .OrderBy(x => x.Priority)
-                                                                                                                     .FirstOrDefault()
-                                                                                                                     ?.Name;
-                                                                                    });
+                VersionControlProviderName = result
+                    .OrderBy(x => x.Priority)
+                    .FirstOrDefault()
+                    ?.Name;
+            });
         }
 
         public NotifyTask GetSearchProvidersTask => getSearchProvidersCommand.Execution;
@@ -100,14 +102,14 @@
 
         public ObservableCollection<string> VersionControlProviderNames { get; }
 
-        public void Initialize(ApplicationSettings entity)
+        public void Initialize(ApplicationSettings applicationSettings)
         {
-            this.entity = entity ?? throw new ArgumentNullException(nameof(entity));
+            entity = applicationSettings ?? throw new ArgumentNullException(nameof(applicationSettings));
 
-            DelayExecution = entity.DelayExecution;
-            SearchProviderName = entity.SearchProviderName;
-            VersionControlProviderName = entity.VersionControlProviderName;
-            RootDirectory = entity.RootDirectory;
+            DelayExecution = applicationSettings.DelayExecution;
+            SearchProviderName = applicationSettings.SearchProviderName;
+            VersionControlProviderName = applicationSettings.VersionControlProviderName;
+            RootDirectory = applicationSettings.RootDirectory;
 
             ((System.Windows.Input.ICommand)getSearchProvidersCommand).Execute(null);
             ((System.Windows.Input.ICommand)getVersionControlProvidersCommand).Execute(null);

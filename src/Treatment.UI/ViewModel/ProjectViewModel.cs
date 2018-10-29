@@ -28,12 +28,12 @@
             Name = name;
             Path = path;
             FixCsProjectFiles = new CapturingExceptionAsyncCommand(
-                                                                   async _ => await handlerUpdateProjectFilesCommand.ExecuteAsync(new UpdateProjectFilesCommand(Path)),
-                                                                   _ => TaskRunning == false);
+                async _ => await handlerUpdateProjectFilesCommand.ExecuteAsync(new UpdateProjectFilesCommand(Path)),
+                _ => TaskRunning == false);
 
             RemoveNewAppConfig = new CapturingExceptionAsyncCommand(
-                                                                    async _ => await handlerCleanAppConfigCommand.ExecuteAsync(new CleanAppConfigCommand(Path)),
-                                                                    _ => TaskRunning == false);
+                async _ => await handlerCleanAppConfigCommand.ExecuteAsync(new CleanAppConfigCommand(Path)),
+                _ => TaskRunning == false);
 
             commandWatch = new ExecutingAsyncCommandsComposition();
             commandWatch.WatchCommand(FixCsProjectFiles);
