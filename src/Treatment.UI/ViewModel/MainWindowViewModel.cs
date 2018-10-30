@@ -7,6 +7,7 @@
     using Treatment.Contract;
     using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
+    using Treatment.Helpers;
     using Treatment.UI.Core.Configuration;
     using Treatment.UI.Core.UI;
 
@@ -14,10 +15,6 @@
 
     public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel, IInitializableViewModel
     {
-        [NotNull] private readonly ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand;
-        [NotNull] private readonly ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand;
-        [NotNull] private readonly IFileSearch fileSearch;
-        [NotNull] private readonly IConfigurationService configurationService;
         [NotNull] private readonly IProgress<ProgressData> progressFixCsProjectFiles;
 
         public MainWindowViewModel(
@@ -27,6 +24,12 @@
             [NotNull] IConfigurationService configurationService,
             [NotNull] IShowEntityInDialogProcessor showInDialogProcessor)
         {
+            Guard.NotNull(handlerUpdateProjectFilesCommand, nameof(handlerUpdateProjectFilesCommand));
+            Guard.NotNull(handlerCleanAppConfigCommand, nameof(handlerCleanAppConfigCommand));
+            Guard.NotNull(fileSearch, nameof(fileSearch));
+            Guard.NotNull(configurationService, nameof(configurationService));
+            Guard.NotNull(showInDialogProcessor, nameof(showInDialogProcessor));
+
             progressFixCsProjectFiles = new Progress<ProgressData>(data =>
             {
                 if (string.IsNullOrEmpty(data.Message))
@@ -36,20 +39,13 @@
                 FixCsProjectFilesLog += data.Message + Environment.NewLine;
             });
 
-            this.handlerUpdateProjectFilesCommand = handlerUpdateProjectFilesCommand ?? throw new ArgumentNullException(nameof(handlerUpdateProjectFilesCommand));
-            this.handlerCleanAppConfigCommand = handlerCleanAppConfigCommand ?? throw new ArgumentNullException(nameof(handlerCleanAppConfigCommand));
-            this.fileSearch = fileSearch ?? throw new ArgumentNullException(nameof(fileSearch));
-            this.configurationService = configurationService ?? throw new ArgumentNullException(nameof(configurationService));
-            if (showInDialogProcessor == null)
-                throw new ArgumentNullException(nameof(showInDialogProcessor));
-
             WorkingDirectory = configurationService.GetConfiguration().RootPath ?? string.Empty;
 
             ProjectCollection = new ProjectCollectionViewModel(
-                this.handlerUpdateProjectFilesCommand,
-                this.handlerCleanAppConfigCommand,
-                this.fileSearch,
-                this.configurationService.GetConfiguration());
+                handlerUpdateProjectFilesCommand,
+                handlerCleanAppConfigCommand,
+                fileSearch,
+                configurationService.GetConfiguration());
 
             OpenSettings = new OpenSettingsCommand(showInDialogProcessor, configurationService);
             Initialize = ProjectCollection.Initialize;

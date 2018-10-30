@@ -49,17 +49,6 @@
         {
         }
 
-        private async Task LoadProjects()
-        {
-            await Task.Delay(3000); // stupid delay to see something happening ;-)
-            var items = CreateProjectViewModelsFromDirectory();
-            foreach (var item in items)
-            {
-                Projects.Add(item);
-                await Task.Delay(1000); // again stupid delay to see something happening ;-)
-            }
-        }
-
         private static string Hash([CanBeNull] string filename)
         {
             if (filename == null)
@@ -76,6 +65,17 @@
                     .ToArray());
 
             return Z85.Encode(result);
+        }
+
+        private async Task LoadProjects()
+        {
+            await Task.Delay(3000); // stupid delay to see something happening ;-)
+            var items = CreateProjectViewModelsFromDirectory();
+            foreach (var item in items)
+            {
+                Projects.Add(item);
+                await Task.Delay(1000); // again stupid delay to see something happening ;-)
+            }
         }
 
         [NotNull]

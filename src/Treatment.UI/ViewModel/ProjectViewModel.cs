@@ -3,11 +3,10 @@
     using System;
 
     using JetBrains.Annotations;
-
     using Nito.Mvvm;
-
     using Treatment.Contract;
     using Treatment.Contract.Commands;
+    using Treatment.Helpers;
     using Treatment.UI.Core;
 
     public class ProjectViewModel : ViewModelBase, IDisposable
@@ -20,10 +19,10 @@
             [NotNull] ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand,
             [NotNull] ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand)
         {
-            if (handlerUpdateProjectFilesCommand == null)
-                throw new ArgumentNullException(nameof(handlerUpdateProjectFilesCommand));
-            if (handlerCleanAppConfigCommand == null)
-                throw new ArgumentNullException(nameof(handlerCleanAppConfigCommand));
+            Guard.NotNull(handlerUpdateProjectFilesCommand, nameof(handlerUpdateProjectFilesCommand));
+            Guard.NotNull(handlerCleanAppConfigCommand, nameof(handlerCleanAppConfigCommand));
+            Guard.NotNullOrWhiteSpace(name, nameof(name));
+            Guard.NotNullOrWhiteSpace(path, nameof(path));
 
             Name = name;
             Path = path;
