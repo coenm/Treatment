@@ -14,7 +14,7 @@ namespace Treatment.UI.ViewModel
 
     using ICommand = System.Windows.Input.ICommand;
 
-    public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
+    public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel, IInitializableViewModel
     {
         [NotNull] private readonly ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand;
         [NotNull] private readonly ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand;
@@ -54,11 +54,16 @@ namespace Treatment.UI.ViewModel
                 this.configurationService.GetConfiguration());
 
             OpenSettings = new OpenSettingsCommand(showInDialogProcessor, configurationService);
+            Initialize = ProjectCollection.Initialize;
         }
 
         public ProjectCollectionViewModel ProjectCollection { get; }
 
         public ICommand OpenSettings { get; }
+
+        ICommand IInitializableViewModel.Initialize => Initialize;
+
+        public CapturingExceptionAsyncCommand Initialize { get; }
 
         public string FixCsProjectFilesLog
         {

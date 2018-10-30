@@ -7,6 +7,8 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:userControls="clr-namespace:Treatment.UI.UserControls"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:behavior="clr-namespace:Treatment.UI.Behavior"
         mc:Ignorable="d"
         Title="Treatment"
         Height="450"
@@ -19,6 +21,9 @@
     <valueConverters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
     <valueConverters:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
   </Window.Resources>
+  <i:Interaction.Behaviors>
+    <behavior:InitializeViewModelBehavior />
+  </i:Interaction.Behaviors>
   <Grid>
     <Grid.ColumnDefinitions>
       <ColumnDefinition></ColumnDefinition>

@@ -1,4 +1,5 @@
-﻿using Treatment.UI.Core.Configuration;
+﻿using System.Threading.Tasks;
+using Nito.Mvvm;
 
 namespace Treatment.UI.ViewModel
 {
@@ -11,14 +12,13 @@ namespace Treatment.UI.ViewModel
     using System.Text;
 
     using CoenM.Encoding;
-
     using JetBrains.Annotations;
-
     using Treatment.Contract;
     using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
+    using Treatment.UI.Core.Configuration;
 
-    public class ProjectCollectionViewModel : ViewModelBase, IDisposable
+    public class ProjectCollectionViewModel : ViewModelBase, IInitializableViewModel, IDisposable
     {
         [NotNull] private readonly ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand;
         [NotNull] private readonly ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand;
@@ -37,16 +37,28 @@ namespace Treatment.UI.ViewModel
             this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 
             Projects = new ObservableCollection<ProjectViewModel>();
-
-            var items = CreateProjectViewModelsFromDirectory();
-            foreach (var item in items)
-                Projects.Add(item);
+            Initialize = new CapturingExceptionAsyncCommand(async _ => await LoadProjects());
         }
 
         public ObservableCollection<ProjectViewModel> Projects { get; }
 
+        System.Windows.Input.ICommand IInitializableViewModel.Initialize => Initialize;
+
+        public CapturingExceptionAsyncCommand Initialize { get; }
+
         public void Dispose()
         {
+        }
+
+        private async Task LoadProjects()
+        {
+            await Task.Delay(3000); // stupid delay to see something happening ;-)
+            var items = CreateProjectViewModelsFromDirectory();
+            foreach (var item in items)
+            {
+                Projects.Add(item);
+                await Task.Delay(1000); // again stupid delay to see something happening ;-)
+            }
         }
 
         private static string Hash([CanBeNull] string filename)
