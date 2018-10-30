@@ -166,19 +166,19 @@
     <Compile Include="Core\Configuration\ConcurrentConfigurationServiceDecorator.cs" />
     <Compile Include="Core\Configuration\FileBasedConfigurationService.cs" />
     <Compile Include="Core\Configuration\IConfigurationService.cs" />
-    <Compile Include="Core\UI\IShowEntityInDialogProcessor.cs" />
-    <Compile Include="Core\UI\ShowEntityInDialogProcessor.cs" />
+    <Compile Include="Framework\IShowEntityInDialogProcessor.cs" />
+    <Compile Include="Framework\ShowEntityInDialogProcessor.cs" />
     <Compile Include="Framework\DelegateCommand.cs" />
     <Compile Include="UserControls\ProjectListView.xaml.cs">
       <DependentUpon>ProjectListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Core\ExecutingAsyncCommandsComposition.cs" />
+    <Compile Include="Framework\ExecutingAsyncCommandsComposition.cs" />
     <Compile Include="ValueConverters\BooleanVisibilityConverter.cs" />
-    <Compile Include="ViewModel\IInitializableViewModel.cs" />
+    <Compile Include="Framework\IInitializableViewModel.cs" />
     <Compile Include="ViewModel\ProjectCollectionViewModel.cs" />
     <Compile Include="Core\Configuration\ApplicationSettings.cs" />
     <Compile Include="ViewModel\Settings\ApplicationSettingsViewModel.cs" />
-    <Compile Include="ViewModel\IEntityEditorViewModel.cs" />
+    <Compile Include="Framework\IEntityEditorViewModel.cs" />
     <Compile Include="View\IEntityEditorView.cs" />
     <Compile Include="View\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
@@ -197,7 +197,7 @@
     </Compile>
     <Compile Include="Core\Configuration\IConfiguration.cs" />
     <Compile Include="Core\Configuration\AppConfigConfiguration.cs" />
-    <Compile Include="Core\Nito\CapturingExceptionAsyncCommand.cs" />
+    <Compile Include="Framework\Nito\CapturingExceptionAsyncCommand.cs" />
     <Compile Include="ValueConverters\InverseBooleanConverter.cs" />
     <Compile Include="ValueConverters\NullVisibilityConverter.cs" />
     <Compile Include="Core\DelayCommandExecution.cs" />

@@ -1,14 +1,11 @@
-﻿namespace Treatment.UI.Core.UI
+﻿namespace Treatment.UI.Framework
 {
     using System;
     using System.Windows;
-
+    using Helpers;
     using JetBrains.Annotations;
-
     using SimpleInjector;
-
     using Treatment.UI.View;
-    using Treatment.UI.ViewModel;
 
     public class ShowEntityInDialogProcessor : IShowEntityInDialogProcessor
     {
@@ -29,8 +26,7 @@
         public bool? ShowDialog<TEntity>([NotNull] TEntity entity)
             where TEntity : class
         {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
+            Guard.NotNull(entity, nameof(entity));
 
             var entityType = entity.GetType();
 

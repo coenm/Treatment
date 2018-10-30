@@ -4,7 +4,7 @@
     using System.IO;
     using System.Linq;
     using System.Xml.Linq;
-
+    using Helpers;
     using JetBrains.Annotations;
 
     public class CSharpProjectFileUpdater
@@ -117,8 +117,7 @@
         [PublicAPI]
         public void Save(Stream stream)
         {
-            if (stream == null)
-                throw new ArgumentNullException(nameof(stream));
+            Guard.NotNull(stream, nameof(stream));
 
             if (stream.CanWrite == false)
                 throw new NotSupportedException($"Cannot write to stream '{nameof(stream)}'.");

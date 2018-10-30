@@ -1,4 +1,4 @@
-﻿namespace Treatment.UI.Core
+﻿namespace Treatment.UI.Framework
 {
     using System;
     using System.Collections.Generic;
@@ -6,16 +6,12 @@
     using System.Linq;
 
     using JetBrains.Annotations;
-
     using Nito.Mvvm;
 
     internal class ExecutingAsyncCommandsComposition : IDisposable
     {
-        [NotNull]
-        private readonly List<CapturingExceptionAsyncCommand> commands;
-
-        [NotNull]
-        private readonly List<Action<bool>> actions;
+        [NotNull] private readonly List<CapturingExceptionAsyncCommand> commands;
+        [NotNull] private readonly List<Action<bool>> actions;
 
         public ExecutingAsyncCommandsComposition()
         {
@@ -74,6 +70,7 @@
                 cmd.OnCanExecuteChanged();
 
             var isExecuting = commands.Any(x => x.IsExecuting);
+
             foreach (var action in actions)
                 IgnoreException(() => action.Invoke(isExecuting));
 

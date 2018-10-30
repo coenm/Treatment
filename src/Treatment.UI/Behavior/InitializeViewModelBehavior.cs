@@ -5,7 +5,7 @@
     using System.Windows.Interactivity;
 
     using JetBrains.Annotations;
-    using Treatment.UI.ViewModel;
+    using Treatment.UI.Framework;
 
     public class InitializeViewModelBehavior : Behavior<Window>
     {

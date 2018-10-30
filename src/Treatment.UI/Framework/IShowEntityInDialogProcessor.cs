@@ -1,4 +1,4 @@
-﻿namespace Treatment.UI.Core.UI
+﻿namespace Treatment.UI.Framework
 {
     public interface IShowEntityInDialogProcessor
     {

@@ -9,7 +9,7 @@
     using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Helpers;
     using Treatment.UI.Core.Configuration;
-    using Treatment.UI.Core.UI;
+    using Treatment.UI.Framework;
 
     using ICommand = System.Windows.Input.ICommand;
 

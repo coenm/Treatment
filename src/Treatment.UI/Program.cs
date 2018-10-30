@@ -4,7 +4,7 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
-
+    using Helpers;
     using JetBrains.Annotations;
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
@@ -12,7 +12,7 @@
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
     using Treatment.UI.Core;
     using Treatment.UI.Core.Configuration;
-    using Treatment.UI.Core.UI;
+    using Treatment.UI.Framework;
     using Treatment.UI.View;
     using Treatment.UI.ViewModel;
     using Treatment.UI.ViewModel.Settings;
@@ -63,8 +63,7 @@
 
         private static void RegisterUserInterfaceDependencies([NotNull] Container container)
         {
-            if (container == null)
-                throw new ArgumentNullException(nameof(container));
+            DebugGuard.NotNull(container, nameof(container));
 
             container.RegisterSingleton<ISearchProviderNameOption, AppConfigConfiguration>();
             container.RegisterSingleton<IConfiguration, AppConfigConfiguration>();
@@ -72,16 +71,14 @@
 
         private static void RegisterDebug([NotNull] Container container)
         {
-            if (container == null)
-                throw new ArgumentNullException(nameof(container));
+            DebugGuard.NotNull(container, nameof(container));
 
             DelayCommandExecution.Register(container);
         }
 
         private static void RegisterPlugins([NotNull] Container container)
         {
-            if (container == null)
-                throw new ArgumentNullException(nameof(container));
+            DebugGuard.NotNull(container, nameof(container));
 
             var pluginDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory);
 

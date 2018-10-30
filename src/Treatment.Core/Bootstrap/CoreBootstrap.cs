@@ -7,7 +7,7 @@
     using System.Runtime.CompilerServices;
 
     using FluentValidation;
-
+    using Helpers;
     using JetBrains.Annotations;
 
     using SimpleInjector;
@@ -34,8 +34,7 @@
 
         public static void Bootstrap([NotNull] Container container)
         {
-            if (container == null)
-                throw new ArgumentNullException(nameof(container));
+            Guard.NotNull(container, nameof(container));
 
             if (container.Options.DefaultScopedLifestyle == null)
                 container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();

@@ -16,6 +16,7 @@
     using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
     using Treatment.UI.Core.Configuration;
+    using Treatment.UI.Framework;
 
     public class ProjectCollectionViewModel : ViewModelBase, IInitializableViewModel, IDisposable
     {

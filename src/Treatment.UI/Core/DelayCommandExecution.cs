@@ -6,10 +6,9 @@
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
-
     using SimpleInjector;
-
     using Treatment.Contract;
+    using Treatment.Helpers;
 
     /// <summary>
     /// For testing purposes.
@@ -18,8 +17,7 @@
     {
         public static void Register([NotNull] Container container)
         {
-            if (container == null)
-                throw new ArgumentNullException(nameof(container));
+            Guard.NotNull(container, nameof(container));
 
             container.Register(() => new RandomDelayService(2000, 10000), Lifestyle.Singleton);
 

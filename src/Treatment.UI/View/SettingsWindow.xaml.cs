@@ -4,7 +4,7 @@
     using System.Windows;
 
     using Treatment.UI.Core.Configuration;
-    using Treatment.UI.ViewModel;
+    using Treatment.UI.Framework;
 
     public partial class SettingsWindow : Window, IEntityEditorView<ApplicationSettings>
     {
