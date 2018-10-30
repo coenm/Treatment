@@ -1,11 +1,9 @@
-﻿using Nito.Mvvm;
-using Treatment.UI.Framework;
-
-namespace Treatment.UI.ViewModel
+﻿namespace Treatment.UI.ViewModel
 {
     using System;
 
     using JetBrains.Annotations;
+    using Nito.Mvvm;
     using Treatment.Contract;
     using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
@@ -118,8 +116,5 @@ namespace Treatment.UI.ViewModel
                 }
             }
         }
-
     }
-
-
 }

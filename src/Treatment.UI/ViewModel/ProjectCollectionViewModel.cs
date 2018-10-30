@@ -1,7 +1,4 @@
-﻿using System.Threading.Tasks;
-using Nito.Mvvm;
-
-namespace Treatment.UI.ViewModel
+﻿namespace Treatment.UI.ViewModel
 {
     using System;
     using System.Collections.Generic;
@@ -10,9 +7,11 @@ namespace Treatment.UI.ViewModel
     using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
+    using System.Threading.Tasks;
 
     using CoenM.Encoding;
     using JetBrains.Annotations;
+    using Nito.Mvvm;
     using Treatment.Contract;
     using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
