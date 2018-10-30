@@ -1,6 +1,4 @@
-﻿using Treatment.UI.Core.Configuration;
-
-namespace Treatment.UI.ViewModel.Settings
+﻿namespace Treatment.UI.ViewModel.Settings
 {
     using System;
     using System.Collections.ObjectModel;
@@ -8,11 +6,10 @@ namespace Treatment.UI.ViewModel.Settings
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
-
     using Nito.Mvvm;
-
     using Treatment.Contract;
     using Treatment.Contract.Queries;
+    using Treatment.UI.Core.Configuration;
 
     public class ApplicationSettingsViewModel : ViewModelBase, IEntityEditorViewModel<ApplicationSettings>
     {

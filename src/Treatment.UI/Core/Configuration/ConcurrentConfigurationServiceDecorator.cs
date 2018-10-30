@@ -17,13 +17,13 @@
 
         public Task<ApplicationSettings> GetAsync()
         {
-            //todo
+            // todo
             return decoratee.GetAsync();
         }
 
         public Task<bool> UpdateAsync(ApplicationSettings configuration)
         {
-            //todo
+            // todo
             return decoratee.UpdateAsync(configuration);
         }
 

@@ -1,6 +1,4 @@
-﻿using Treatment.UI.Core.Configuration;
-
-namespace Treatment.UI
+﻿namespace Treatment.UI
 {
     using System;
     using System.IO;
@@ -8,13 +6,12 @@ namespace Treatment.UI
     using System.Reflection;
 
     using JetBrains.Annotations;
-
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
-
     using Treatment.Core.Bootstrap;
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
     using Treatment.UI.Core;
+    using Treatment.UI.Core.Configuration;
     using Treatment.UI.Core.UI;
     using Treatment.UI.View;
     using Treatment.UI.ViewModel;

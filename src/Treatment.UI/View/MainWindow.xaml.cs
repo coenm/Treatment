@@ -9,7 +9,6 @@
         public MainWindow(IMainWindowViewModel viewModel)
         {
             InitializeComponent();
-
             DataContext = viewModel;
         }
     }

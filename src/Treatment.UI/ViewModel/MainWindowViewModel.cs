@@ -1,14 +1,15 @@
-﻿using Treatment.UI.Core.Configuration;
+﻿using Nito.Mvvm;
+using Treatment.UI.Framework;
 
 namespace Treatment.UI.ViewModel
 {
     using System;
 
     using JetBrains.Annotations;
-
     using Treatment.Contract;
     using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
+    using Treatment.UI.Core.Configuration;
     using Treatment.UI.Core.UI;
 
     using ICommand = System.Windows.Input.ICommand;
@@ -80,7 +81,7 @@ namespace Treatment.UI.ViewModel
         private class OpenSettingsCommand : ICommand
         {
             private readonly IShowEntityInDialogProcessor showEntityInDialogProcessor;
-            [NotNull] private IConfigurationService configurationService;
+            [NotNull] private readonly IConfigurationService configurationService;
 
             public OpenSettingsCommand(
                 [NotNull] IShowEntityInDialogProcessor showEntityInDialogProcessor,
@@ -112,5 +113,8 @@ namespace Treatment.UI.ViewModel
                 }
             }
         }
+
     }
+
+
 }

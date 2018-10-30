@@ -1,12 +1,10 @@
-﻿using Treatment.UI.Core.Configuration;
-
-namespace Treatment.UI.View
+﻿namespace Treatment.UI.View
 {
     using System;
     using System.Windows;
 
+    using Treatment.UI.Core.Configuration;
     using Treatment.UI.ViewModel;
-    using Treatment.UI.ViewModel.Settings;
 
     public partial class SettingsWindow : Window, IEntityEditorView<ApplicationSettings>
     {
