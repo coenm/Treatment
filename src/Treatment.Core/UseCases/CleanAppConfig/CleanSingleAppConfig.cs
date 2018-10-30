@@ -31,7 +31,7 @@
         private async Task<bool> RemoveAppConfigFromProjectFile(string projectFile)
         {
             CSharpProjectFileUpdater csProjFile;
-            using (var readFile = filesystem.ReadFile(projectFile))
+            using (var readFile = filesystem.OpenRead(projectFile, false))
             {
                 csProjFile = CSharpProjectFileUpdater.Create(readFile);
 

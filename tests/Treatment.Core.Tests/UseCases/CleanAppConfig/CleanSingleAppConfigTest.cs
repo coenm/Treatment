@@ -31,7 +31,7 @@
             // arrange
             const string csprojFilename = "FileWithRelativeHintPath.txt";
             string outputContent = null;
-            A.CallTo(() => fileSystem.ReadFile(csprojFilename)).Returns(ResourceFile.OpenRead(csprojFilename));
+            A.CallTo(() => fileSystem.OpenRead(csprojFilename, false)).Returns(ResourceFile.OpenRead(csprojFilename));
             A.CallTo(() => fileSystem.SaveContentAsync(csprojFilename, A<Stream>._))
              .Invokes(call =>
                       {
@@ -52,7 +52,7 @@
         {
             // arrange
             const string csprojFilename = "FileWithRelativeHintPathWithoutAppConfig.txt";
-            A.CallTo(() => fileSystem.ReadFile(csprojFilename)).Returns(ResourceFile.OpenRead(csprojFilename));
+            A.CallTo(() => fileSystem.OpenRead(csprojFilename, false)).Returns(ResourceFile.OpenRead(csprojFilename));
 
             // act
             await sut.ExecuteAsync(csprojFilename, AppConfigFilename);

@@ -79,7 +79,9 @@
 
             bool IFileSystem.FileExists(string filename) => filesystem.FileExists(filename);
 
-            Stream IFileSystem.ReadFile(string filename) => filesystem.ReadFile(filename);
+            Stream IFileSystem.OpenRead(string filename, bool useAsync) => filesystem.OpenRead(filename, useAsync);
+
+            Stream IFileSystem.OpenWrite(string filename, bool useAsync) => filesystem.OpenWrite(filename, useAsync);
 
             string IFileSystem.GetFileContent(string filename)
             {

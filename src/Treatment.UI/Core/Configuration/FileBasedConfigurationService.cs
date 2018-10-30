@@ -12,7 +12,7 @@
 
     public class FileBasedConfigurationService : IConfigurationService
     {
-        [NotNull] private readonly IFileSystem fileSystem; //todo
+        [NotNull] private readonly IFileSystem fileSystem;
         [NotNull] private readonly Container container;
 
         public FileBasedConfigurationService([NotNull] IFileSystem fileSystem, [NotNull] Container container)
@@ -23,12 +23,11 @@
 
         public async Task<ApplicationSettings> GetAsync()
         {
-            // read asynchronously from a file
-            // todo WIP
-            using (var asyncFileStream = new FileStream(@"large.json", FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
+            using (var fileStream = fileSystem.OpenRead(@"large.json", true))
+            using (var streamReader = new StreamReader(fileStream))
+            using (var jsonTextReader = new JsonTextReader(streamReader))
             {
-                var largeJson = await JArray.LoadAsync(new JsonTextReader(new StreamReader(asyncFileStream))).ConfigureAwait(false);
-
+                var largeJson = await JArray.LoadAsync(jsonTextReader).ConfigureAwait(false);
                 return largeJson.ToObject<ApplicationSettings>();
             }
         }
@@ -37,10 +36,11 @@
         {
             var json = JArray.FromObject(configuration);
 
-            // write asynchronously to a file
-            using (var asyncFileStream = new FileStream(@"large.json", FileMode.Open, FileAccess.Write, FileShare.Write, 4096, true))
+            using (var fileStream = fileSystem.OpenWrite(@"large.json", true))
+            using (var streamWriter = new StreamWriter(fileStream))
+            using (var jsonTextWriter = new JsonTextWriter(streamWriter))
             {
-                await json.WriteToAsync(new JsonTextWriter(new StreamWriter(asyncFileStream))).ConfigureAwait(false);
+                await json.WriteToAsync(jsonTextWriter).ConfigureAwait(false);
             }
 
             return true;

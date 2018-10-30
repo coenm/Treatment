@@ -27,10 +27,16 @@
             return decoratee.FileExists(filename);
         }
 
-        public Stream ReadFile(string filename)
+        public Stream OpenRead(string filename, bool useAsync)
         {
-            console.WriteLine($"Read file '{sanitizer.Sanitize(filename)}'");
-            return decoratee.ReadFile(filename);
+            console.WriteLine($"Open Read file '{sanitizer.Sanitize(filename)}'");
+            return decoratee.OpenRead(filename, useAsync);
+        }
+
+        public Stream OpenWrite(string filename, bool useAsync)
+        {
+            console.WriteLine($"Open Write file '{sanitizer.Sanitize(filename)}'");
+            return decoratee.OpenWrite(filename, useAsync);
         }
 
         public string GetFileContent(string filename)
