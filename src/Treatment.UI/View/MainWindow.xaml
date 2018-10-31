@@ -21,9 +21,11 @@
     <valueConverters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
     <valueConverters:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
   </Window.Resources>
+
   <i:Interaction.Behaviors>
     <behavior:InitializeViewModelBehavior />
   </i:Interaction.Behaviors>
+
   <Grid>
     <Grid.ColumnDefinitions>
       <ColumnDefinition></ColumnDefinition>
@@ -32,7 +34,9 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"></RowDefinition>
       <RowDefinition Height="*"></RowDefinition>
+      <RowDefinition Height="Auto"></RowDefinition>
     </Grid.RowDefinitions>
+
     <Label Grid.Row="0" Grid.Column="0" Content="Settings:"/>
     <Button Command="{Binding Path=OpenSettings}" Grid.Row="0" Grid.Column="1">
       <Button.Content>
@@ -44,6 +48,13 @@
         </StackPanel>
       </Button.Content>
     </Button>
+
     <userControls:ProjectListView Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" DataContext="{Binding Path=ProjectCollection}"/>
+
+    <StatusBar Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2">
+      <StatusBarItem>
+        <TextBlock Text="TODO Status text, version info, .." />
+      </StatusBarItem>
+    </StatusBar>
   </Grid>
 </Window>
