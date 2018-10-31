@@ -42,7 +42,9 @@
             container.Register<MainWindow>();
             container.Register<IEntityEditorView<ApplicationSettings>, SettingsWindow>();
 
+            // View Models.
             container.Register<IMainWindowViewModel, MainWindowViewModel>();
+            container.Register<IProjectCollectionViewModel, ProjectCollectionViewModel>(Lifestyle.Scoped);
             container.Register<IEntityEditorViewModel<ApplicationSettings>, ApplicationSettingsViewModel>();
 
             container.RegisterSingleton<IShowEntityInDialogProcessor, ShowEntityInDialogProcessor>();
@@ -50,6 +52,8 @@
             container.RegisterSingleton<IConfigurationService, FileBasedConfigurationService>();
             container.RegisterDecorator<IConfigurationService, CacheConfigurationServiceDecorator>(Lifestyle.Singleton);
             container.RegisterDecorator<IConfigurationService, ConcurrentConfigurationServiceDecorator>(Lifestyle.Singleton);
+
+            container.Register<IProjectViewModelFactory, ProjectViewModelFactory>(Lifestyle.Scoped);
 
             RegisterPlugins(container);
 

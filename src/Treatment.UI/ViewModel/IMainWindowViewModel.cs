@@ -4,7 +4,7 @@
 
     public interface IMainWindowViewModel
     {
-        ProjectCollectionViewModel ProjectCollection { get; }
+        IProjectCollectionViewModel ProjectCollection { get; }
 
         ICommand OpenSettings { get; }
     }
@@ -16,6 +16,6 @@
     {
         public abstract ICommand OpenSettings { get; }
 
-        public abstract ProjectCollectionViewModel ProjectCollection { get; }
+        public abstract IProjectCollectionViewModel ProjectCollection { get; }
     }
 }

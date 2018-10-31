@@ -12,32 +12,29 @@
     using CoenM.Encoding;
     using JetBrains.Annotations;
     using Nito.Mvvm;
-    using Treatment.Contract;
-    using Treatment.Contract.Commands;
+
     using Treatment.Contract.Plugin.FileSearch;
+    using Treatment.Helpers;
     using Treatment.UI.Core.Configuration;
     using Treatment.UI.Framework;
 
-    public class ProjectCollectionViewModel : ViewModelBase, IInitializableViewModel, IDisposable
+    public class ProjectCollectionViewModel : ViewModelBase, IProjectCollectionViewModel, IInitializableViewModel, IDisposable
     {
-        [NotNull] private readonly ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand;
-        [NotNull] private readonly ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand;
+        [NotNull] private readonly IProjectViewModelFactory projectViewModelFactory;
         [NotNull] private readonly IFileSearch fileSearch;
         [NotNull] private readonly IConfiguration configuration;
 
         public ProjectCollectionViewModel(
-            [NotNull] ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand,
-            [NotNull] ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand,
+            [NotNull] IProjectViewModelFactory projectViewModelFactory,
             [NotNull] IFileSearch fileSearch,
             [NotNull] IConfiguration configuration)
         {
-            this.handlerUpdateProjectFilesCommand = handlerUpdateProjectFilesCommand ?? throw new ArgumentNullException(nameof(handlerUpdateProjectFilesCommand));
-            this.handlerCleanAppConfigCommand = handlerCleanAppConfigCommand ?? throw new ArgumentNullException(nameof(handlerCleanAppConfigCommand));
-            this.fileSearch = fileSearch ?? throw new ArgumentNullException(nameof(fileSearch));
-            this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            this.projectViewModelFactory = Guard.NotNull(projectViewModelFactory, nameof(projectViewModelFactory));
+            this.fileSearch = Guard.NotNull(fileSearch, nameof(fileSearch));
+            this.configuration = Guard.NotNull(configuration, nameof(configuration));
 
             Projects = new ObservableCollection<ProjectViewModel>();
-            Initialize = new CapturingExceptionAsyncCommand(async _ => await LoadProjects());
+            Initialize = new CapturingExceptionAsyncCommand(async _ => await LoadProjectsAsync());
         }
 
         public ObservableCollection<ProjectViewModel> Projects { get; }
@@ -55,20 +52,21 @@
             if (filename == null)
                 return string.Empty;
 
-            var crypt = new SHA256Managed();
-            var result = crypt.ComputeHash(
-                crypt.ComputeHash(
-                        new byte[] { 0, 1, 3, 5, 7, 9 }
-                            .Concat(Encoding.ASCII.GetBytes(filename))
-                            .ToArray())
-                    .Concat(
-                        new byte[] { 34, 22, 230, 33, 33, 0 })
-                    .ToArray());
+            using (var crypt = new SHA256Managed())
+            {
+                var result = crypt.ComputeHash(
+                                               crypt.ComputeHash(
+                                                                 new byte[] { 0, 1, 3, 5, 7, 9 }
+                                                                     .Concat(Encoding.ASCII.GetBytes(filename))
+                                                                     .ToArray())
+                                                    .Concat(new byte[] { 34, 22, 230, 33, 33, 0 })
+                                                    .ToArray());
 
-            return Z85.Encode(result);
+                return Z85.Encode(result);
+            }
         }
 
-        private async Task LoadProjects()
+        private async Task LoadProjectsAsync()
         {
             await Task.Delay(3000); // stupid delay to see something happening ;-)
             var items = CreateProjectViewModelsFromDirectory();
@@ -120,11 +118,7 @@
                     continue;
                 }
 
-                yield return new ProjectViewModel(
-                                                  rootDirectoryInfo.Name,
-                                                  rootDirectoryInfo.FullName,
-                                                  handlerUpdateProjectFilesCommand,
-                                                  handlerCleanAppConfigCommand);
+                yield return projectViewModelFactory.Create(rootDirectoryInfo.Name, rootDirectoryInfo.FullName);
             }
         }
     }

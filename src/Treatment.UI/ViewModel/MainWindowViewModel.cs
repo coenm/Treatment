@@ -5,8 +5,6 @@
     using JetBrains.Annotations;
     using Nito.Mvvm;
     using Treatment.Contract;
-    using Treatment.Contract.Commands;
-    using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Helpers;
     using Treatment.UI.Core.Configuration;
     using Treatment.UI.Framework;
@@ -18,17 +16,13 @@
         [NotNull] private readonly IProgress<ProgressData> progressFixCsProjectFiles;
 
         public MainWindowViewModel(
-            [NotNull] ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand,
-            [NotNull] ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand,
-            [NotNull] IFileSearch fileSearch,
+            [NotNull] IProjectCollectionViewModel projectCollectionViewModel,
             [NotNull] IConfigurationService configurationService,
             [NotNull] IShowEntityInDialogProcessor showInDialogProcessor)
         {
-            Guard.NotNull(handlerUpdateProjectFilesCommand, nameof(handlerUpdateProjectFilesCommand));
-            Guard.NotNull(handlerCleanAppConfigCommand, nameof(handlerCleanAppConfigCommand));
-            Guard.NotNull(fileSearch, nameof(fileSearch));
             Guard.NotNull(configurationService, nameof(configurationService));
             Guard.NotNull(showInDialogProcessor, nameof(showInDialogProcessor));
+            ProjectCollection = Guard.NotNull(projectCollectionViewModel, nameof(projectCollectionViewModel));
 
             progressFixCsProjectFiles = new Progress<ProgressData>(data =>
             {
@@ -41,17 +35,11 @@
 
             WorkingDirectory = configurationService.GetConfiguration().RootPath ?? string.Empty;
 
-            ProjectCollection = new ProjectCollectionViewModel(
-                handlerUpdateProjectFilesCommand,
-                handlerCleanAppConfigCommand,
-                fileSearch,
-                configurationService.GetConfiguration());
-
             OpenSettings = new OpenSettingsCommand(showInDialogProcessor, configurationService);
             Initialize = ProjectCollection.Initialize;
         }
 
-        public ProjectCollectionViewModel ProjectCollection { get; }
+        public IProjectCollectionViewModel ProjectCollection { get; }
 
         public ICommand OpenSettings { get; }
 
@@ -79,15 +67,15 @@
 
         private class OpenSettingsCommand : ICommand
         {
-            private readonly IShowEntityInDialogProcessor showEntityInDialogProcessor;
+            [NotNull] private readonly IShowEntityInDialogProcessor showEntityInDialogProcessor;
             [NotNull] private readonly IConfigurationService configurationService;
 
             public OpenSettingsCommand(
                 [NotNull] IShowEntityInDialogProcessor showEntityInDialogProcessor,
                 [NotNull] IConfigurationService configurationService)
             {
-                this.showEntityInDialogProcessor = showEntityInDialogProcessor ?? throw new ArgumentNullException(nameof(showEntityInDialogProcessor));
-                this.configurationService = configurationService ?? throw new ArgumentNullException(nameof(configurationService));
+                this.showEntityInDialogProcessor = Guard.NotNull(showEntityInDialogProcessor, nameof(showEntityInDialogProcessor));
+                this.configurationService = Guard.NotNull(configurationService, nameof(configurationService));
             }
 
             public event EventHandler CanExecuteChanged;
