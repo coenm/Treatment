@@ -7,7 +7,6 @@
     using System.Runtime.CompilerServices;
 
     using FluentValidation;
-
     using JetBrains.Annotations;
 
     using SimpleInjector;

@@ -21,8 +21,8 @@
     [UsedImplicitly]
     public class UpdateProjectFilesCommandHandlerFacade : ICommandHandler<UpdateProjectFilesCommand>
     {
-        private readonly IFileSystem filesystem;
-        private readonly IFileSearch fileSearcher;
+        [NotNull] private readonly IFileSystem filesystem;
+        [NotNull] private readonly IFileSearch fileSearcher;
 
         public UpdateProjectFilesCommandHandlerFacade([NotNull] IFileSystem filesystem, [NotNull] IFileSearch fileSearcher)
         {

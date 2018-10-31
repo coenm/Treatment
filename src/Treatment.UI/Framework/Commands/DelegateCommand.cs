@@ -1,4 +1,4 @@
-﻿namespace Treatment.UI.Framework
+﻿namespace Treatment.UI.Framework.Commands
 {
     using System;
     using System.Windows.Input;

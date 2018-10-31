@@ -12,23 +12,27 @@
     using CoenM.Encoding;
     using JetBrains.Annotations;
     using Nito.Mvvm;
-
     using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Helpers;
     using Treatment.UI.Core.Configuration;
     using Treatment.UI.Framework;
+    using Treatment.UI.Framework.ViewModel;
+    using Treatment.UI.Model;
 
     public class ProjectCollectionViewModel : ViewModelBase, IProjectCollectionViewModel, IInitializableViewModel, IDisposable
     {
+        [NotNull] private readonly IStatusModel statusModel;
         [NotNull] private readonly IProjectViewModelFactory projectViewModelFactory;
         [NotNull] private readonly IFileSearch fileSearch;
         [NotNull] private readonly IConfiguration configuration;
 
         public ProjectCollectionViewModel(
             [NotNull] IProjectViewModelFactory projectViewModelFactory,
+            [NotNull] IStatusModel statusModel,
             [NotNull] IFileSearch fileSearch,
             [NotNull] IConfiguration configuration)
         {
+            this.statusModel = Guard.NotNull(statusModel, nameof(statusModel));
             this.projectViewModelFactory = Guard.NotNull(projectViewModelFactory, nameof(projectViewModelFactory));
             this.fileSearch = Guard.NotNull(fileSearch, nameof(fileSearch));
             this.configuration = Guard.NotNull(configuration, nameof(configuration));
@@ -55,12 +59,12 @@
             using (var crypt = new SHA256Managed())
             {
                 var result = crypt.ComputeHash(
-                                               crypt.ComputeHash(
-                                                                 new byte[] { 0, 1, 3, 5, 7, 9 }
-                                                                     .Concat(Encoding.ASCII.GetBytes(filename))
-                                                                     .ToArray())
-                                                    .Concat(new byte[] { 34, 22, 230, 33, 33, 0 })
-                                                    .ToArray());
+                    crypt.ComputeHash(
+                            new byte[] { 0, 1, 3, 5, 7, 9 }
+                                .Concat(Encoding.ASCII.GetBytes(filename))
+                                .ToArray())
+                        .Concat(new byte[] { 34, 22, 230, 33, 33, 0 })
+                        .ToArray());
 
                 return Z85.Encode(result);
             }
@@ -68,12 +72,27 @@
 
         private async Task LoadProjectsAsync()
         {
+//            await Task.Delay(10); // stupid delay to see something happening ;-)
+            statusModel.StatusText = "Loading projects ..";
             await Task.Delay(3000); // stupid delay to see something happening ;-)
-            var items = CreateProjectViewModelsFromDirectory();
+            var items = CreateProjectViewModelsFromDirectory().ToList();
             foreach (var item in items)
             {
                 Projects.Add(item);
                 await Task.Delay(1000); // again stupid delay to see something happening ;-)
+            }
+
+            switch (items.Count)
+            {
+                case 0:
+                    statusModel.StatusText = "Could not load any projects";
+                    break;
+                case 1:
+                    statusModel.StatusText = "One project loaded.";
+                    break;
+                default:
+                    statusModel.StatusText = $"{items.Count} Projects loaded.";
+                    break;
             }
         }
 

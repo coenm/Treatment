@@ -7,6 +7,8 @@
         IProjectCollectionViewModel ProjectCollection { get; }
 
         ICommand OpenSettings { get; }
+
+        IStatusViewModel StatusViewModel { get; }
     }
 
     /// <remarks>
@@ -15,6 +17,8 @@
     public abstract class DummyMainWindowViewModel : IMainWindowViewModel
     {
         public abstract ICommand OpenSettings { get; }
+
+        public abstract IStatusViewModel StatusViewModel { get; }
 
         public abstract IProjectCollectionViewModel ProjectCollection { get; }
     }

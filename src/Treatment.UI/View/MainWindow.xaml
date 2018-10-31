@@ -55,6 +55,9 @@
       <StatusBarItem>
         <TextBlock Text="TODO Status text, version info, .." />
       </StatusBarItem>
+      <StatusBarItem>
+        <TextBlock Text="{Binding Path=StatusViewModel.StatusText}" />
+      </StatusBarItem>
     </StatusBar>
   </Grid>
 </Window>

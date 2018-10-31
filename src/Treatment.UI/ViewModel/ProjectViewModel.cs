@@ -8,6 +8,7 @@
     using Treatment.Contract.Commands;
     using Treatment.Helpers;
     using Treatment.UI.Framework;
+    using Treatment.UI.Framework.ViewModel;
 
     public class ProjectViewModel : ViewModelBase, IDisposable
     {

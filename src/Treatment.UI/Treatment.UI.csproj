@@ -224,6 +224,12 @@
     <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
+    <Reference Include="System.Reactive, Version=4.1.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Reactive.4.1.2\lib\net46\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Core, Version=3.0.3000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Reactive.Core.4.1.2\lib\net46\System.Reactive.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System.Reflection, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Reflection.4.3.0\lib\net462\System.Reflection.dll</HintPath>
       <Private>True</Private>
@@ -277,9 +283,14 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Threading.Tasks.Extensions.4.5.1\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -310,9 +321,11 @@
     <Compile Include="Core\Configuration\ConcurrentConfigurationServiceDecorator.cs" />
     <Compile Include="Core\Configuration\FileBasedConfigurationService.cs" />
     <Compile Include="Core\Configuration\IConfigurationService.cs" />
-    <Compile Include="Framework\IShowEntityInDialogProcessor.cs" />
-    <Compile Include="Framework\ShowEntityInDialogProcessor.cs" />
-    <Compile Include="Framework\DelegateCommand.cs" />
+    <Compile Include="Framework\IEntityEditor.cs" />
+    <Compile Include="Framework\EditEntityInDialog.cs" />
+    <Compile Include="Framework\Commands\DelegateCommand.cs" />
+    <Compile Include="Framework\SynchronizationContext\IUserInterfaceSynchronizationContextProvider.cs" />
+    <Compile Include="Framework\SynchronizationContext\UserInterfaceSynchronizationContextProvider.cs" />
     <Compile Include="UserControls\ProjectListView.xaml.cs">
       <DependentUpon>ProjectListView.xaml</DependentUpon>
     </Compile>
@@ -321,11 +334,15 @@
     <Compile Include="Framework\IInitializableViewModel.cs" />
     <Compile Include="ViewModel\IProjectCollectionViewModel.cs" />
     <Compile Include="ViewModel\IProjectViewModelFactory.cs" />
+    <Compile Include="Model\IStatusModel.cs" />
+    <Compile Include="ViewModel\IStatusViewModel.cs" />
     <Compile Include="ViewModel\ProjectCollectionViewModel.cs" />
     <Compile Include="Core\Configuration\ApplicationSettings.cs" />
     <Compile Include="ViewModel\ProjectViewModelFactory.cs" />
     <Compile Include="ViewModel\Settings\ApplicationSettingsViewModel.cs" />
     <Compile Include="Framework\IEntityEditorViewModel.cs" />
+    <Compile Include="Model\StatusModel.cs" />
+    <Compile Include="ViewModel\StatusViewModel.cs" />
     <Compile Include="View\IEntityEditorView.cs" />
     <Compile Include="View\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
@@ -344,14 +361,14 @@
     </Compile>
     <Compile Include="Core\Configuration\IConfiguration.cs" />
     <Compile Include="Core\Configuration\AppConfigConfiguration.cs" />
-    <Compile Include="Framework\Nito\CapturingExceptionAsyncCommand.cs" />
+    <Compile Include="Framework\Commands\Nito\CapturingExceptionAsyncCommand.cs" />
     <Compile Include="ValueConverters\InverseBooleanConverter.cs" />
     <Compile Include="ValueConverters\NullVisibilityConverter.cs" />
     <Compile Include="Core\DelayCommandExecution.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\IMainWindowViewModel.cs" />
     <Compile Include="ViewModel\ProjectViewModel.cs" />
-    <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="Framework\ViewModel\ViewModelBase.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

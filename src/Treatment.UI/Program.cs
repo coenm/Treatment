@@ -4,6 +4,7 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Threading;
 
     using JetBrains.Annotations;
     using SimpleInjector;
@@ -14,6 +15,8 @@
     using Treatment.UI.Core;
     using Treatment.UI.Core.Configuration;
     using Treatment.UI.Framework;
+    using Treatment.UI.Framework.SynchronizationContext;
+    using Treatment.UI.Model;
     using Treatment.UI.View;
     using Treatment.UI.ViewModel;
     using Treatment.UI.ViewModel.Settings;
@@ -45,9 +48,12 @@
             // View Models.
             container.Register<IMainWindowViewModel, MainWindowViewModel>();
             container.Register<IProjectCollectionViewModel, ProjectCollectionViewModel>(Lifestyle.Scoped);
-            container.Register<IEntityEditorViewModel<ApplicationSettings>, ApplicationSettingsViewModel>();
+            container.Register<IEntityEditorViewModel<ApplicationSettings>, ApplicationSettingsViewModel>(Lifestyle.Scoped);
+            container.Register<IStatusViewModel, StatusViewModel>(Lifestyle.Scoped);
 
-            container.RegisterSingleton<IShowEntityInDialogProcessor, ShowEntityInDialogProcessor>();
+            container.Register<IStatusModel, StatusModel>(Lifestyle.Scoped);
+
+            container.RegisterSingleton<IEntityEditor, EditEntityInDialog>();
 
             container.RegisterSingleton<IConfigurationService, FileBasedConfigurationService>();
             container.RegisterDecorator<IConfigurationService, CacheConfigurationServiceDecorator>(Lifestyle.Singleton);
@@ -55,13 +61,15 @@
 
             container.Register<IProjectViewModelFactory, ProjectViewModelFactory>(Lifestyle.Scoped);
 
+            container.Register<IUserInterfaceSynchronizationContextProvider, UserInterfaceSynchronizationContextProvider>(Lifestyle.Singleton);
+
             RegisterPlugins(container);
 
             RegisterUserInterfaceDependencies(container);
 
             RegisterDebug(container);
 
-            container.Verify();
+            container.Verify(VerificationOption.VerifyAndDiagnose);
 
             return container;
         }
@@ -107,13 +115,26 @@
                 using (AsyncScopedLifestyle.BeginScope(container))
                 {
                     var app = new App();
+
+                    app.Startup += (sender, args) =>
+                    {
+                        // stupid workaround to capture the UI thread and to store it in a singleton
+                        var contextProvider = container.GetInstance<IUserInterfaceSynchronizationContextProvider>();
+                        ((UserInterfaceSynchronizationContextProvider)contextProvider).Set(SynchronizationContext.Current);
+                    };
+
                     var mainWindow = container.GetInstance<MainWindow>();
                     app.Run(mainWindow);
                 }
             }
-            catch (Exception)
+
+            // ReSharper disable once RedundantCatchClause
+            catch
             {
                 // Log the exception and exit
+#if DEBUG
+                throw;
+#endif
             }
         }
     }
