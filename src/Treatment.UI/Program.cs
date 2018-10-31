@@ -4,12 +4,13 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    using Helpers;
+
     using JetBrains.Annotations;
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
     using Treatment.Core.Bootstrap;
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
+    using Treatment.Helpers;
     using Treatment.UI.Core;
     using Treatment.UI.Core.Configuration;
     using Treatment.UI.Framework;
@@ -95,8 +96,7 @@
 
         private static void RunApplication([NotNull] Container container)
         {
-            if (container == null)
-                throw new ArgumentNullException(nameof(container));
+            DebugGuard.NotNull(container, nameof(container));
 
             try
             {

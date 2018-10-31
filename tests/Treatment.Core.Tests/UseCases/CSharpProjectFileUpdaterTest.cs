@@ -14,14 +14,14 @@
 
     public class CSharpProjectFileUpdaterTest
     {
-        private const string FILENAME = "FileWithRelativeHintPath.txt";
+        private const string Filename = "FileWithRelativeHintPath.txt";
 
         [Fact]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public void RemoveEmptyItemGroups_RemovesEmptyGroupsTest()
         {
             // arrange
-            using (var inputStream = ResourceFile.OpenRead(FILENAME))
+            using (var inputStream = ResourceFile.OpenRead(Filename))
             using (var outputStream = new MemoryStream())
             {
                 var sut = CSharpProjectFileUpdater.Create(inputStream)
@@ -41,7 +41,7 @@
         public void RemoveAppConfig_RemovedAppConfigTest()
         {
             // arrange
-            using (var inputStream = ResourceFile.OpenRead(FILENAME))
+            using (var inputStream = ResourceFile.OpenRead(Filename))
             using (var outputStream = new MemoryStream())
             {
                 // act

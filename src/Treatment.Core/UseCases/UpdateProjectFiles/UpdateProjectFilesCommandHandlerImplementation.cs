@@ -11,12 +11,13 @@
     using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Core.Interfaces;
+    using Treatment.Helpers;
 
     public class UpdateProjectFilesCommandHandlerImplementation /*: ICommandHandler<UpdateProjectFilesCommand>*/
     {
         // todo don't use regex but xml serializer
-        private const string SEARCH = @"<HintPath>[\.\.\\]+Packages\\(.+\.dll)</HintPath>";
-        private const string REPLACE = @"<HintPath>$(PackagesDir)\$1</HintPath>";
+        private const string Search = @"<HintPath>[\.\.\\]+Packages\\(.+\.dll)</HintPath>";
+        private const string Replace = @"<HintPath>$(PackagesDir)\$1</HintPath>";
 
         private readonly IFileSystem filesystem;
         private readonly IFileSearch fileSearcher;
@@ -24,9 +25,9 @@
 
         public UpdateProjectFilesCommandHandlerImplementation([NotNull] IFileSystem filesystem, [NotNull] IFileSearch fileSearcher)
         {
-            this.filesystem = filesystem ?? throw new ArgumentNullException(nameof(filesystem));
-            this.fileSearcher = fileSearcher ?? throw new ArgumentNullException(nameof(fileSearcher));
-            regex = new Regex(SEARCH, RegexOptions.Compiled);
+            this.filesystem = Guard.NotNull(filesystem, nameof(filesystem));
+            this.fileSearcher = Guard.NotNull(fileSearcher, nameof(fileSearcher));
+            regex = new Regex(Search, RegexOptions.Compiled);
         }
 
         public Task ExecuteAsync(UpdateProjectFilesCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)
@@ -63,7 +64,7 @@
             var match = regex.Match(result);
             while (match.Success)
             {
-                result = regex.Replace(data, REPLACE);
+                result = regex.Replace(data, Replace);
                 match = regex.Match(result);
             }
 

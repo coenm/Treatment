@@ -7,7 +7,7 @@
     using System.Runtime.CompilerServices;
 
     using FluentValidation;
-    using Helpers;
+
     using JetBrains.Annotations;
 
     using SimpleInjector;
@@ -22,6 +22,7 @@
     using Treatment.Core.Interfaces;
     using Treatment.Core.UseCases.CleanAppConfig;
     using Treatment.Core.UseCases.CrossCuttingConcerns;
+    using Treatment.Helpers;
 
     // This class allows registering all types that are defined in the business layer, and are shared across
     // all applications that use this layer (WCF and Web API). For simplicity, this class is placed inside

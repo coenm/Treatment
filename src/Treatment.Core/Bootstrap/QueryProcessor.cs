@@ -1,12 +1,12 @@
 ﻿namespace Treatment.Core.Bootstrap
 {
-    using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using Helpers;
+
     using JetBrains.Annotations;
     using SimpleInjector;
     using Treatment.Contract;
+    using Treatment.Helpers;
 
     [UsedImplicitly]
     public class QueryProcessor : IQueryProcessor
@@ -15,7 +15,7 @@
 
         public QueryProcessor([NotNull] Container container)
         {
-            this.container = container ?? throw new ArgumentNullException(nameof(container));
+            this.container = Guard.NotNull(container, nameof(container));
         }
 
         public async Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query, CancellationToken ct = default)

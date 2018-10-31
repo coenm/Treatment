@@ -23,7 +23,7 @@
 
     public class CleanAppConfigCommandHandlerTest
     {
-        private const string DIR = "main/directory";
+        private const string Dir = "main/directory";
 
         private readonly CleanAppConfigCommandHandler sut;
         private readonly ICleanSingleAppConfig cleanSingleAppConfig;
@@ -35,20 +35,20 @@
         {
             fs = new FakeFileSystem();
             actionsHappened = new StringBuilder();
-            cleanAppConfigCommand = new CleanAppConfigCommand(DIR);
+            cleanAppConfigCommand = new CleanAppConfigCommand(Dir);
 
             var fileSearcher = A.Fake<IFileSearch>();
             var sourceControl = A.Fake<IReadOnlySourceControl>();
 
-            A.CallTo(() => fileSearcher.FindFilesIncludingSubdirectories(DIR, "*.csproj"))
+            A.CallTo(() => fileSearcher.FindFilesIncludingSubdirectories(Dir, "*.csproj"))
              .Invokes(call => actionsHappened.AppendLine(call.ToString()))
              .ReturnsLazily(call => fs.GetFiles().Where(x => x.EndsWith(".csproj", true, CultureInfo.InvariantCulture)).ToArray());
 
-            A.CallTo(() => fileSearcher.FindFilesIncludingSubdirectories(DIR, "app.config"))
+            A.CallTo(() => fileSearcher.FindFilesIncludingSubdirectories(Dir, "app.config"))
              .Invokes(call => actionsHappened.AppendLine(call.ToString()))
              .ReturnsLazily(call => fs.GetFiles().Where(x => x.EndsWith("app.config", false, CultureInfo.InvariantCulture)).ToArray());
 
-            A.CallTo(() => fileSearcher.FindFilesIncludingSubdirectories(DIR, "App.config"))
+            A.CallTo(() => fileSearcher.FindFilesIncludingSubdirectories(Dir, "App.config"))
              .Invokes(call => actionsHappened.AppendLine(call.ToString()))
              .ReturnsLazily(call => fs.GetFiles().Where(x => x.EndsWith("App.config", false, CultureInfo.InvariantCulture)).ToArray());
 
@@ -90,8 +90,8 @@
         public async Task Execute_WhenCsProjIsModifiedAndAppConfigIsNew_ExecutesCleanSingleAppConfigTest()
         {
             // arrange
-            fs.Add(DIR + "/a/file1.csproj", FileStatus.Modified);
-            fs.Add(DIR + "/a/app.config", FileStatus.New);
+            fs.Add(Dir + "/a/file1.csproj", FileStatus.Modified);
+            fs.Add(Dir + "/a/app.config", FileStatus.New);
 
             // act
             await sut.ExecuteAsync(cleanAppConfigCommand);
@@ -105,8 +105,8 @@
         public async Task Execute_WhenCsProjIsModifiedAndAppConfigIsNotNew_DoesNotExecuteCleanSingleAppConfigTest(FileStatus status)
         {
             // arrange
-            fs.Add(DIR + "/a/file1.csproj", FileStatus.Modified);
-            fs.Add(DIR + "/a/app.config", status);
+            fs.Add(Dir + "/a/file1.csproj", FileStatus.Modified);
+            fs.Add(Dir + "/a/app.config", status);
 
             // act
             await sut.ExecuteAsync(cleanAppConfigCommand);

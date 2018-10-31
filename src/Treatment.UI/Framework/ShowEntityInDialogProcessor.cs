@@ -2,9 +2,10 @@
 {
     using System;
     using System.Windows;
-    using Helpers;
+
     using JetBrains.Annotations;
     using SimpleInjector;
+    using Treatment.Helpers;
     using Treatment.UI.View;
 
     public class ShowEntityInDialogProcessor : IShowEntityInDialogProcessor
@@ -13,7 +14,7 @@
 
         public ShowEntityInDialogProcessor([NotNull] Container container)
         {
-            this.container = container ?? throw new ArgumentNullException(nameof(container));
+            this.container = Guard.NotNull(container, nameof(container));
         }
 
         /// <summary>Show dialog for given <paramref name="entity"/>.</summary>

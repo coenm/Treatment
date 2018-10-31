@@ -32,14 +32,14 @@
         public void FixFileTest()
         {
             // arrange
-            const string FILENAME = "FileWithRelativeHintPath.txt";
+            const string filename = "FileWithRelativeHintPath.txt";
             var expectedContent = ResourceFile.GetContent("FileWithRelativeHintPathFixed.txt");
 
             // act
-            sut.FixSingleFile(FILENAME);
+            sut.FixSingleFile(filename);
 
             // assert
-            A.CallTo(() => filesystem.SaveContent(FILENAME, expectedContent))
+            A.CallTo(() => filesystem.SaveContent(filename, expectedContent))
              .MustHaveHappenedOnceExactly();
         }
     }

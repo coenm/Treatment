@@ -9,6 +9,7 @@
     using Newtonsoft.Json.Linq;
     using SimpleInjector;
     using Treatment.Core.Interfaces;
+    using Treatment.Helpers;
 
     public class FileBasedConfigurationService : IConfigurationService
     {
@@ -17,8 +18,8 @@
 
         public FileBasedConfigurationService([NotNull] IFileSystem fileSystem, [NotNull] Container container)
         {
-            this.fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
-            this.container = container ?? throw new ArgumentNullException(nameof(container));
+            this.fileSystem = Guard.NotNull(fileSystem, nameof(fileSystem));
+            this.container = Guard.NotNull(container, nameof(container));
         }
 
         public async Task<ApplicationSettings> GetAsync()

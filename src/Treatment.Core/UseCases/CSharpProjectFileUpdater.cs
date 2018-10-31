@@ -4,8 +4,10 @@
     using System.IO;
     using System.Linq;
     using System.Xml.Linq;
-    using Helpers;
+
     using JetBrains.Annotations;
+
+    using Treatment.Helpers;
 
     public class CSharpProjectFileUpdater
     {
@@ -17,7 +19,7 @@
         private CSharpProjectFileUpdater(XDocument doc)
         {
             msbuildNamespace = "http://schemas.microsoft.com/developer/msbuild/2003";
-            this.doc = doc ?? throw new ArgumentNullException(nameof(doc));
+            this.doc = Guard.NotNull(doc, nameof(doc));
         }
 
         [PublicAPI]

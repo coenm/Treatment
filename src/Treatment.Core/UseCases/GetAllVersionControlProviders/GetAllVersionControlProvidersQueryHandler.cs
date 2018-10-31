@@ -12,6 +12,7 @@
     using Treatment.Contract.DTOs;
     using Treatment.Contract.Plugin.SourceControl;
     using Treatment.Contract.Queries;
+    using Treatment.Helpers;
 
     [UsedImplicitly]
     public class GetAllVersionControlProvidersQueryHandler : IQueryHandler<GetAllVersionControlProvidersQuery, List<VersionControlProviderInfo>>
@@ -20,6 +21,7 @@
 
         public GetAllVersionControlProvidersQueryHandler([NotNull] IEnumerable<ISourceControlAbstractFactory> versionControlProviderFactories)
         {
+            Guard.NotNull(versionControlProviderFactories, nameof(versionControlProviderFactories));
             searchProviderFactories = versionControlProviderFactories.ToList();
         }
 

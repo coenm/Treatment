@@ -97,7 +97,7 @@
 
         public void Initialize(ApplicationSettings applicationSettings)
         {
-            entity = applicationSettings ?? throw new ArgumentNullException(nameof(applicationSettings));
+            entity = Guard.NotNull(applicationSettings, nameof(applicationSettings));
 
             DelayExecution = applicationSettings.DelayExecution;
             SearchProviderName = applicationSettings.SearchProviderName;

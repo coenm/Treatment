@@ -5,6 +5,8 @@
 
     using JetBrains.Annotations;
 
+    using Treatment.Helpers;
+
     public class CacheConfigurationServiceDecorator : IConfigurationService
     {
         [NotNull]
@@ -12,7 +14,7 @@
 
         public CacheConfigurationServiceDecorator([NotNull] IConfigurationService decoratee)
         {
-            this.decoratee = decoratee ?? throw new ArgumentNullException(nameof(decoratee));
+            this.decoratee = Guard.NotNull(decoratee, nameof(decoratee));
         }
 
         public Task<ApplicationSettings> GetAsync()

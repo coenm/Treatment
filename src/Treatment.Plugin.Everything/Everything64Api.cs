@@ -44,7 +44,7 @@
         {
             try
             {
-                const int BUFFER_SIZE = 260;
+                const int bufferSize = 260;
 
                 Everything_SetSearch(query);
                 Everything_SetRequestFlags(EverythingRequestFileName | EverythingRequestPath);
@@ -58,13 +58,13 @@
                 if (nrResults == 0)
                     return Enumerable.Empty<string>();
 
-                var buf = new StringBuilder(BUFFER_SIZE);
+                var buf = new StringBuilder(bufferSize);
                 var result = new List<string>((int)nrResults);
 
                 for (uint i = 0; i < nrResults; i++)
                 {
                     buf.Clear();
-                    Everything_GetResultFullPathName(i, buf, BUFFER_SIZE);
+                    Everything_GetResultFullPathName(i, buf, bufferSize);
                     result.Add(buf.ToString());
                 }
 

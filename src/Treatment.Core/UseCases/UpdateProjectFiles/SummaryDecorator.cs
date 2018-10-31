@@ -6,6 +6,7 @@
 
     using Treatment.Contract;
     using Treatment.Core.Interfaces;
+    using Treatment.Helpers;
 
     // todo only for UpdateProjectFilesCommand
     public class SummaryDecorator<TCommand> : ICommandHandler<TCommand>
@@ -16,8 +17,8 @@
 
         public SummaryDecorator(ICommandHandler<TCommand> decorated, ISummaryWriter summaryWriter)
         {
-            this.decorated = decorated;
-            this.summaryWriter = summaryWriter;
+            this.decorated = Guard.NotNull(decorated, nameof(decorated));
+            this.summaryWriter = Guard.NotNull(summaryWriter, nameof(summaryWriter));
         }
 
         public async Task ExecuteAsync(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)

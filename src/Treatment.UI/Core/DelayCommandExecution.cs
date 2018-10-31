@@ -35,8 +35,8 @@
 
             public CommandDelayDecorator([NotNull] RandomDelayService delayService, [NotNull] ICommandHandler<TCommand> decoratee)
             {
-                this.delayService = delayService ?? throw new ArgumentNullException(nameof(delayService));
-                this.decoratee = decoratee ?? throw new ArgumentNullException(nameof(decoratee));
+                this.delayService = Guard.NotNull(delayService, nameof(delayService));
+                this.decoratee = Guard.NotNull(decoratee, nameof(decoratee));
             }
 
             [DebuggerStepThrough]

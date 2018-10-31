@@ -1,12 +1,12 @@
 ﻿namespace Treatment.Core.DefaultPluginImplementation.FileSearch
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using JetBrains.Annotations;
 
     using Treatment.Contract.Plugin.FileSearch;
+    using Treatment.Helpers;
 
     [UsedImplicitly]
     internal class FileSearchSelector : IFileSearchSelector
@@ -18,8 +18,8 @@
             [NotNull] IEnumerable<ISearchProviderFactory> factories,
             [NotNull] ISearchProviderNameOption searchProviderName)
         {
-            this.factories = factories ?? throw new ArgumentNullException(nameof(factories));
-            this.searchProviderName = searchProviderName ?? throw new ArgumentNullException(nameof(searchProviderName));
+            this.factories = Guard.NotNull(factories, nameof(factories));
+            this.searchProviderName = Guard.NotNull(searchProviderName, nameof(searchProviderName));
         }
 
         [CanBeNull]
