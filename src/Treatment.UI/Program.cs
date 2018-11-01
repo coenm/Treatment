@@ -1,21 +1,24 @@
-﻿using Treatment.UI.Core.Configuration;
-
-namespace Treatment.UI
+﻿namespace Treatment.UI
 {
     using System;
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Windows;
+    using System.Windows.Threading;
 
     using JetBrains.Annotations;
-
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
-
     using Treatment.Core.Bootstrap;
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
+    using Treatment.Helpers;
     using Treatment.UI.Core;
-    using Treatment.UI.Core.UI;
+    using Treatment.UI.Core.Configuration;
+    using Treatment.UI.Framework;
+    using Treatment.UI.Framework.SynchronizationContext;
+    using Treatment.UI.Framework.View;
+    using Treatment.UI.Model;
     using Treatment.UI.View;
     using Treatment.UI.ViewModel;
     using Treatment.UI.ViewModel.Settings;
@@ -44,14 +47,25 @@ namespace Treatment.UI
             container.Register<MainWindow>();
             container.Register<IEntityEditorView<ApplicationSettings>, SettingsWindow>();
 
-            container.Register<IMainWindowViewModel, MainWindowViewModel>();
-            container.Register<IEntityEditorViewModel<ApplicationSettings>, ApplicationSettingsViewModel>();
+            // View Models.
+            container.Register<IMainWindowViewModel, MainWindowViewModel>(Lifestyle.Scoped);
+            container.Register<IProjectCollectionViewModel, ProjectCollectionViewModel>(Lifestyle.Scoped);
+            container.Register<IStatusViewModel, StatusViewModel>(Lifestyle.Scoped);
+            container.Register<IEntityEditorViewModel<ApplicationSettings>, ApplicationSettingsViewModel>(Lifestyle.Scoped);
 
-            container.RegisterSingleton<IShowEntityInDialogProcessor, ShowEntityInDialogProcessor>();
+            // not sure..
+            container.Register<IStatusReadModel, StatusModel>(Lifestyle.Scoped);
+            container.Register<IStatusFullModel, StatusModel>(Lifestyle.Scoped);
+
+            container.RegisterSingleton<IEntityEditor, EditEntityInDialog>();
 
             container.RegisterSingleton<IConfigurationService, FileBasedConfigurationService>();
             container.RegisterDecorator<IConfigurationService, CacheConfigurationServiceDecorator>(Lifestyle.Singleton);
             container.RegisterDecorator<IConfigurationService, ConcurrentConfigurationServiceDecorator>(Lifestyle.Singleton);
+
+            container.Register<IProjectViewModelFactory, ProjectViewModelFactory>(Lifestyle.Scoped);
+
+            container.Register<IUserInterfaceSynchronizationContextProvider, UserInterfaceSynchronizationContextProvider>(Lifestyle.Singleton);
 
             RegisterPlugins(container);
 
@@ -59,15 +73,17 @@ namespace Treatment.UI
 
             RegisterDebug(container);
 
-            container.Verify();
+            container.RegisterSingleton<DispatcherObject, App>();
+            container.RegisterSingleton<Application, App>();
+
+            container.Verify(VerificationOption.VerifyAndDiagnose);
 
             return container;
         }
 
         private static void RegisterUserInterfaceDependencies([NotNull] Container container)
         {
-            if (container == null)
-                throw new ArgumentNullException(nameof(container));
+            DebugGuard.NotNull(container, nameof(container));
 
             container.RegisterSingleton<ISearchProviderNameOption, AppConfigConfiguration>();
             container.RegisterSingleton<IConfiguration, AppConfigConfiguration>();
@@ -75,16 +91,14 @@ namespace Treatment.UI
 
         private static void RegisterDebug([NotNull] Container container)
         {
-            if (container == null)
-                throw new ArgumentNullException(nameof(container));
+            DebugGuard.NotNull(container, nameof(container));
 
             DelayCommandExecution.Register(container);
         }
 
         private static void RegisterPlugins([NotNull] Container container)
         {
-            if (container == null)
-                throw new ArgumentNullException(nameof(container));
+            DebugGuard.NotNull(container, nameof(container));
 
             var pluginDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory);
 
@@ -101,21 +115,24 @@ namespace Treatment.UI
 
         private static void RunApplication([NotNull] Container container)
         {
-            if (container == null)
-                throw new ArgumentNullException(nameof(container));
+            DebugGuard.NotNull(container, nameof(container));
 
             try
             {
                 using (AsyncScopedLifestyle.BeginScope(container))
                 {
-                    var app = new App();
-                    var mainWindow = container.GetInstance<MainWindow>();
-                    app.Run(mainWindow);
+                    var app = container.GetInstance<Application>();
+                    app.Run(container.GetInstance<MainWindow>());
                 }
             }
-            catch (Exception)
+
+            // ReSharper disable once RedundantCatchClause
+            catch
             {
                 // Log the exception and exit
+#if DEBUG
+                throw;
+#endif
             }
         }
     }

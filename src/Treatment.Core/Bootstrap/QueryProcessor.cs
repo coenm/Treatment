@@ -1,12 +1,12 @@
 ﻿namespace Treatment.Core.Bootstrap
 {
-    using System;
     using System.Threading;
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
     using SimpleInjector;
     using Treatment.Contract;
+    using Treatment.Helpers;
 
     [UsedImplicitly]
     public class QueryProcessor : IQueryProcessor
@@ -15,13 +15,12 @@
 
         public QueryProcessor([NotNull] Container container)
         {
-            this.container = container ?? throw new ArgumentNullException(nameof(container));
+            this.container = Guard.NotNull(container, nameof(container));
         }
 
         public async Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query, CancellationToken ct = default)
         {
-            if (query == null)
-                throw new ArgumentNullException(nameof(query));
+            Guard.NotNull(query, nameof(query));
 
             var handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
 

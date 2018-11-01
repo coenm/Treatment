@@ -1,12 +1,11 @@
-﻿using Treatment.UI.Core.Configuration;
-
-namespace Treatment.UI.View
+﻿namespace Treatment.UI.View
 {
-    using System;
     using System.Windows;
 
-    using Treatment.UI.ViewModel;
-    using Treatment.UI.ViewModel.Settings;
+    using Treatment.Helpers;
+    using Treatment.UI.Core.Configuration;
+    using Treatment.UI.Framework;
+    using Treatment.UI.Framework.View;
 
     public partial class SettingsWindow : Window, IEntityEditorView<ApplicationSettings>
     {
@@ -17,7 +16,7 @@ namespace Treatment.UI.View
 
         public void Set(IEntityEditorViewModel<ApplicationSettings> viewModel)
         {
-            DataContext = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
+            DataContext = Guard.NotNull(viewModel, nameof(viewModel));
         }
 
         private void ButtonOk_OnClick(object sender, RoutedEventArgs e)

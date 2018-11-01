@@ -1,6 +1,4 @@
-﻿using Treatment.UI.Core.Configuration;
-
-namespace Treatment.UI.ViewModel
+﻿namespace Treatment.UI.ViewModel
 {
     using System;
     using System.Collections.Generic;
@@ -9,41 +7,45 @@ namespace Treatment.UI.ViewModel
     using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
+    using System.Threading.Tasks;
 
     using CoenM.Encoding;
-
     using JetBrains.Annotations;
-
-    using Treatment.Contract;
-    using Treatment.Contract.Commands;
+    using Nito.Mvvm;
     using Treatment.Contract.Plugin.FileSearch;
+    using Treatment.Helpers;
+    using Treatment.UI.Core.Configuration;
+    using Treatment.UI.Framework;
+    using Treatment.UI.Framework.ViewModel;
+    using Treatment.UI.Model;
 
-    public class ProjectCollectionViewModel : ViewModelBase, IDisposable
+    public class ProjectCollectionViewModel : ViewModelBase, IProjectCollectionViewModel, IInitializableViewModel, IDisposable
     {
-        [NotNull] private readonly ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand;
-        [NotNull] private readonly ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand;
+        [NotNull] private readonly IStatusFullModel statusModel;
+        [NotNull] private readonly IProjectViewModelFactory projectViewModelFactory;
         [NotNull] private readonly IFileSearch fileSearch;
         [NotNull] private readonly IConfiguration configuration;
 
         public ProjectCollectionViewModel(
-            [NotNull] ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand,
-            [NotNull] ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand,
+            [NotNull] IProjectViewModelFactory projectViewModelFactory,
+            [NotNull] IStatusFullModel statusModel,
             [NotNull] IFileSearch fileSearch,
             [NotNull] IConfiguration configuration)
         {
-            this.handlerUpdateProjectFilesCommand = handlerUpdateProjectFilesCommand ?? throw new ArgumentNullException(nameof(handlerUpdateProjectFilesCommand));
-            this.handlerCleanAppConfigCommand = handlerCleanAppConfigCommand ?? throw new ArgumentNullException(nameof(handlerCleanAppConfigCommand));
-            this.fileSearch = fileSearch ?? throw new ArgumentNullException(nameof(fileSearch));
-            this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            this.statusModel = Guard.NotNull(statusModel, nameof(statusModel));
+            this.projectViewModelFactory = Guard.NotNull(projectViewModelFactory, nameof(projectViewModelFactory));
+            this.fileSearch = Guard.NotNull(fileSearch, nameof(fileSearch));
+            this.configuration = Guard.NotNull(configuration, nameof(configuration));
 
             Projects = new ObservableCollection<ProjectViewModel>();
-
-            var items = CreateProjectViewModelsFromDirectory();
-            foreach (var item in items)
-                Projects.Add(item);
+            Initialize = new CapturingExceptionAsyncCommand(async _ => await LoadProjectsAsync());
         }
 
         public ObservableCollection<ProjectViewModel> Projects { get; }
+
+        System.Windows.Input.ICommand IInitializableViewModel.Initialize => Initialize;
+
+        public CapturingExceptionAsyncCommand Initialize { get; }
 
         public void Dispose()
         {
@@ -54,17 +56,44 @@ namespace Treatment.UI.ViewModel
             if (filename == null)
                 return string.Empty;
 
-            var crypt = new SHA256Managed();
-            var result = crypt.ComputeHash(
-                crypt.ComputeHash(
-                        new byte[] { 0, 1, 3, 5, 7, 9 }
-                            .Concat(Encoding.ASCII.GetBytes(filename))
-                            .ToArray())
-                    .Concat(
-                        new byte[] { 34, 22, 230, 33, 33, 0 })
-                    .ToArray());
+            using (var crypt = new SHA256Managed())
+            {
+                var result = crypt.ComputeHash(
+                    crypt.ComputeHash(
+                            new byte[] { 0, 1, 3, 5, 7, 9 }
+                                .Concat(Encoding.ASCII.GetBytes(filename))
+                                .ToArray())
+                        .Concat(new byte[] { 34, 22, 230, 33, 33, 0 })
+                        .ToArray());
 
-            return Z85.Encode(result);
+                return Z85.Encode(result);
+            }
+        }
+
+        private async Task LoadProjectsAsync()
+        {
+            var random = new Random();
+            statusModel.UpdateStatus("Loading projects ..");
+            await Task.Delay(random.Next(100, 1000)); // stupid delay to see something happening ;-)
+            var items = CreateProjectViewModelsFromDirectory().ToList();
+            foreach (var item in items)
+            {
+                Projects.Add(item);
+                await Task.Delay(random.Next(10, 1000)); // again stupid delay to see something happening ;-)
+            }
+
+            switch (items.Count)
+            {
+                case 0:
+                    statusModel.UpdateStatus("Could not load any projects");
+                    break;
+                case 1:
+                    statusModel.UpdateStatus("One project loaded.");
+                    break;
+                default:
+                    statusModel.UpdateStatus($"{items.Count} Projects loaded.");
+                    break;
+            }
         }
 
         [NotNull]
@@ -108,11 +137,7 @@ namespace Treatment.UI.ViewModel
                     continue;
                 }
 
-                yield return new ProjectViewModel(
-                                                  rootDirectoryInfo.Name,
-                                                  rootDirectoryInfo.FullName,
-                                                  handlerUpdateProjectFilesCommand,
-                                                  handlerCleanAppConfigCommand);
+                yield return projectViewModelFactory.Create(rootDirectoryInfo.Name, rootDirectoryInfo.FullName);
             }
         }
     }

@@ -18,10 +18,20 @@
             return File.Exists(filename);
         }
 
-        public Stream ReadFile(string filename)
+        public Stream OpenRead(string filename, bool useAsync)
         {
-            // return new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: 4096, useAsync: true);
+            if (useAsync)
+                return new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: 4096, useAsync: true);
+
             return File.OpenRead(filename);
+        }
+
+        public Stream OpenWrite(string filename, bool useAsync)
+        {
+            if (useAsync)
+                return new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
+
+            return File.OpenWrite(filename);
         }
 
         public string GetFileContent(string filename)

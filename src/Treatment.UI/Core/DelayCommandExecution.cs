@@ -6,10 +6,9 @@
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
-
     using SimpleInjector;
-
     using Treatment.Contract;
+    using Treatment.Helpers;
 
     /// <summary>
     /// For testing purposes.
@@ -18,8 +17,7 @@
     {
         public static void Register([NotNull] Container container)
         {
-            if (container == null)
-                throw new ArgumentNullException(nameof(container));
+            Guard.NotNull(container, nameof(container));
 
             container.Register(() => new RandomDelayService(2000, 10000), Lifestyle.Singleton);
 
@@ -35,17 +33,19 @@
             private readonly ICommandHandler<TCommand> decoratee;
             private readonly RandomDelayService delayService;
 
-            public CommandDelayDecorator([NotNull] RandomDelayService delayService, [NotNull] ICommandHandler<TCommand> decoratee)
+            public CommandDelayDecorator(
+                [NotNull] RandomDelayService delayService,
+                [NotNull] ICommandHandler<TCommand> decoratee)
             {
-                this.delayService = delayService ?? throw new ArgumentNullException(nameof(delayService));
-                this.decoratee = decoratee ?? throw new ArgumentNullException(nameof(decoratee));
+                this.delayService = Guard.NotNull(delayService, nameof(delayService));
+                this.decoratee = Guard.NotNull(decoratee, nameof(decoratee));
             }
 
             [DebuggerStepThrough]
             public async Task ExecuteAsync(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
             {
                 progress?.Report(new ProgressData("Intentionally delay the execution of the command."));
-                await delayService.DelayAsync(command, ct).ConfigureAwait(false);
+                await delayService.DelayAsync(ct).ConfigureAwait(false);
                 progress?.Report(new ProgressData("Delayed the execution enough.."));
 
                 await decoratee.ExecuteAsync(command, progress, ct).ConfigureAwait(false);
@@ -65,8 +65,7 @@
                 random = new Random();
             }
 
-            public async Task DelayAsync<TCommand>(TCommand command, CancellationToken ct = default(CancellationToken))
-                where TCommand : ICommand
+            public async Task DelayAsync(CancellationToken ct = default(CancellationToken))
             {
                 var millisecondsDelay = random.Next(minMilliseconds, maxMilliseconds);
                 await Task.Delay(millisecondsDelay, ct).ConfigureAwait(false);

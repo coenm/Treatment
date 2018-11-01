@@ -1,4 +1,4 @@
-﻿namespace Treatment.UI.ViewModel
+﻿namespace Treatment.UI.Framework.ViewModel
 {
     using System.ComponentModel;
 

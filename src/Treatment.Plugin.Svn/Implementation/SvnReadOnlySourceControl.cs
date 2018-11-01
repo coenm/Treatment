@@ -11,6 +11,7 @@
 
     using Treatment.Contract.Plugin.SourceControl;
     using Treatment.Core.Interfaces;
+    using Treatment.Helpers;
 
     internal class SvnReadOnlySourceControl : IReadOnlySourceControl
     {
@@ -18,7 +19,7 @@
 
         public SvnReadOnlySourceControl([NotNull] IFileSystem filesystem)
         {
-            this.filesystem = filesystem ?? throw new ArgumentNullException(nameof(filesystem));
+            this.filesystem = Guard.NotNull(filesystem, nameof(filesystem));
         }
 
         public bool TryGetSvnRoot(string path, out string rootPath)

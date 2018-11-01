@@ -2,12 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
     using System.Runtime.CompilerServices;
 
     using FluentValidation;
-
     using JetBrains.Annotations;
 
     using SimpleInjector;
@@ -22,6 +22,7 @@
     using Treatment.Core.Interfaces;
     using Treatment.Core.UseCases.CleanAppConfig;
     using Treatment.Core.UseCases.CrossCuttingConcerns;
+    using Treatment.Helpers;
 
     // This class allows registering all types that are defined in the business layer, and are shared across
     // all applications that use this layer (WCF and Web API). For simplicity, this class is placed inside
@@ -32,10 +33,10 @@
         private static readonly Assembly[] ContractAssemblies = { typeof(IQuery<>).Assembly };
         private static readonly Assembly[] BusinessLayerAssemblies = { Assembly.GetExecutingAssembly() };
 
+        [SuppressMessage("ReSharper", "RedundantTypeArgumentsOfMethod", Justification = "Readability")]
         public static void Bootstrap([NotNull] Container container)
         {
-            if (container == null)
-                throw new ArgumentNullException(nameof(container));
+            Guard.NotNull(container, nameof(container));
 
             if (container.Options.DefaultScopedLifestyle == null)
                 container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
@@ -67,6 +68,7 @@
             container.Register<ICleanSingleAppConfig, CleanSingleAppConfig>(Lifestyle.Scoped); // is this correct?
 
             container.RegisterSingleton<IQueryProcessor, QueryProcessor>();
+            container.RegisterSingleton<ICommandDispatcher, CommandDispatcher>();
         }
 
         // TODO: use ICommand interface instead of EndsWith "Command"

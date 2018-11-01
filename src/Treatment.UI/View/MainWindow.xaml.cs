@@ -4,12 +4,11 @@
 
     using Treatment.UI.ViewModel;
 
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow(IMainWindowViewModel viewModel)
         {
             InitializeComponent();
-
             DataContext = viewModel;
         }
     }

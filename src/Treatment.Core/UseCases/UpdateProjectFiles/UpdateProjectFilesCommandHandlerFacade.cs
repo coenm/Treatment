@@ -11,6 +11,7 @@
     using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Core.Interfaces;
+    using Treatment.Helpers;
 
     /// <remarks>
     /// Try to separate logging or progress feedback from the core functionality.
@@ -20,13 +21,13 @@
     [UsedImplicitly]
     public class UpdateProjectFilesCommandHandlerFacade : ICommandHandler<UpdateProjectFilesCommand>
     {
-        private readonly IFileSystem filesystem;
-        private readonly IFileSearch fileSearcher;
+        [NotNull] private readonly IFileSystem filesystem;
+        [NotNull] private readonly IFileSearch fileSearcher;
 
         public UpdateProjectFilesCommandHandlerFacade([NotNull] IFileSystem filesystem, [NotNull] IFileSearch fileSearcher)
         {
-            this.filesystem = filesystem ?? throw new ArgumentNullException(nameof(filesystem));
-            this.fileSearcher = fileSearcher ?? throw new ArgumentNullException(nameof(fileSearcher));
+            this.filesystem = Guard.NotNull(filesystem, nameof(filesystem));
+            this.fileSearcher = Guard.NotNull(fileSearcher, nameof(fileSearcher));
         }
 
         public async Task ExecuteAsync(UpdateProjectFilesCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)
@@ -66,9 +67,9 @@
 
             internal ProgressCommandExecution([NotNull] IFileSystem filesystem, [NotNull] IFileSearch fileSearch, [NotNull] IProgress<ProgressData> progress)
             {
-                this.filesystem = filesystem ?? throw new ArgumentNullException(nameof(filesystem));
-                this.fileSearch = fileSearch ?? throw new ArgumentNullException(nameof(fileSearch));
-                this.progress = progress ?? throw new ArgumentNullException(nameof(progress));
+                this.filesystem = Guard.NotNull(filesystem, nameof(filesystem));
+                this.fileSearch = Guard.NotNull(fileSearch, nameof(fileSearch));
+                this.progress = Guard.NotNull(progress, nameof(progress));
                 foundFileCount = 0;
             }
 
@@ -79,7 +80,9 @@
 
             bool IFileSystem.FileExists(string filename) => filesystem.FileExists(filename);
 
-            Stream IFileSystem.ReadFile(string filename) => filesystem.ReadFile(filename);
+            Stream IFileSystem.OpenRead(string filename, bool useAsync) => filesystem.OpenRead(filename, useAsync);
+
+            Stream IFileSystem.OpenWrite(string filename, bool useAsync) => filesystem.OpenWrite(filename, useAsync);
 
             string IFileSystem.GetFileContent(string filename)
             {

@@ -38,9 +38,15 @@
             return decoratee.FileExists(filename);
         }
 
-        public Stream ReadFile(string filename)
+        public Stream OpenRead(string filename, bool useAsync)
         {
-            return decoratee.ReadFile(filename);
+            return decoratee.OpenRead(filename, useAsync);
+        }
+
+        public Stream OpenWrite(string filename, bool useAsync)
+        {
+            DummySaveContent(filename);
+            return new MemoryStream();
         }
 
         public string GetFileContent(string filename)

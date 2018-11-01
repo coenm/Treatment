@@ -1,33 +1,35 @@
-﻿using Treatment.UI.Core.Configuration;
-
-namespace Treatment.UI.ViewModel
+﻿namespace Treatment.UI.ViewModel
 {
     using System;
+    using System.Threading.Tasks;
 
     using JetBrains.Annotations;
-
+    using Nito.Mvvm;
     using Treatment.Contract;
-    using Treatment.Contract.Commands;
-    using Treatment.Contract.Plugin.FileSearch;
-    using Treatment.UI.Core.UI;
+    using Treatment.Helpers;
+    using Treatment.UI.Core.Configuration;
+    using Treatment.UI.Framework;
+    using Treatment.UI.Framework.ViewModel;
 
     using ICommand = System.Windows.Input.ICommand;
 
-    public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
+    public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel, IInitializableViewModel
     {
-        [NotNull] private readonly ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand;
-        [NotNull] private readonly ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand;
-        [NotNull] private readonly IFileSearch fileSearch;
-        [NotNull] private readonly IConfigurationService configurationService;
         [NotNull] private readonly IProgress<ProgressData> progressFixCsProjectFiles;
 
         public MainWindowViewModel(
-            [NotNull] ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand,
-            [NotNull] ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand,
-            [NotNull] IFileSearch fileSearch,
+            [NotNull] IStatusViewModel statusViewModel,
+            [NotNull] IProjectCollectionViewModel projectCollectionViewModel,
             [NotNull] IConfigurationService configurationService,
-            [NotNull] IShowEntityInDialogProcessor showInDialogProcessor)
+            [NotNull] IConfiguration configuration,
+            [NotNull] IEntityEditor showInDialog)
         {
+            Guard.NotNull(configurationService, nameof(configurationService));
+            Guard.NotNull(configuration, nameof(configuration));
+            Guard.NotNull(showInDialog, nameof(showInDialog));
+            ProjectCollection = Guard.NotNull(projectCollectionViewModel, nameof(projectCollectionViewModel));
+            StatusViewModel = Guard.NotNull(statusViewModel, nameof(statusViewModel));
+
             progressFixCsProjectFiles = new Progress<ProgressData>(data =>
             {
                 if (string.IsNullOrEmpty(data.Message))
@@ -37,27 +39,27 @@ namespace Treatment.UI.ViewModel
                 FixCsProjectFilesLog += data.Message + Environment.NewLine;
             });
 
-            this.handlerUpdateProjectFilesCommand = handlerUpdateProjectFilesCommand ?? throw new ArgumentNullException(nameof(handlerUpdateProjectFilesCommand));
-            this.handlerCleanAppConfigCommand = handlerCleanAppConfigCommand ?? throw new ArgumentNullException(nameof(handlerCleanAppConfigCommand));
-            this.fileSearch = fileSearch ?? throw new ArgumentNullException(nameof(fileSearch));
-            this.configurationService = configurationService ?? throw new ArgumentNullException(nameof(configurationService));
-            if (showInDialogProcessor == null)
-                throw new ArgumentNullException(nameof(showInDialogProcessor));
+            WorkingDirectory = configuration.RootPath ?? string.Empty;
 
-            WorkingDirectory = configurationService.GetConfiguration().RootPath ?? string.Empty;
-
-            ProjectCollection = new ProjectCollectionViewModel(
-                this.handlerUpdateProjectFilesCommand,
-                this.handlerCleanAppConfigCommand,
-                this.fileSearch,
-                this.configurationService.GetConfiguration());
-
-            OpenSettings = new OpenSettingsCommand(showInDialogProcessor, configurationService);
+            OpenSettings = new OpenSettingsCommand(showInDialog, configurationService, WorkingDirectory);
+            Initialize = new CapturingExceptionAsyncCommand(async () =>
+            {
+                await Task.WhenAll(
+                        ProjectCollection.Initialize.ExecuteAsync(null),
+                        StatusViewModel.Initialize.ExecuteAsync(null))
+                    .ConfigureAwait(false);
+            });
         }
 
-        public ProjectCollectionViewModel ProjectCollection { get; }
+        public IProjectCollectionViewModel ProjectCollection { get; }
+
+        public IStatusViewModel StatusViewModel { get; }
 
         public ICommand OpenSettings { get; }
+
+        ICommand IInitializableViewModel.Initialize => Initialize;
+
+        public CapturingExceptionAsyncCommand Initialize { get; }
 
         public string FixCsProjectFilesLog
         {
@@ -79,15 +81,21 @@ namespace Treatment.UI.ViewModel
 
         private class OpenSettingsCommand : ICommand
         {
-            private readonly IShowEntityInDialogProcessor showEntityInDialogProcessor;
-            [NotNull] private IConfigurationService configurationService;
+            [NotNull] private readonly IEntityEditor entityEditor;
+            [NotNull] private readonly IConfigurationService configurationService;
+            [NotNull] private readonly string rootPath;
 
             public OpenSettingsCommand(
-                [NotNull] IShowEntityInDialogProcessor showEntityInDialogProcessor,
-                [NotNull] IConfigurationService configurationService)
+                [NotNull] IEntityEditor entityEditor,
+                [NotNull] IConfigurationService configurationService,
+                [NotNull] string rootPath)
             {
-                this.showEntityInDialogProcessor = showEntityInDialogProcessor ?? throw new ArgumentNullException(nameof(showEntityInDialogProcessor));
-                this.configurationService = configurationService ?? throw new ArgumentNullException(nameof(configurationService));
+                DebugGuard.NotNull(entityEditor, nameof(entityEditor));
+                DebugGuard.NotNull(configurationService, nameof(configurationService));
+                DebugGuard.NotNull(rootPath, nameof(rootPath));
+                this.entityEditor = entityEditor;
+                this.configurationService = configurationService;
+                this.rootPath = rootPath;
             }
 
             public event EventHandler CanExecuteChanged;
@@ -101,11 +109,11 @@ namespace Treatment.UI.ViewModel
                                                   DelayExecution = true,
                                                   SearchProviderName = "FileSystem",
                                                   VersionControlProviderName = "SVN",
-                                                  RootDirectory = configurationService.GetConfiguration().RootPath,
+                                                  RootDirectory = rootPath,
                                               };
 
-                var result = showEntityInDialogProcessor.ShowDialog(applicationSettings);
-                if (result == true)
+                var result = entityEditor.Edit(applicationSettings);
+                if (result.HasValue && result.Value)
                 {
                     // todo
                     configurationService.UpdateAsync(applicationSettings);

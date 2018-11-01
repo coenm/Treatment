@@ -1,35 +1,28 @@
-﻿using Treatment.UI.Core.Configuration;
-
-namespace Treatment.UI.ViewModel.Settings
+﻿namespace Treatment.UI.ViewModel.Settings
 {
-    using System;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
-
     using Nito.Mvvm;
-
     using Treatment.Contract;
     using Treatment.Contract.Queries;
+    using Treatment.Helpers;
+    using Treatment.UI.Core.Configuration;
+    using Treatment.UI.Framework;
+    using Treatment.UI.Framework.ViewModel;
 
     public class ApplicationSettingsViewModel : ViewModelBase, IEntityEditorViewModel<ApplicationSettings>
     {
-        [NotNull]
-        private readonly CapturingExceptionAsyncCommand getSearchProvidersCommand;
-
-        [NotNull]
-        private readonly CapturingExceptionAsyncCommand getVersionControlProvidersCommand;
-
-        [CanBeNull]
-        private ApplicationSettings entity;
+        [NotNull] private readonly CapturingExceptionAsyncCommand getSearchProvidersCommand;
+        [NotNull] private readonly CapturingExceptionAsyncCommand getVersionControlProvidersCommand;
+        [CanBeNull] private ApplicationSettings entity;
 
         [UsedImplicitly]
         public ApplicationSettingsViewModel([NotNull] IQueryProcessor queryProcessor)
         {
-            if (queryProcessor == null)
-                throw new ArgumentNullException(nameof(queryProcessor));
+            Guard.NotNull(queryProcessor, nameof(queryProcessor));
 
             SearchProviderNames = new ObservableCollection<string>();
             getSearchProvidersCommand = new CapturingExceptionAsyncCommand(async () =>
@@ -104,7 +97,7 @@ namespace Treatment.UI.ViewModel.Settings
 
         public void Initialize(ApplicationSettings applicationSettings)
         {
-            entity = applicationSettings ?? throw new ArgumentNullException(nameof(applicationSettings));
+            entity = Guard.NotNull(applicationSettings, nameof(applicationSettings));
 
             DelayExecution = applicationSettings.DelayExecution;
             SearchProviderName = applicationSettings.SearchProviderName;

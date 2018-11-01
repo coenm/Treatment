@@ -24,9 +24,14 @@
             return decoratee.FileExists(filename);
         }
 
-        public Stream ReadFile(string filename)
+        public Stream OpenRead(string filename, bool useAsync)
         {
-            return decoratee.ReadFile(filename);
+            return decoratee.OpenRead(filename, useAsync);
+        }
+
+        public Stream OpenWrite(string filename, bool useAsync)
+        {
+            return decoratee.OpenWrite(filename, useAsync);
         }
 
         public string GetFileContent(string filename)

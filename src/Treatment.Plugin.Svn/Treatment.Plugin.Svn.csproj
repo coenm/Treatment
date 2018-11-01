@@ -20,6 +20,7 @@
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -28,13 +29,14 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Treatment.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <AdditionalFiles Include="..\..\stylecop.json" /> 
-  </ItemGroup>  
+    <AdditionalFiles Include="..\..\stylecop.json" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="Enums.NET, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7ea1c1650d506225, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Enums.NET.2.3.2\lib\net45\Enums.NET.dll</HintPath>
@@ -78,6 +80,10 @@
     <ProjectReference Include="..\Treatment.Core\Treatment.Core.csproj">
       <Project>{852975DA-CBF2-4659-8DA4-3AA6A1B5AA25}</Project>
       <Name>Treatment.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Treatment.Helpers\Treatment.Helpers.csproj">
+      <Project>{0D6DB733-FEBE-4F4D-9D99-3808517A9F7F}</Project>
+      <Name>Treatment.Helpers</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

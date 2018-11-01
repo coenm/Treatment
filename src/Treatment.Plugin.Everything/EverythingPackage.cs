@@ -13,6 +13,7 @@
         public void RegisterServices([NotNull] Container container)
         {
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+            // ReSharper disable once HeuristicUnreachableCode
             if (container == null)
                 return;
 

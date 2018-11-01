@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Treatment.Contract.Plugin\Treatment.Contract.Plugin.csproj" />
     <ProjectReference Include="..\Treatment.Contract\Treatment.Contract.csproj" />
+    <ProjectReference Include="..\Treatment.Helpers\Treatment.Helpers.csproj" />
   </ItemGroup>
 
   <ItemGroup>

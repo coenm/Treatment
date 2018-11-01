@@ -7,6 +7,8 @@
 
     using JetBrains.Annotations;
 
+    using Treatment.Helpers;
+
     public class CSharpProjectFileUpdater
     {
         [NotNull]
@@ -17,7 +19,7 @@
         private CSharpProjectFileUpdater(XDocument doc)
         {
             msbuildNamespace = "http://schemas.microsoft.com/developer/msbuild/2003";
-            this.doc = doc ?? throw new ArgumentNullException(nameof(doc));
+            this.doc = Guard.NotNull(doc, nameof(doc));
         }
 
         [PublicAPI]
@@ -117,8 +119,7 @@
         [PublicAPI]
         public void Save(Stream stream)
         {
-            if (stream == null)
-                throw new ArgumentNullException(nameof(stream));
+            Guard.NotNull(stream, nameof(stream));
 
             if (stream.CanWrite == false)
                 throw new NotSupportedException($"Cannot write to stream '{nameof(stream)}'.");

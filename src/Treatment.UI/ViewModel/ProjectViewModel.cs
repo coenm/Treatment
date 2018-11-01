@@ -3,36 +3,33 @@
     using System;
 
     using JetBrains.Annotations;
-
     using Nito.Mvvm;
-
     using Treatment.Contract;
     using Treatment.Contract.Commands;
-    using Treatment.UI.Core;
+    using Treatment.Helpers;
+    using Treatment.UI.Framework;
+    using Treatment.UI.Framework.ViewModel;
 
     public class ProjectViewModel : ViewModelBase, IDisposable
     {
         [NotNull] private readonly ExecutingAsyncCommandsComposition commandWatch;
 
-        public ProjectViewModel(
-            string name,
-            string path,
-            [NotNull] ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand,
-            [NotNull] ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand)
+        public ProjectViewModel(string name,
+                                string path,
+                                [NotNull] ICommandDispatcher commandDispatcher)
         {
-            if (handlerUpdateProjectFilesCommand == null)
-                throw new ArgumentNullException(nameof(handlerUpdateProjectFilesCommand));
-            if (handlerCleanAppConfigCommand == null)
-                throw new ArgumentNullException(nameof(handlerCleanAppConfigCommand));
+            Guard.NotNull(commandDispatcher, nameof(commandDispatcher));
+            Guard.NotNullOrWhiteSpace(name, nameof(name));
+            Guard.NotNullOrWhiteSpace(path, nameof(path));
 
             Name = name;
             Path = path;
             FixCsProjectFiles = new CapturingExceptionAsyncCommand(
-                async _ => await handlerUpdateProjectFilesCommand.ExecuteAsync(new UpdateProjectFilesCommand(Path)),
+                async _ => await commandDispatcher.ExecuteAsync(new UpdateProjectFilesCommand(Path)),
                 _ => TaskRunning == false);
 
             RemoveNewAppConfig = new CapturingExceptionAsyncCommand(
-                async _ => await handlerCleanAppConfigCommand.ExecuteAsync(new CleanAppConfigCommand(Path)),
+                async _ => await commandDispatcher.ExecuteAsync(new CleanAppConfigCommand(Path)),
                 _ => TaskRunning == false);
 
             commandWatch = new ExecutingAsyncCommandsComposition();

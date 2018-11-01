@@ -12,6 +12,9 @@
             if (targetType != typeof(bool))
                 throw new InvalidOperationException("The target must be a boolean");
 
+            if (value is null)
+                throw new InvalidOperationException("value cannot be null");
+
             return !(bool)value;
         }
 

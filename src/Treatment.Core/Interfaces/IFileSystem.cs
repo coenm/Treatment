@@ -7,7 +7,9 @@
     {
         bool FileExists(string filename);
 
-        Stream ReadFile(string filename);
+        Stream OpenRead(string filename, bool useAsync);
+
+        Stream OpenWrite(string filename, bool useAsync);
 
         string GetFileContent(string filename);
 

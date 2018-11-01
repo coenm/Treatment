@@ -10,6 +10,7 @@
     using JetBrains.Annotations;
 
     using Treatment.Contract;
+    using Treatment.Helpers;
 
     public class CommandValidationDecorator<TCommand> : ICommandHandler<TCommand>
         where TCommand : ICommand
@@ -19,8 +20,8 @@
 
         public CommandValidationDecorator([NotNull] IValidator<TCommand> validator, [NotNull] ICommandHandler<TCommand> decoratee)
         {
-            this.validator = validator ?? throw new ArgumentNullException(nameof(validator));
-            this.decoratee = decoratee ?? throw new ArgumentNullException(nameof(decoratee));
+            this.validator = Guard.NotNull(validator, nameof(validator));
+            this.decoratee = Guard.NotNull(decoratee, nameof(decoratee));
         }
 
         [DebuggerStepThrough]
