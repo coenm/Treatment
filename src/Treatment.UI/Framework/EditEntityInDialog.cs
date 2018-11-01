@@ -7,6 +7,7 @@
     using SimpleInjector;
     using Treatment.Helpers;
     using Treatment.UI.Framework.View;
+    using Treatment.UI.Framework.ViewModel;
 
     public class EditEntityInDialog : IEntityEditor
     {

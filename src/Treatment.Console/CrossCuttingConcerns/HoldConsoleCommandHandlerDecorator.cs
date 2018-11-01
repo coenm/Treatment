@@ -24,7 +24,7 @@
             this.holdConsole = holdConsole;
         }
 
-        public async Task ExecuteAsync(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
+        public async Task ExecuteAsync(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)
         {
             await decorated.ExecuteAsync(command, progress, ct).ConfigureAwait(false);
             holdConsole.Hold();

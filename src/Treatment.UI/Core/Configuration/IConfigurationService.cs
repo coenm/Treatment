@@ -7,8 +7,5 @@
         Task<ApplicationSettings> GetAsync();
 
         Task<bool> UpdateAsync(ApplicationSettings configuration);
-
-        // temp
-        IConfiguration GetConfiguration();
     }
 }

@@ -25,7 +25,5 @@
         {
             return decoratee.UpdateAsync(configuration);
         }
-
-        public IConfiguration GetConfiguration() => decoratee.GetConfiguration();
     }
 }

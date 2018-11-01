@@ -6,19 +6,16 @@
     using JetBrains.Annotations;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
-    using SimpleInjector;
     using Treatment.Core.Interfaces;
     using Treatment.Helpers;
 
     public class FileBasedConfigurationService : IConfigurationService
     {
         [NotNull] private readonly IFileSystem fileSystem;
-        [NotNull] private readonly Container container;
 
-        public FileBasedConfigurationService([NotNull] IFileSystem fileSystem, [NotNull] Container container)
+        public FileBasedConfigurationService([NotNull] IFileSystem fileSystem)
         {
             this.fileSystem = Guard.NotNull(fileSystem, nameof(fileSystem));
-            this.container = Guard.NotNull(container, nameof(container));
         }
 
         public async Task<ApplicationSettings> GetAsync()
@@ -45,7 +42,5 @@
 
             return true;
         }
-
-        public IConfiguration GetConfiguration() => container.GetInstance<IConfiguration>();
     }
 }

@@ -4,10 +4,10 @@
 
     using Treatment.Helpers;
     using Treatment.UI.Core.Configuration;
-    using Treatment.UI.Framework;
     using Treatment.UI.Framework.View;
+    using Treatment.UI.Framework.ViewModel;
 
-    public partial class SettingsWindow : Window, IEntityEditorView<ApplicationSettings>
+    public partial class SettingsWindow : IEntityEditorView<ApplicationSettings>
     {
         public SettingsWindow()
         {

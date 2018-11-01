@@ -10,7 +10,6 @@
     using Treatment.Contract.Queries;
     using Treatment.Helpers;
     using Treatment.UI.Core.Configuration;
-    using Treatment.UI.Framework;
     using Treatment.UI.Framework.ViewModel;
 
     public class ApplicationSettingsViewModel : ViewModelBase, IEntityEditorViewModel<ApplicationSettings>

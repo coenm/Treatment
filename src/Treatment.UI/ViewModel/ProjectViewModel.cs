@@ -14,9 +14,7 @@
     {
         [NotNull] private readonly ExecutingAsyncCommandsComposition commandWatch;
 
-        public ProjectViewModel(string name,
-                                string path,
-                                [NotNull] ICommandDispatcher commandDispatcher)
+        public ProjectViewModel(string name, string path, [NotNull] ICommandDispatcher commandDispatcher)
         {
             Guard.NotNull(commandDispatcher, nameof(commandDispatcher));
             Guard.NotNullOrWhiteSpace(name, nameof(name));

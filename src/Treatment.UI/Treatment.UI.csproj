@@ -328,12 +328,13 @@
     <Compile Include="Framework\Commands\DelegateCommand.cs" />
     <Compile Include="Framework\SynchronizationContext\IUserInterfaceSynchronizationContextProvider.cs" />
     <Compile Include="Framework\SynchronizationContext\UserInterfaceSynchronizationContextProvider.cs" />
+    <Compile Include="Model\IStatusFullModel.cs" />
     <Compile Include="UserControls\ProjectListView.xaml.cs">
       <DependentUpon>ProjectListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Framework\ExecutingAsyncCommandsComposition.cs" />
     <Compile Include="ValueConverters\BooleanVisibilityConverter.cs" />
-    <Compile Include="Framework\IInitializableViewModel.cs" />
+    <Compile Include="Framework\ViewModel\IInitializableViewModel.cs" />
     <Compile Include="ViewModel\IProjectCollectionViewModel.cs" />
     <Compile Include="ViewModel\IProjectViewModelFactory.cs" />
     <Compile Include="Model\IStatusReadModel.cs" />
@@ -342,7 +343,7 @@
     <Compile Include="Core\Configuration\ApplicationSettings.cs" />
     <Compile Include="ViewModel\ProjectViewModelFactory.cs" />
     <Compile Include="ViewModel\Settings\ApplicationSettingsViewModel.cs" />
-    <Compile Include="Framework\IEntityEditorViewModel.cs" />
+    <Compile Include="Framework\ViewModel\IEntityEditorViewModel.cs" />
     <Compile Include="Model\StatusModel.cs" />
     <Compile Include="ViewModel\StatusViewModel.cs" />
     <Compile Include="Framework\View\IEntityEditorView.cs" />

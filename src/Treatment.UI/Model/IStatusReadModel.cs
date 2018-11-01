@@ -8,9 +8,4 @@
 
         string StatusText { get; }
     }
-
-    public interface IStatusFullModel : IStatusReadModel
-    {
-        void UpdateStatus(string text);
-    }
 }

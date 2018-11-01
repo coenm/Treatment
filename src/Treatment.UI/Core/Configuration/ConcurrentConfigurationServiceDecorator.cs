@@ -3,31 +3,34 @@
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
-
+    using Nito.AsyncEx;
     using Treatment.Helpers;
 
     public class ConcurrentConfigurationServiceDecorator : IConfigurationService
     {
-        [NotNull]
-        private readonly IConfigurationService decoratee;
+        [NotNull] private readonly IConfigurationService decoratee;
+        [NotNull] private readonly AsyncLock syncLock;
 
         public ConcurrentConfigurationServiceDecorator([NotNull] IConfigurationService decoratee)
         {
             this.decoratee = Guard.NotNull(decoratee, nameof(decoratee));
+            syncLock = new AsyncLock();
         }
 
-        public Task<ApplicationSettings> GetAsync()
+        public async Task<ApplicationSettings> GetAsync()
         {
-            // todo
-            return decoratee.GetAsync();
+            using (await syncLock.LockAsync().ConfigureAwait(false))
+            {
+                return await decoratee.GetAsync().ConfigureAwait(false);
+            }
         }
 
-        public Task<bool> UpdateAsync(ApplicationSettings configuration)
+        public async Task<bool> UpdateAsync(ApplicationSettings configuration)
         {
-            // todo
-            return decoratee.UpdateAsync(configuration);
+            using (await syncLock.LockAsync().ConfigureAwait(false))
+            {
+                return await decoratee.UpdateAsync(configuration).ConfigureAwait(false);
+            }
         }
-
-        public IConfiguration GetConfiguration() => decoratee.GetConfiguration();
     }
 }

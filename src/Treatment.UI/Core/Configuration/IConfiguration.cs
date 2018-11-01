@@ -4,7 +4,6 @@
 
     public interface IConfiguration
     {
-        [CanBeNull]
-        string RootPath { get; }
+        [CanBeNull] string RootPath { get; }
     }
 }

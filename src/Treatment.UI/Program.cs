@@ -18,6 +18,7 @@
     using Treatment.UI.Framework;
     using Treatment.UI.Framework.SynchronizationContext;
     using Treatment.UI.Framework.View;
+    using Treatment.UI.Framework.ViewModel;
     using Treatment.UI.Model;
     using Treatment.UI.View;
     using Treatment.UI.ViewModel;
@@ -28,9 +29,10 @@
         [STAThread]
         public static void Main()
         {
-            var container = Bootstrap();
-
-            RunApplication(container);
+            using (var container = Bootstrap())
+            {
+                RunApplication(container);
+            }
         }
 
         private static Container Bootstrap()
@@ -122,7 +124,8 @@
                 using (AsyncScopedLifestyle.BeginScope(container))
                 {
                     var app = container.GetInstance<Application>();
-                    app.Run(container.GetInstance<MainWindow>());
+                    var mainWindow = container.GetInstance<MainWindow>();
+                    app.Run(mainWindow);
                 }
             }
 

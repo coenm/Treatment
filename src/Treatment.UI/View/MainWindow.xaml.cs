@@ -1,7 +1,5 @@
 ﻿namespace Treatment.UI.View
 {
-    using System.Windows;
-
     using Treatment.UI.ViewModel;
 
     public partial class MainWindow
