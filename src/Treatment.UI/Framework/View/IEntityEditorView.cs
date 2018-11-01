@@ -1,4 +1,4 @@
-﻿namespace Treatment.UI.View
+﻿namespace Treatment.UI.Framework.View
 {
     using Treatment.UI.Framework;
 

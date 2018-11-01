@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -19,6 +20,7 @@
     {
         private readonly List<ISourceControlAbstractFactory> searchProviderFactories;
 
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration", Justification = "Nullcheck")]
         public GetAllVersionControlProvidersQueryHandler([NotNull] IEnumerable<ISourceControlAbstractFactory> versionControlProviderFactories)
         {
             Guard.NotNull(versionControlProviderFactories, nameof(versionControlProviderFactories));

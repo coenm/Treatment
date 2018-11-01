@@ -1,6 +1,5 @@
 ﻿namespace Treatment.UI.Core.Configuration
 {
-    using System;
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;

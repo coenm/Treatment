@@ -14,25 +14,22 @@
     {
         [NotNull] private readonly ExecutingAsyncCommandsComposition commandWatch;
 
-        public ProjectViewModel(
-            string name,
-            string path,
-            [NotNull] ICommandHandler<UpdateProjectFilesCommand> handlerUpdateProjectFilesCommand,
-            [NotNull] ICommandHandler<CleanAppConfigCommand> handlerCleanAppConfigCommand)
+        public ProjectViewModel(string name,
+                                string path,
+                                [NotNull] ICommandDispatcher commandDispatcher)
         {
-            Guard.NotNull(handlerUpdateProjectFilesCommand, nameof(handlerUpdateProjectFilesCommand));
-            Guard.NotNull(handlerCleanAppConfigCommand, nameof(handlerCleanAppConfigCommand));
+            Guard.NotNull(commandDispatcher, nameof(commandDispatcher));
             Guard.NotNullOrWhiteSpace(name, nameof(name));
             Guard.NotNullOrWhiteSpace(path, nameof(path));
 
             Name = name;
             Path = path;
             FixCsProjectFiles = new CapturingExceptionAsyncCommand(
-                async _ => await handlerUpdateProjectFilesCommand.ExecuteAsync(new UpdateProjectFilesCommand(Path)),
+                async _ => await commandDispatcher.ExecuteAsync(new UpdateProjectFilesCommand(Path)),
                 _ => TaskRunning == false);
 
             RemoveNewAppConfig = new CapturingExceptionAsyncCommand(
-                async _ => await handlerCleanAppConfigCommand.ExecuteAsync(new CleanAppConfigCommand(Path)),
+                async _ => await commandDispatcher.ExecuteAsync(new CleanAppConfigCommand(Path)),
                 _ => TaskRunning == false);
 
             commandWatch = new ExecutingAsyncCommandsComposition();

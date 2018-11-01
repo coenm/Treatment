@@ -1,6 +1,7 @@
 ﻿namespace Treatment.UI.ViewModel
 {
     using System;
+    using System.Reactive.Disposables;
     using System.Reactive.Linq;
     using System.Threading.Tasks;
 
@@ -15,17 +16,19 @@
     public class StatusViewModel : ViewModelBase, IStatusViewModel, IInitializableViewModel, IDisposable
     {
         [NotNull] private readonly object registerSyncLock = new object();
-        [NotNull] private readonly IStatusModel statusModel;
+        [NotNull] private readonly IStatusReadModel statusModel;
         [NotNull] private readonly IUserInterfaceSynchronizationContextProvider uiContextProvider;
-        [CanBeNull] private IDisposable observableModel;
+        [NotNull] private readonly CompositeDisposable observableModel;
+        private bool registered;
 
         public StatusViewModel(
             [NotNull] IUserInterfaceSynchronizationContextProvider uiContextProvider,
-            [NotNull] IStatusModel statusModel)
+            [NotNull] IStatusReadModel statusModel)
         {
             this.uiContextProvider = Guard.NotNull(uiContextProvider, nameof(uiContextProvider));
             this.statusModel = Guard.NotNull(statusModel, nameof(statusModel));
-
+            observableModel = new CompositeDisposable(1);
+            registered = false;
             Initialize = new CapturingExceptionAsyncCommand(_ =>
             {
                 Register();
@@ -47,8 +50,9 @@
         {
             lock (registerSyncLock)
             {
-                observableModel?.Dispose();
-                observableModel = null;
+                observableModel.Dispose();
+                observableModel.Clear();
+                registered = false;
             }
         }
 
@@ -56,18 +60,20 @@
         {
             lock (registerSyncLock)
             {
-                if (observableModel != null)
+                if (registered)
                     return;
 
-                observableModel = Observable
+                observableModel.Add(Observable
                     .FromEventPattern(
                         handler => statusModel.Updated += handler,
                         handler => statusModel.Updated -= handler)
                     .ObserveOn(uiContextProvider.UiSynchronizationContext)
-                    .Subscribe(data => UpdateData());
+                    .Subscribe(data => UpdateData()));
 
-                uiContextProvider.UiSynchronizationContext.Post(_ => UpdateData(), null);
+                registered = true;
             }
+
+            uiContextProvider.UiSynchronizationContext.Post(_ => UpdateData(), null);
         }
 
         private void UpdateData()

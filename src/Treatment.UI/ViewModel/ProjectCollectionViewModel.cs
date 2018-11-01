@@ -21,14 +21,14 @@
 
     public class ProjectCollectionViewModel : ViewModelBase, IProjectCollectionViewModel, IInitializableViewModel, IDisposable
     {
-        [NotNull] private readonly IStatusModel statusModel;
+        [NotNull] private readonly IStatusFullModel statusModel;
         [NotNull] private readonly IProjectViewModelFactory projectViewModelFactory;
         [NotNull] private readonly IFileSearch fileSearch;
         [NotNull] private readonly IConfiguration configuration;
 
         public ProjectCollectionViewModel(
             [NotNull] IProjectViewModelFactory projectViewModelFactory,
-            [NotNull] IStatusModel statusModel,
+            [NotNull] IStatusFullModel statusModel,
             [NotNull] IFileSearch fileSearch,
             [NotNull] IConfiguration configuration)
         {
@@ -72,26 +72,26 @@
 
         private async Task LoadProjectsAsync()
         {
-//            await Task.Delay(10); // stupid delay to see something happening ;-)
-            statusModel.StatusText = "Loading projects ..";
-            await Task.Delay(3000); // stupid delay to see something happening ;-)
+            var random = new Random();
+            statusModel.UpdateStatus("Loading projects ..");
+            await Task.Delay(random.Next(100, 1000)); // stupid delay to see something happening ;-)
             var items = CreateProjectViewModelsFromDirectory().ToList();
             foreach (var item in items)
             {
                 Projects.Add(item);
-                await Task.Delay(1000); // again stupid delay to see something happening ;-)
+                await Task.Delay(random.Next(10, 1000)); // again stupid delay to see something happening ;-)
             }
 
             switch (items.Count)
             {
                 case 0:
-                    statusModel.StatusText = "Could not load any projects";
+                    statusModel.UpdateStatus("Could not load any projects");
                     break;
                 case 1:
-                    statusModel.StatusText = "One project loaded.";
+                    statusModel.UpdateStatus("One project loaded.");
                     break;
                 default:
-                    statusModel.StatusText = $"{items.Count} Projects loaded.";
+                    statusModel.UpdateStatus($"{items.Count} Projects loaded.");
                     break;
             }
         }

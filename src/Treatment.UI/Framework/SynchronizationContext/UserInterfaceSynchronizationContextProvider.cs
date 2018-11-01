@@ -1,22 +1,20 @@
 ﻿namespace Treatment.UI.Framework.SynchronizationContext
 {
     using System.Threading;
+    using System.Windows.Threading;
+
+    using JetBrains.Annotations;
 
     using Treatment.Helpers;
 
     public class UserInterfaceSynchronizationContextProvider : IUserInterfaceSynchronizationContextProvider
     {
-        private SynchronizationContext uiSynchronizationContext;
-
-        public SynchronizationContext UiSynchronizationContext
+        public UserInterfaceSynchronizationContextProvider([NotNull] DispatcherObject uiDispatcherObject)
         {
-            get => uiSynchronizationContext ?? SynchronizationContext.Current;
-            private set => uiSynchronizationContext = value;
+            Guard.NotNull(uiDispatcherObject, nameof(uiDispatcherObject));
+            uiDispatcherObject.Dispatcher.Invoke(() => UiSynchronizationContext = SynchronizationContext.Current);
         }
 
-        public void Set(SynchronizationContext synchronizationContext)
-        {
-            UiSynchronizationContext = Guard.NotNull(synchronizationContext, nameof(synchronizationContext));
-        }
+        public SynchronizationContext UiSynchronizationContext { get; private set; }
     }
 }

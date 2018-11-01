@@ -4,7 +4,8 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    using System.Threading;
+    using System.Windows;
+    using System.Windows.Threading;
 
     using JetBrains.Annotations;
     using SimpleInjector;
@@ -16,6 +17,7 @@
     using Treatment.UI.Core.Configuration;
     using Treatment.UI.Framework;
     using Treatment.UI.Framework.SynchronizationContext;
+    using Treatment.UI.Framework.View;
     using Treatment.UI.Model;
     using Treatment.UI.View;
     using Treatment.UI.ViewModel;
@@ -46,12 +48,14 @@
             container.Register<IEntityEditorView<ApplicationSettings>, SettingsWindow>();
 
             // View Models.
-            container.Register<IMainWindowViewModel, MainWindowViewModel>();
+            container.Register<IMainWindowViewModel, MainWindowViewModel>(Lifestyle.Scoped);
             container.Register<IProjectCollectionViewModel, ProjectCollectionViewModel>(Lifestyle.Scoped);
-            container.Register<IEntityEditorViewModel<ApplicationSettings>, ApplicationSettingsViewModel>(Lifestyle.Scoped);
             container.Register<IStatusViewModel, StatusViewModel>(Lifestyle.Scoped);
+            container.Register<IEntityEditorViewModel<ApplicationSettings>, ApplicationSettingsViewModel>(Lifestyle.Scoped);
 
-            container.Register<IStatusModel, StatusModel>(Lifestyle.Scoped);
+            // not sure..
+            container.Register<IStatusReadModel, StatusModel>(Lifestyle.Scoped);
+            container.Register<IStatusFullModel, StatusModel>(Lifestyle.Scoped);
 
             container.RegisterSingleton<IEntityEditor, EditEntityInDialog>();
 
@@ -68,6 +72,9 @@
             RegisterUserInterfaceDependencies(container);
 
             RegisterDebug(container);
+
+            container.RegisterSingleton<DispatcherObject, App>();
+            container.RegisterSingleton<Application, App>();
 
             container.Verify(VerificationOption.VerifyAndDiagnose);
 
@@ -114,17 +121,8 @@
             {
                 using (AsyncScopedLifestyle.BeginScope(container))
                 {
-                    var app = new App();
-
-                    app.Startup += (sender, args) =>
-                    {
-                        // stupid workaround to capture the UI thread and to store it in a singleton
-                        var contextProvider = container.GetInstance<IUserInterfaceSynchronizationContextProvider>();
-                        ((UserInterfaceSynchronizationContextProvider)contextProvider).Set(SynchronizationContext.Current);
-                    };
-
-                    var mainWindow = container.GetInstance<MainWindow>();
-                    app.Run(mainWindow);
+                    var app = container.GetInstance<Application>();
+                    app.Run(container.GetInstance<MainWindow>());
                 }
             }
 

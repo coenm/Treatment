@@ -1,6 +1,5 @@
 ﻿namespace Treatment.UI.Core.Configuration
 {
-    using System;
     using System.IO;
     using System.Threading.Tasks;
 

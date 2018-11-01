@@ -26,6 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,6 +36,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Treatment.ruleset</CodeAnalysisRuleSet>
@@ -334,7 +336,7 @@
     <Compile Include="Framework\IInitializableViewModel.cs" />
     <Compile Include="ViewModel\IProjectCollectionViewModel.cs" />
     <Compile Include="ViewModel\IProjectViewModelFactory.cs" />
-    <Compile Include="Model\IStatusModel.cs" />
+    <Compile Include="Model\IStatusReadModel.cs" />
     <Compile Include="ViewModel\IStatusViewModel.cs" />
     <Compile Include="ViewModel\ProjectCollectionViewModel.cs" />
     <Compile Include="Core\Configuration\ApplicationSettings.cs" />
@@ -343,7 +345,7 @@
     <Compile Include="Framework\IEntityEditorViewModel.cs" />
     <Compile Include="Model\StatusModel.cs" />
     <Compile Include="ViewModel\StatusViewModel.cs" />
-    <Compile Include="View\IEntityEditorView.cs" />
+    <Compile Include="Framework\View\IEntityEditorView.cs" />
     <Compile Include="View\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>

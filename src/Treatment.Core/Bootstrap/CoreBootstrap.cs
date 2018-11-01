@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
     using System.Runtime.CompilerServices;
@@ -32,6 +33,7 @@
         private static readonly Assembly[] ContractAssemblies = { typeof(IQuery<>).Assembly };
         private static readonly Assembly[] BusinessLayerAssemblies = { Assembly.GetExecutingAssembly() };
 
+        [SuppressMessage("ReSharper", "RedundantTypeArgumentsOfMethod", Justification = "Readability")]
         public static void Bootstrap([NotNull] Container container)
         {
             Guard.NotNull(container, nameof(container));
@@ -66,6 +68,7 @@
             container.Register<ICleanSingleAppConfig, CleanSingleAppConfig>(Lifestyle.Scoped); // is this correct?
 
             container.RegisterSingleton<IQueryProcessor, QueryProcessor>();
+            container.RegisterSingleton<ICommandDispatcher, CommandDispatcher>();
         }
 
         // TODO: use ICommand interface instead of EndsWith "Command"

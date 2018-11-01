@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class StatusModel : IStatusModel
+    public class StatusModel : IStatusFullModel
     {
         private string statusText = string.Empty;
 
@@ -12,11 +12,16 @@
         {
             get => statusText;
 
-            set
+            private set
             {
                 statusText = value;
                 Updated?.Invoke(this, EventArgs.Empty);
             }
+        }
+
+        public void UpdateStatus(string text)
+        {
+            StatusText = text;
         }
     }
 }

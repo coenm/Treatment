@@ -23,9 +23,7 @@
             where T : class
         {
             if (value is null)
-            {
                 ThrowArgumentNullException(parameterName);
-            }
 
             return value;
         }
@@ -41,14 +39,10 @@
         public static void NotNullOrWhiteSpace(string value, string parameterName)
         {
             if (value is null)
-            {
                 ThrowArgumentNullException(parameterName);
-            }
 
             if (string.IsNullOrWhiteSpace(value))
-            {
                 ThrowArgumentException("Must not be empty or whitespace.", parameterName);
-            }
         }
 
         /// <summary>
@@ -63,14 +57,11 @@
         public static void NotNullOrEmpty<T>(ICollection<T> value, string parameterName)
         {
             if (value is null)
-            {
                 ThrowArgumentNullException(parameterName);
-            }
 
+            // ReSharper disable once PossibleNullReferenceException
             if (value.Count == 0)
-            {
                 ThrowArgumentException("Must not be empty.", parameterName);
-            }
         }
 
         /// <summary>
@@ -86,9 +77,7 @@
             where TValue : IComparable<TValue>
         {
             if (value.CompareTo(max) >= 0)
-            {
                 ThrowArgumentOutOfRangeException(parameterName, $"Value {value} must be less than {max}.");
-            }
         }
 
         /// <summary>
@@ -105,9 +94,7 @@
             where TValue : IComparable<TValue>
         {
             if (value.CompareTo(max) > 0)
-            {
                 ThrowArgumentOutOfRangeException(parameterName, $"Value {value} must be less than or equal to {max}.");
-            }
         }
 
         /// <summary>
@@ -186,9 +173,7 @@
         public static void IsTrue(bool target, string parameterName, string message)
         {
             if (!target)
-            {
                 ThrowArgumentException(message, parameterName);
-            }
         }
 
         /// <summary>
@@ -203,9 +188,7 @@
         public static void IsFalse(bool target, string parameterName, string message)
         {
             if (target)
-            {
                 ThrowArgumentException(message, parameterName);
-            }
         }
 
         [MethodImpl(InliningOptions.ColdPath)]

@@ -113,7 +113,7 @@
                                               };
 
                 var result = entityEditor.Edit(applicationSettings);
-                if (result.HasValue && result.Value == true)
+                if (result.HasValue && result.Value)
                 {
                     // todo
                     configurationService.UpdateAsync(applicationSettings);

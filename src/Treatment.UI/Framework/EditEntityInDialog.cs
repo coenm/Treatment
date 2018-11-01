@@ -6,7 +6,7 @@
     using JetBrains.Annotations;
     using SimpleInjector;
     using Treatment.Helpers;
-    using Treatment.UI.View;
+    using Treatment.UI.Framework.View;
 
     public class EditEntityInDialog : IEntityEditor
     {
