@@ -1,10 +1,11 @@
-﻿namespace Treatment.UI.Core.Configuration
+﻿namespace Treatment.UI.Implementations.Configuration
 {
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
     using Nito.AsyncEx;
     using Treatment.Helpers;
+    using Treatment.UI.Core.Configuration;
 
     public class ConcurrentConfigurationServiceDecorator : IConfigurationService
     {

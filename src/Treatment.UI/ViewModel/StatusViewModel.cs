@@ -8,7 +8,6 @@
     using JetBrains.Annotations;
     using Nito.Mvvm;
     using Treatment.Helpers;
-    using Treatment.UI.Framework;
     using Treatment.UI.Framework.SynchronizationContext;
     using Treatment.UI.Framework.ViewModel;
     using Treatment.UI.Model;

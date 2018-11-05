@@ -22,7 +22,7 @@
             [NotNull] IProjectCollectionViewModel projectCollectionViewModel,
             [NotNull] IConfigurationService configurationService,
             [NotNull] IConfiguration configuration,
-            [NotNull] IEntityEditor showInDialog)
+            [NotNull] IModelEditor showInDialog)
         {
             Guard.NotNull(configurationService, nameof(configurationService));
             Guard.NotNull(configuration, nameof(configuration));
@@ -81,19 +81,19 @@
 
         private class OpenSettingsCommand : ICommand
         {
-            [NotNull] private readonly IEntityEditor entityEditor;
+            [NotNull] private readonly IModelEditor modelEditor;
             [NotNull] private readonly IConfigurationService configurationService;
             [NotNull] private readonly string rootPath;
 
             public OpenSettingsCommand(
-                [NotNull] IEntityEditor entityEditor,
+                [NotNull] IModelEditor modelEditor,
                 [NotNull] IConfigurationService configurationService,
                 [NotNull] string rootPath)
             {
-                DebugGuard.NotNull(entityEditor, nameof(entityEditor));
+                DebugGuard.NotNull(modelEditor, nameof(modelEditor));
                 DebugGuard.NotNull(configurationService, nameof(configurationService));
                 DebugGuard.NotNull(rootPath, nameof(rootPath));
-                this.entityEditor = entityEditor;
+                this.modelEditor = modelEditor;
                 this.configurationService = configurationService;
                 this.rootPath = rootPath;
             }
@@ -102,20 +102,14 @@
 
             public bool CanExecute(object parameter) => true;
 
+            //todo
             public void Execute(object parameter)
             {
-                var applicationSettings = new ApplicationSettings
-                                              {
-                                                  DelayExecution = true,
-                                                  SearchProviderName = "FileSystem",
-                                                  VersionControlProviderName = "SVN",
-                                                  RootDirectory = rootPath,
-                                              };
+                var applicationSettings = configurationService.GetAsync().GetAwaiter().GetResult();
 
-                var result = entityEditor.Edit(applicationSettings);
+                var result = modelEditor.Edit(applicationSettings);
                 if (result.HasValue && result.Value)
                 {
-                    // todo
                     configurationService.UpdateAsync(applicationSettings);
                 }
             }

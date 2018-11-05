@@ -6,15 +6,18 @@
     using JetBrains.Annotations;
     using SimpleInjector;
     using Treatment.Helpers;
+    using Treatment.UI.Framework.SynchronizationContext;
     using Treatment.UI.Framework.View;
     using Treatment.UI.Framework.ViewModel;
 
-    public class EditEntityInDialog : IEntityEditor
+    public class EditModelInDialog : IModelEditor
     {
+        private readonly IUserInterfaceSynchronizationContextProvider uiContext;
         private readonly Container container;
 
-        public EditEntityInDialog([NotNull] Container container)
+        public EditModelInDialog([NotNull] Container container, IUserInterfaceSynchronizationContextProvider uiContext)
         {
+            this.uiContext = uiContext;
             this.container = Guard.NotNull(container, nameof(container));
         }
 
@@ -37,7 +40,8 @@
 
             // Ask SimpleInjector for the corresponding ViewModel,
             // which is responsible for editing this type of entity
-            var editEntityViewModel = (IEntityEditorViewModel<TEntity>)container.GetInstance(editEntityViewModelType);
+            var editEntityViewModel =
+                (IEntityEditorViewModel<TEntity>)container.GetInstance(editEntityViewModelType);
 
             // give the viewmodel the entity to be edited
             editEntityViewModel.Initialize(entity);
@@ -48,10 +52,16 @@
             // give the view the viewmodel
             view.Set(editEntityViewModel);
 
-            if (view is Window window)
-                return window.ShowDialog();
+            if (!(view is Window window))
+                return null;
 
-            return null;
+            var result = window.ShowDialog();
+            if (!result.HasValue || result != true)
+                return null;
+
+            editEntityViewModel.SaveToEntity();
+            return result;
+
         }
     }
 }

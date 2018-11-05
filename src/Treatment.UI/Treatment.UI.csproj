@@ -319,15 +319,18 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Behavior\InitializeViewModelBehavior.cs" />
-    <Compile Include="Core\Configuration\CacheConfigurationServiceDecorator.cs" />
-    <Compile Include="Core\Configuration\ConcurrentConfigurationServiceDecorator.cs" />
-    <Compile Include="Core\Configuration\FileBasedConfigurationService.cs" />
+    <Compile Include="Implementations\Configuration\CacheConfigurationServiceDecorator.cs" />
+    <Compile Include="Implementations\Configuration\ConcurrentConfigurationServiceDecorator.cs" />
+    <Compile Include="Implementations\Configuration\FileBasedConfigurationService.cs" />
     <Compile Include="Core\Configuration\IConfigurationService.cs" />
-    <Compile Include="Framework\IEntityEditor.cs" />
-    <Compile Include="Framework\EditEntityInDialog.cs" />
+    <Compile Include="Core\Configuration\IReadOnlyConfigurationService.cs" />
+    <Compile Include="Framework\IModelEditor.cs" />
+    <Compile Include="Framework\EditModelInDialog.cs" />
     <Compile Include="Framework\Commands\DelegateCommand.cs" />
     <Compile Include="Framework\SynchronizationContext\IUserInterfaceSynchronizationContextProvider.cs" />
     <Compile Include="Framework\SynchronizationContext\UserInterfaceSynchronizationContextProvider.cs" />
+    <Compile Include="Implementations\Configuration\IConfigFilenameProvider.cs" />
+    <Compile Include="Implementations\Configuration\AppConfigFilenameProvider.cs" />
     <Compile Include="Model\IStatusFullModel.cs" />
     <Compile Include="UserControls\ProjectListView.xaml.cs">
       <DependentUpon>ProjectListView.xaml</DependentUpon>

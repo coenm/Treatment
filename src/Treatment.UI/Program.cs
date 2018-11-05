@@ -6,7 +6,7 @@
     using System.Reflection;
     using System.Windows;
     using System.Windows.Threading;
-
+    using Implementations.Configuration;
     using JetBrains.Annotations;
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
@@ -59,11 +59,13 @@
             container.Register<IStatusReadModel, StatusModel>(Lifestyle.Scoped);
             container.Register<IStatusFullModel, StatusModel>(Lifestyle.Scoped);
 
-            container.RegisterSingleton<IEntityEditor, EditEntityInDialog>();
+            container.RegisterSingleton<IModelEditor, EditModelInDialog>();
 
             container.RegisterSingleton<IConfigurationService, FileBasedConfigurationService>();
             container.RegisterDecorator<IConfigurationService, CacheConfigurationServiceDecorator>(Lifestyle.Singleton);
             container.RegisterDecorator<IConfigurationService, ConcurrentConfigurationServiceDecorator>(Lifestyle.Singleton);
+
+            container.RegisterSingleton<IConfigFilenameProvider, AppConfigFilenameProvider>();
 
             container.Register<IProjectViewModelFactory, ProjectViewModelFactory>(Lifestyle.Scoped);
 
