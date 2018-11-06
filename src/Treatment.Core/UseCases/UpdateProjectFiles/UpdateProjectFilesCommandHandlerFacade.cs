@@ -11,7 +11,7 @@
     using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Core.Interfaces;
-    using Treatment.Helpers;
+    using Treatment.Helpers.Guards;
 
     /// <remarks>
     /// Try to separate logging or progress feedback from the core functionality.
@@ -26,8 +26,11 @@
 
         public UpdateProjectFilesCommandHandlerFacade([NotNull] IFileSystem filesystem, [NotNull] IFileSearch fileSearcher)
         {
-            this.filesystem = Guard.NotNull(filesystem, nameof(filesystem));
-            this.fileSearcher = Guard.NotNull(fileSearcher, nameof(fileSearcher));
+            Guard.NotNull(filesystem, nameof(filesystem));
+            Guard.NotNull(fileSearcher, nameof(fileSearcher));
+
+            this.filesystem = filesystem;
+            this.fileSearcher = fileSearcher;
         }
 
         public async Task ExecuteAsync(UpdateProjectFilesCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)
@@ -65,11 +68,18 @@
             private int foundFileCount;
             private int currentIndex;
 
-            internal ProgressCommandExecution([NotNull] IFileSystem filesystem, [NotNull] IFileSearch fileSearch, [NotNull] IProgress<ProgressData> progress)
+            internal ProgressCommandExecution(
+                [NotNull] IFileSystem filesystem,
+                [NotNull] IFileSearch fileSearch,
+                [NotNull] IProgress<ProgressData> progress)
             {
-                this.filesystem = Guard.NotNull(filesystem, nameof(filesystem));
-                this.fileSearch = Guard.NotNull(fileSearch, nameof(fileSearch));
-                this.progress = Guard.NotNull(progress, nameof(progress));
+                Guard.NotNull(filesystem, nameof(filesystem));
+                Guard.NotNull(fileSearch, nameof(fileSearch));
+                Guard.NotNull(progress, nameof(progress));
+
+                this.filesystem = filesystem;
+                this.fileSearch = fileSearch;
+                this.progress = progress;
                 foundFileCount = 0;
             }
 

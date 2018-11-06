@@ -9,7 +9,7 @@
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using Treatment.Core.Interfaces;
-    using Treatment.Helpers;
+    using Treatment.Helpers.Guards;
     using Treatment.UI.Core.Configuration;
 
     internal class FileBasedConfigurationService : IConfigurationService
@@ -68,6 +68,8 @@
 
             try
             {
+                //todo check if directory exists..
+
                 using (var fileStream = fileSystem.OpenWrite(filenameProvider.Filename, true))
                 using (var streamWriter = new StreamWriter(fileStream))
                 using (var jsonTextWriter = new JsonTextWriter(streamWriter))

@@ -5,20 +5,18 @@
 
     using JetBrains.Annotations;
     using SimpleInjector;
-    using Treatment.Helpers;
-    using Treatment.UI.Framework.SynchronizationContext;
+    using Treatment.Helpers.Guards;
     using Treatment.UI.Framework.View;
     using Treatment.UI.Framework.ViewModel;
 
     public class EditModelInDialog : IModelEditor
     {
-        private readonly IUserInterfaceSynchronizationContextProvider uiContext;
         private readonly Container container;
 
-        public EditModelInDialog([NotNull] Container container, IUserInterfaceSynchronizationContextProvider uiContext)
+        public EditModelInDialog([NotNull] Container container)
         {
-            this.uiContext = uiContext;
-            this.container = Guard.NotNull(container, nameof(container));
+            Guard.NotNull(container, nameof(container));
+            this.container = container;
         }
 
         /// <summary>Edit the <paramref name="entity"/> using a popup dialog.</summary>
@@ -60,8 +58,7 @@
                 return null;
 
             editEntityViewModel.SaveToEntity();
-            return result;
-
+            return true;
         }
     }
 }

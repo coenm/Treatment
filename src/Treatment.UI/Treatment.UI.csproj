@@ -26,7 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.1</LangVersion>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,7 +36,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.1</LangVersion>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Treatment.ruleset</CodeAnalysisRuleSet>
@@ -331,6 +331,8 @@
     <Compile Include="Framework\SynchronizationContext\UserInterfaceSynchronizationContextProvider.cs" />
     <Compile Include="Implementations\Configuration\IConfigFilenameProvider.cs" />
     <Compile Include="Implementations\Configuration\AppConfigFilenameProvider.cs" />
+    <Compile Include="Implementations\Configuration\UpdateStatusModelDecorator.cs" />
+    <Compile Include="Implementations\Configuration\VerifyAndFixFilenameDecorator.cs" />
     <Compile Include="Model\IStatusFullModel.cs" />
     <Compile Include="UserControls\ProjectListView.xaml.cs">
       <DependentUpon>ProjectListView.xaml</DependentUpon>
@@ -345,7 +347,7 @@
     <Compile Include="ViewModel\ProjectCollectionViewModel.cs" />
     <Compile Include="Core\Configuration\ApplicationSettings.cs" />
     <Compile Include="ViewModel\ProjectViewModelFactory.cs" />
-    <Compile Include="ViewModel\Settings\ApplicationSettingsViewModel.cs" />
+    <Compile Include="ViewModel\ApplicationSettingsViewModel.cs" />
     <Compile Include="Framework\ViewModel\IEntityEditorViewModel.cs" />
     <Compile Include="Model\StatusModel.cs" />
     <Compile Include="ViewModel\StatusViewModel.cs" />

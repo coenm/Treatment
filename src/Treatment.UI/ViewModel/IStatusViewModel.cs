@@ -7,5 +7,7 @@
         CapturingExceptionAsyncCommand Initialize { get; }
 
         string StatusText { get; }
+
+        string ConfigFilename { get; }
     }
 }

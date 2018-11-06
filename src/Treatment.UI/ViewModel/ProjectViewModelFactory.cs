@@ -3,7 +3,7 @@
     using JetBrains.Annotations;
 
     using Treatment.Contract;
-    using Treatment.Helpers;
+    using Treatment.Helpers.Guards;
 
     public class ProjectViewModelFactory : IProjectViewModelFactory
     {
@@ -11,7 +11,8 @@
 
         public ProjectViewModelFactory([NotNull] ICommandDispatcher commandDispatcher)
         {
-            this.commandDispatcher = Guard.NotNull(commandDispatcher, nameof(commandDispatcher));
+            Guard.NotNull(commandDispatcher, nameof(commandDispatcher));
+            this.commandDispatcher = commandDispatcher;
         }
 
         public ProjectViewModel Create(string rootDirectoryInfoName, string rootDirectoryInfoFullName)

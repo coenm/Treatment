@@ -8,7 +8,7 @@
     using JetBrains.Annotations;
     using SimpleInjector;
     using Treatment.Contract;
-    using Treatment.Helpers;
+    using Treatment.Helpers.Guards;
 
     /// <summary>
     /// For testing purposes.
@@ -37,8 +37,10 @@
                 [NotNull] RandomDelayService delayService,
                 [NotNull] ICommandHandler<TCommand> decoratee)
             {
-                this.delayService = Guard.NotNull(delayService, nameof(delayService));
-                this.decoratee = Guard.NotNull(decoratee, nameof(decoratee));
+                Guard.NotNull(delayService, nameof(delayService));
+                Guard.NotNull(decoratee, nameof(decoratee));
+                this.delayService = delayService;
+                this.decoratee = decoratee;
             }
 
             [DebuggerStepThrough]

@@ -6,7 +6,7 @@
     using JetBrains.Annotations;
     using SimpleInjector;
     using Treatment.Contract;
-    using Treatment.Helpers;
+    using Treatment.Helpers.Guards;
 
     [UsedImplicitly]
     public class QueryProcessor : IQueryProcessor
@@ -15,7 +15,8 @@
 
         public QueryProcessor([NotNull] Container container)
         {
-            this.container = Guard.NotNull(container, nameof(container));
+            Guard.NotNull(container, nameof(container));
+            this.container = container;
         }
 
         public async Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query, CancellationToken ct = default)

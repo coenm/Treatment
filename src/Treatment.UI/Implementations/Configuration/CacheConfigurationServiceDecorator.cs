@@ -3,9 +3,10 @@
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
-    using Treatment.Helpers;
+    using Treatment.Helpers.Guards;
     using Treatment.UI.Core.Configuration;
 
+    [UsedImplicitly]
     public class CacheConfigurationServiceDecorator : IConfigurationService
     {
         [NotNull] private readonly IConfigurationService decoratee;
@@ -13,7 +14,8 @@
 
         public CacheConfigurationServiceDecorator([NotNull] IConfigurationService decoratee)
         {
-            this.decoratee = Guard.NotNull(decoratee, nameof(decoratee));
+            Guard.NotNull(decoratee, nameof(decoratee));
+            this.decoratee = decoratee;
             cachedSettings = null;
         }
 

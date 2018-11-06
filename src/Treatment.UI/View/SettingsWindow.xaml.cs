@@ -2,7 +2,7 @@
 {
     using System.Windows;
 
-    using Treatment.Helpers;
+    using Treatment.Helpers.Guards;
     using Treatment.UI.Core.Configuration;
     using Treatment.UI.Framework.View;
     using Treatment.UI.Framework.ViewModel;
@@ -16,7 +16,8 @@
 
         public void Set(IEntityEditorViewModel<ApplicationSettings> viewModel)
         {
-            DataContext = Guard.NotNull(viewModel, nameof(viewModel));
+            Guard.NotNull(viewModel, nameof(viewModel));
+            DataContext = viewModel;
         }
 
         private void ButtonOk_OnClick(object sender, RoutedEventArgs e)

@@ -1,4 +1,4 @@
-﻿namespace Treatment.Helpers
+﻿namespace Treatment.Helpers.Guards
 {
     using System;
     using System.Collections.Generic;
@@ -19,13 +19,11 @@
         /// <param name="parameterName">The name of the parameter that is to be checked.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="value"/> is null.</exception>
         [MethodImpl(InliningOptions.ShortMethod)]
-        public static T NotNull<T>(T value, string parameterName)
+        public static void NotNull<T>(T value, string parameterName)
             where T : class
         {
             if (value is null)
                 ThrowArgumentNullException(parameterName);
-
-            return value;
         }
 
         /// <summary>

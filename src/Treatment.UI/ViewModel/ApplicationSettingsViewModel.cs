@@ -1,4 +1,4 @@
-﻿namespace Treatment.UI.ViewModel.Settings
+﻿namespace Treatment.UI.ViewModel
 {
     using System.Collections.ObjectModel;
     using System.Linq;
@@ -8,7 +8,7 @@
     using Nito.Mvvm;
     using Treatment.Contract;
     using Treatment.Contract.Queries;
-    using Treatment.Helpers;
+    using Treatment.Helpers.Guards;
     using Treatment.UI.Core.Configuration;
     using Treatment.UI.Framework.ViewModel;
 
@@ -111,7 +111,8 @@
 
         public void Initialize(ApplicationSettings applicationSettings)
         {
-            entity = Guard.NotNull(applicationSettings, nameof(applicationSettings));
+            Guard.NotNull(applicationSettings, nameof(applicationSettings));
+            entity = applicationSettings;
 
             DelayExecution = applicationSettings.DelayExecution;
             SearchProviderName = applicationSettings.SearchProviderName;

@@ -6,7 +6,7 @@
     using JetBrains.Annotations;
 
     using Treatment.Contract.Plugin.FileSearch;
-    using Treatment.Helpers;
+    using Treatment.Helpers.Guards;
 
     [UsedImplicitly]
     internal class FileSearchSelector : IFileSearchSelector
@@ -18,8 +18,10 @@
             [NotNull] IEnumerable<ISearchProviderFactory> factories,
             [NotNull] ISearchProviderNameOption searchProviderName)
         {
-            this.factories = Guard.NotNull(factories, nameof(factories));
-            this.searchProviderName = Guard.NotNull(searchProviderName, nameof(searchProviderName));
+            Guard.NotNull(factories, nameof(factories));
+            Guard.NotNull(searchProviderName, nameof(searchProviderName));
+            this.factories = factories;
+            this.searchProviderName = searchProviderName;
         }
 
         [CanBeNull]

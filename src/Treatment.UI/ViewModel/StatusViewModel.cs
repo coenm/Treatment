@@ -7,7 +7,8 @@
 
     using JetBrains.Annotations;
     using Nito.Mvvm;
-    using Treatment.Helpers;
+
+    using Treatment.Helpers.Guards;
     using Treatment.UI.Framework.SynchronizationContext;
     using Treatment.UI.Framework.ViewModel;
     using Treatment.UI.Model;
@@ -24,8 +25,11 @@
             [NotNull] IUserInterfaceSynchronizationContextProvider uiContextProvider,
             [NotNull] IStatusReadModel statusModel)
         {
-            this.uiContextProvider = Guard.NotNull(uiContextProvider, nameof(uiContextProvider));
-            this.statusModel = Guard.NotNull(statusModel, nameof(statusModel));
+            Guard.NotNull(uiContextProvider, nameof(uiContextProvider));
+            Guard.NotNull(statusModel, nameof(statusModel));
+
+            this.uiContextProvider = uiContextProvider;
+            this.statusModel = statusModel;
             observableModel = new CompositeDisposable(1);
             registered = false;
             Initialize = new CapturingExceptionAsyncCommand(_ =>
@@ -38,6 +42,12 @@
         public string StatusText
         {
             get => Properties.Get(statusModel.StatusText);
+            private set => Properties.Set(value);
+        }
+
+        public string ConfigFilename
+        {
+            get => Properties.Get(statusModel.ConfigFilename);
             private set => Properties.Set(value);
         }
 
@@ -78,6 +88,7 @@
         private void UpdateData()
         {
             StatusText = statusModel.StatusText;
+            ConfigFilename = statusModel.ConfigFilename;
         }
     }
 }

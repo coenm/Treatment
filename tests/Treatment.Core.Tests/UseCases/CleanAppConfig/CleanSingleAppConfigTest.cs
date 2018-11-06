@@ -26,7 +26,7 @@
         }
 
         [Fact]
-        public async Task ExecuteShouldFixCsProjFileAndDeleteAppconfigFileTest()
+        public async Task ExecuteShouldFixCsProjFileAndDeleteAppConfigFileTest()
         {
             // arrange
             const string csprojFilename = "FileWithRelativeHintPath.txt";

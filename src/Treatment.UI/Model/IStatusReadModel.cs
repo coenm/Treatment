@@ -7,5 +7,7 @@
         event EventHandler Updated;
 
         string StatusText { get; }
+
+        string ConfigFilename { get; }
     }
 }

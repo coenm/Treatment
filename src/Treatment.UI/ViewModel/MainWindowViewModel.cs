@@ -6,7 +6,7 @@
     using JetBrains.Annotations;
     using Nito.Mvvm;
     using Treatment.Contract;
-    using Treatment.Helpers;
+    using Treatment.Helpers.Guards;
     using Treatment.UI.Core.Configuration;
     using Treatment.UI.Framework;
     using Treatment.UI.Framework.ViewModel;
@@ -27,8 +27,11 @@
             Guard.NotNull(configurationService, nameof(configurationService));
             Guard.NotNull(configuration, nameof(configuration));
             Guard.NotNull(showInDialog, nameof(showInDialog));
-            ProjectCollection = Guard.NotNull(projectCollectionViewModel, nameof(projectCollectionViewModel));
-            StatusViewModel = Guard.NotNull(statusViewModel, nameof(statusViewModel));
+            Guard.NotNull(projectCollectionViewModel, nameof(projectCollectionViewModel));
+            Guard.NotNull(statusViewModel, nameof(statusViewModel));
+
+            ProjectCollection = projectCollectionViewModel;
+            StatusViewModel = statusViewModel;
 
             progressFixCsProjectFiles = new Progress<ProgressData>(data =>
             {

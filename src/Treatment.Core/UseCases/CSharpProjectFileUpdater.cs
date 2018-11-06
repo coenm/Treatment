@@ -6,20 +6,18 @@
     using System.Xml.Linq;
 
     using JetBrains.Annotations;
-
-    using Treatment.Helpers;
+    using Treatment.Helpers.Guards;
 
     public class CSharpProjectFileUpdater
     {
-        [NotNull]
-        private readonly XDocument doc;
-        [NotNull]
-        private readonly XNamespace msbuildNamespace;
+        [NotNull] private readonly XDocument doc;
+        [NotNull] private readonly XNamespace msbuildNamespace;
 
         private CSharpProjectFileUpdater(XDocument doc)
         {
+            Guard.NotNull(doc, nameof(doc));
             msbuildNamespace = "http://schemas.microsoft.com/developer/msbuild/2003";
-            this.doc = Guard.NotNull(doc, nameof(doc));
+            this.doc = doc;
         }
 
         [PublicAPI]
@@ -56,9 +54,9 @@
                 return this;
 
             var itemGroups = doc
-                             .Element(msbuildNamespace + "Project")
-                             .Elements(msbuildNamespace + "ItemGroup")
-                             .Where(itemGroup => itemGroup.HasElements == false);
+                .Element(msbuildNamespace + "Project")
+                .Elements(msbuildNamespace + "ItemGroup")
+                .Where(itemGroup => itemGroup.HasElements == false);
 
             foreach (var itemGroup in itemGroups)
             {
@@ -83,16 +81,16 @@
                 return this;
 
             var itemGroups = doc
-                             .Element(msbuildNamespace + "Project")
-                             .Elements(msbuildNamespace + "ItemGroup")
-                             .Where(itemGroup => itemGroup.Elements(msbuildNamespace + "None") != null
-                                                 &&
-                                                 itemGroup.Elements(msbuildNamespace + "None")
-                                                          .Any(noneElement => noneElement.Attribute("Include") != null
-                                                                              &&
-                                                                              (noneElement.Attribute("Include").Value == "app.config"
-                                                                               ||
-                                                                               noneElement.Attribute("Include").Value == "App.config")));
+                .Element(msbuildNamespace + "Project")
+                .Elements(msbuildNamespace + "ItemGroup")
+                .Where(itemGroup => itemGroup.Elements(msbuildNamespace + "None") != null
+                                    &&
+                                    itemGroup.Elements(msbuildNamespace + "None")
+                                        .Any(noneElement => noneElement.Attribute("Include") != null
+                                                            &&
+                                                            (noneElement.Attribute("Include").Value == "app.config"
+                                                             ||
+                                                             noneElement.Attribute("Include").Value == "App.config")));
 
             foreach (var itemGroup in itemGroups)
             {
