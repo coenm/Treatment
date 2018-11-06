@@ -68,8 +68,7 @@
 
             try
             {
-                //todo check if directory exists..
-
+                // todo check if directory exists..
                 using (var fileStream = fileSystem.OpenWrite(filenameProvider.Filename, true))
                 using (var streamWriter = new StreamWriter(fileStream))
                 using (var jsonTextWriter = new JsonTextWriter(streamWriter))

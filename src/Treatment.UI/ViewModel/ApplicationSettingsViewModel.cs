@@ -2,7 +2,6 @@
 {
     using System.Collections.ObjectModel;
     using System.Linq;
-    using System.Threading.Tasks;
 
     using JetBrains.Annotations;
     using Nito.Mvvm;
@@ -11,6 +10,7 @@
     using Treatment.Helpers.Guards;
     using Treatment.UI.Core.Configuration;
     using Treatment.UI.Framework.ViewModel;
+    using Treatment.UI.Implementations.Delay;
 
     public class ApplicationSettingsViewModel : ViewModelBase, IEntityEditorViewModel<ApplicationSettings>
     {
@@ -19,15 +19,16 @@
         [CanBeNull] private ApplicationSettings entity;
 
         [UsedImplicitly]
-        public ApplicationSettingsViewModel([NotNull] IQueryProcessor queryProcessor)
+        public ApplicationSettingsViewModel([NotNull] IQueryProcessor queryProcessor, [NotNull] IDelayService delayService)
         {
             Guard.NotNull(queryProcessor, nameof(queryProcessor));
+            Guard.NotNull(delayService, nameof(delayService));
 
             SearchProviderNames = new ObservableCollection<string>();
             getSearchProvidersCommand = new CapturingExceptionAsyncCommand(async () =>
             {
                 if (entity?.DelayExecution ?? true)
-                    await Task.Delay(1000);
+                    await delayService.DelayAsync();
 
                 var result = await queryProcessor.ExecuteQueryAsync(GetAllSearchProvidersQuery.Instance);
 
@@ -54,7 +55,7 @@
             getVersionControlProvidersCommand = new CapturingExceptionAsyncCommand(async () =>
             {
                 if (entity?.DelayExecution ?? true)
-                    await Task.Delay(800);
+                    await delayService.DelayAsync();
 
                 var result = await queryProcessor.ExecuteQueryAsync(GetAllVersionControlProvidersQuery.Instance);
 

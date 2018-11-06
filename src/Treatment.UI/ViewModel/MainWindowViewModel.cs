@@ -105,7 +105,7 @@
 
             public bool CanExecute(object parameter) => true;
 
-            //todo
+            // todo
             public void Execute(object parameter)
             {
                 var applicationSettings = configurationService.GetAsync().GetAwaiter().GetResult();

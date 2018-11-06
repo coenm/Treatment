@@ -13,13 +13,13 @@
     using Treatment.Core.Bootstrap;
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
     using Treatment.Helpers.Guards;
-    using Treatment.UI.Core;
     using Treatment.UI.Core.Configuration;
     using Treatment.UI.Framework;
     using Treatment.UI.Framework.SynchronizationContext;
     using Treatment.UI.Framework.View;
     using Treatment.UI.Framework.ViewModel;
     using Treatment.UI.Implementations.Configuration;
+    using Treatment.UI.Implementations.Delay;
     using Treatment.UI.Model;
     using Treatment.UI.View;
     using Treatment.UI.ViewModel;
@@ -61,6 +61,7 @@
 
             container.RegisterSingleton<IModelEditor, EditModelInDialog>();
 
+            container.RegisterSingleton<IReadOnlyConfigurationService, FileBasedConfigurationService>();
             container.RegisterSingleton<IConfigurationService, FileBasedConfigurationService>();
             container.RegisterDecorator<IConfigurationService, CacheConfigurationServiceDecorator>(Lifestyle.Singleton);
             container.RegisterDecorator<IConfigurationService, ConcurrentConfigurationServiceDecorator>(Lifestyle.Singleton);
@@ -77,7 +78,7 @@
 
             RegisterUserInterfaceDependencies(container);
 
-            RegisterDebug(container);
+            RegisterDelay(container);
 
             container.RegisterSingleton<DispatcherObject, App>();
             container.RegisterSingleton<Application, App>();
@@ -95,7 +96,7 @@
             container.RegisterSingleton<IConfiguration, AppConfigConfiguration>();
         }
 
-        private static void RegisterDebug([NotNull] Container container)
+        private static void RegisterDelay([NotNull] Container container)
         {
             DebugGuard.NotNull(container, nameof(container));
 

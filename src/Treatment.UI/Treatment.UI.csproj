@@ -14,8 +14,7 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -26,7 +25,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,7 +34,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Treatment.ruleset</CodeAnalysisRuleSet>
@@ -333,6 +330,10 @@
     <Compile Include="Implementations\Configuration\AppConfigFilenameProvider.cs" />
     <Compile Include="Implementations\Configuration\UpdateStatusModelDecorator.cs" />
     <Compile Include="Implementations\Configuration\VerifyAndFixFilenameDecorator.cs" />
+    <Compile Include="Implementations\Delay\CommandHandlerDelayDecorator.cs" />
+    <Compile Include="Implementations\Delay\IDelayService.cs" />
+    <Compile Include="Implementations\Delay\RandomDelayService.cs" />
+    <Compile Include="Implementations\Delay\UpdateDelayStatusModelDecorator.cs" />
     <Compile Include="Model\IStatusFullModel.cs" />
     <Compile Include="UserControls\ProjectListView.xaml.cs">
       <DependentUpon>ProjectListView.xaml</DependentUpon>
@@ -372,7 +373,7 @@
     <Compile Include="Framework\Commands\Nito\CapturingExceptionAsyncCommand.cs" />
     <Compile Include="ValueConverters\InverseBooleanConverter.cs" />
     <Compile Include="ValueConverters\NullVisibilityConverter.cs" />
-    <Compile Include="Core\DelayCommandExecution.cs" />
+    <Compile Include="Implementations\Delay\DelayCommandExecution.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\IMainWindowViewModel.cs" />
     <Compile Include="ViewModel\ProjectViewModel.cs" />

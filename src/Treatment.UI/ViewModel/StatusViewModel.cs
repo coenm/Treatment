@@ -51,6 +51,12 @@
             private set => Properties.Set(value);
         }
 
+        public int DelayProcessCounter
+        {
+            get => Properties.Get(statusModel.DelayProcessCounter);
+            private set => Properties.Set(value);
+        }
+
         System.Windows.Input.ICommand IInitializableViewModel.Initialize => Initialize;
 
         public CapturingExceptionAsyncCommand Initialize { get; }
@@ -89,6 +95,7 @@
         {
             StatusText = statusModel.StatusText;
             ConfigFilename = statusModel.ConfigFilename;
+            DelayProcessCounter = statusModel.DelayProcessCounter;
         }
     }
 }

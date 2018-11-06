@@ -9,5 +9,7 @@
         string StatusText { get; }
 
         string ConfigFilename { get; }
+
+        int DelayProcessCounter { get; }
     }
 }
