@@ -1,16 +1,16 @@
-﻿namespace Treatment.UI.ViewModel.Settings
+﻿namespace Treatment.UI.ViewModel
 {
     using System.Collections.ObjectModel;
     using System.Linq;
-    using System.Threading.Tasks;
 
     using JetBrains.Annotations;
     using Nito.Mvvm;
     using Treatment.Contract;
     using Treatment.Contract.Queries;
-    using Treatment.Helpers;
+    using Treatment.Helpers.Guards;
     using Treatment.UI.Core.Configuration;
     using Treatment.UI.Framework.ViewModel;
+    using Treatment.UI.Implementations.Delay;
 
     public class ApplicationSettingsViewModel : ViewModelBase, IEntityEditorViewModel<ApplicationSettings>
     {
@@ -19,22 +19,31 @@
         [CanBeNull] private ApplicationSettings entity;
 
         [UsedImplicitly]
-        public ApplicationSettingsViewModel([NotNull] IQueryProcessor queryProcessor)
+        public ApplicationSettingsViewModel([NotNull] IQueryProcessor queryProcessor, [NotNull] IDelayService delayService)
         {
             Guard.NotNull(queryProcessor, nameof(queryProcessor));
+            Guard.NotNull(delayService, nameof(delayService));
 
             SearchProviderNames = new ObservableCollection<string>();
             getSearchProvidersCommand = new CapturingExceptionAsyncCommand(async () =>
             {
                 if (entity?.DelayExecution ?? true)
-                    await Task.Delay(1000);
+                    await delayService.DelayAsync();
 
                 var result = await queryProcessor.ExecuteQueryAsync(GetAllSearchProvidersQuery.Instance);
+
+                var tmp = SearchProviderName;
+
+                SearchProviderNames.Clear();
+
                 foreach (var item in result.OrderBy(x => x.Priority))
                     SearchProviderNames.Add(item.Name);
 
-                if (SearchProviderNames.Contains(SearchProviderName))
+                if (SearchProviderNames.Contains(tmp))
+                {
+                    SearchProviderName = tmp;
                     return;
+                }
 
                 SearchProviderName = result
                     .OrderBy(x => x.Priority)
@@ -46,14 +55,21 @@
             getVersionControlProvidersCommand = new CapturingExceptionAsyncCommand(async () =>
             {
                 if (entity?.DelayExecution ?? true)
-                    await Task.Delay(800);
+                    await delayService.DelayAsync();
 
                 var result = await queryProcessor.ExecuteQueryAsync(GetAllVersionControlProvidersQuery.Instance);
+
+                var tmp = VersionControlProviderName;
+                VersionControlProviderNames.Clear();
+
                 foreach (var item in result.OrderBy(x => x.Priority))
                     VersionControlProviderNames.Add(item.Name);
 
-                if (VersionControlProviderNames.Contains(VersionControlProviderName))
+                if (VersionControlProviderNames.Contains(tmp))
+                {
+                    VersionControlProviderName = tmp;
                     return;
+                }
 
                 VersionControlProviderName = result
                     .OrderBy(x => x.Priority)
@@ -96,7 +112,8 @@
 
         public void Initialize(ApplicationSettings applicationSettings)
         {
-            entity = Guard.NotNull(applicationSettings, nameof(applicationSettings));
+            Guard.NotNull(applicationSettings, nameof(applicationSettings));
+            entity = applicationSettings;
 
             DelayExecution = applicationSettings.DelayExecution;
             SearchProviderName = applicationSettings.SearchProviderName;
@@ -107,14 +124,13 @@
             ((System.Windows.Input.ICommand)getVersionControlProvidersCommand).Execute(null);
         }
 
-        public ApplicationSettings Export()
+        public void SaveToEntity()
         {
-            return new ApplicationSettings
-                       {
-                           DelayExecution = DelayExecution,
-                           SearchProviderName = SearchProviderName,
-                           RootDirectory = RootDirectory,
-                       };
+            DebugGuard.NotNull(entity, nameof(entity));
+            entity.DelayExecution = DelayExecution;
+            entity.SearchProviderName = SearchProviderName;
+            entity.RootDirectory = RootDirectory;
+            entity.VersionControlProviderName = VersionControlProviderName;
         }
     }
 }

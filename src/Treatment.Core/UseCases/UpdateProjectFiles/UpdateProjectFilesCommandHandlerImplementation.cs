@@ -11,7 +11,7 @@
     using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Core.Interfaces;
-    using Treatment.Helpers;
+    using Treatment.Helpers.Guards;
 
     public class UpdateProjectFilesCommandHandlerImplementation /*: ICommandHandler<UpdateProjectFilesCommand>*/
     {
@@ -23,10 +23,15 @@
         private readonly IFileSearch fileSearcher;
         private readonly Regex regex;
 
-        public UpdateProjectFilesCommandHandlerImplementation([NotNull] IFileSystem filesystem, [NotNull] IFileSearch fileSearcher)
+        public UpdateProjectFilesCommandHandlerImplementation(
+            [NotNull] IFileSystem filesystem,
+            [NotNull] IFileSearch fileSearcher)
         {
-            this.filesystem = Guard.NotNull(filesystem, nameof(filesystem));
-            this.fileSearcher = Guard.NotNull(fileSearcher, nameof(fileSearcher));
+            Guard.NotNull(filesystem, nameof(filesystem));
+            Guard.NotNull(fileSearcher, nameof(fileSearcher));
+
+            this.filesystem = filesystem;
+            this.fileSearcher = fileSearcher;
             regex = new Regex(Search, RegexOptions.Compiled);
         }
 
@@ -41,9 +46,9 @@
             return Task.CompletedTask;
         }
 
-        public string[] GetCsFiles(string rootpath)
+        public string[] GetCsFiles(string rootPath)
         {
-            return fileSearcher.FindFilesIncludingSubdirectories(rootpath, "*.csproj");
+            return fileSearcher.FindFilesIncludingSubdirectories(rootPath, "*.csproj");
         }
 
         public void FixSingleFile(string filename)

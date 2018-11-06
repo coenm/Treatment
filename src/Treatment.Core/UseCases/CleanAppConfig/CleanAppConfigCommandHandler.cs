@@ -14,7 +14,7 @@
     using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Contract.Plugin.SourceControl;
-    using Treatment.Helpers;
+    using Treatment.Helpers.Guards;
 
     [UsedImplicitly]
     public class CleanAppConfigCommandHandler : ICommandHandler<CleanAppConfigCommand>
@@ -28,9 +28,13 @@
             [NotNull] IReadOnlySourceControl sourceControl,
             [NotNull] ICleanSingleAppConfig cleanSingleAppConfig)
         {
-            this.fileSearcher = Guard.NotNull(fileSearcher, nameof(fileSearcher));
-            this.sourceControl = Guard.NotNull(sourceControl, nameof(sourceControl));
-            this.cleanSingleAppConfig = Guard.NotNull(cleanSingleAppConfig, nameof(cleanSingleAppConfig));
+            Guard.NotNull(fileSearcher, nameof(fileSearcher));
+            Guard.NotNull(sourceControl, nameof(sourceControl));
+            Guard.NotNull(cleanSingleAppConfig, nameof(cleanSingleAppConfig));
+
+            this.fileSearcher = fileSearcher;
+            this.sourceControl = sourceControl;
+            this.cleanSingleAppConfig = cleanSingleAppConfig;
         }
 
         public async Task ExecuteAsync(CleanAppConfigCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)

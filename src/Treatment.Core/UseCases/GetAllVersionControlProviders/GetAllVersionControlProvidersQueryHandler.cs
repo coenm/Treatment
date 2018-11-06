@@ -13,7 +13,7 @@
     using Treatment.Contract.DTOs;
     using Treatment.Contract.Plugin.SourceControl;
     using Treatment.Contract.Queries;
-    using Treatment.Helpers;
+    using Treatment.Helpers.Guards;
 
     [UsedImplicitly]
     public class GetAllVersionControlProvidersQueryHandler : IQueryHandler<GetAllVersionControlProvidersQuery, List<VersionControlProviderInfo>>

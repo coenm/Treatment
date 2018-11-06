@@ -13,9 +13,8 @@
     using JetBrains.Annotations;
     using Nito.Mvvm;
     using Treatment.Contract.Plugin.FileSearch;
-    using Treatment.Helpers;
+    using Treatment.Helpers.Guards;
     using Treatment.UI.Core.Configuration;
-    using Treatment.UI.Framework;
     using Treatment.UI.Framework.ViewModel;
     using Treatment.UI.Model;
 
@@ -32,10 +31,15 @@
             [NotNull] IFileSearch fileSearch,
             [NotNull] IConfiguration configuration)
         {
-            this.statusModel = Guard.NotNull(statusModel, nameof(statusModel));
-            this.projectViewModelFactory = Guard.NotNull(projectViewModelFactory, nameof(projectViewModelFactory));
-            this.fileSearch = Guard.NotNull(fileSearch, nameof(fileSearch));
-            this.configuration = Guard.NotNull(configuration, nameof(configuration));
+            Guard.NotNull(statusModel, nameof(statusModel));
+            Guard.NotNull(projectViewModelFactory, nameof(projectViewModelFactory));
+            Guard.NotNull(fileSearch, nameof(fileSearch));
+            Guard.NotNull(configuration, nameof(configuration));
+
+            this.statusModel = statusModel;
+            this.projectViewModelFactory = projectViewModelFactory;
+            this.fileSearch = fileSearch;
+            this.configuration = configuration;
 
             Projects = new ObservableCollection<ProjectViewModel>();
             Initialize = new CapturingExceptionAsyncCommand(async _ => await LoadProjectsAsync());

@@ -55,6 +55,13 @@
       <StatusBarItem>
         <TextBlock Margin="2,0,0,0" Text="{Binding Path=StatusViewModel.StatusText}" />
       </StatusBarItem>
+      <Separator/>
+      <StatusBarItem>
+        <TextBlock Margin="2,0,0,0" Text="{Binding Path=StatusViewModel.ConfigFilename}" />
+      </StatusBarItem>
+      <StatusBarItem>
+        <TextBlock Margin="2,0,0,0" Text="{Binding Path=StatusViewModel.DelayProcessCounter}" />
+      </StatusBarItem>
     </StatusBar>
   </Grid>
 </Window>

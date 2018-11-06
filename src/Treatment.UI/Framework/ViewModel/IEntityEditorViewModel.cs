@@ -4,5 +4,7 @@
         where TEntity : class
     {
         void Initialize(TEntity entity);
+
+        void SaveToEntity();
     }
 }

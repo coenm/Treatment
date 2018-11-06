@@ -2,10 +2,10 @@
 {
     using System.Threading.Tasks;
 
-    public interface IConfigurationService
-    {
-        Task<ApplicationSettings> GetAsync();
+    using JetBrains.Annotations;
 
-        Task<bool> UpdateAsync(ApplicationSettings configuration);
+    public interface IConfigurationService : IReadOnlyConfigurationService
+    {
+        Task<bool> UpdateAsync([NotNull] ApplicationSettings configuration);
     }
 }

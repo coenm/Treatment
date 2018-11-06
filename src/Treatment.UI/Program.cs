@@ -12,17 +12,17 @@
     using SimpleInjector.Lifestyles;
     using Treatment.Core.Bootstrap;
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
-    using Treatment.Helpers;
-    using Treatment.UI.Core;
+    using Treatment.Helpers.Guards;
     using Treatment.UI.Core.Configuration;
     using Treatment.UI.Framework;
     using Treatment.UI.Framework.SynchronizationContext;
     using Treatment.UI.Framework.View;
     using Treatment.UI.Framework.ViewModel;
+    using Treatment.UI.Implementations.Configuration;
+    using Treatment.UI.Implementations.Delay;
     using Treatment.UI.Model;
     using Treatment.UI.View;
     using Treatment.UI.ViewModel;
-    using Treatment.UI.ViewModel.Settings;
 
     public static class Program
     {
@@ -45,25 +45,30 @@
 
             CoreBootstrap.Bootstrap(container);
 
-            // Register your windows and view models:
+            // Views
             container.Register<MainWindow>();
             container.Register<IEntityEditorView<ApplicationSettings>, SettingsWindow>();
 
-            // View Models.
+            // View models
             container.Register<IMainWindowViewModel, MainWindowViewModel>(Lifestyle.Scoped);
             container.Register<IProjectCollectionViewModel, ProjectCollectionViewModel>(Lifestyle.Scoped);
             container.Register<IStatusViewModel, StatusViewModel>(Lifestyle.Scoped);
             container.Register<IEntityEditorViewModel<ApplicationSettings>, ApplicationSettingsViewModel>(Lifestyle.Scoped);
 
-            // not sure..
-            container.Register<IStatusReadModel, StatusModel>(Lifestyle.Scoped);
-            container.Register<IStatusFullModel, StatusModel>(Lifestyle.Scoped);
+            // not sure if both are the same instance.
+            container.Register<IStatusReadModel, StatusModel>(Lifestyle.Singleton);
+            container.Register<IStatusFullModel, StatusModel>(Lifestyle.Singleton);
 
-            container.RegisterSingleton<IEntityEditor, EditEntityInDialog>();
+            container.RegisterSingleton<IModelEditor, EditModelInDialog>();
 
+            container.RegisterSingleton<IReadOnlyConfigurationService, FileBasedConfigurationService>();
             container.RegisterSingleton<IConfigurationService, FileBasedConfigurationService>();
             container.RegisterDecorator<IConfigurationService, CacheConfigurationServiceDecorator>(Lifestyle.Singleton);
             container.RegisterDecorator<IConfigurationService, ConcurrentConfigurationServiceDecorator>(Lifestyle.Singleton);
+
+            container.Register<IConfigFilenameProvider, AppConfigFilenameProvider>(Lifestyle.Singleton);
+            container.RegisterDecorator<IConfigFilenameProvider, VerifyAndFixFilenameDecorator>(Lifestyle.Singleton);
+            container.RegisterDecorator<IConfigFilenameProvider, UpdateStatusModelDecorator>(Lifestyle.Singleton);
 
             container.Register<IProjectViewModelFactory, ProjectViewModelFactory>(Lifestyle.Scoped);
 
@@ -73,7 +78,7 @@
 
             RegisterUserInterfaceDependencies(container);
 
-            RegisterDebug(container);
+            RegisterDelay(container);
 
             container.RegisterSingleton<DispatcherObject, App>();
             container.RegisterSingleton<Application, App>();
@@ -91,7 +96,7 @@
             container.RegisterSingleton<IConfiguration, AppConfigConfiguration>();
         }
 
-        private static void RegisterDebug([NotNull] Container container)
+        private static void RegisterDelay([NotNull] Container container)
         {
             DebugGuard.NotNull(container, nameof(container));
 
@@ -125,6 +130,16 @@
                 {
                     var app = container.GetInstance<Application>();
                     var mainWindow = container.GetInstance<MainWindow>();
+
+                    void MainWindowOnClosed(object sender, EventArgs e)
+                    {
+                        mainWindow.Closed -= MainWindowOnClosed;
+                        app.Shutdown(0);
+                    }
+
+                    // not sure if this is the way to do this.
+                    mainWindow.Closed += MainWindowOnClosed;
+
                     app.Run(mainWindow);
                 }
             }

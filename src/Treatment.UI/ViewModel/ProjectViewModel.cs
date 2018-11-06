@@ -6,7 +6,7 @@
     using Nito.Mvvm;
     using Treatment.Contract;
     using Treatment.Contract.Commands;
-    using Treatment.Helpers;
+    using Treatment.Helpers.Guards;
     using Treatment.UI.Framework;
     using Treatment.UI.Framework.ViewModel;
 

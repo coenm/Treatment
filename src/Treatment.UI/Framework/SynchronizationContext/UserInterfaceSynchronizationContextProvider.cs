@@ -4,8 +4,7 @@
     using System.Windows.Threading;
 
     using JetBrains.Annotations;
-
-    using Treatment.Helpers;
+    using Treatment.Helpers.Guards;
 
     public class UserInterfaceSynchronizationContextProvider : IUserInterfaceSynchronizationContextProvider
     {

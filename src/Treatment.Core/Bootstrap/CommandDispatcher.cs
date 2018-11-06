@@ -9,7 +9,7 @@
     using SimpleInjector;
 
     using Treatment.Contract;
-    using Treatment.Helpers;
+    using Treatment.Helpers.Guards;
 
     [UsedImplicitly]
     public class CommandDispatcher : ICommandDispatcher
@@ -18,7 +18,8 @@
 
         public CommandDispatcher([NotNull] Container container)
         {
-            this.container = Guard.NotNull(container, nameof(container));
+            Guard.NotNull(container, nameof(container));
+            this.container = container;
         }
 
         public async Task ExecuteAsync<TCommand>(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)

@@ -2,16 +2,16 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:Treatment.UI.ViewModel.Settings"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:valueConverters="clr-namespace:Treatment.UI.ValueConverters"
+        xmlns:viewModel="clr-namespace:Treatment.UI.ViewModel"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
         Title="Treatment - Settings"
         Height="255" Width="500"
-        d:DataContext="{d:DesignInstance Type=vm:ApplicationSettingsViewModel}"
+        d:DataContext="{d:DesignInstance Type=viewModel:ApplicationSettingsViewModel}"
 >
   <Window.Resources>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>

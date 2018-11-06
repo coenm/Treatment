@@ -1,4 +1,4 @@
-﻿namespace Treatment.Helpers
+﻿namespace Treatment.Helpers.Guards
 {
     using System;
     using System.Diagnostics;
