@@ -18,6 +18,11 @@
             Message = message;
         }
 
+        public static ProgressData UpdateMessageOnly(string message)
+        {
+            return new ProgressData(message);
+        }
+
         public int? CurrentStep { get; }
 
         public int? TotalSteps { get; }

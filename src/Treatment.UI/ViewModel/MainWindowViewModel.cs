@@ -5,6 +5,7 @@
 
     using JetBrains.Annotations;
     using Nito.Mvvm;
+    using NLog;
     using Treatment.Contract;
     using Treatment.Helpers.Guards;
     using Treatment.UI.Core.Configuration;
@@ -15,6 +16,7 @@
 
     public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel, IInitializableViewModel
     {
+        [NotNull] private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         [NotNull] private readonly IProgress<ProgressData> progressFixCsProjectFiles;
 
         public MainWindowViewModel(
@@ -41,10 +43,14 @@
             });
 
             WorkingDirectory = string.Empty;
+            Logger.Info("ctor");
 
             OpenSettings = new OpenSettingsCommand(showInDialog, configurationService, WorkingDirectory);
             Initialize = new CapturingExceptionAsyncCommand(async () =>
             {
+                Logger.Debug("init");
+                Logger.Info("init");
+                Logger.Error("init");
                 await Task.WhenAll(
                         ProjectCollection.Initialize.ExecuteAsync(null),
                         StatusViewModel.Initialize.ExecuteAsync(null))

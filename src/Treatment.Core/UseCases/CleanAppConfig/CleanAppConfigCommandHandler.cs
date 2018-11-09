@@ -39,11 +39,22 @@
 
         public async Task ExecuteAsync(CleanAppConfigCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)
         {
-            var projectFiles = GetCsFiles(command.Directory);
+            Guard.NotNull(command, nameof(command));
+
+            progress?.Report(new ProgressData(-1, -1, "Finding csharp files."));
+            var projectFiles = GetCsFiles(command.Directory).ToArray();
+
+            progress?.Report(new ProgressData(-1, -1, "Finding app.config files."));
             var appConfigFiles = GetAppConfigFiles(command.Directory);
+
+            var count = projectFiles.Length;
+            var index = 0;
 
             foreach (var projectFile in projectFiles)
             {
+                progress?.Report(new ProgressData(index, count, $"Processing {projectFile}."));
+                index++;
+
                 var path = Path.GetDirectoryName(projectFile);
 
                 var appConfigFile = appConfigFiles.SingleOrDefault(file => Path.GetDirectoryName(file) == path);
@@ -52,6 +63,8 @@
 
                 await HandleProjectFileAsync(projectFile, appConfigFile).ConfigureAwait(false);
             }
+
+            progress?.Report(new ProgressData(count, count, "Done."));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

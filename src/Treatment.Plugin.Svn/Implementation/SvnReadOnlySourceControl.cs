@@ -23,8 +23,10 @@
             this.filesystem = filesystem;
         }
 
-        public bool TryGetSvnRoot(string path, out string rootPath)
+        public bool TryGetSvnRoot([NotNull] string path, out string rootPath)
         {
+            Guard.NotNull(path, nameof(path));
+
             try
             {
                 using (var client = new SvnClient())
@@ -56,6 +58,8 @@
 
         public FileStatus GetFileStatus(string path)
         {
+            Guard.NotNull(path, nameof(path));
+
             try
             {
                 using (var client = new SvnClient())

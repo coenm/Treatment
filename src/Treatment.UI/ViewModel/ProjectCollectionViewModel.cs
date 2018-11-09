@@ -10,17 +10,19 @@
     using System.Threading.Tasks;
 
     using CoenM.Encoding;
-    using Implementations.Delay;
     using JetBrains.Annotations;
     using Nito.Mvvm;
+    using NLog;
     using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Helpers.Guards;
     using Treatment.UI.Core.Configuration;
     using Treatment.UI.Framework.ViewModel;
+    using Treatment.UI.Implementations.Delay;
     using Treatment.UI.Model;
 
     public class ProjectCollectionViewModel : ViewModelBase, IProjectCollectionViewModel, IInitializableViewModel, IDisposable
     {
+        [NotNull] private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         [NotNull] private readonly IStatusFullModel statusModel;
         [NotNull] private readonly IProjectViewModelFactory projectViewModelFactory;
         [NotNull] private readonly IFileSearch fileSearch;
@@ -141,9 +143,10 @@
                     if (rootDirectoryInfo == null)
                         continue;
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    // swallow
+                    // Log and swallow
+                    Logger.Error(e, "Something went terrably wrong processing the found solution files.");
                     continue;
                 }
 
