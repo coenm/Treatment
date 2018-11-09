@@ -21,11 +21,9 @@
             [NotNull] IStatusViewModel statusViewModel,
             [NotNull] IProjectCollectionViewModel projectCollectionViewModel,
             [NotNull] IConfigurationService configurationService,
-            [NotNull] IConfiguration configuration,
             [NotNull] IModelEditor showInDialog)
         {
             Guard.NotNull(configurationService, nameof(configurationService));
-            Guard.NotNull(configuration, nameof(configuration));
             Guard.NotNull(showInDialog, nameof(showInDialog));
             Guard.NotNull(projectCollectionViewModel, nameof(projectCollectionViewModel));
             Guard.NotNull(statusViewModel, nameof(statusViewModel));
@@ -42,7 +40,7 @@
                 FixCsProjectFilesLog += data.Message + Environment.NewLine;
             });
 
-            WorkingDirectory = configuration.RootPath ?? string.Empty;
+            WorkingDirectory = string.Empty;
 
             OpenSettings = new OpenSettingsCommand(showInDialog, configurationService, WorkingDirectory);
             Initialize = new CapturingExceptionAsyncCommand(async () =>

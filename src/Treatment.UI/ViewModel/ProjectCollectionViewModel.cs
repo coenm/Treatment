@@ -10,6 +10,7 @@
     using System.Threading.Tasks;
 
     using CoenM.Encoding;
+    using Implementations.Delay;
     using JetBrains.Annotations;
     using Nito.Mvvm;
     using Treatment.Contract.Plugin.FileSearch;
@@ -23,23 +24,27 @@
         [NotNull] private readonly IStatusFullModel statusModel;
         [NotNull] private readonly IProjectViewModelFactory projectViewModelFactory;
         [NotNull] private readonly IFileSearch fileSearch;
-        [NotNull] private readonly IConfiguration configuration;
+        [NotNull] private readonly IConfigurationService configurationService;
+        [NotNull] private readonly IDelayService delayService;
 
         public ProjectCollectionViewModel(
             [NotNull] IProjectViewModelFactory projectViewModelFactory,
             [NotNull] IStatusFullModel statusModel,
             [NotNull] IFileSearch fileSearch,
-            [NotNull] IConfiguration configuration)
+            [NotNull] IConfigurationService configurationService,
+            [NotNull] IDelayService delayService)
         {
             Guard.NotNull(statusModel, nameof(statusModel));
             Guard.NotNull(projectViewModelFactory, nameof(projectViewModelFactory));
             Guard.NotNull(fileSearch, nameof(fileSearch));
-            Guard.NotNull(configuration, nameof(configuration));
+            Guard.NotNull(configurationService, nameof(configurationService));
+            Guard.NotNull(delayService, nameof(delayService));
 
             this.statusModel = statusModel;
             this.projectViewModelFactory = projectViewModelFactory;
             this.fileSearch = fileSearch;
-            this.configuration = configuration;
+            this.configurationService = configurationService;
+            this.delayService = delayService;
 
             Projects = new ObservableCollection<ProjectViewModel>();
             Initialize = new CapturingExceptionAsyncCommand(async _ => await LoadProjectsAsync());
@@ -76,14 +81,16 @@
 
         private async Task LoadProjectsAsync()
         {
-            var random = new Random();
             statusModel.UpdateStatus("Loading projects ..");
-            await Task.Delay(random.Next(100, 1000)); // stupid delay to see something happening ;-)
-            var items = CreateProjectViewModelsFromDirectory().ToList();
+            var config = await configurationService.GetAsync();
+            var rootPath = config.RootDirectory;
+
+            await delayService.DelayAsync(); // stupid delay to see something happening ;-)
+            var items = CreateProjectViewModelsFromDirectory(rootPath).ToList();
             foreach (var item in items)
             {
                 Projects.Add(item);
-                await Task.Delay(random.Next(10, 1000)); // again stupid delay to see something happening ;-)
+                await delayService.DelayAsync(); // stupid delay to see something happening ;-)
             }
 
             switch (items.Count)
@@ -101,9 +108,8 @@
         }
 
         [NotNull]
-        private IEnumerable<ProjectViewModel> CreateProjectViewModelsFromDirectory()
+        private IEnumerable<ProjectViewModel> CreateProjectViewModelsFromDirectory(string rootPath)
         {
-            var rootPath = configuration.RootPath;
             if (rootPath == null)
                 yield break;
 

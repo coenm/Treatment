@@ -93,7 +93,7 @@
             DebugGuard.NotNull(container, nameof(container));
 
             container.RegisterSingleton<ISearchProviderNameOption, AppConfigConfiguration>();
-            container.RegisterSingleton<IConfiguration, AppConfigConfiguration>();
+//            container.RegisterSingleton<IConfiguration, AppConfigConfiguration>();
         }
 
         private static void RegisterDelay([NotNull] Container container)
