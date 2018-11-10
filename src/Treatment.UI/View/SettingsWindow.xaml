@@ -41,6 +41,8 @@
         <RowDefinition Height="{StaticResource SettingRowHeight}" />
         <RowDefinition Height="{StaticResource SettingRowHeight}" />
         <RowDefinition Height="{StaticResource SettingRowHeight}" />
+        <RowDefinition Height="{StaticResource SettingRowHeight}" />
+        <RowDefinition Height="{StaticResource SettingRowHeight}" />
       </Grid.RowDefinitions>
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto" />
@@ -83,6 +85,12 @@
 
       <Label Grid.Row="3" Grid.Column="0" Content="Delay execution" />
       <CheckBox Grid.Row="3" Grid.Column="1" Margin="2" IsChecked="{Binding Path=DelayExecution}" />
+
+      <Label Grid.Row="4" Grid.Column="0" Content="Minimum delay in milliseconds" />
+      <TextBox Grid.Row="4" Grid.Column="1" Margin="2" Text="{Binding Path=DelayMinMilliseconds}" IsEnabled="{Binding Path=DelayExecution}"/>
+
+      <Label Grid.Row="5" Grid.Column="0" Content="Maximum delay in milliseconds" />
+      <TextBox Grid.Row="5" Grid.Column="1" Margin="2" Text="{Binding Path=DelayMaxMilliseconds}" IsEnabled="{Binding Path=DelayExecution}"/>
     </Grid>
 
   <StackPanel Grid.Row="1"  Orientation="Horizontal" HorizontalAlignment="Right">

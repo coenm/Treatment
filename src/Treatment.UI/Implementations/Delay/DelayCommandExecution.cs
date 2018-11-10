@@ -14,7 +14,7 @@
         {
             Guard.NotNull(container, nameof(container));
 
-            container.Register<IDelayService>(() => new RandomDelayService(2000, 10000), Lifestyle.Singleton);
+            container.Register<IDelayService, RandomConfigurableDelayService>(Lifestyle.Singleton);
             container.RegisterDecorator<IDelayService, UpdateDelayStatusModelDecorator>(Lifestyle.Singleton);
 
             container.RegisterDecorator(

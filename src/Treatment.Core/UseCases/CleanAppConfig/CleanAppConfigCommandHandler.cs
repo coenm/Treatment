@@ -37,7 +37,7 @@
             this.cleanSingleAppConfig = cleanSingleAppConfig;
         }
 
-        public async Task ExecuteAsync(CleanAppConfigCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)
+        public async Task ExecuteAsync(CleanAppConfigCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
         {
             Guard.NotNull(command, nameof(command));
 

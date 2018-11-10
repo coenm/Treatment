@@ -5,6 +5,6 @@
 
     public interface IQueryProcessor
     {
-        Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query, CancellationToken ct = default);
+        Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query, CancellationToken ct = default(CancellationToken));
     }
 }

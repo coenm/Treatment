@@ -2,6 +2,7 @@
 {
     using System;
     using System.IO;
+    using System.Reactive.Subjects;
     using System.Reflection;
     using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@
 
     internal class FileBasedConfigurationService : IConfigurationService
     {
+        [NotNull] private readonly ISubject<bool> configurationChanged = new ReplaySubject<bool>(1);
         [NotNull] private readonly IConfigFilenameProvider filenameProvider;
         [NotNull] private readonly IFileSystem fileSystem;
 
@@ -27,6 +29,8 @@
             this.filenameProvider = filenameProvider;
             this.fileSystem = fileSystem;
         }
+
+        public IObservable<bool> ConfigurationChanged => configurationChanged/*.DistinctUntilChanged()*/;
 
         public async Task<ApplicationSettings> GetAsync()
         {
@@ -63,6 +67,7 @@
             }
             catch (Exception e)
             {
+                //todo
                 throw e;
             }
 
@@ -76,6 +81,7 @@
                     await json.WriteToAsync(jsonTextWriter).ConfigureAwait(false);
                 }
 
+                configurationChanged.OnNext(true);
                 return true;
             }
             catch (Exception)
@@ -88,7 +94,12 @@
         {
             return new ApplicationSettings
             {
-                DelayExecution = false,
+                DelayExecution = new DelayExecutionSettings
+                                 {
+                                     Enabled = false,
+                                     MinMilliseconds = 0,
+                                     MaxMilliseconds = 0,
+                                 },
                 RootDirectory = Assembly.GetExecutingAssembly().Location,
                 SearchProviderName = string.Empty,
                 VersionControlProviderName = string.Empty,
@@ -101,7 +112,12 @@
 
             return new ApplicationSettingsDto
             {
-                DelayExecution = settings.DelayExecution,
+                DelayExecution = new DelaySettingsDto
+                                 {
+                                     Enabled = settings.DelayExecution.Enabled,
+                                     MinMilliseconds = settings.DelayExecution.MinMilliseconds,
+                                     MaxMilliseconds = settings.DelayExecution.MaxMilliseconds,
+                                 },
                 RootDirectory = settings.RootDirectory,
                 SearchProviderName = settings.SearchProviderName,
                 VersionControlProviderName = settings.VersionControlProviderName,
@@ -112,7 +128,12 @@
         {
             return new ApplicationSettings
             {
-                DelayExecution = settings.DelayExecution,
+                DelayExecution = new DelayExecutionSettings
+                                 {
+                                     Enabled = settings.DelayExecution.Enabled,
+                                     MinMilliseconds = settings.DelayExecution.MinMilliseconds,
+                                     MaxMilliseconds = settings.DelayExecution.MaxMilliseconds,
+                                 },
                 RootDirectory = settings.RootDirectory,
                 SearchProviderName = settings.SearchProviderName,
                 VersionControlProviderName = settings.VersionControlProviderName,
@@ -121,13 +142,22 @@
 
         private struct ApplicationSettingsDto
         {
-            public bool DelayExecution { get; set; }
+            public DelaySettingsDto DelayExecution { get; set; }
 
             public string SearchProviderName { get; set; }
 
             public string VersionControlProviderName { get; set; }
 
             public string RootDirectory { get; set; }
+        }
+
+        private struct DelaySettingsDto
+        {
+            public bool Enabled { get; set; }
+
+            public int MinMilliseconds { get; set; }
+
+            public int MaxMilliseconds { get; set; }
         }
     }
 }

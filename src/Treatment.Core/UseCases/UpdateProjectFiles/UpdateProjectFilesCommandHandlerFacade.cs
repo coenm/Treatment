@@ -33,7 +33,7 @@
             this.fileSearcher = fileSearcher;
         }
 
-        public async Task ExecuteAsync(UpdateProjectFilesCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)
+        public async Task ExecuteAsync(UpdateProjectFilesCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
         {
             // so if progress is null, we don't have to decorate the filesystem and file searcher.
             // create the 'real' command handler and let it handle the command.

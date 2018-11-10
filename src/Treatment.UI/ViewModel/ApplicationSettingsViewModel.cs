@@ -27,7 +27,7 @@
             SearchProviderNames = new ObservableCollection<string>();
             getSearchProvidersCommand = new CapturingExceptionAsyncCommand(async () =>
             {
-                if (entity?.DelayExecution ?? true)
+                if (entity?.DelayExecution.Enabled ?? true)
                     await delayService.DelayAsync();
 
                 var result = await queryProcessor.ExecuteQueryAsync(GetAllSearchProvidersQuery.Instance);
@@ -54,7 +54,7 @@
             VersionControlProviderNames = new ObservableCollection<string>();
             getVersionControlProvidersCommand = new CapturingExceptionAsyncCommand(async () =>
             {
-                if (entity?.DelayExecution ?? true)
+                if (entity?.DelayExecution.Enabled ?? true)
                     await delayService.DelayAsync();
 
                 var result = await queryProcessor.ExecuteQueryAsync(GetAllVersionControlProvidersQuery.Instance);
@@ -88,6 +88,18 @@
             set => Properties.Set(value);
         }
 
+        public uint DelayMinMilliseconds
+        {
+            get => Properties.Get<uint>(0);
+            set => Properties.Set(value);
+        }
+
+        public uint DelayMaxMilliseconds
+        {
+            get => Properties.Get<uint>(0);
+            set => Properties.Set(value);
+        }
+
         public string RootDirectory
         {
             get => Properties.Get(string.Empty);
@@ -115,7 +127,9 @@
             Guard.NotNull(applicationSettings, nameof(applicationSettings));
             entity = applicationSettings;
 
-            DelayExecution = applicationSettings.DelayExecution;
+            DelayExecution = applicationSettings.DelayExecution.Enabled;
+            DelayMinMilliseconds = (uint)applicationSettings.DelayExecution.MinMilliseconds;
+            DelayMaxMilliseconds = (uint)applicationSettings.DelayExecution.MaxMilliseconds;
             SearchProviderName = applicationSettings.SearchProviderName;
             VersionControlProviderName = applicationSettings.VersionControlProviderName;
             RootDirectory = applicationSettings.RootDirectory;
@@ -127,7 +141,9 @@
         public void SaveToEntity()
         {
             DebugGuard.NotNull(entity, nameof(entity));
-            entity.DelayExecution = DelayExecution;
+            entity.DelayExecution.Enabled = DelayExecution;
+            entity.DelayExecution.MinMilliseconds = (int)DelayMinMilliseconds;
+            entity.DelayExecution.MaxMilliseconds = (int)DelayMaxMilliseconds;
             entity.SearchProviderName = SearchProviderName;
             entity.RootDirectory = RootDirectory;
             entity.VersionControlProviderName = VersionControlProviderName;

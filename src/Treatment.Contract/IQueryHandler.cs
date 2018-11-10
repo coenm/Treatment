@@ -10,6 +10,6 @@
         where TQuery : IQuery<TResult>
     {
         [UsedImplicitly] // using reflection.
-        Task<TResult> HandleAsync(TQuery query, [CanBeNull] IProgress<ProgressData> progress = null, CancellationToken ct = default);
+        Task<TResult> HandleAsync(TQuery query, [CanBeNull] IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken));
     }
 }

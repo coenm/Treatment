@@ -1,8 +1,11 @@
 ﻿namespace Treatment.UI.Core.Configuration
 {
+    using JetBrains.Annotations;
+
     public class ApplicationSettings
     {
-        public bool DelayExecution { get; set; }
+        [NotNull]
+        public DelayExecutionSettings DelayExecution { get; set; }
 
         public string SearchProviderName { get; set; }
 

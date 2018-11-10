@@ -23,7 +23,7 @@
             this.searchProviderFactories = searchProviderFactories.ToList();
         }
 
-        public Task<List<SearchProviderInfo>> HandleAsync(GetAllSearchProvidersQuery query, IProgress<ProgressData> progress = null, CancellationToken ct = default)
+        public Task<List<SearchProviderInfo>> HandleAsync(GetAllSearchProvidersQuery query, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
         {
             var orderedFactories = searchProviderFactories.OrderBy(f => f.Priority).ToList();
 

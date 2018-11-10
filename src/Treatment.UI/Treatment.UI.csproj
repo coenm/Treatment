@@ -332,6 +332,7 @@
     </ApplicationDefinition>
     <Compile Include="Behavior\FolderDialogBehavior.cs" />
     <Compile Include="Behavior\InitializeViewModelBehavior.cs" />
+    <Compile Include="Core\Configuration\DelayExecutionSettings.cs" />
     <Compile Include="Implementations\Configuration\CacheConfigurationServiceDecorator.cs" />
     <Compile Include="Implementations\Configuration\ConcurrentConfigurationServiceDecorator.cs" />
     <Compile Include="Implementations\Configuration\FileBasedConfigurationService.cs" />
@@ -348,7 +349,7 @@
     <Compile Include="Implementations\Configuration\VerifyAndFixFilenameDecorator.cs" />
     <Compile Include="Implementations\Delay\CommandHandlerDelayDecorator.cs" />
     <Compile Include="Implementations\Delay\IDelayService.cs" />
-    <Compile Include="Implementations\Delay\RandomDelayService.cs" />
+    <Compile Include="Implementations\Delay\RandomConfigurableDelayService.cs" />
     <Compile Include="Implementations\Delay\UpdateDelayStatusModelDecorator.cs" />
     <Compile Include="Model\IStatusFullModel.cs" />
     <Compile Include="Model\StatusModelLogDecorator.cs" />

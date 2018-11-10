@@ -48,9 +48,6 @@
             OpenSettings = new OpenSettingsCommand(showInDialog, configurationService, WorkingDirectory);
             Initialize = new CapturingExceptionAsyncCommand(async () =>
             {
-                Logger.Debug("init");
-                Logger.Info("init");
-                Logger.Error("init");
                 await Task.WhenAll(
                         ProjectCollection.Initialize.ExecuteAsync(null),
                         StatusViewModel.Initialize.ExecuteAsync(null))

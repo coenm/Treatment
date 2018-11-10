@@ -27,7 +27,7 @@
             searchProviderFactories = versionControlProviderFactories.ToList();
         }
 
-        public Task<List<VersionControlProviderInfo>> HandleAsync(GetAllVersionControlProvidersQuery query, IProgress<ProgressData> progress = null, CancellationToken ct = default)
+        public Task<List<VersionControlProviderInfo>> HandleAsync(GetAllVersionControlProvidersQuery query, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
         {
             return Task.FromResult(searchProviderFactories
                                    .OrderBy(f => f.Priority)

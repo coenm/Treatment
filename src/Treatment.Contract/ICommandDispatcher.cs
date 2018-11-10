@@ -8,7 +8,7 @@
 
     public interface ICommandDispatcher
     {
-        Task ExecuteAsync<TCommand>([NotNull] TCommand command, [CanBeNull] IProgress<ProgressData> progress = null, CancellationToken ct = default)
+        Task ExecuteAsync<TCommand>([NotNull] TCommand command, [CanBeNull] IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
             where TCommand : class, ICommand;
     }
 }

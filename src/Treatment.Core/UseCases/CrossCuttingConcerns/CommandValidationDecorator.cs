@@ -27,7 +27,7 @@
         }
 
         [DebuggerStepThrough]
-        public Task ExecuteAsync(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)
+        public Task ExecuteAsync(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
         {
             validator.ValidateAndThrow(command);
 
