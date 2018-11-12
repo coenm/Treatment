@@ -10,6 +10,6 @@
     public interface ICommandHandler<TCommand>
         where TCommand : ICommand
     {
-        Task ExecuteAsync(TCommand command, [CanBeNull] IProgress<ProgressData> progress = null, CancellationToken ct = default);
+        Task ExecuteAsync([NotNull] TCommand command, [CanBeNull] IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken));
     }
 }

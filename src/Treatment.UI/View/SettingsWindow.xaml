@@ -6,13 +6,17 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:valueConverters="clr-namespace:Treatment.UI.ValueConverters"
         xmlns:viewModel="clr-namespace:Treatment.UI.ViewModel"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:behavior="clr-namespace:Treatment.UI.Behavior"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
         Title="Treatment - Settings"
         Height="255" Width="500"
+        MinHeight="255" MinWidth="500"
         d:DataContext="{d:DesignInstance Type=viewModel:ApplicationSettingsViewModel}"
 >
+
   <Window.Resources>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <valueConverters:NullVisibilityConverter x:Key="NullVisibilityConverter" />
@@ -37,6 +41,8 @@
         <RowDefinition Height="{StaticResource SettingRowHeight}" />
         <RowDefinition Height="{StaticResource SettingRowHeight}" />
         <RowDefinition Height="{StaticResource SettingRowHeight}" />
+        <RowDefinition Height="{StaticResource SettingRowHeight}" />
+        <RowDefinition Height="{StaticResource SettingRowHeight}" />
       </Grid.RowDefinitions>
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto" />
@@ -45,12 +51,16 @@
       </Grid.ColumnDefinitions>
 
       <Label Grid.Row="0" Grid.Column="0" Content="Root directory" />
-      <TextBox Grid.Row="0" Grid.Column="1" Margin="2"
-                Text="{Binding Path=RootDirectory}" />
-      <Button Grid.Row="0" Grid.Column="2" Margin="2" ToolTip="Browse (doesn't work yet!)">
-        <fa:ImageAwesome  MaxWidth="15" MaxHeight="15"
-                         Icon="EllipsisH"
-                         VerticalAlignment="Center" HorizontalAlignment="Center" />
+      <TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Path=RootDirectory}" />
+      <Button Grid.Row="0" Grid.Column="2" Margin="2" ToolTip="Browse">
+        <Button.Content>
+          <fa:ImageAwesome  MaxWidth="15" MaxHeight="15"
+                            Icon="EllipsisH"
+                            VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </Button.Content>
+        <i:Interaction.Behaviors>
+          <behavior:FolderDialogBehavior FolderName="{Binding Path=RootDirectory, Mode=TwoWay}"/>
+        </i:Interaction.Behaviors>
       </Button>
 
       <Label Grid.Row="1" Grid.Column="0" Content="Search Provider" />
@@ -71,11 +81,16 @@
       <fa:ImageAwesome Grid.Row="2" Grid.Column="2" MaxWidth="15" MaxHeight="15"
                        Icon="Spinner" Spin="True" SpinDuration="1"
                        VerticalAlignment="Center" HorizontalAlignment="Center"
-                       Visibility="{Binding Path=GetVersionControlProvidersTask.IsNotCompleted, Converter={StaticResource BooleanVisibilityConverter}, ConverterParameter=Hidden}"
-      />
+                       Visibility="{Binding Path=GetVersionControlProvidersTask.IsNotCompleted, Converter={StaticResource BooleanVisibilityConverter}, ConverterParameter=Hidden}"/>
 
       <Label Grid.Row="3" Grid.Column="0" Content="Delay execution" />
       <CheckBox Grid.Row="3" Grid.Column="1" Margin="2" IsChecked="{Binding Path=DelayExecution}" />
+
+      <Label Grid.Row="4" Grid.Column="0" Content="Minimum delay in milliseconds" />
+      <TextBox Grid.Row="4" Grid.Column="1" Margin="2" Text="{Binding Path=DelayMinMilliseconds}" IsEnabled="{Binding Path=DelayExecution}"/>
+
+      <Label Grid.Row="5" Grid.Column="0" Content="Maximum delay in milliseconds" />
+      <TextBox Grid.Row="5" Grid.Column="1" Margin="2" Text="{Binding Path=DelayMaxMilliseconds}" IsEnabled="{Binding Path=DelayExecution}"/>
     </Grid>
 
   <StackPanel Grid.Row="1"  Orientation="Horizontal" HorizontalAlignment="Right">

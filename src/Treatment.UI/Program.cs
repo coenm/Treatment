@@ -58,6 +58,7 @@
             // not sure if both are the same instance.
             container.Register<IStatusReadModel, StatusModel>(Lifestyle.Singleton);
             container.Register<IStatusFullModel, StatusModel>(Lifestyle.Singleton);
+            container.RegisterDecorator<IStatusFullModel, StatusModelLogDecorator>(Lifestyle.Singleton);
 
             container.RegisterSingleton<IModelEditor, EditModelInDialog>();
 
@@ -91,15 +92,12 @@
         private static void RegisterUserInterfaceDependencies([NotNull] Container container)
         {
             DebugGuard.NotNull(container, nameof(container));
-
             container.RegisterSingleton<ISearchProviderNameOption, AppConfigConfiguration>();
-            container.RegisterSingleton<IConfiguration, AppConfigConfiguration>();
         }
 
         private static void RegisterDelay([NotNull] Container container)
         {
             DebugGuard.NotNull(container, nameof(container));
-
             DelayCommandExecution.Register(container);
         }
 

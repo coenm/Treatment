@@ -1,14 +1,17 @@
 ﻿namespace Treatment.Plugin.Svn.Implementation
 {
+    using JetBrains.Annotations;
     using Treatment.Contract.Plugin.SourceControl;
     using Treatment.Core.Interfaces;
+    using Treatment.Helpers.Guards;
 
     internal class SvnSourceControlFactory : ISourceControlAbstractFactory
     {
         private readonly IFileSystem filesystem;
 
-        public SvnSourceControlFactory(IFileSystem filesystem)
+        public SvnSourceControlFactory([NotNull] IFileSystem filesystem)
         {
+            Guard.NotNull(filesystem, nameof(filesystem));
             this.filesystem = filesystem;
         }
 

@@ -22,14 +22,21 @@
             this.container = container;
         }
 
-        public async Task ExecuteAsync<TCommand>(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)
+        public async Task ExecuteAsync<TCommand>(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
             where TCommand : class, ICommand
         {
             Guard.NotNull(command, nameof(command));
 
-            var commandHandler = container.GetInstance<ICommandHandler<TCommand>>();
-
-            await commandHandler.ExecuteAsync(command, null, ct).ConfigureAwait(false);
+            try
+            {
+                var commandHandler = container.GetInstance<ICommandHandler<TCommand>>();
+                await commandHandler.ExecuteAsync(command, progress, ct).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

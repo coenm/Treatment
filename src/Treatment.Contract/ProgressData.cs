@@ -4,25 +4,42 @@
 
     public struct ProgressData
     {
-        public ProgressData(int currentStep, int totalSteps, [CanBeNull] string message = null)
+        private ProgressData(ProgressDataPosition position, ProgressState state)
         {
-            CurrentStep = currentStep;
-            TotalSteps = totalSteps;
-            Message = message;
+            Position = position;
+            State = state;
         }
 
-        public ProgressData(string message)
+        public ProgressState State { get; }
+
+        public ProgressDataPosition Position { get; }
+
+        [MustUseReturnValue]
+        [PublicAPI]
+        public static ProgressData InProgressWithoutPosition()
         {
-            CurrentStep = null;
-            TotalSteps = null;
-            Message = message;
+            return InProgress(ProgressDataPosition.NoPosition);
         }
 
-        public int? CurrentStep { get; }
+        [MustUseReturnValue]
+        [PublicAPI]
+        public static ProgressData InProgress(ProgressDataPosition position)
+        {
+            return new ProgressData(position, ProgressState.Busy);
+        }
 
-        public int? TotalSteps { get; }
+        [MustUseReturnValue]
+        [PublicAPI]
+        public static ProgressData FinishedSuccessfully()
+        {
+            return new ProgressData(ProgressDataPosition.NoPosition, ProgressState.FinishedSuccessfully);
+        }
 
-        [CanBeNull]
-        public string Message { get; }
+        [MustUseReturnValue]
+        [PublicAPI]
+        public static ProgressData FinishedWithError(ProgressDataPosition position)
+        {
+            return new ProgressData(position, ProgressState.FinishedWithError);
+        }
     }
 }

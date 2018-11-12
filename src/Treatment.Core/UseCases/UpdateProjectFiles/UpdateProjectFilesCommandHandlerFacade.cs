@@ -33,7 +33,7 @@
             this.fileSearcher = fileSearcher;
         }
 
-        public async Task ExecuteAsync(UpdateProjectFilesCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)
+        public async Task ExecuteAsync(UpdateProjectFilesCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
         {
             // so if progress is null, we don't have to decorate the filesystem and file searcher.
             // create the 'real' command handler and let it handle the command.
@@ -64,6 +64,7 @@
             [NotNull] private readonly IFileSystem filesystem;
             [NotNull] private readonly IFileSearch fileSearch;
             [NotNull] private readonly IProgress<ProgressData> progress;
+            [NotNull] private ProgressDataPosition position;
 
             private int foundFileCount;
             private int currentIndex;
@@ -81,11 +82,12 @@
                 this.fileSearch = fileSearch;
                 this.progress = progress;
                 foundFileCount = 0;
+                position = new ProgressDataPosition(0, 0);
             }
 
             public void Dispose()
             {
-                progress.Report(new ProgressData("Done"));
+                progress.Report(ProgressData.FinishedSuccessfully());
             }
 
             bool IFileSystem.FileExists(string filename) => filesystem.FileExists(filename);
@@ -96,14 +98,13 @@
 
             string IFileSystem.GetFileContent(string filename)
             {
-                currentIndex++;
-                progress.Report(new ProgressData(currentIndex, foundFileCount, $"Processing '{filename}'"));
+                position = position.CreateIncrementalPosition();
+                progress.Report(ProgressData.InProgress(position));
                 return filesystem.GetFileContent(filename);
             }
 
             void IFileSystem.SaveContent(string filename, string content)
             {
-                progress.Report(new ProgressData(currentIndex, foundFileCount, $"File {filename} updated"));
                 filesystem.SaveContent(filename, content);
             }
 
@@ -113,15 +114,11 @@
 
             string[] IFileSearch.FindFilesIncludingSubdirectories(string rootPath, string mask)
             {
-                progress.Report(new ProgressData($"Find cs files within directory {rootPath}"));
-
                 var result = fileSearch.FindFilesIncludingSubdirectories(rootPath, mask);
 
                 foundFileCount = result.Length;
                 currentIndex = 0;
-
-                if (foundFileCount == 0)
-                    progress.Report(new ProgressData("No files found"));
+                position = new ProgressDataPosition(currentIndex, foundFileCount);
 
                 return result;
             }

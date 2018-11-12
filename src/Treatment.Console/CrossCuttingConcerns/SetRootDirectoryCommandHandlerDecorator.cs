@@ -19,7 +19,7 @@
             this.decoratee = decoratee;
         }
 
-        public async Task ExecuteAsync(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)
+        public async Task ExecuteAsync(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
         {
             if (command is IDirectoryProperty directoryCommand)
                 rootDirSanitizer.SetRootDir(directoryCommand.Directory);

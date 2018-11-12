@@ -1,5 +1,6 @@
 ﻿namespace Treatment.UI.Implementations.Configuration
 {
+    using System;
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
@@ -20,6 +21,8 @@
 
             syncLock = new AsyncLock();
         }
+
+        public IObservable<bool> ConfigurationChanged => decoratee.ConfigurationChanged;
 
         public async Task<ApplicationSettings> GetAsync()
         {

@@ -22,12 +22,19 @@
 
             Name = name;
             Path = path;
+
+            Progress = new ProgressViewModel();
+
             FixCsProjectFiles = new CapturingExceptionAsyncCommand(
-                async _ => await commandDispatcher.ExecuteAsync(new UpdateProjectFilesCommand(Path)),
+                async _ => await commandDispatcher.ExecuteAsync(
+                    new UpdateProjectFilesCommand(Path),
+                    new Progress<ProgressData>(data => (Progress as ProgressViewModel)?.Update(data))),
                 _ => TaskRunning == false);
 
             RemoveNewAppConfig = new CapturingExceptionAsyncCommand(
-                async _ => await commandDispatcher.ExecuteAsync(new CleanAppConfigCommand(Path)),
+                async _ => await commandDispatcher.ExecuteAsync(
+                    new CleanAppConfigCommand(Path),
+                    new Progress<ProgressData>(data => (Progress as ProgressViewModel)?.Update(data))),
                 _ => TaskRunning == false);
 
             commandWatch = new ExecutingAsyncCommandsComposition();
@@ -45,6 +52,9 @@
         public string Name { get; }
 
         public string Path { get; }
+
+        [UsedImplicitly]
+        public IProgressViewModel Progress { get; }
 
         [UsedImplicitly]
         public CapturingExceptionAsyncCommand FixCsProjectFiles { get; }

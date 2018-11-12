@@ -5,30 +5,15 @@
 
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
 
-    internal class AppConfigConfiguration : IConfiguration, ISearchProviderNameOption
+    internal class AppConfigConfiguration : ISearchProviderNameOption
     {
-        public string RootPath
-        {
-            get
-            {
-                try
-                {
-                    return ConfigurationManager.AppSettings.Get("RootPath");
-                }
-                catch (Exception)
-                {
-                    return null;
-                }
-            }
-        }
-
         public string SearchProviderName
         {
             get
             {
                 try
                 {
-                    return ConfigurationManager.AppSettings.Get("SearchProviderName");
+                    return ConfigurationManager.AppSettings.Get("DefaultSearchProviderName");
                 }
                 catch (Exception)
                 {

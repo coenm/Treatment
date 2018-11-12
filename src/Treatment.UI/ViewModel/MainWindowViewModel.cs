@@ -5,6 +5,7 @@
 
     using JetBrains.Annotations;
     using Nito.Mvvm;
+    using NLog;
     using Treatment.Contract;
     using Treatment.Helpers.Guards;
     using Treatment.UI.Core.Configuration;
@@ -15,17 +16,15 @@
 
     public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel, IInitializableViewModel
     {
-        [NotNull] private readonly IProgress<ProgressData> progressFixCsProjectFiles;
+        [NotNull] private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public MainWindowViewModel(
             [NotNull] IStatusViewModel statusViewModel,
             [NotNull] IProjectCollectionViewModel projectCollectionViewModel,
             [NotNull] IConfigurationService configurationService,
-            [NotNull] IConfiguration configuration,
             [NotNull] IModelEditor showInDialog)
         {
             Guard.NotNull(configurationService, nameof(configurationService));
-            Guard.NotNull(configuration, nameof(configuration));
             Guard.NotNull(showInDialog, nameof(showInDialog));
             Guard.NotNull(projectCollectionViewModel, nameof(projectCollectionViewModel));
             Guard.NotNull(statusViewModel, nameof(statusViewModel));
@@ -33,16 +32,8 @@
             ProjectCollection = projectCollectionViewModel;
             StatusViewModel = statusViewModel;
 
-            progressFixCsProjectFiles = new Progress<ProgressData>(data =>
-            {
-                if (string.IsNullOrEmpty(data.Message))
-                    return;
-
-                // THIS IS PROBABLY NOT THE WAY TO DO THIS..
-                FixCsProjectFilesLog += data.Message + Environment.NewLine;
-            });
-
-            WorkingDirectory = configuration.RootPath ?? string.Empty;
+            WorkingDirectory = string.Empty;
+            Logger.Info("ctor");
 
             OpenSettings = new OpenSettingsCommand(showInDialog, configurationService, WorkingDirectory);
             Initialize = new CapturingExceptionAsyncCommand(async () =>
@@ -63,12 +54,6 @@
         ICommand IInitializableViewModel.Initialize => Initialize;
 
         public CapturingExceptionAsyncCommand Initialize { get; }
-
-        public string FixCsProjectFilesLog
-        {
-            get => Properties.Get(string.Empty);
-            set => Properties.Set(value);
-        }
 
         public string WorkingDirectory
         {

@@ -37,13 +37,25 @@
             this.cleanSingleAppConfig = cleanSingleAppConfig;
         }
 
-        public async Task ExecuteAsync(CleanAppConfigCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)
+        public async Task ExecuteAsync(CleanAppConfigCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
         {
-            var projectFiles = GetCsFiles(command.Directory);
+            Guard.NotNull(command, nameof(command));
+
+            progress?.Report(ProgressData.InProgressWithoutPosition());
+            var projectFiles = GetCsFiles(command.Directory).ToArray();
+
+            progress?.Report(ProgressData.InProgressWithoutPosition());
             var appConfigFiles = GetAppConfigFiles(command.Directory);
+
+            var count = projectFiles.Length;
+
+            var position = new ProgressDataPosition(0, count);
 
             foreach (var projectFile in projectFiles)
             {
+                progress?.Report(ProgressData.InProgress(position));
+                position = position.CreateIncrementalPosition();
+
                 var path = Path.GetDirectoryName(projectFile);
 
                 var appConfigFile = appConfigFiles.SingleOrDefault(file => Path.GetDirectoryName(file) == path);
@@ -52,6 +64,8 @@
 
                 await HandleProjectFileAsync(projectFile, appConfigFile).ConfigureAwait(false);
             }
+
+            progress?.Report(ProgressData.FinishedSuccessfully());
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

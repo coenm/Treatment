@@ -1,5 +1,6 @@
 ﻿namespace Treatment.UI.Implementations.Configuration
 {
+    using System;
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
@@ -18,6 +19,8 @@
             this.decoratee = decoratee;
             cachedSettings = null;
         }
+
+        public IObservable<bool> ConfigurationChanged => decoratee.ConfigurationChanged;
 
         public async Task<ApplicationSettings> GetAsync()
         {

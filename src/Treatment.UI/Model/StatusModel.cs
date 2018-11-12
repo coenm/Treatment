@@ -52,18 +52,18 @@
             Interlocked.Increment(ref delayProcessCounter);
             Updated?.Invoke(this, EventArgs.Empty);
 
-            return new IncrementDecrementDelay(() =>
+            return new InvokeActionOnDisposal(() =>
             {
                 Interlocked.Decrement(ref delayProcessCounter);
                 Updated?.Invoke(this, EventArgs.Empty);
             });
         }
 
-        private class IncrementDecrementDelay : IDisposable
+        private class InvokeActionOnDisposal : IDisposable
         {
             private readonly Action actionToInvokeOnDisposal;
 
-            public IncrementDecrementDelay([NotNull] Action actionToInvokeOnDisposal)
+            public InvokeActionOnDisposal([NotNull] Action actionToInvokeOnDisposal)
             {
                 this.actionToInvokeOnDisposal = actionToInvokeOnDisposal;
             }

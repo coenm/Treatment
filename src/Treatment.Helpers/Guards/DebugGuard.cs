@@ -1,12 +1,16 @@
 ﻿namespace Treatment.Helpers.Guards
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
+
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Provides methods to protect against invalid parameters for a DEBUG build.
     /// </summary>
     [DebuggerStepThrough]
+    [PublicAPI]
     public static class DebugGuard
     {
         /// <summary>
@@ -18,10 +22,53 @@
         /// <param name="parameterName">The name of the parameter that is to be checked.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="value"/> is null.</exception>
         [Conditional("DEBUG")]
+        [ContractAnnotation("=> value:notnull")]
         public static void NotNull<T>(T value, string parameterName)
             where T : class
         {
             Guard.NotNull(value, parameterName);
+        }
+
+        /// <summary>
+        /// Ensures that the target value is not null, empty, or whitespace.
+        /// </summary>
+        /// <param name="value">The target string, which should be checked against being null or empty.</param>
+        /// <param name="parameterName">Name of the parameter.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="value"/> is empty or contains only blanks.</exception>
+        [Conditional("DEBUG")]
+        [ContractAnnotation("=> value:notnull")]
+        public static void NotNullOrWhiteSpace(string value, string parameterName)
+        {
+            Guard.NotNullOrWhiteSpace(value, parameterName);
+        }
+
+        /// <summary>
+        /// Ensures that the enumeration is not null or empty.
+        /// </summary>
+        /// <typeparam name="T">The type of objects in the <paramref name="value"/>.</typeparam>
+        /// <param name="value">The target enumeration, which should be checked against being null or empty.</param>
+        /// <param name="parameterName">Name of the parameter.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="value"/> is empty.</exception>
+        [Conditional("DEBUG")]
+        [ContractAnnotation("=> value:notnull")]
+        public static void NotNullOrEmpty<T>(ICollection<T> value, string parameterName)
+        {
+            Guard.NotNullOrEmpty(value, parameterName);
+        }
+
+        /// <summary>
+        /// Ensures that the nullable <paramref name="value"/> has a value.
+        /// </summary>
+        /// <typeparam name="T">Type of the target <paramref name="value"/>.</typeparam>
+        /// <param name="value">The target object, which cannot be null.</param>
+        /// <param name="parameterName">The name of the parameter that is to be checked.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="value"/> is null.</exception>
+        public static void HasValue<T>(T? value, string parameterName)
+            where T : struct
+        {
+            Guard.HasValue(value, parameterName);
         }
 
         /// <summary>
@@ -103,6 +150,22 @@
            where TValue : IComparable<TValue>
         {
             Guard.MustBeBetweenOrEqualTo(value, min, max, parameterName);
+        }
+
+        /// <summary>
+        /// Verifies that the specified value is greater than a minimum value
+        /// and throws an exception if it is not.
+        /// </summary>
+        /// <param name="value1">The target value, which should be validated.</param>
+        /// <param name="value2">The minimum value.</param>
+        /// <param name="parameterName">The name of the parameter that is to be checked.</param>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="value"/> is less than the minimum value.</exception>
+        [Conditional("DEBUG")]
+        public static void MustBeEqualTo<TValue>(TValue value1, TValue value2, string parameterName)
+            where TValue : IComparable<TValue>
+        {
+            Guard.MustBeEqualTo(value1, value2, parameterName);
         }
 
         /// <summary>
