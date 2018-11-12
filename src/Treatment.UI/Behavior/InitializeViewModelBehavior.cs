@@ -1,12 +1,12 @@
 ﻿namespace Treatment.UI.Behavior
 {
     using System;
-    using System.IO;
     using System.Windows;
     using System.Windows.Interactivity;
 
     using JetBrains.Annotations;
     using Treatment.UI.Framework.ViewModel;
+
     public class InitializeViewModelBehavior : Behavior<Window>
     {
         private IDisposable registration;

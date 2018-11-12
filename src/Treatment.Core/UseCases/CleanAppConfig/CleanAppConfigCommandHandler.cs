@@ -41,19 +41,20 @@
         {
             Guard.NotNull(command, nameof(command));
 
-            progress?.Report(new ProgressData(-1, -1, "Finding csharp files."));
+            progress?.Report(ProgressData.InProgressWithoutPosition());
             var projectFiles = GetCsFiles(command.Directory).ToArray();
 
-            progress?.Report(new ProgressData(-1, -1, "Finding app.config files."));
+            progress?.Report(ProgressData.InProgressWithoutPosition());
             var appConfigFiles = GetAppConfigFiles(command.Directory);
 
             var count = projectFiles.Length;
-            var index = 0;
+
+            var position = new ProgressDataPosition(0, count);
 
             foreach (var projectFile in projectFiles)
             {
-                progress?.Report(new ProgressData(index, count, $"Processing {projectFile}."));
-                index++;
+                progress?.Report(ProgressData.InProgress(position));
+                position = position.CreateIncrementalPosition();
 
                 var path = Path.GetDirectoryName(projectFile);
 
@@ -64,7 +65,7 @@
                 await HandleProjectFileAsync(projectFile, appConfigFile).ConfigureAwait(false);
             }
 
-            progress?.Report(new ProgressData(count, count, "Done."));
+            progress?.Report(ProgressData.FinishedSuccessfully());
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -45,11 +45,7 @@
             var config = await GetConfigurationAsync();
 
             if (config != null && config.DelayExecution.Enabled)
-            {
-                progress?.Report(new ProgressData("Intentionally delay the execution of the command."));
                 await delayService.DelayAsync(ct).ConfigureAwait(false);
-                progress?.Report(new ProgressData("Delayed the execution enough.."));
-            }
 
             await decoratee.ExecuteAsync(command, progress, ct).ConfigureAwait(false);
         }

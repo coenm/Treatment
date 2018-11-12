@@ -20,5 +20,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Treatment.Helpers\Treatment.Helpers.csproj" />
+  </ItemGroup>
 
 </Project>

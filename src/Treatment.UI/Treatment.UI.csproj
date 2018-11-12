@@ -359,6 +359,7 @@
     <Compile Include="Framework\ExecutingAsyncCommandsComposition.cs" />
     <Compile Include="ValueConverters\BooleanVisibilityConverter.cs" />
     <Compile Include="Framework\ViewModel\IInitializableViewModel.cs" />
+    <Compile Include="ViewModel\IProgressViewModel.cs" />
     <Compile Include="ViewModel\IProjectCollectionViewModel.cs" />
     <Compile Include="ViewModel\IProjectViewModelFactory.cs" />
     <Compile Include="Model\IStatusReadModel.cs" />

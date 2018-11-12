@@ -17,7 +17,6 @@
     public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel, IInitializableViewModel
     {
         [NotNull] private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        [NotNull] private readonly IProgress<ProgressData> progressFixCsProjectFiles;
 
         public MainWindowViewModel(
             [NotNull] IStatusViewModel statusViewModel,
@@ -32,15 +31,6 @@
 
             ProjectCollection = projectCollectionViewModel;
             StatusViewModel = statusViewModel;
-
-            progressFixCsProjectFiles = new Progress<ProgressData>(data =>
-            {
-                if (string.IsNullOrEmpty(data.Message))
-                    return;
-
-                // THIS IS PROBABLY NOT THE WAY TO DO THIS..
-                FixCsProjectFilesLog += data.Message + Environment.NewLine;
-            });
 
             WorkingDirectory = string.Empty;
             Logger.Info("ctor");
@@ -64,12 +54,6 @@
         ICommand IInitializableViewModel.Initialize => Initialize;
 
         public CapturingExceptionAsyncCommand Initialize { get; }
-
-        public string FixCsProjectFilesLog
-        {
-            get => Properties.Get(string.Empty);
-            set => Properties.Set(value);
-        }
 
         public string WorkingDirectory
         {
