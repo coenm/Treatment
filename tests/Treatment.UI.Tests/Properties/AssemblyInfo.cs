@@ -1,6 +1,9 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 
+using ApprovalTests.Namers;
+using ApprovalTests.Reporters;
+
 [assembly: AssemblyTitle("Treatment.UI.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
@@ -17,3 +20,6 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+
+[assembly: UseApprovalSubdirectory("Approvals")]
+[assembly: UseReporter(typeof(XUnit2Reporter))]
