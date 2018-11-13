@@ -8,7 +8,7 @@
     using System.Runtime.CompilerServices;
     using System.Threading;
     using System.Threading.Tasks;
-
+    using Core.Bootstrap.Plugin;
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
 
@@ -127,16 +127,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void RegisterPlugins()
         {
-            var pluginDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory);
-
-            var pluginAssemblies = new DirectoryInfo(pluginDirectory)
-                                   .GetFiles()
-                                   .Where(file =>
-                                              file.Name.StartsWith("Treatment.Plugin.")
-                                              &&
-                                              file.Extension.ToLower() == ".dll")
-                                   .Select(file => Assembly.Load(AssemblyName.GetAssemblyName(file.FullName)));
-
+            var pluginAssemblies = PluginFinder.FindPluginAssemblies(Path.Combine(AppDomain.CurrentDomain.BaseDirectory));
             Container.RegisterPackages(pluginAssemblies);
         }
     }
