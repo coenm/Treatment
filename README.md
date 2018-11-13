@@ -119,3 +119,4 @@ These (superficial) validations are done using the [FluentValidation](https://ww
 - Improve performance by processing multiple csproj files in parallel;
 - Improve functionality by other fixes in the csproj files (app.config settings).
 - ~~Replace `ListSearchProvidersCommand` command with a query and let the `Treatment.Console` project decide how to display the result.~~
+- ~~Experiment with [ApprovalTests](https://github.com/approvals/ApprovalTests.Net) to test WPF views.~~
