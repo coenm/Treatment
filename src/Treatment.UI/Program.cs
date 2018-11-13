@@ -11,6 +11,7 @@
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
     using Treatment.Core.Bootstrap;
+    using Treatment.Core.Bootstrap.Plugin;
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
     using Treatment.Helpers.Guards;
     using Treatment.UI.Core.Configuration;
@@ -105,16 +106,7 @@
         {
             DebugGuard.NotNull(container, nameof(container));
 
-            var pluginDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory);
-
-            var pluginAssemblies = new DirectoryInfo(pluginDirectory)
-                                   .GetFiles()
-                                   .Where(file =>
-                                              file.Name.StartsWith("Treatment.Plugin.")
-                                              &&
-                                              file.Extension.ToLower() == ".dll")
-                                   .Select(file => Assembly.Load(AssemblyName.GetAssemblyName(file.FullName)));
-
+            var pluginAssemblies = PluginFinder.FindPluginAssemblies(Path.Combine(AppDomain.CurrentDomain.BaseDirectory));
             container.RegisterPackages(pluginAssemblies);
         }
 
