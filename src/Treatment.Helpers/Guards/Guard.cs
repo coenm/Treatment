@@ -90,7 +90,7 @@
         /// <param name="max">The maximum value.</param>
         /// <param name="parameterName">The name of the parameter that is to be checked.</param>
         /// <typeparam name="TValue">The type of the value.</typeparam>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="value"/> is greater than the maximum value.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="value"/> is greater than the maximum value.</exception>
         [MethodImpl(InliningOptions.ShortMethod)]
         public static void MustBeLessThan<TValue>(TValue value, TValue max, string parameterName)
             where TValue : IComparable<TValue>
@@ -107,7 +107,7 @@
         /// <param name="max">The maximum value.</param>
         /// <param name="parameterName">The name of the parameter that is to be checked.</param>
         /// <typeparam name="TValue">The type of the value.</typeparam>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="value"/> is greater than the maximum value.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="value"/> is greater than the maximum value.</exception>
         [MethodImpl(InliningOptions.ShortMethod)]
         public static void MustBeLessThanOrEqualTo<TValue>(TValue value, TValue max, string parameterName)
             where TValue : IComparable<TValue>
@@ -124,7 +124,7 @@
         /// <param name="min">The minimum value.</param>
         /// <param name="parameterName">The name of the parameter that is to be checked.</param>
         /// <typeparam name="TValue">The type of the value.</typeparam>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="value"/> is less than the minimum value.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="value"/> is less than the minimum value.</exception>
         [MethodImpl(InliningOptions.ShortMethod)]
         public static void MustBeGreaterThan<TValue>(TValue value, TValue min, string parameterName)
             where TValue : IComparable<TValue>
@@ -145,7 +145,7 @@
         /// <param name="min">The minimum value.</param>
         /// <param name="parameterName">The name of the parameter that is to be checked.</param>
         /// <typeparam name="TValue">The type of the value.</typeparam>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="value"/> is less than the minimum value.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="value"/> is less than the minimum value.</exception>
         [MethodImpl(InliningOptions.ShortMethod)]
         public static void MustBeGreaterThanOrEqualTo<TValue>(TValue value, TValue min, string parameterName)
             where TValue : IComparable<TValue>
@@ -167,7 +167,7 @@
         /// <param name="max">The maximum value.</param>
         /// <param name="parameterName">The name of the parameter that is to be checked.</param>
         /// <typeparam name="TValue">The type of the value.</typeparam>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="value"/> is less than the minimum value of greater than the maximum value.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="value"/> is less than the minimum value of greater than the maximum value.</exception>
         [MethodImpl(InliningOptions.ShortMethod)]
         public static void MustBeBetweenOrEqualTo<TValue>(TValue value, TValue min, TValue max, string parameterName)
             where TValue : IComparable<TValue>
@@ -187,7 +187,7 @@
         /// <param name="value2">Second value</param>
         /// <param name="parameterName">The name of the parameter that is to be checked.</param>
         /// <typeparam name="TValue">The type of the value.</typeparam>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="value1"/> is not equal to <paramref name="value2"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="value1"/> is not equal to <paramref name="value2"/>.</exception>
         [MethodImpl(InliningOptions.ShortMethod)]
         public static void MustBeEqualTo<TValue>(TValue value1, TValue value2, string parameterName)
             where TValue : IComparable<TValue>
