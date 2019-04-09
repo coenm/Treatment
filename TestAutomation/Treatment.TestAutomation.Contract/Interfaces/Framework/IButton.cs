@@ -1,9 +1,6 @@
 ﻿namespace Treatment.TestAutomation.Contract.Interfaces.Framework
 {
-    public interface IButton
+    public interface IButton : IUiElement
     {
-        bool IsEnabled { get; }
-        double Width { get; }
-        double Height { get; }
     }
 }

@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="ButtonAdapter.cs" />
     <Compile Include="MainWindowTestAutomationView.cs" />
+    <Compile Include="ProjectListViewAdapter.cs" />
     <Compile Include="TestAutomationPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -46,18 +46,10 @@
         void RegisterMainView([NotNull] ITestAutomationView instance);
     }
 
-    [Serializable]
-    internal class CouldNotFindFieldException : Exception
-    {
-        public CouldNotFindFieldException(string fieldName)
-        {}
-    }
-
     internal class TestAutomationAgent : ITestAutomationAgent
     {
         public TestAutomationAgent()
         {
-
         }
 
         public void RegisterMainView([NotNull] ITestAutomationView instance)

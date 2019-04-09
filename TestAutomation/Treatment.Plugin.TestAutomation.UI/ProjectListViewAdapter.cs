@@ -1,16 +1,15 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI
 {
-    using System.Windows.Controls;
-
+    using Helpers.Guards;
     using JetBrains.Annotations;
-    using Treatment.Helpers.Guards;
-    using Treatment.TestAutomation.Contract.Interfaces.Framework;
+    using Treatment.TestAutomation.Contract.Interfaces.Treatment;
+    using Treatment.UI.UserControls;
 
-    public class ButtonAdapter : IButton
+    internal class ProjectListViewAdapter : IProjectListView
     {
-        [NotNull] private readonly Button item;
+        [NotNull] private readonly ProjectListView item;
 
-        public ButtonAdapter([NotNull] Button item)
+        public ProjectListViewAdapter([NotNull] ProjectListView item)
         {
             Guard.NotNull(item, nameof(item));
             this.item = item;
