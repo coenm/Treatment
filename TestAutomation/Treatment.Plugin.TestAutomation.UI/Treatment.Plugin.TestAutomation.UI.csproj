@@ -71,6 +71,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ButtonAdapter.cs" />
+    <Compile Include="MainWindowTestAutomationView.cs" />
     <Compile Include="TestAutomationPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -93,6 +95,10 @@
     <ProjectReference Include="..\..\src\Treatment.UI\Treatment.UI.csproj">
       <Project>{3C621AFB-C34D-40A6-8EC9-C61F3B3C96FD}</Project>
       <Name>Treatment.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Treatment.TestAutomation.Contract\Treatment.TestAutomation.Contract.csproj">
+      <Project>{12D4EAB0-48D1-4AB6-9F14-00E9734B1630}</Project>
+      <Name>Treatment.TestAutomation.Contract</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
