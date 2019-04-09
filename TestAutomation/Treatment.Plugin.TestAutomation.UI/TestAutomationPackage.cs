@@ -5,7 +5,7 @@
     using SimpleInjector.Advanced;
     using SimpleInjector.Packaging;
     using Treatment.Helpers.Guards;
-    using Treatment.TestAutomation.Contract;
+    using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.UI.View;
 
     using Container = SimpleInjector.Container;

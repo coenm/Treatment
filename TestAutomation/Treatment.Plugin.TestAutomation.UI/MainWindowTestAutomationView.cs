@@ -8,10 +8,11 @@
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using Treatment.TestAutomation.Contract;
+    using Treatment.TestAutomation.Contract.Interfaces.Framework;
+    using Treatment.TestAutomation.Contract.Interfaces.Treatment;
     using Treatment.UI.View;
 
-    internal class MainWindowTestAutomationView : ITestAutomationView
+    internal class MainWindowTestAutomationView : IMainView
     {
         [NotNull] private readonly MainWindow mainWindow;
 

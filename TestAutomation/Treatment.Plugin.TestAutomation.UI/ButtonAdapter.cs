@@ -4,7 +4,7 @@
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using Treatment.TestAutomation.Contract;
+    using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
     public class ButtonAdapter : IButton
     {

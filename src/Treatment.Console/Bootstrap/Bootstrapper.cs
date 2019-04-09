@@ -8,7 +8,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using Core.Bootstrap.Plugin;
+    using Treatment.Core.Bootstrap.Plugin;
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
 

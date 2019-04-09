@@ -4,24 +4,24 @@
     using System.IO;
     using System.Windows;
     using System.Windows.Threading;
-    using Core.Bootstrap;
-    using Core.Bootstrap.Plugin;
-    using Core.DefaultPluginImplementation.FileSearch;
-    using Helpers.Guards;
+    using Treatment.Core.Bootstrap;
+    using Treatment.Core.Bootstrap.Plugin;
+    using Treatment.Core.DefaultPluginImplementation.FileSearch;
+    using Treatment.Helpers.Guards;
     using JetBrains.Annotations;
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
-    using UI;
-    using UI.Core.Configuration;
-    using UI.Framework;
-    using UI.Framework.SynchronizationContext;
-    using UI.Framework.View;
-    using UI.Framework.ViewModel;
-    using UI.Implementations.Configuration;
-    using UI.Implementations.Delay;
-    using UI.Model;
-    using UI.View;
-    using UI.ViewModel;
+    using Treatment.UI;
+    using Treatment.UI.Core.Configuration;
+    using Treatment.UI.Framework;
+    using Treatment.UI.Framework.SynchronizationContext;
+    using Treatment.UI.Framework.View;
+    using Treatment.UI.Framework.ViewModel;
+    using Treatment.UI.Implementations.Configuration;
+    using Treatment.UI.Implementations.Delay;
+    using Treatment.UI.Model;
+    using Treatment.UI.View;
+    using Treatment.UI.ViewModel;
 
     public static class Program
     {
