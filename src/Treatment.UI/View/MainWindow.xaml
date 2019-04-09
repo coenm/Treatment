@@ -41,7 +41,7 @@
     </Grid.RowDefinitions>
 
     <Label Grid.Row="0" Grid.Column="0" Content="Settings:"/>
-    <Button Command="{Binding Path=OpenSettings}" Grid.Row="0" Grid.Column="1">
+    <Button Name="OpenSettingsButton" Command="{Binding Path=OpenSettings}" Grid.Row="0" Grid.Column="1">
       <Button.Content>
         <StackPanel Orientation="Horizontal">
           <fa:ImageAwesome MaxWidth="15" MaxHeight="15"
