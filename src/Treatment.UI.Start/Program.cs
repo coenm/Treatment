@@ -137,7 +137,7 @@
             {
                 // Log the exception and exit
 #if DEBUG
-                throw;
+                //throw;
 #endif
             }
         }

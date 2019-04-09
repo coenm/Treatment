@@ -9,6 +9,7 @@
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.Contract;
+    using Treatment.TestAutomation.Contract.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
     using Treatment.UI.UserControls;
@@ -17,12 +18,15 @@
     internal class MainWindowTestAutomationView : IMainView
     {
         [NotNull] private readonly MainWindow mainWindow;
+        [NotNull] private readonly IEventPublisher eventPublisher;
 
-        public MainWindowTestAutomationView([NotNull] MainWindow mainWindow)
+        public MainWindowTestAutomationView([NotNull] MainWindow mainWindow, [NotNull] IEventPublisher eventPublisher)
         {
             Guard.NotNull(mainWindow, nameof(mainWindow));
+            Guard.NotNull(eventPublisher, nameof(eventPublisher));
 
             this.mainWindow = mainWindow;
+            this.eventPublisher = eventPublisher;
 
             mainWindow.Closing += MainWindowOnClosing;
             mainWindow.Closed += MainWindowOnClosed;
@@ -34,7 +38,7 @@
 
             var sod = fields2.SingleOrDefault();
             if (sod != null)
-                OpenSettingsButton = new ButtonAdapter((Button)sod.GetValue(mainWindow));
+                OpenSettingsButton = new ButtonAdapter((Button)sod.GetValue(mainWindow), eventPublisher);
             else
                 throw new CouldNotFindFieldException(nameof(OpenSettingsButton));
 

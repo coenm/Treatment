@@ -98,7 +98,7 @@
       <Name>Treatment.UI</Name>
     </ProjectReference>
     <ProjectReference Include="..\Treatment.TestAutomation.Contract\Treatment.TestAutomation.Contract.csproj">
-      <Project>{12D4EAB0-48D1-4AB6-9F14-00E9734B1630}</Project>
+      <Project>{0e179745-c4b4-41a0-8ef4-08a5f18fb8cd}</Project>
       <Name>Treatment.TestAutomation.Contract</Name>
     </ProjectReference>
   </ItemGroup>

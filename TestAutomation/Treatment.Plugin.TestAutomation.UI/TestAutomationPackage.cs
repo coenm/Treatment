@@ -5,6 +5,7 @@
     using SimpleInjector.Advanced;
     using SimpleInjector.Packaging;
     using Treatment.Helpers.Guards;
+    using Treatment.TestAutomation.Contract.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.UI.View;
 
@@ -22,6 +23,9 @@
 
             this.container = container;
 
+            container.RegisterSingleton<IEventPublisher, ZeroMqEventPublisher>();
+            container.RegisterSingleton<IZeroMqContextService, ZeroMqContextService>();
+
             container.RegisterSingleton<ITestAutomationAgent, TestAutomationAgent>();
 
             container.Options.RegisterResolveInterceptor(CollectResolvedMainWindowInstance, c => c.Producer.ServiceType == typeof(MainWindow));
@@ -34,8 +38,10 @@
             if (!(instance is MainWindow mainWindow))
                 return instance;
 
+            var publisher = container.GetInstance<IEventPublisher>();
             var agent = container.GetInstance<ITestAutomationAgent>();
-            agent.RegisterMainView(new MainWindowTestAutomationView(mainWindow));
+
+            agent.RegisterMainView(new MainWindowTestAutomationView(mainWindow, publisher));
 
             return instance;
         }
