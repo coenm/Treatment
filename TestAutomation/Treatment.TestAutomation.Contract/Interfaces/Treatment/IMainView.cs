@@ -2,6 +2,11 @@
 {
     using Framework;
 
+    public interface ITreatmentTestAutomationApplicationContext : ITestAutomationApplicationContext
+    {
+
+    }
+
     public interface IMainView : ITestAutomationView
     {
         IButton OpenSettingsButton { get; }

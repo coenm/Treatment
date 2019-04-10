@@ -52,17 +52,83 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CustomMarshalers" />
+    <Reference Include="Dapplo.Log, Version=1.3.0.0, Culture=neutral, PublicKeyToken=26f3e58a2304a05e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dapplo.Log.1.3.11\lib\net45\Dapplo.Log.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapplo.Windows, Version=0.8.0.0, Culture=neutral, PublicKeyToken=5be96fed5d651fee, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dapplo.Windows.0.8.18\lib\net471\Dapplo.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapplo.Windows.Com, Version=0.8.0.0, Culture=neutral, PublicKeyToken=5be96fed5d651fee, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dapplo.Windows.Com.0.8.18\lib\net471\Dapplo.Windows.Com.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapplo.Windows.Common, Version=0.8.0.0, Culture=neutral, PublicKeyToken=5be96fed5d651fee, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dapplo.Windows.Common.0.8.18\lib\net471\Dapplo.Windows.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapplo.Windows.DesktopWindowsManager, Version=0.8.0.0, Culture=neutral, PublicKeyToken=5be96fed5d651fee, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dapplo.Windows.DesktopWindowsManager.0.8.18\lib\net471\Dapplo.Windows.DesktopWindowsManager.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapplo.Windows.Gdi32, Version=0.8.0.0, Culture=neutral, PublicKeyToken=5be96fed5d651fee, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dapplo.Windows.Gdi32.0.8.18\lib\net471\Dapplo.Windows.Gdi32.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapplo.Windows.Input, Version=0.8.0.0, Culture=neutral, PublicKeyToken=5be96fed5d651fee, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dapplo.Windows.Input.0.8.18\lib\net471\Dapplo.Windows.Input.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapplo.Windows.Kernel32, Version=0.8.0.0, Culture=neutral, PublicKeyToken=5be96fed5d651fee, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dapplo.Windows.Kernel32.0.8.18\lib\net471\Dapplo.Windows.Kernel32.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapplo.Windows.Messages, Version=0.8.0.0, Culture=neutral, PublicKeyToken=5be96fed5d651fee, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dapplo.Windows.Messages.0.8.18\lib\net471\Dapplo.Windows.Messages.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapplo.Windows.User32, Version=0.8.0.0, Culture=neutral, PublicKeyToken=5be96fed5d651fee, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dapplo.Windows.User32.0.8.18\lib\net471\Dapplo.Windows.User32.dll</HintPath>
+    </Reference>
     <Reference Include="JetBrains.Annotations, Version=2019.1.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\..\packages\JetBrains.Annotations.2019.1.1\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.AppContext" />
+    <Reference Include="System.Console" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO" />
+    <Reference Include="System.IO.FileSystem" />
+    <Reference Include="System.IO.FileSystem.Primitives" />
+    <Reference Include="System.Linq" />
+    <Reference Include="System.Linq.Expressions" />
+    <Reference Include="System.Reactive, Version=4.1.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Reactive.4.1.3\lib\net46\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Extensions" />
+    <Reference Include="System.Runtime.InteropServices" />
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System.Security.Cryptography.Encoding" />
+    <Reference Include="System.Security.Cryptography.Primitives" />
+    <Reference Include="System.Security.Cryptography.X509Certificates" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.ReaderWriter" />
+    <Reference Include="WindowsBase" />
     <Reference Include="ZeroMQ, Version=4.1.0.31, Culture=neutral, PublicKeyToken=4a9630883fd6c563, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ZeroMQ.4.1.0.31\lib\net40\ZeroMQ.dll</HintPath>
     </Reference>
@@ -70,16 +136,26 @@
   <ItemGroup>
     <Compile Include="CouldNotFindFieldException.cs" />
     <Compile Include="Infrastructure\IEventPublisher.cs" />
+    <Compile Include="Infrastructure\ITestAutomationEndpoint.cs" />
     <Compile Include="Infrastructure\IZeroMqContextService.cs" />
     <Compile Include="Infrastructure\TestAutomationEvent.cs" />
     <Compile Include="Infrastructure\ZeroMqContextService.cs" />
+    <Compile Include="Infrastructure\ZeroMqEndpoint.cs" />
     <Compile Include="Infrastructure\ZeroMqEventPublisher.cs" />
+    <Compile Include="InputHandlers\KeyboardHandler.cs" />
     <Compile Include="Interfaces\Framework\IButton.cs" />
+    <Compile Include="Interfaces\Framework\IKeyboard.cs" />
+    <Compile Include="Interfaces\Framework\IKeyDown.cs" />
+    <Compile Include="Interfaces\Framework\IMessageBox.cs" />
+    <Compile Include="Interfaces\Framework\IMouse.cs" />
     <Compile Include="Interfaces\Framework\ITestAutomation.cs" />
+    <Compile Include="Interfaces\Framework\ITestAutomationApplicationContext.cs" />
     <Compile Include="Interfaces\Framework\ITestAutomationView.cs" />
     <Compile Include="Interfaces\Framework\IUiElement.cs" />
+    <Compile Include="Interfaces\Framework\Extensions\KeyboardExtensions.cs" />
     <Compile Include="Interfaces\Treatment\IMainView.cs" />
     <Compile Include="Interfaces\Treatment\IProjectListView.cs" />
+    <Compile Include="InputHandlers\MouseHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

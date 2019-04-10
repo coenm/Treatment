@@ -25,6 +25,7 @@
 
             container.RegisterSingleton<IEventPublisher, ZeroMqEventPublisher>();
             container.RegisterSingleton<IZeroMqContextService, ZeroMqContextService>();
+            container.RegisterSingleton<ITestAutomationEndpoint, ZeroMqEndpoint>();
 
             container.RegisterSingleton<ITestAutomationAgent, TestAutomationAgent>();
 
@@ -54,8 +55,17 @@
 
     internal class TestAutomationAgent : ITestAutomationAgent
     {
-        public TestAutomationAgent()
+        [NotNull] private readonly ITestAutomationEndpoint endpoint;
+
+        public TestAutomationAgent([NotNull] ITestAutomationEndpoint endpoint)
         {
+            Guard.NotNull(endpoint, nameof(endpoint));
+            this.endpoint = endpoint;
+        }
+
+        public void Start()
+        {
+            endpoint.StartAccepting();
         }
 
         public void RegisterMainView([NotNull] ITestAutomationView instance)
