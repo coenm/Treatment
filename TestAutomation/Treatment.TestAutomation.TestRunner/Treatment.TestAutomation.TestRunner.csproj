@@ -49,8 +49,8 @@
     <Reference Include="FluentAssertions, Version=5.4.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\FluentAssertions.5.4.2\lib\net47\FluentAssertions.dll</HintPath>
     </Reference>
-    <Reference Include="JetBrains.Annotations, Version=2018.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JetBrains.Annotations.2018.2.1\lib\net20\JetBrains.Annotations.dll</HintPath>
+    <Reference Include="JetBrains.Annotations, Version=2019.1.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JetBrains.Annotations.2019.1.1\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore" />
@@ -103,9 +103,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IntegrationTest.cs" />
+    <Compile Include="KeyboardExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -119,9 +121,17 @@
       <Project>{3A303101-54C7-493E-8A9C-D7DE22C32568}</Project>
       <Name>Treatment.Contract</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Treatment.Helpers\Treatment.Helpers.csproj">
+      <Project>{0d6db733-febe-4f4d-9d99-3808517a9f7f}</Project>
+      <Name>Treatment.Helpers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Treatment.UI\Treatment.UI.csproj">
       <Project>{3C621AFB-C34D-40A6-8EC9-C61F3B3C96FD}</Project>
       <Name>Treatment.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestAgent\TestAgent.csproj">
+      <Project>{3E27FBFA-EC3B-4B1F-94E2-5BFBCFEDC27F}</Project>
+      <Name>TestAgent</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

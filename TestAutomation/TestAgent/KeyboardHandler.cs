@@ -1,8 +1,8 @@
-﻿namespace Treatment.TestAutomation.Contract.InputHandlers
+﻿namespace TestAgent
 {
     using Dapplo.Windows.Input.Enums;
     using Dapplo.Windows.Input.Keyboard;
-    using Interfaces.Framework;
+    using Interface;
 
     public class KeyboardHandler : IKeyboard
     {

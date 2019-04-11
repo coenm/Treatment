@@ -1,7 +1,8 @@
-﻿namespace Treatment.TestAutomation.Contract.Interfaces.Framework.Extensions
+﻿namespace Treatment.TestAutomation.TestRunner
 {
-    using global::Treatment.Helpers.Guards;
     using JetBrains.Annotations;
+    using TestAgent.Interface;
+    using Treatment.Helpers.Guards;
 
     public static class KeyboardExtensions
     {

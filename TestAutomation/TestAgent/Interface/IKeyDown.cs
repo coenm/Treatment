@@ -1,4 +1,4 @@
-﻿namespace Treatment.TestAutomation.Contract.Interfaces.Framework
+﻿namespace TestAgent.Interface
 {
     public interface IKeyDown
     {

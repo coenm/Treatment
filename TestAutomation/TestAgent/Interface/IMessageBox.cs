@@ -1,7 +1,5 @@
-﻿namespace Treatment.TestAutomation.Contract.Interfaces.Framework
+﻿namespace TestAgent.Interface
 {
-    using System.Reflection;
-
     public interface IMessageBox
     {
         string Title { get; }

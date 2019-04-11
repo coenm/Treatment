@@ -1,10 +1,9 @@
-﻿namespace Treatment.TestAutomation.Contract.InputHandlers
+﻿namespace TestAgent
 {
     using Dapplo.Windows.Common.Structs;
     using Dapplo.Windows.Input.Enums;
     using Dapplo.Windows.Input.Mouse;
-    using Interfaces.Framework;
-
+    using Interface;
 
     public class MouseHandler : IMouse
     {
