@@ -1,4 +1,4 @@
-﻿namespace TestAgent
+﻿namespace TestAgent.Implementation.Keyboard
 {
     using Dapplo.Windows.Input.Enums;
     using Dapplo.Windows.Input.Keyboard;
@@ -8,7 +8,7 @@
     {
         public IKeyboard KeyPress(char c)
         {
-            KeyboardInputGenerator.KeyPresses(VirtualKeyCode.KeyA);
+            KeyboardInputGenerator.KeyPresses(VirtualKeyCode.KeyA, VirtualKeyCode.Shift);
             return this;
         }
 

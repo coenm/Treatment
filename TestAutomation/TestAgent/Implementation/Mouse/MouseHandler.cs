@@ -1,4 +1,4 @@
-﻿namespace TestAgent
+﻿namespace TestAgent.Implementation.Mouse
 {
     using Dapplo.Windows.Common.Structs;
     using Dapplo.Windows.Input.Enums;

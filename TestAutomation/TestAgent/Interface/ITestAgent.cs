@@ -28,8 +28,10 @@
 
         bool TryDeleteFile(string filename);
 
+        string TakeScreenShot();
 
+        bool StartSut();
+
+        bool StopSut();
     }
-
-
 }

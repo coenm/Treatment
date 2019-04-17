@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>TestAgent</RootNamespace>
     <AssemblyName>TestAgent</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -99,13 +99,15 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementation\MessageBox\Win32MessageBoxAdapter.cs" />
     <Compile Include="Interface\IKeyboard.cs" />
     <Compile Include="Interface\IKeyDown.cs" />
     <Compile Include="Interface\IMessageBox.cs" />
     <Compile Include="Interface\IMouse.cs" />
     <Compile Include="Interface\ITestAgent.cs" />
-    <Compile Include="KeyboardHandler.cs" />
-    <Compile Include="MouseHandler.cs" />
+    <Compile Include="Implementation\Keyboard\KeyboardHandler.cs" />
+    <Compile Include="Implementation\Mouse\MouseHandler.cs" />
+    <Compile Include="Interface\MessageBoxButtons.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -113,7 +115,9 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ZeroMqProxy\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Treatment.Helpers\Treatment.Helpers.csproj">
       <Project>{0d6db733-febe-4f4d-9d99-3808517a9f7f}</Project>

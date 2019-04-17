@@ -25,10 +25,8 @@
 
                 try
                 {
-                    ZError error;
-
                     //Terminate is blocking
-                    if (!context.Terminate(out error))
+                    if (!context.Terminate(out var error))
                         throw new ZException(error, "Could not Terminate the ZeroMq context");
 
                     context.Dispose();

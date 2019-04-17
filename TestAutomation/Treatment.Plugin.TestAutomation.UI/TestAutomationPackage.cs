@@ -21,6 +21,24 @@
             if (container == null)
                 return;
 
+            try
+            {
+                var enabledString = Environment.GetEnvironmentVariable("ENABLE_TEST_AUTOMATION") ?? string.Empty;
+
+                if (string.IsNullOrWhiteSpace(enabledString))
+                    return;
+
+                if (!bool.TryParse(enabledString, out var testAutomationEnabled))
+                    return;
+
+                if (!testAutomationEnabled)
+                    return;
+            }
+            catch (Exception e)
+            {
+                return;
+            }
+
             this.container = container;
 
             container.RegisterSingleton<IEventPublisher, ZeroMqEventPublisher>();
