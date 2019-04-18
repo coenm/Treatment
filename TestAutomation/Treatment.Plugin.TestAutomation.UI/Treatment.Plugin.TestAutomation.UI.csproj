@@ -69,9 +69,19 @@
     <Reference Include="System.Transactions" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="ZeroMQ, Version=4.1.0.31, Culture=neutral, PublicKeyToken=4a9630883fd6c563, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ZeroMQ.4.1.0.31\lib\net40\ZeroMQ.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ButtonAdapter.cs" />
+    <Compile Include="Infrastructure\Infrastructure\IEventPublisher.cs" />
+    <Compile Include="Infrastructure\Infrastructure\ITestAutomationEndpoint.cs" />
+    <Compile Include="Infrastructure\Infrastructure\IZeroMqContextService.cs" />
+    <Compile Include="Infrastructure\Infrastructure\TestAutomationEvent.cs" />
+    <Compile Include="Infrastructure\Infrastructure\ZeroMqContextService.cs" />
+    <Compile Include="Infrastructure\Infrastructure\ZeroMqEndpoint.cs" />
+    <Compile Include="Infrastructure\Infrastructure\ZeroMqEventPublisher.cs" />
     <Compile Include="MainWindowTestAutomationView.cs" />
     <Compile Include="ProjectListViewAdapter.cs" />
     <Compile Include="Settings\EnvironmentVariableSettings.cs" />
@@ -114,5 +124,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <Error Condition="!Exists('..\..\packages\ZeroMQ.4.1.0.31\build\net40\ZeroMQ.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\ZeroMQ.4.1.0.31\build\net40\ZeroMQ.targets'))" />
   </Target>
+  <Import Project="..\..\packages\ZeroMQ.4.1.0.31\build\net40\ZeroMQ.targets" Condition="Exists('..\..\packages\ZeroMQ.4.1.0.31\build\net40\ZeroMQ.targets')" />
 </Project>

@@ -1,25 +1,29 @@
-﻿namespace Treatment.TestAutomation.Contract.Infrastructure
+﻿namespace Treatment.Plugin.TestAutomation.UI.Infrastructure.Infrastructure
 {
     using System;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
 
-    using Helpers.Guards;
     using JetBrains.Annotations;
+    using Settings;
+    using Treatment.Helpers.Guards;
     using ZeroMQ;
 
-    public class ZeroMqEventPublisher : IEventPublisher, IDisposable
+    internal class ZeroMqEventPublisher : IEventPublisher, IDisposable
     {
-        [NotNull] private readonly IZeroMqContextService contextService;
-        [CanBeNull] private ZSocket socket;
         private readonly object syncLock = new object();
+        [NotNull] private readonly IZeroMqContextService contextService;
+        private readonly ITestAutomationSettings settings;
+        [CanBeNull] private ZSocket socket;
 
-        public ZeroMqEventPublisher([NotNull] IZeroMqContextService contextService)
+        public ZeroMqEventPublisher([NotNull] IZeroMqContextService contextService, [NotNull] ITestAutomationSettings settings)
         {
             Guard.NotNull(contextService, nameof(contextService));
+            Guard.NotNull(settings, nameof(settings));
 
             this.contextService = contextService;
+            this.settings = settings;
         }
 
         public void Initialize()
@@ -38,9 +42,9 @@
                     Linger = TimeSpan.Zero,
                 };
 
-                socket.Bind("tcp://*:7770");
+                socket.Bind(settings.ZeroMqEventPublishSocket);
 
-                Thread.Sleep(1);
+                Thread.Sleep(10);
             }
         }
 
@@ -50,14 +54,12 @@
 
             var frames = new List<ZFrame>
             {
-                new ZFrame(evt.Control),
-                new ZFrame(evt.EventName),
-                new ZFrame(evt.Payload.ToString()),
+                new ZFrame(evt.Control ?? string.Empty),
+                new ZFrame(evt.EventName ?? string.Empty),
+                new ZFrame(evt.Payload?.ToString() ?? string.Empty),
             };
 
-            ZError error;
-
-            if (!socket.Send(new ZMessage(frames), ZSocketFlags.DontWait, out error))
+            if (!socket.Send(new ZMessage(frames), ZSocketFlags.DontWait, out ZError _))
             {
                 return Task.FromResult(false);
             }

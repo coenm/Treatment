@@ -6,8 +6,8 @@
     using SimpleInjector.Advanced;
     using SimpleInjector.Packaging;
     using Treatment.Helpers.Guards;
+    using Treatment.Plugin.TestAutomation.UI.Infrastructure.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Settings;
-    using Treatment.TestAutomation.Contract.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.UI.View;
 
@@ -49,6 +49,13 @@
 
             var publisher = container.GetInstance<IEventPublisher>();
             var agent = container.GetInstance<ITestAutomationAgent>();
+
+            publisher.PublishAsync(new TestAutomationEvent
+            {
+                Control = "READY",
+                EventName = null,
+                Payload = null,
+            });
 
             agent.RegisterMainView(new MainWindowTestAutomationView(mainWindow, publisher));
 

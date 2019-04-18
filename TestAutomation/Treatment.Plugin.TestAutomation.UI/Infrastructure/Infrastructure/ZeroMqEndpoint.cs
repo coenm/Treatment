@@ -1,8 +1,9 @@
-﻿namespace Treatment.TestAutomation.Contract.Infrastructure
+﻿namespace Treatment.Plugin.TestAutomation.UI.Infrastructure.Infrastructure
 {
     using System;
-    using Helpers.Guards;
+
     using JetBrains.Annotations;
+    using Treatment.Helpers.Guards;
 
     public class ZeroMqEndpoint : ITestAutomationEndpoint, IDisposable
     {

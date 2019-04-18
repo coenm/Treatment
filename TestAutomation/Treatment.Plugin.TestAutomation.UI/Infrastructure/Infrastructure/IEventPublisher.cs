@@ -1,4 +1,4 @@
-﻿namespace Treatment.TestAutomation.Contract.Infrastructure
+﻿namespace Treatment.Plugin.TestAutomation.UI.Infrastructure.Infrastructure
 {
     using System.Threading.Tasks;
     using JetBrains.Annotations;

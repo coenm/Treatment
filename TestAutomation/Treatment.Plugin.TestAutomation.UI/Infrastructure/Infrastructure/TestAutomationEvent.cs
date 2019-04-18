@@ -1,4 +1,4 @@
-﻿namespace Treatment.TestAutomation.Contract.Infrastructure
+﻿namespace Treatment.Plugin.TestAutomation.UI.Infrastructure.Infrastructure
 {
     public class TestAutomationEvent
     {

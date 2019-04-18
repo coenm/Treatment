@@ -2,10 +2,10 @@
 {
     using System.Windows;
     using System.Windows.Controls;
-
+    using System.Windows.Input;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using Treatment.TestAutomation.Contract.Infrastructure;
+    using Treatment.Plugin.TestAutomation.UI.Infrastructure.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
     public class ButtonAdapter : IButton
@@ -23,13 +23,65 @@
 
             item.IsEnabledChanged += ItemOnIsEnabledChanged;
             item.Click += ItemOnClick;
+            item.FocusableChanged += ItemFocusableChanged;
+            item.GotFocus += ItemOnGotFocus;
+            item.GotKeyboardFocus += ItemOnGotKeyboardFocus;
+            item.LostKeyboardFocus += ItemOnLostKeyboardFocus;
+        }
+
+        private void ItemOnLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            var evt = new TestAutomationEvent
+            {
+                Control = item.Name,
+                EventName = nameof(item.LostKeyboardFocus),
+                Payload = e.OriginalSource,
+            };
+
+            eventPublisher.PublishAsync(evt);
+        }
+
+        private void ItemOnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            var evt = new TestAutomationEvent
+            {
+                Control = item.Name,
+                EventName = nameof(item.GotKeyboardFocus),
+                Payload = e.OriginalSource,
+            };
+
+            eventPublisher.PublishAsync(evt);
+        }
+
+        private void ItemOnGotFocus(object sender, RoutedEventArgs e)
+        {
+            var evt = new TestAutomationEvent
+            {
+                Control = item.Name,
+                EventName = nameof(item.GotFocus),
+                Payload = e.OriginalSource,
+            };
+
+            eventPublisher.PublishAsync(evt);
+        }
+
+        private void ItemFocusableChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            var evt = new TestAutomationEvent
+            {
+                Control = item.Name,
+                EventName = nameof(item.FocusableChanged),
+                Payload = e.NewValue,
+            };
+
+            eventPublisher.PublishAsync(evt);
         }
 
         private void ItemOnClick(object sender, RoutedEventArgs e)
         {
             var evt = new TestAutomationEvent
             {
-                Control = "name",
+                Control = item.Name,
                 EventName = nameof(item.Click),
                 Payload = e.OriginalSource,
             };
@@ -41,7 +93,7 @@
         {
             var evt = new TestAutomationEvent
             {
-                Control = "name",
+                Control = item.Name,
                 EventName = nameof(item.IsEnabledChanged),
                 Payload = e.NewValue,
             };

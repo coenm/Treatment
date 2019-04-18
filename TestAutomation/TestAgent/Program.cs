@@ -8,6 +8,7 @@ namespace TestAgent
     using System.Reflection;
     using System.Threading;
     using Medallion.Shell;
+    using ZeroMQ;
 
     public static class Program
     {
@@ -19,12 +20,85 @@ namespace TestAgent
 
             if (!File.Exists(executable))
             {
-                Console.WriteLine($"File {executable} doesnt exist.");
+                Console.WriteLine($"File {executable} doesn't exist.");
                 Console.ReadLine();
                 return;
             }
 
-            var cts = new CancellationTokenSource(60000);
+            var mreListening = new ManualResetEvent(false);
+            CancellationTokenSource cts = new CancellationTokenSource();
+
+            Task.Run(() =>
+            {
+                using (var context = new ZContext())
+                using (var subscriber = new ZSocket(context, ZSocketType.SUB))
+                using (cts.Token.Register(() => context.Dispose()))
+                {
+                    subscriber.Connect("tcp://localhost:5556");
+                    subscriber.SubscribeAll();
+
+                    // Process 10 updates
+                    int i = 0;
+
+                    while (true)
+                    {
+                        var zmsg = new ZMessage();
+                        ZError error;
+                        mreListening.Set();
+                        if (!subscriber.ReceiveMessage(ref zmsg, ZSocketFlags.None, out error))
+                        {
+                            Console.WriteLine($" Oops, could not receive a request: {error}");
+                            return;
+                        }
+
+                        using (zmsg)
+                        using (var zmsg2 = zmsg.Duplicate())
+                        {
+                            Console.WriteLine();
+                            Console.WriteLine(DateTime.Now.ToString("HH:mm:ss:fff"));
+                            Console.WriteLine("+" + new string('-', 100 + 2) + "+");
+
+                            bool subscribeUnsubscribe = false;
+                            if (zmsg2.Count == 1 && zmsg2[0].Length == 1)
+                            {
+                                var b = zmsg2.PopAsByte();
+                                var m = "";
+                                if (b == 0x01)
+                                    m = "SUBSCRIBE  (0x01)";
+                                if (b == 0x00)
+                                    m = "UNSUBSCRIBE (0x00)";
+
+                                if (!string.IsNullOrEmpty(m))
+                                {
+                                    subscribeUnsubscribe = true;
+                                    Console.WriteLine($"| {m,-100} |");
+                                }
+                            }
+
+                            if (!subscribeUnsubscribe)
+                            {   //                        if (zmsg.Count >= 5)
+                                //                        {
+                                //                            var s = zmsg[4].ReadString();
+                                //                            Console.WriteLine($"| {s,-100} |");
+                                //                        }
+
+                                foreach (var frame in zmsg)
+                                {
+                                    var s = frame.ReadString();
+                                    Console.WriteLine($"| {s,-100} |");
+                                }
+                            }
+
+                            Console.WriteLine("+" + new string('-', 100 + 2) + "+");
+                            Console.WriteLine(" ");
+                        }
+                    }
+                }
+            });
+
+            mreListening.WaitOne();
+            Thread.Sleep(2000);
+
             var command = Command.Run(
                 executable,
                 new string[0],
@@ -36,8 +110,8 @@ namespace TestAgent
                     {
                         new KeyValuePair<string, string>("ENABLE_TEST_AUTOMATION", "true"),
                         new KeyValuePair<string, string>("TA_KEY", string.Empty),
-                        new KeyValuePair<string, string>("TA_PUBLISH_SOCKET", "tpc://*:123457"), // sut publishes events on this
-                        new KeyValuePair<string, string>("TA_REQ_RSP_SOCKET", "tpc://*:123458"), // sut starts listening for requests on this port.
+                        new KeyValuePair<string, string>("TA_PUBLISH_SOCKET", "tcp://*:5556"), // sut publishes events on this
+                        new KeyValuePair<string, string>("TA_REQ_RSP_SOCKET", "tcp://*:5557"), // sut starts listening for requests on this port.
                     });
                 });
 
@@ -48,6 +122,7 @@ namespace TestAgent
 
             Console.WriteLine("done");
             Console.ReadKey();
+            cts.Cancel();
         }
     }
 }
