@@ -51,7 +51,7 @@
             var publisher = container.GetInstance<IEventPublisher>();
             var agent = container.GetInstance<ITestAutomationAgent>();
 
-            for (int i = 10; i >= 0; i--)
+            for (int i = 5; i >= 0; i--)
             {
                 publisher.PublishAsync(new TestAutomationEvent
                 {

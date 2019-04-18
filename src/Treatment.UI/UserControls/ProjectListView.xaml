@@ -17,7 +17,7 @@
     <valueConverters:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
   </UserControl.Resources>
 
-  <ListView SelectionMode="Extended" ItemsSource="{Binding Path=Projects}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+  <ListView Name="Listview" SelectionMode="Extended" ItemsSource="{Binding Path=Projects}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
     <ListView.View>
       <GridView >
         <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Path=Name}" />

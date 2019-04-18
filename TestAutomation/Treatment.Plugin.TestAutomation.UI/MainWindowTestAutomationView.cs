@@ -46,7 +46,7 @@
             var fields21 = fields11.Where(x => x.FieldType == typeof(ProjectListView)).ToList();
             var item = fields21.SingleOrDefault();
             if (item != null)
-                ProjectList = new ProjectListViewAdapter((ProjectListView)item.GetValue(mainWindow));
+                ProjectList = new ProjectListViewAdapter((ProjectListView)item.GetValue(mainWindow), eventPublisher);
             else
                 throw new CouldNotFindFieldException(nameof(ProjectList));
         }
