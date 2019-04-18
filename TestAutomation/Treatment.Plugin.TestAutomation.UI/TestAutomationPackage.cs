@@ -1,10 +1,12 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI
 {
     using System;
+
     using JetBrains.Annotations;
     using SimpleInjector.Advanced;
     using SimpleInjector.Packaging;
     using Treatment.Helpers.Guards;
+    using Treatment.Plugin.TestAutomation.UI.Settings;
     using Treatment.TestAutomation.Contract.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.UI.View;
@@ -21,26 +23,14 @@
             if (container == null)
                 return;
 
-            try
-            {
-                var enabledString = Environment.GetEnvironmentVariable("ENABLE_TEST_AUTOMATION") ?? string.Empty;
+            var settings = new EnvironmentVariableSettings();
 
-                if (string.IsNullOrWhiteSpace(enabledString))
-                    return;
-
-                if (!bool.TryParse(enabledString, out var testAutomationEnabled))
-                    return;
-
-                if (!testAutomationEnabled)
-                    return;
-            }
-            catch (Exception e)
-            {
+            if (settings.TestAutomationEnabled == false)
                 return;
-            }
 
             this.container = container;
 
+            container.RegisterInstance<ITestAutomationSettings>(settings);
             container.RegisterSingleton<IEventPublisher, ZeroMqEventPublisher>();
             container.RegisterSingleton<IZeroMqContextService, ZeroMqContextService>();
             container.RegisterSingleton<ITestAutomationEndpoint, ZeroMqEndpoint>();

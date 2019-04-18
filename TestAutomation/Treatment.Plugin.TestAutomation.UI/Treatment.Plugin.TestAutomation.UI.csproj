@@ -74,6 +74,8 @@
     <Compile Include="ButtonAdapter.cs" />
     <Compile Include="MainWindowTestAutomationView.cs" />
     <Compile Include="ProjectListViewAdapter.cs" />
+    <Compile Include="Settings\EnvironmentVariableSettings.cs" />
+    <Compile Include="Settings\ITestAutomationSettings.cs" />
     <Compile Include="TestAutomationPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

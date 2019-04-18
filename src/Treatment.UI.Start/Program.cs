@@ -4,13 +4,14 @@
     using System.IO;
     using System.Windows;
     using System.Windows.Threading;
+
+    using JetBrains.Annotations;
+    using SimpleInjector;
+    using SimpleInjector.Lifestyles;
     using Treatment.Core.Bootstrap;
     using Treatment.Core.Bootstrap.Plugin;
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
     using Treatment.Helpers.Guards;
-    using JetBrains.Annotations;
-    using SimpleInjector;
-    using SimpleInjector.Lifestyles;
     using Treatment.UI;
     using Treatment.UI.Core.Configuration;
     using Treatment.UI.Framework;

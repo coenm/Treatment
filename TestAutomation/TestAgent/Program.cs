@@ -35,9 +35,9 @@ namespace TestAgent
                     options.EnvironmentVariables(new[]
                     {
                         new KeyValuePair<string, string>("ENABLE_TEST_AUTOMATION", "true"),
-                        new KeyValuePair<string, string>("TA_AGENT", "tpc://localhost:123456"),
-                        new KeyValuePair<string, string>("SUT_PUBLISH_EVENTS", "tpc://*:123457"), // sut publishes events on this
-                        new KeyValuePair<string, string>("SUT_LISTEN_REQ", "tpc://*:123458"), // sut starts listening for requests on this port.
+                        new KeyValuePair<string, string>("TA_KEY", string.Empty),
+                        new KeyValuePair<string, string>("TA_PUBLISH_SOCKET", "tpc://*:123457"), // sut publishes events on this
+                        new KeyValuePair<string, string>("TA_REQ_RSP_SOCKET", "tpc://*:123458"), // sut starts listening for requests on this port.
                     });
                 });
 

@@ -1,7 +1,7 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI
 {
-    using Helpers.Guards;
     using JetBrains.Annotations;
+    using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
     using Treatment.UI.UserControls;
 
