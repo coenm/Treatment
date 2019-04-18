@@ -1,4 +1,4 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI.Infrastructure.Infrastructure
+﻿namespace Treatment.Plugin.TestAutomation.UI.Infrastructure
 {
     using System;
     using System.Collections.Generic;
@@ -6,8 +6,8 @@
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
-    using Settings;
     using Treatment.Helpers.Guards;
+    using Treatment.Plugin.TestAutomation.UI.Settings;
     using ZeroMQ;
 
     internal class ZeroMqEventPublisher : IEventPublisher, IDisposable
@@ -44,7 +44,7 @@
 
                 socket.Bind(settings.ZeroMqEventPublishSocket);
 
-                Thread.Sleep(10);
+                Thread.Sleep(1);
             }
         }
 

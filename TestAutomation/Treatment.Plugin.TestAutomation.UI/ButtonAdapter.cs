@@ -3,9 +3,10 @@
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
+
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using Treatment.Plugin.TestAutomation.UI.Infrastructure.Infrastructure;
+    using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
     public class ButtonAdapter : IButton

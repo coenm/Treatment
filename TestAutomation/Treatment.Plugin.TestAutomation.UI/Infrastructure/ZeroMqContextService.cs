@@ -1,7 +1,6 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI.Infrastructure.Infrastructure
+﻿namespace Treatment.Plugin.TestAutomation.UI.Infrastructure
 {
     using System;
-
     using ZeroMQ;
 
     public class ZeroMqContextService : IZeroMqContextService

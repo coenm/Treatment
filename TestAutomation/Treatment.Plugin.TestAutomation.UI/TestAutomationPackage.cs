@@ -1,12 +1,13 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI
 {
     using System;
+    using System.Threading;
 
     using JetBrains.Annotations;
     using SimpleInjector.Advanced;
     using SimpleInjector.Packaging;
     using Treatment.Helpers.Guards;
-    using Treatment.Plugin.TestAutomation.UI.Infrastructure.Infrastructure;
+    using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Settings;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.UI.View;
@@ -50,12 +51,18 @@
             var publisher = container.GetInstance<IEventPublisher>();
             var agent = container.GetInstance<ITestAutomationAgent>();
 
-            publisher.PublishAsync(new TestAutomationEvent
+            for (int i = 10; i >= 0; i--)
             {
-                Control = "READY",
-                EventName = null,
-                Payload = null,
-            });
+                publisher.PublishAsync(new TestAutomationEvent
+                {
+                    Control = $"READY in {i} seconds",
+                    EventName = null,
+                    Payload = null,
+                });
+
+                if (i > 0)
+                    Thread.Sleep(1000);
+            }
 
             agent.RegisterMainView(new MainWindowTestAutomationView(mainWindow, publisher));
 

@@ -75,13 +75,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ButtonAdapter.cs" />
-    <Compile Include="Infrastructure\Infrastructure\IEventPublisher.cs" />
-    <Compile Include="Infrastructure\Infrastructure\ITestAutomationEndpoint.cs" />
-    <Compile Include="Infrastructure\Infrastructure\IZeroMqContextService.cs" />
-    <Compile Include="Infrastructure\Infrastructure\TestAutomationEvent.cs" />
-    <Compile Include="Infrastructure\Infrastructure\ZeroMqContextService.cs" />
-    <Compile Include="Infrastructure\Infrastructure\ZeroMqEndpoint.cs" />
-    <Compile Include="Infrastructure\Infrastructure\ZeroMqEventPublisher.cs" />
+    <Compile Include="Infrastructure\IEventPublisher.cs" />
+    <Compile Include="Infrastructure\ITestAutomationEndpoint.cs" />
+    <Compile Include="Infrastructure\IZeroMqContextService.cs" />
+    <Compile Include="Infrastructure\TestAutomationEvent.cs" />
+    <Compile Include="Infrastructure\ZeroMqContextService.cs" />
+    <Compile Include="Infrastructure\ZeroMqEndpoint.cs" />
+    <Compile Include="Infrastructure\ZeroMqEventPublisher.cs" />
     <Compile Include="MainWindowTestAutomationView.cs" />
     <Compile Include="ProjectListViewAdapter.cs" />
     <Compile Include="Settings\EnvironmentVariableSettings.cs" />

@@ -1,4 +1,4 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI.Infrastructure.Infrastructure
+﻿namespace Treatment.Plugin.TestAutomation.UI.Infrastructure
 {
     public interface ITestAutomationEndpoint
     {

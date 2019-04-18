@@ -26,7 +26,7 @@ namespace TestAgent
             }
 
             var mreListening = new ManualResetEvent(false);
-            CancellationTokenSource cts = new CancellationTokenSource();
+            var cts = new CancellationTokenSource();
 
             Task.Run(() =>
             {
@@ -36,9 +36,6 @@ namespace TestAgent
                 {
                     subscriber.Connect("tcp://localhost:5556");
                     subscriber.SubscribeAll();
-
-                    // Process 10 updates
-                    int i = 0;
 
                     while (true)
                     {
@@ -76,12 +73,7 @@ namespace TestAgent
                             }
 
                             if (!subscribeUnsubscribe)
-                            {   //                        if (zmsg.Count >= 5)
-                                //                        {
-                                //                            var s = zmsg[4].ReadString();
-                                //                            Console.WriteLine($"| {s,-100} |");
-                                //                        }
-
+                            {
                                 foreach (var frame in zmsg)
                                 {
                                     var s = frame.ReadString();
@@ -97,7 +89,6 @@ namespace TestAgent
             });
 
             mreListening.WaitOne();
-            Thread.Sleep(2000);
 
             var command = Command.Run(
                 executable,
