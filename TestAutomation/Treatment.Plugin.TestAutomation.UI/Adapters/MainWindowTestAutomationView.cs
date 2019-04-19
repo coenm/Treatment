@@ -1,15 +1,14 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI
+﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters
 {
     using System;
     using System.ComponentModel;
-    using System.Linq;
-    using System.Reflection;
     using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
-    using Treatment.TestAutomation.Contract;
+    using Treatment.Plugin.TestAutomation.UI.Reflection;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
     using Treatment.UI.UserControls;
@@ -31,29 +30,24 @@
             mainWindow.Closing += MainWindowOnClosing;
             mainWindow.Closed += MainWindowOnClosed;
 
-            var fields = mainWindow.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.GetField).ToList();
+            OpenSettingsButton = new ButtonAdapter(
+                FieldsHelper.FindFieldInUiElementByName<Button>(mainWindow, nameof(OpenSettingsButton)),
+                eventPublisher);
 
-            var fields1 = fields.Where(x => x.Name == nameof(OpenSettingsButton)).ToList();
-            var fields2 = fields1.Where(x => x.FieldType == typeof(Button)).ToList();
+            StatusBar = new MainViewStatusBarAdapter(
+                FieldsHelper.FindFieldInUiElementByName<StatusBar>(mainWindow, nameof(StatusBar)),
+                eventPublisher);
 
-            var sod = fields2.SingleOrDefault();
-            if (sod != null)
-                OpenSettingsButton = new ButtonAdapter((Button)sod.GetValue(mainWindow), eventPublisher);
-            else
-                throw new CouldNotFindFieldException(nameof(OpenSettingsButton));
-
-            var fields11 = fields.Where(x => x.Name == nameof(ProjectList)).ToList();
-            var fields21 = fields11.Where(x => x.FieldType == typeof(ProjectListView)).ToList();
-            var item = fields21.SingleOrDefault();
-            if (item != null)
-                ProjectList = new ProjectListViewAdapter((ProjectListView)item.GetValue(mainWindow), eventPublisher);
-            else
-                throw new CouldNotFindFieldException(nameof(ProjectList));
+            ProjectList = new ProjectListViewAdapter(
+                FieldsHelper.FindFieldInUiElementByName<ProjectListView>(mainWindow, nameof(ProjectList)),
+                eventPublisher);
         }
 
         public IButton OpenSettingsButton { get; private set; }
 
         public IProjectListView ProjectList { get; private set; }
+
+        public IMainViewStatusBar StatusBar { get; private set; }
 
         public event CancelEventHandler Closing
         {

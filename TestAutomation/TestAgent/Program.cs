@@ -1,21 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace TestAgent
+﻿namespace TestAgent
 {
+    using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
     using System.Threading;
+    using System.Threading.Tasks;
+
     using Medallion.Shell;
+
     using ZeroMQ;
 
     public static class Program
     {
-        public static void Main(string[] args)
+        private const string SutPublishPort = "5558";
+        private const string SutReqRspPort = "5557";
+
+        public static async Task Main(string[] args)
         {
             var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var treatmentDir = Path.GetFullPath(Path.Combine(currentDir, "..", "..", "..", "..", "src", "Treatment.UI.Start", "bin", "x64", "Debug"));
+            var treatmentDir = currentDir;
+            while (!Directory.Exists(Path.Combine(treatmentDir, "src", "Treatment.UI.Start", "bin", "x64", "Debug")))
+            {
+                treatmentDir = Path.GetFullPath(Path.Combine(treatmentDir, ".."));
+            }
+
+            treatmentDir = Path.GetFullPath(Path.Combine(treatmentDir, "src", "Treatment.UI.Start", "bin", "x64", "Debug"));
             var executable = Path.Combine(treatmentDir, "Treatment.UIStart.exe");
 
             if (!File.Exists(executable))
@@ -28,65 +38,74 @@ namespace TestAgent
             var mreListening = new ManualResetEvent(false);
             var cts = new CancellationTokenSource();
 
-            Task.Run(() =>
+            var task = Task.Run(() =>
             {
                 using (var context = new ZContext())
                 using (var subscriber = new ZSocket(context, ZSocketType.SUB))
-                using (cts.Token.Register(() => context.Dispose()))
+                using (cts.Token.Register(() => subscriber.Dispose()))
                 {
-                    subscriber.Connect("tcp://localhost:5556");
+                    subscriber.Connect($"tcp://localhost:{SutPublishPort}");
                     subscriber.SubscribeAll();
 
-                    while (true)
+                    try
                     {
-                        var zmsg = new ZMessage();
-                        ZError error;
-                        mreListening.Set();
-                        if (!subscriber.ReceiveMessage(ref zmsg, ZSocketFlags.None, out error))
+                        while (true)
                         {
-                            Console.WriteLine($" Oops, could not receive a request: {error}");
-                            return;
-                        }
+                            var zmsg = new ZMessage();
+                            ZError error;
+                            mreListening.Set();
 
-                        using (zmsg)
-                        using (var zmsg2 = zmsg.Duplicate())
-                        {
-                            Console.WriteLine();
-                            Console.WriteLine(DateTime.Now.ToString("HH:mm:ss:fff"));
-                            Console.WriteLine("+" + new string('-', 100 + 2) + "+");
-
-                            bool subscribeUnsubscribe = false;
-                            if (zmsg2.Count == 1 && zmsg2[0].Length == 1)
+                            if (!subscriber.ReceiveMessage(ref zmsg, ZSocketFlags.None, out error))
                             {
-                                var b = zmsg2.PopAsByte();
-                                var m = "";
-                                if (b == 0x01)
-                                    m = "SUBSCRIBE  (0x01)";
-                                if (b == 0x00)
-                                    m = "UNSUBSCRIBE (0x00)";
-
-                                if (!string.IsNullOrEmpty(m))
-                                {
-                                    subscribeUnsubscribe = true;
-                                    Console.WriteLine($"| {m,-100} |");
-                                }
+                                Console.WriteLine($" Oops, could not receive a request: {error}");
+                                return;
                             }
 
-                            if (!subscribeUnsubscribe)
+                            using (zmsg)
+                            using (var zmsg2 = zmsg.Duplicate())
                             {
-                                foreach (var frame in zmsg)
-                                {
-                                    var s = frame.ReadString();
-                                    Console.WriteLine($"| {s,-100} |");
-                                }
-                            }
+                                Console.WriteLine();
+                                Console.WriteLine(DateTime.Now.ToString("HH:mm:ss:fff"));
+                                Console.WriteLine("+" + new string('-', 100 + 2) + "+");
 
-                            Console.WriteLine("+" + new string('-', 100 + 2) + "+");
-                            Console.WriteLine(" ");
+                                bool subscribeUnsubscribe = false;
+                                if (zmsg2.Count == 1 && zmsg2[0].Length == 1)
+                                {
+                                    var b = zmsg2.PopAsByte();
+                                    var m = string.Empty;
+                                    if (b == 0x01)
+                                        m = "SUBSCRIBE  (0x01)";
+                                    if (b == 0x00)
+                                        m = "UNSUBSCRIBE (0x00)";
+
+                                    if (!string.IsNullOrEmpty(m))
+                                    {
+                                        subscribeUnsubscribe = true;
+                                        Console.WriteLine($"| {m,-100} |");
+                                    }
+                                }
+
+                                if (!subscribeUnsubscribe)
+                                {
+                                    foreach (var frame in zmsg)
+                                    {
+                                        var s = frame.ReadString();
+                                        Console.WriteLine($"| {s,-100} |");
+                                    }
+                                }
+
+                                Console.WriteLine("+" + new string('-', 100 + 2) + "+");
+                                Console.WriteLine(" ");
+                            }
                         }
                     }
+                    catch (Exception e)
+                    {
+                        if (!cts.IsCancellationRequested)
+                            Console.WriteLine(e.Message);
+                    }
                 }
-            });
+            }).ConfigureAwait(false);
 
             mreListening.WaitOne();
 
@@ -101,19 +120,20 @@ namespace TestAgent
                     {
                         new KeyValuePair<string, string>("ENABLE_TEST_AUTOMATION", "true"),
                         new KeyValuePair<string, string>("TA_KEY", string.Empty),
-                        new KeyValuePair<string, string>("TA_PUBLISH_SOCKET", "tcp://*:5556"), // sut publishes events on this
-                        new KeyValuePair<string, string>("TA_REQ_RSP_SOCKET", "tcp://*:5557"), // sut starts listening for requests on this port.
+                        new KeyValuePair<string, string>("TA_PUBLISH_SOCKET", $"tcp://*:{SutPublishPort}"), // sut publishes events on this
+                        new KeyValuePair<string, string>("TA_REQ_RSP_SOCKET", $"tcp://*:{SutReqRspPort}"), // sut starts listening for requests on this port.
                     });
                 });
 
-            var result = command.Task.GetAwaiter().GetResult();
+            var result = await command.Task.ConfigureAwait(true);
 
             Console.WriteLine(result.StandardOutput);
             Console.WriteLine(result.StandardError);
 
-            Console.WriteLine("done");
-            Console.ReadKey();
             cts.Cancel();
+            Console.WriteLine("Done. Press enter to exit.");
+            Console.ReadLine();
+            await task;
         }
     }
 }

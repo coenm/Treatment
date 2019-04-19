@@ -7,6 +7,7 @@
     using SimpleInjector.Advanced;
     using SimpleInjector.Packaging;
     using Treatment.Helpers.Guards;
+    using Treatment.Plugin.TestAutomation.UI.Adapters;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Settings;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
@@ -24,7 +25,10 @@
             if (container == null)
                 return;
 
-            var settings = new EnvironmentVariableSettings();
+            ITestAutomationSettings settings = new EnvironmentVariableSettings();
+
+            if (settings.TestAutomationEnabled == false && Environment.UserInteractive)
+                settings = new DummySettings();
 
             if (settings.TestAutomationEnabled == false)
                 return;
@@ -51,13 +55,11 @@
             var publisher = container.GetInstance<IEventPublisher>();
             var agent = container.GetInstance<ITestAutomationAgent>();
 
-            for (int i = 5; i >= 0; i--)
+            for (var i = 3; i >= 0; i--)
             {
                 publisher.PublishAsync(new TestAutomationEvent
                 {
-                    Control = $"READY in {i} seconds",
-                    EventName = null,
-                    Payload = null,
+                    Control = $"Start in {i} seconds",
                 });
 
                 if (i > 0)

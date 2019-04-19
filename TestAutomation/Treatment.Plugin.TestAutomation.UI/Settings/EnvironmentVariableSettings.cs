@@ -30,7 +30,7 @@
         {
             Guard.NotNull(key, nameof(key));
 
-            value = default;
+            value = false;
 
             try
             {
@@ -43,7 +43,6 @@
             }
             catch (Exception)
             {
-                value = default;
                 return false;
             }
         }

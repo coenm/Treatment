@@ -1,24 +1,22 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI
+﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters
 {
     using System.Collections.Specialized;
-    using System.Linq;
-    using System.Reflection;
     using System.Windows;
-    using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
     using System.Windows.Data;
-    using Infrastructure;
+
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using Treatment.TestAutomation.Contract;
+    using Treatment.Plugin.TestAutomation.UI.Infrastructure;
+    using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
-    using Treatment.UI.UserControls;
 
-    internal class ProjectListViewAdapter : IProjectListView
+    internal class MainViewStatusBarAdapter : IMainViewStatusBar
     {
-        [NotNull] private readonly ProjectListView item;
+        [NotNull] private readonly StatusBar item;
         [NotNull] private readonly IEventPublisher eventPublisher;
 
-        public ProjectListViewAdapter([NotNull] ProjectListView item, [NotNull] IEventPublisher eventPublisher)
+        public MainViewStatusBarAdapter([NotNull] StatusBar item, [NotNull] IEventPublisher eventPublisher)
         {
             Guard.NotNull(item, nameof(item));
             Guard.NotNull(eventPublisher, nameof(eventPublisher));
@@ -26,45 +24,39 @@
             this.item = item;
             this.eventPublisher = eventPublisher;
 
-            var fields = item.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.GetField).ToList();
+//            foreach (UIElement child in item.Items)
+//            {
+//                if (child != null)
+//                {
+//                    var result = FieldsHelper.FindFieldInUiElementByNameOrNull<TextBlock>(child, nameof(StatusText));
+//                    if (result != null)
+//                        StatusText = new TextBlockAdapter(result, eventPublisher);
+//                }
+//            }
+//
+//            StatusText = new TextBlockAdapter(
+//                FieldsHelper.FindFieldInUiElementByName<TextBlock>(item, nameof(StatusText)),
+//                eventPublisher);
 
-            var fields1 = fields.Where(x => x.Name == nameof(Listview)).ToList();
-            var fields2 = fields1.Where(x => x.FieldType == typeof(ListView)).ToList();
-
-            var sod = fields2.SingleOrDefault();
-            if (sod != null)
-                Listview = new ListViewAdapter((ListView)sod.GetValue(item), eventPublisher);
-            else
-                throw new CouldNotFindFieldException(nameof(Listview));
-        }
-
-        public bool IsEnabled => item.IsEnabled;
-
-        public double Width => item.Width;
-
-        public double Height => item.Height;
-
-        public ListViewAdapter Listview { get; }
-    }
-
-    internal class ListViewAdapter
-    {
-        [NotNull] private readonly ListView item;
-        [NotNull] private readonly IEventPublisher eventPublisher;
-
-        public ListViewAdapter([NotNull] ListView item, [NotNull] IEventPublisher eventPublisher)
-        {
-            Guard.NotNull(item, nameof(item));
-            Guard.NotNull(eventPublisher, nameof(eventPublisher));
-            this.item = item;
-            this.eventPublisher = eventPublisher;
+//            StatusConfigFilename = new TextBlockAdapter(
+//                FieldsHelper.FindFieldInUiElementByName<TextBlock>(item, nameof(StatusConfigFilename)),
+//                eventPublisher);
+//
+//            StatusDelayProcessCounter = new TextBlockAdapter(
+//                FieldsHelper.FindFieldInUiElementByName<TextBlock>(item, nameof(StatusDelayProcessCounter)),
+//                eventPublisher);
 
             item.Loaded += ItemOnLoaded;
             item.DataContextChanged += ItemOnDataContextChanged;
-            item.SelectionChanged += Item_SelectionChanged;
             item.SourceUpdated += ItemOnSourceUpdated;
             ((INotifyCollectionChanged)item.Items).CollectionChanged += OnCollectionChanged;
         }
+
+        public ITextBlock StatusText { get; }
+
+        public ITextBlock StatusConfigFilename { get; }
+
+        public ITextBlock StatusDelayProcessCounter { get; }
 
         private void Items_CurrentChanged(object sender, System.EventArgs e)
         {
@@ -115,16 +107,6 @@
                 Control = item.Name,
                 EventName = nameof(item.Loaded),
                 Payload = e.Source,
-            });
-        }
-
-        private void Item_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            eventPublisher.PublishAsync(new TestAutomationEvent
-            {
-                Control = item.Name,
-                EventName = nameof(item.SelectionChanged),
-                Payload = e.AddedItems?.Count,
             });
         }
     }

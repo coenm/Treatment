@@ -136,11 +136,14 @@
   <ItemGroup>
     <Compile Include="CouldNotFindFieldException.cs" />
     <Compile Include="Interfaces\Framework\IButton.cs" />
+    <Compile Include="Interfaces\Framework\IStatusBar.cs" />
     <Compile Include="Interfaces\Framework\ITestAutomation.cs" />
     <Compile Include="Interfaces\Framework\ITestAutomationApplicationContext.cs" />
     <Compile Include="Interfaces\Framework\ITestAutomationView.cs" />
+    <Compile Include="Interfaces\Framework\ITextBlock.cs" />
     <Compile Include="Interfaces\Framework\IUiElement.cs" />
     <Compile Include="Interfaces\Treatment\IMainView.cs" />
+    <Compile Include="Interfaces\Treatment\IMainViewStatusBar.cs" />
     <Compile Include="Interfaces\Treatment\IProjectListView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

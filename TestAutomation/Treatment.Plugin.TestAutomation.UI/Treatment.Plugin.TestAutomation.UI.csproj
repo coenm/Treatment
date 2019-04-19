@@ -74,7 +74,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ButtonAdapter.cs" />
+    <Compile Include="Adapters\ButtonAdapter.cs" />
+    <Compile Include="Adapters\ListViewAdapter.cs" />
+    <Compile Include="Adapters\MainWindowTestAutomationView.cs" />
+    <Compile Include="Settings\DummySettings.cs" />
     <Compile Include="Infrastructure\IEventPublisher.cs" />
     <Compile Include="Infrastructure\ITestAutomationEndpoint.cs" />
     <Compile Include="Infrastructure\IZeroMqContextService.cs" />
@@ -82,12 +85,14 @@
     <Compile Include="Infrastructure\ZeroMqContextService.cs" />
     <Compile Include="Infrastructure\ZeroMqEndpoint.cs" />
     <Compile Include="Infrastructure\ZeroMqEventPublisher.cs" />
-    <Compile Include="MainWindowTestAutomationView.cs" />
-    <Compile Include="ProjectListViewAdapter.cs" />
+    <Compile Include="Adapters\ProjectListViewAdapter.cs" />
+    <Compile Include="Reflection\FieldsHelper.cs" />
     <Compile Include="Settings\EnvironmentVariableSettings.cs" />
     <Compile Include="Settings\ITestAutomationSettings.cs" />
+    <Compile Include="Adapters\MainViewStatusBarAdapter.cs" />
     <Compile Include="TestAutomationPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Adapters\TextBlockAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

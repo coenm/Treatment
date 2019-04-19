@@ -4,7 +4,6 @@
 
     public interface ITreatmentTestAutomationApplicationContext : ITestAutomationApplicationContext
     {
-
     }
 
     public interface IMainView : ITestAutomationView
@@ -12,5 +11,7 @@
         IButton OpenSettingsButton { get; }
 
         IProjectListView ProjectList { get; }
+
+        IMainViewStatusBar StatusBar { get; }
     }
 }

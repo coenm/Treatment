@@ -1,4 +1,4 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI
+﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters
 {
     using System.Windows;
     using System.Windows.Controls;
