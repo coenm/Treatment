@@ -14,7 +14,7 @@
     public static class Program
     {
         private const string SutPublishPort = "5558";
-        private const string SutReqRspPort = "5557";
+        private const string SutReqRspPort = "5587";
 
         public static async Task Main(string[] args)
         {

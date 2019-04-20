@@ -5,6 +5,8 @@
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
+    using Microsoft.CodeAnalysis.CSharp.Scripting;
+    using Microsoft.CodeAnalysis.Scripting;
     using SimpleInjector.Advanced;
     using SimpleInjector.Packaging;
     using Treatment.Helpers.Guards;
@@ -76,7 +78,7 @@
 
     internal interface ITestAutomationAgent
     {
-        void RegisterMainView([NotNull] ITestAutomationView instance);
+        void RegisterMainView([NotNull] MainWindowTestAutomationView instance);
 
         void StartAccepting();
 
@@ -85,7 +87,7 @@
 
     internal class TestAutomationAgent : ITestAutomationAgent
     {
-        private ITestAutomationView instance;
+        private MainWindowTestAutomationView instance;
         [CanBeNull] private Task task;
 
         [NotNull] private readonly ITestAutomationSettings settings;
@@ -117,10 +119,42 @@
 
                     if (socket.ReceiveMessage(ref msg, ZSocketFlags.DontWait, out error))
                     {
-                        socket.SendMessage(new ZMessage
+                        var stringmessage = msg[0].ReadString();
+
+                        try
                         {
-                            new ZFrame("result msg"),
-                        });
+//                            .WithReferences(typeof(MainWindowTestAutomationView).Assembly)
+//                                .WithImports("Treatment.Plugin.TestAutomation.UI.Adapters")
+
+                            var result = CSharpScript.EvaluateAsync(
+                                "2+2",
+                                ScriptOptions.Default,
+                                instance,
+                                typeof(MainWindowTestAutomationView)).GetAwaiter().GetResult();
+                            socket.SendMessage(new ZMessage
+                            {
+                                new ZFrame(stringmessage),
+                                new ZFrame(result.ToString()),
+                            });
+                        }
+                        catch (CompilationErrorException e)
+                        {
+                            socket.SendMessage(new ZMessage
+                            {
+                                new ZFrame(stringmessage),
+                                new ZFrame(e.Diagnostics.ToString()),
+                            });
+                        }
+                        catch (Exception e)
+                        {
+                            socket.SendMessage(new ZMessage
+                            {
+                                new ZFrame(stringmessage),
+                                new ZFrame("AI: " + e.Message.ToString()),
+                            });
+                        }
+
+//                        var value = CSharpScript.Eval("X + Y", new Globals { X = 1, Y = 2 });
                     }
                 }
 
@@ -137,7 +171,7 @@
             instance = null;
         }
 
-        public void RegisterMainView([NotNull] ITestAutomationView instance)
+        public void RegisterMainView([NotNull] MainWindowTestAutomationView instance)
         {
             Guard.NotNull(instance, nameof(instance));
             this.instance = instance;
