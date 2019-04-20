@@ -18,17 +18,22 @@
     {
         [NotNull] private readonly MainWindow mainWindow;
         [NotNull] private readonly IEventPublisher eventPublisher;
+        [NotNull] private readonly ITestAutomationAgent agent;
 
-        public MainWindowTestAutomationView([NotNull] MainWindow mainWindow, [NotNull] IEventPublisher eventPublisher)
+        public MainWindowTestAutomationView([NotNull] MainWindow mainWindow, [NotNull] IEventPublisher eventPublisher, [NotNull] ITestAutomationAgent agent)
         {
             Guard.NotNull(mainWindow, nameof(mainWindow));
             Guard.NotNull(eventPublisher, nameof(eventPublisher));
+            Guard.NotNull(agent, nameof(agent));
 
             this.mainWindow = mainWindow;
             this.eventPublisher = eventPublisher;
+            this.agent = agent;
 
             mainWindow.Closing += MainWindowOnClosing;
             mainWindow.Closed += MainWindowOnClosed;
+
+            mainWindow.Closed += (sender, args) => agent.Stop();
 
             OpenSettingsButton = new ButtonAdapter(
                 FieldsHelper.FindFieldInUiElementByName<Button>(mainWindow, nameof(OpenSettingsButton)),

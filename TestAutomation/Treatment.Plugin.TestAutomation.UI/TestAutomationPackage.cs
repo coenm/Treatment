@@ -2,6 +2,7 @@
 {
     using System;
     using System.Threading;
+    using System.Threading.Tasks;
 
     using JetBrains.Annotations;
     using SimpleInjector.Advanced;
@@ -12,6 +13,7 @@
     using Treatment.Plugin.TestAutomation.UI.Settings;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.UI.View;
+    using ZeroMQ;
 
     using Container = SimpleInjector.Container;
 
@@ -38,7 +40,6 @@
             container.RegisterInstance<ITestAutomationSettings>(settings);
             container.RegisterSingleton<IEventPublisher, ZeroMqEventPublisher>();
             container.RegisterSingleton<IZeroMqContextService, ZeroMqContextService>();
-            container.RegisterSingleton<ITestAutomationEndpoint, ZeroMqEndpoint>();
 
             container.RegisterSingleton<ITestAutomationAgent, TestAutomationAgent>();
 
@@ -66,7 +67,8 @@
                     Thread.Sleep(1000);
             }
 
-            agent.RegisterMainView(new MainWindowTestAutomationView(mainWindow, publisher));
+            agent.RegisterMainView(new MainWindowTestAutomationView(mainWindow, publisher, agent));
+            agent.StartAccepting();
 
             return instance;
         }
@@ -75,26 +77,91 @@
     internal interface ITestAutomationAgent
     {
         void RegisterMainView([NotNull] ITestAutomationView instance);
+
+        void StartAccepting();
+
+        void Stop();
     }
 
     internal class TestAutomationAgent : ITestAutomationAgent
     {
-        [NotNull] private readonly ITestAutomationEndpoint endpoint;
+        private ITestAutomationView instance;
+        [CanBeNull] private Task task;
 
-        public TestAutomationAgent([NotNull] ITestAutomationEndpoint endpoint)
+        [NotNull] private readonly ITestAutomationSettings settings;
+        [NotNull] private readonly object syncLock = new object();
+        [NotNull] private readonly ZContext context;
+        [CanBeNull] private ZSocket socket;
+
+        private CancellationTokenSource cts;
+
+        public TestAutomationAgent([NotNull] IZeroMqContextService contextService, [NotNull] ITestAutomationSettings settings)
         {
-            Guard.NotNull(endpoint, nameof(endpoint));
-            this.endpoint = endpoint;
+            Guard.NotNull(contextService, nameof(contextService));
+            Guard.NotNull(settings, nameof(settings));
+
+            this.settings = settings;
+            context = contextService.GetContext() ?? throw new NullReferenceException();
         }
 
-        public void Start()
+        public void StartAccepting()
         {
-            endpoint.StartAccepting();
+            cts = new CancellationTokenSource();
+            task = Task.Run(() =>
+            {
+                Initialize();
+                while (cts.IsCancellationRequested == false)
+                {
+                    ZMessage msg = null;
+                    ZError error = null;
+
+                    if (socket.ReceiveMessage(ref msg, ZSocketFlags.DontWait, out error))
+                    {
+                        socket.SendMessage(new ZMessage
+                        {
+                            new ZFrame("result msg"),
+                        });
+                    }
+                }
+
+                socket?.Dispose();
+                socket = null;
+
+                cts = null;
+            });
+        }
+
+        public void Stop()
+        {
+            cts?.Cancel();
+            instance = null;
         }
 
         public void RegisterMainView([NotNull] ITestAutomationView instance)
         {
             Guard.NotNull(instance, nameof(instance));
+            this.instance = instance;
+        }
+
+        private void Initialize()
+        {
+            if (socket != null)
+                return;
+
+            lock (syncLock)
+            {
+                if (socket != null)
+                    return;
+
+                socket = new ZSocket(context, ZSocketType.REP)
+                {
+                    Linger = TimeSpan.Zero,
+                };
+
+                socket.Bind(settings.ZeroMqRequestResponseSocket);
+
+                Thread.Sleep(1);
+            }
         }
     }
 }

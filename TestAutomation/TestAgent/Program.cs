@@ -38,9 +38,62 @@
             var mreListening = new ManualResetEvent(false);
             var cts = new CancellationTokenSource();
 
+            var context = new ZContext();
+
+            var task0 = Task.Run(() =>
+            {
+                using (var request = new ZSocket(context, ZSocketType.REQ))
+                using (cts.Token.Register(() => request.Dispose()))
+                {
+                    request.Connect($"tcp://localhost:{SutReqRspPort}");
+
+                    try
+                    {
+                        for (int i = 0; i < 10; i++)
+                        {
+                            var zmsg = new ZMessage();
+                            ZError error;
+
+                            request.SendMessage(new ZMessage()
+                            {
+                                new ZFrame("question " + i)
+                            });
+
+
+                            if (!request.ReceiveMessage(ref zmsg, ZSocketFlags.None, out error))
+                            {
+                                Console.WriteLine($" Oops, could not receive a request: {error}");
+                                return;
+                            }
+
+                            using (zmsg)
+                            {
+                                Console.WriteLine();
+                                Console.WriteLine(DateTime.Now.ToString("HH:mm:ss:fff"));
+                                Console.WriteLine("+" + new string('-', 120 + 2) + "+");
+
+                                foreach (var frame in zmsg)
+                                {
+                                    var s = frame.ReadString();
+                                    Console.WriteLine($"| {s,-120} |");
+                                }
+
+                                Console.WriteLine("+" + new string('-', 120 + 2) + "+");
+                                Console.WriteLine(" ");
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        if (!cts.IsCancellationRequested)
+                            Console.WriteLine(e.Message);
+                    }
+                }
+            }).ConfigureAwait(false);
+
+
             var task = Task.Run(() =>
             {
-                using (var context = new ZContext())
                 using (var subscriber = new ZSocket(context, ZSocketType.SUB))
                 using (cts.Token.Register(() => subscriber.Dispose()))
                 {
