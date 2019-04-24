@@ -16,16 +16,22 @@
         private const string SutPublishPort = "5558";
         private const string SutReqRspPort = "5587";
 
+#if DEBUG
+        private const string CONFIG = "Debug";
+#else
+        private const string CONFIG = "Release";
+#endif
+
         public static async Task Main(string[] args)
         {
             var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var treatmentDir = currentDir;
-            while (!Directory.Exists(Path.Combine(treatmentDir, "src", "Treatment.UI.Start", "bin", "x64", "Debug")))
+            while (!Directory.Exists(Path.Combine(treatmentDir, "src", "Treatment.UI.Start", "bin", "x64", CONFIG)))
             {
                 treatmentDir = Path.GetFullPath(Path.Combine(treatmentDir, ".."));
             }
 
-            treatmentDir = Path.GetFullPath(Path.Combine(treatmentDir, "src", "Treatment.UI.Start", "bin", "x64", "Debug"));
+            treatmentDir = Path.GetFullPath(Path.Combine(treatmentDir, "src", "Treatment.UI.Start", "bin", "x64", CONFIG));
             var executable = Path.Combine(treatmentDir, "Treatment.UIStart.exe");
 
             if (!File.Exists(executable))
