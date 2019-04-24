@@ -13,7 +13,6 @@
     using Treatment.Plugin.TestAutomation.UI.Adapters;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Settings;
-    using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.UI.View;
     using ZeroMQ;
 
@@ -70,7 +69,7 @@
             }
 
             agent.RegisterMainView(new MainWindowTestAutomationView(mainWindow, publisher, agent));
-            agent.StartAccepting();
+            // agent.StartAccepting();
 
             return instance;
         }
