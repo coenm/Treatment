@@ -1,6 +1,6 @@
 ﻿namespace Treatment.TestAutomation.Contract.Interfaces.Framework
 {
-    public interface IStatusBar
+    public interface IStatusBar : IUiElement
     {
     }
 }

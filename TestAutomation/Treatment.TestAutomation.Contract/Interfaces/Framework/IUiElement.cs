@@ -1,11 +1,6 @@
 ﻿namespace Treatment.TestAutomation.Contract.Interfaces.Framework
 {
-    public interface IUiElement
+    public interface IUiElement : ITestAutomationView
     {
-        bool IsEnabled { get; }
-
-        double Width { get; }
-
-        double Height { get; }
     }
 }

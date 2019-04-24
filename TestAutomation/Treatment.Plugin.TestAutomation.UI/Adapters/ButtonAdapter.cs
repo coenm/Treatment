@@ -1,5 +1,6 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters
 {
+    using System;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
@@ -22,6 +23,17 @@
             this.item = item;
             this.eventPublisher = eventPublisher;
 
+            Guid = Guid.NewGuid();
+        }
+
+        public Guid Guid { get; }
+
+        public void Dispose()
+        {
+        }
+
+        public void Initialize()
+        {
             item.IsEnabledChanged += ItemOnIsEnabledChanged;
             item.Click += ItemOnClick;
             item.FocusableChanged += ItemFocusableChanged;

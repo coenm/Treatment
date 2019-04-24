@@ -20,16 +20,37 @@
         [NotNull] private readonly IEventPublisher eventPublisher;
         [NotNull] private readonly ITestAutomationAgent agent;
 
-        public MainWindowTestAutomationView([NotNull] MainWindow mainWindow, [NotNull] IEventPublisher eventPublisher, [NotNull] ITestAutomationAgent agent)
+        public MainWindowTestAutomationView(
+            [NotNull] MainWindow mainWindow,
+            [NotNull] IEventPublisher eventPublisher,
+            [NotNull] ITestAutomationAgent agent)
         {
             Guard.NotNull(mainWindow, nameof(mainWindow));
             Guard.NotNull(eventPublisher, nameof(eventPublisher));
             Guard.NotNull(agent, nameof(agent));
 
+            Guid = Guid.NewGuid();
+
             this.mainWindow = mainWindow;
             this.eventPublisher = eventPublisher;
             this.agent = agent;
+        }
 
+        public IButton OpenSettingsButton { get; private set; }
+
+        public IProjectListView ProjectList { get; private set; }
+
+        public IMainViewStatusBar StatusBar { get; private set; }
+
+        public Guid Guid { get; }
+
+        public void Dispose()
+        {
+            return;
+        }
+
+        public void Initialize()
+        {
             mainWindow.Closing += MainWindowOnClosing;
             mainWindow.Closed += MainWindowOnClosed;
 
@@ -38,21 +59,22 @@
             OpenSettingsButton = new ButtonAdapter(
                 FieldsHelper.FindFieldInUiElementByName<Button>(mainWindow, nameof(OpenSettingsButton)),
                 eventPublisher);
+            eventPublisher.PublishNewContol(OpenSettingsButton.Guid, typeof(ButtonAdapter), Guid);
+            OpenSettingsButton.Initialize();
 
             StatusBar = new MainViewStatusBarAdapter(
                 FieldsHelper.FindFieldInUiElementByName<StatusBar>(mainWindow, nameof(StatusBar)),
                 eventPublisher);
+            eventPublisher.PublishNewContol(StatusBar.Guid, typeof(MainViewStatusBarAdapter), Guid);
+            StatusBar.Initialize();
 
             ProjectList = new ProjectListViewAdapter(
                 FieldsHelper.FindFieldInUiElementByName<ProjectListView>(mainWindow, nameof(ProjectList)),
                 eventPublisher);
+            eventPublisher.PublishNewContol(ProjectList.Guid, typeof(ProjectListViewAdapter), Guid);
+            ProjectList.Initialize();
         }
 
-        public IButton OpenSettingsButton { get; private set; }
-
-        public IProjectListView ProjectList { get; private set; }
-
-        public IMainViewStatusBar StatusBar { get; private set; }
 
         public event CancelEventHandler Closing
         {

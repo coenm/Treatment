@@ -68,7 +68,16 @@
                     Thread.Sleep(1000);
             }
 
-            agent.RegisterMainView(new MainWindowTestAutomationView(mainWindow, publisher, agent));
+            var view = new MainWindowTestAutomationView(mainWindow, publisher, agent);
+            publisher.PublishAsync(new TestAutomationEvent
+            {
+                Control = null,
+                EventName = "Creation",
+                Payload = view.Guid,
+            });
+
+            agent.RegisterMainView(view);
+
             // agent.StartAccepting();
 
             return instance;
@@ -174,6 +183,7 @@
         {
             Guard.NotNull(instance, nameof(instance));
             this.instance = instance;
+            instance.Initialize();
         }
 
         private void Initialize()

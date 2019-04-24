@@ -1,5 +1,6 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters
 {
+    using System;
     using System.Collections.Specialized;
     using System.Windows;
     using System.Windows.Controls;
@@ -26,10 +27,23 @@
             this.item = item;
             this.eventPublisher = eventPublisher;
 
+            Guid = Guid.NewGuid();
+        }
+
+        public Guid Guid { get; }
+
+        public void Dispose()
+        {
+        }
+
+        public void Initialize()
+        {
             var result = FieldsHelper.FindChild<TextBlock>(item, nameof(StatusText));
             if (result != null)
             {
                 StatusText = new TextBlockAdapter(result, eventPublisher);
+                eventPublisher.PublishNewContol(StatusText.Guid, typeof(TextBlockAdapter), Guid);
+                StatusText.Initialize();
             }
             else
             {
@@ -40,6 +54,8 @@
                         continue;
 
                     StatusText = new TextBlockAdapter(result1, eventPublisher);
+                    eventPublisher.PublishNewContol(StatusText.Guid, typeof(TextBlockAdapter), Guid);
+                    StatusText.Initialize();
                     break;
                 }
             }
@@ -47,14 +63,13 @@
             if (StatusText == null)
                 throw new System.Exception("Could not find element.");
 
-
-
-
             result = null;
             result = FieldsHelper.FindChild<TextBlock>(item, nameof(StatusConfigFilename));
             if (result != null)
             {
                 StatusConfigFilename = new TextBlockAdapter(result, eventPublisher);
+                eventPublisher.PublishNewContol(StatusConfigFilename.Guid, typeof(TextBlockAdapter), Guid);
+                StatusConfigFilename.Initialize();
             }
             else
             {
@@ -65,6 +80,8 @@
                         continue;
 
                     StatusConfigFilename = new TextBlockAdapter(result1, eventPublisher);
+                    eventPublisher.PublishNewContol(StatusConfigFilename.Guid, typeof(TextBlockAdapter), Guid);
+                    StatusConfigFilename.Initialize();
                     break;
                 }
             }
@@ -72,13 +89,13 @@
             if (StatusConfigFilename == null)
                 throw new System.Exception("Could not find element.");
 
-
-
             result = null;
             result = FieldsHelper.FindChild<TextBlock>(item, nameof(StatusDelayProcessCounter));
             if (result != null)
             {
                 StatusDelayProcessCounter = new TextBlockAdapter(result, eventPublisher);
+                eventPublisher.PublishNewContol(StatusDelayProcessCounter.Guid, typeof(TextBlockAdapter), Guid);
+                StatusDelayProcessCounter.Initialize();
             }
             else
             {
@@ -89,6 +106,8 @@
                         continue;
 
                     StatusDelayProcessCounter = new TextBlockAdapter(result1, eventPublisher);
+                    eventPublisher.PublishNewContol(StatusDelayProcessCounter.Guid, typeof(TextBlockAdapter), Guid);
+                    StatusDelayProcessCounter.Initialize();
                     break;
                 }
             }
@@ -102,11 +121,11 @@
             ((INotifyCollectionChanged)item.Items).CollectionChanged += OnCollectionChanged;
         }
 
-        public ITextBlock StatusText { get; }
+        public ITextBlock StatusText { get; set; }
 
-        public ITextBlock StatusConfigFilename { get; }
+        public ITextBlock StatusConfigFilename { get; set; }
 
-        public ITextBlock StatusDelayProcessCounter { get; }
+        public ITextBlock StatusDelayProcessCounter { get; set; }
 
         private void Items_CurrentChanged(object sender, System.EventArgs e)
         {

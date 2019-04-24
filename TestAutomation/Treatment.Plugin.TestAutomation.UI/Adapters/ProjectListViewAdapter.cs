@@ -1,5 +1,6 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters
 {
+    using System;
     using System.Windows.Controls;
 
     using JetBrains.Annotations;
@@ -19,20 +20,29 @@
             Guard.NotNull(item, nameof(item));
             Guard.NotNull(eventPublisher, nameof(eventPublisher));
 
+            Guid = Guid.NewGuid();
+
             this.item = item;
             this.eventPublisher = eventPublisher;
 
+
+        }
+
+        public Guid Guid { get; }
+
+        public void Dispose()
+        {
+            Listview.Dispose();
+        }
+
+        public void Initialize()
+        {
             Listview = new ListViewAdapter(
                 FieldsHelper.FindFieldInUiElementByName<ListView>(item, nameof(Listview)),
                 eventPublisher);
         }
 
-        public bool IsEnabled => item.IsEnabled;
 
-        public double Width => item.Width;
-
-        public double Height => item.Height;
-
-        public ListViewAdapter Listview { get; }
+        public ListViewAdapter Listview { get; private set; }
     }
 }

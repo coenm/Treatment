@@ -25,6 +25,17 @@
             this.item = item;
             this.eventPublisher = eventPublisher;
 
+            Guid = Guid.NewGuid();
+        }
+
+        public Guid Guid { get; }
+
+        public void Dispose()
+        {
+        }
+
+        public void Initialize()
+        {
             item.TargetUpdated += Item_TargetUpdated;
             item.TextInput += ItemOnTextInput;
             item.Loaded += ItemOnLoaded;
@@ -32,8 +43,8 @@
 
             // https://stackoverflow.com/questions/703167/how-to-detect-a-change-in-the-text-property-of-a-textblock
             var dp = DependencyPropertyDescriptor.FromProperty(
-                                                               TextBlock.TextProperty,
-                                                               typeof(TextBlock));
+                TextBlock.TextProperty,
+                typeof(TextBlock));
             dp.AddValueChanged(item, Handler);
 
             item.SizeChanged += ItemOnSizeChanged;
