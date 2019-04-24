@@ -27,7 +27,27 @@
             this.settings = settings;
         }
 
-        public void Initialize()
+        public Task PublishAsync(TestAutomationEvent evt)
+        {
+            Initialize();
+
+            var frames = new List<ZFrame>
+            {
+                new ZFrame(evt.Control ?? string.Empty),
+                new ZFrame(evt.EventName ?? string.Empty),
+                new ZFrame(evt.Payload?.ToString() ?? string.Empty),
+                new ZFrame(DateTime.Now.ToString("HH:mm:ss:fff")),
+            };
+
+            if (!socket.Send(new ZMessage(frames), ZSocketFlags.DontWait, out ZError _))
+            {
+                return Task.FromResult(false);
+            }
+
+            return Task.FromResult(true);
+        }
+
+        private void Initialize()
         {
             if (socket != null)
                 return;
@@ -47,26 +67,6 @@
 
                 Thread.Sleep(1);
             }
-        }
-
-        public Task PublishAsync(TestAutomationEvent evt)
-        {
-            Initialize();
-
-            var frames = new List<ZFrame>
-            {
-                new ZFrame(evt.Control ?? string.Empty),
-                new ZFrame(evt.EventName ?? string.Empty),
-                new ZFrame(evt.Payload?.ToString() ?? string.Empty),
-                new ZFrame(DateTime.Now.ToString(CultureInfo.InvariantCulture)),
-            };
-
-            if (!socket.Send(new ZMessage(frames), ZSocketFlags.DontWait, out ZError _))
-            {
-                return Task.FromResult(false);
-            }
-
-            return Task.FromResult(true);
         }
 
         public void Dispose()

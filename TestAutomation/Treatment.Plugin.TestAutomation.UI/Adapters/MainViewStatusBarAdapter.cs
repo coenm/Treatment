@@ -26,8 +26,6 @@
             this.item = item;
             this.eventPublisher = eventPublisher;
 
-
-
             var result = FieldsHelper.FindChild<TextBlock>(item, nameof(StatusText));
             if (result != null)
             {

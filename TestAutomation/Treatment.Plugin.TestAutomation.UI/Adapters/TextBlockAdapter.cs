@@ -89,6 +89,11 @@
                 EventName = nameof(item.SizeChanged),
                 Payload = e.NewSize.ToString(),
             });
+
+            if (!IsPositionUpdated())
+                return;
+
+            PublishPosition();
         }
 
         private void Handler(object sender, EventArgs e)
