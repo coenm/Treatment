@@ -1,6 +1,7 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI.Infrastructure
 {
     using System.Threading.Tasks;
+
     using JetBrains.Annotations;
 
     public interface IEventPublisher

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -57,6 +58,7 @@
                 new ZFrame(evt.Control ?? string.Empty),
                 new ZFrame(evt.EventName ?? string.Empty),
                 new ZFrame(evt.Payload?.ToString() ?? string.Empty),
+                new ZFrame(DateTime.Now.ToString(CultureInfo.InvariantCulture)),
             };
 
             if (!socket.Send(new ZMessage(frames), ZSocketFlags.DontWait, out ZError _))
