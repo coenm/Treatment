@@ -3,7 +3,7 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-
+    using System.Windows;
     using JetBrains.Annotations;
     using SimpleInjector.Advanced;
     using SimpleInjector.Packaging;
@@ -11,6 +11,7 @@
     using Treatment.Plugin.TestAutomation.UI.Adapters;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Settings;
+    using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.UI.View;
     using ZeroMQ;
 
@@ -43,6 +44,39 @@
             container.RegisterSingleton<ITestAutomationAgent, TestAutomationAgent>();
 
             container.Options.RegisterResolveInterceptor(CollectResolvedMainWindowInstance, c => c.Producer.ServiceType == typeof(MainWindow));
+
+            container.Options.RegisterResolveInterceptor(CollectResolvedMainWindowInstanceSecondWindow, c =>
+            {
+                if (c.Producer.ServiceType == typeof(MainWindow))
+                    return false;
+                return true;
+            });
+        }
+
+        private object CollectResolvedMainWindowInstanceSecondWindow(InitializationContext context, Func<object> instanceProducer)
+        {
+            var instance = instanceProducer();
+
+            if (instance is MainWindow)
+                return instance;
+
+            if (!(instance is SettingsWindow sw))
+                return instance;
+
+            var publisher = container.GetInstance<IEventPublisher>();
+            var agent = container.GetInstance<ITestAutomationAgent>();
+
+            var view = new SettingWindowTestAutomationView(sw, publisher, agent);
+            publisher.PublishAsync(new TestAutomationEvent
+            {
+                Control = null,
+                EventName = "Creation",
+                Payload = view.Guid,
+            });
+
+            agent.AddPopupView(view);
+
+            return instance;
         }
 
         private object CollectResolvedMainWindowInstance(InitializationContext context, Func<object> instanceProducer)
@@ -85,6 +119,34 @@
         void RegisterMainView([NotNull] MainWindowTestAutomationView instance);
 
         void Stop();
+
+        void AddPopupView(SettingWindowTestAutomationView view);
+    }
+
+    internal class SettingWindowTestAutomationView : ITestAutomationView
+    {
+        [NotNull] private SettingsWindow settingsWindow;
+        [NotNull] private IEventPublisher publisher;
+        [NotNull] private ITestAutomationAgent agent;
+
+        public SettingWindowTestAutomationView([NotNull] SettingsWindow settingsWindow, [NotNull] IEventPublisher publisher, [NotNull] ITestAutomationAgent agent)
+        {
+            this.settingsWindow = settingsWindow ?? throw new ArgumentNullException(nameof(settingsWindow));
+            this.publisher = publisher ?? throw new ArgumentNullException(nameof(publisher));
+            this.agent = agent ?? throw new ArgumentNullException(nameof(agent));
+
+            Guid = Guid.NewGuid();
+        }
+
+        public Guid Guid { get; }
+
+        public void Dispose()
+        {
+        }
+
+        public void Initialize()
+        {
+        }
     }
 
     internal class TestAutomationAgent : ITestAutomationAgent
@@ -118,6 +180,11 @@
             Guard.NotNull(instance, nameof(instance));
             this.instance = instance;
             instance.Initialize();
+        }
+
+        public void AddPopupView(SettingWindowTestAutomationView view)
+        {
+            view.Initialize();
         }
     }
 }

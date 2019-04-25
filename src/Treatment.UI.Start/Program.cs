@@ -84,8 +84,8 @@
             container.RegisterSingleton<DispatcherObject, App>();
             container.RegisterSingleton<Application, App>();
 
-            if (Environment.GetEnvironmentVariable("ENABLE_TEST_AUTOMATION") == null)
-                container.Verify(VerificationOption.VerifyAndDiagnose);
+         //   if (Environment.GetEnvironmentVariable("ENABLE_TEST_AUTOMATION") == null)
+                //container.Verify(VerificationOption.VerifyAndDiagnose);
 
             return container;
         }
@@ -135,9 +135,10 @@
             }
 
             // ReSharper disable once RedundantCatchClause
-            catch
+            catch (Exception ex)
             {
                 // Log the exception and exit
+                Console.WriteLine(ex.Message);
 #if DEBUG
                 //throw;
 #endif
