@@ -5,8 +5,6 @@
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
-    using Microsoft.CodeAnalysis.CSharp.Scripting;
-    using Microsoft.CodeAnalysis.Scripting;
     using SimpleInjector.Advanced;
     using SimpleInjector.Packaging;
     using Treatment.Helpers.Guards;
@@ -78,8 +76,6 @@
 
             agent.RegisterMainView(view);
 
-            // agent.StartAccepting();
-
             return instance;
         }
     }
@@ -88,19 +84,16 @@
     {
         void RegisterMainView([NotNull] MainWindowTestAutomationView instance);
 
-        void StartAccepting();
-
         void Stop();
     }
 
     internal class TestAutomationAgent : ITestAutomationAgent
     {
         private MainWindowTestAutomationView instance;
-        [CanBeNull] private Task task;
-
         [NotNull] private readonly ITestAutomationSettings settings;
         [NotNull] private readonly object syncLock = new object();
         [NotNull] private readonly ZContext context;
+        [CanBeNull] private Task task;
         [CanBeNull] private ZSocket socket;
 
         private CancellationTokenSource cts;
@@ -114,65 +107,6 @@
             context = contextService.GetContext() ?? throw new NullReferenceException();
         }
 
-        public void StartAccepting()
-        {
-            cts = new CancellationTokenSource();
-            task = Task.Run(() =>
-            {
-                Initialize();
-                while (cts.IsCancellationRequested == false)
-                {
-                    ZMessage msg = null;
-                    ZError error = null;
-
-                    if (socket.ReceiveMessage(ref msg, ZSocketFlags.DontWait, out error))
-                    {
-                        var stringmessage = msg[0].ReadString();
-
-                        try
-                        {
-//                            .WithReferences(typeof(MainWindowTestAutomationView).Assembly)
-//                                .WithImports("Treatment.Plugin.TestAutomation.UI.Adapters")
-
-                            var result = CSharpScript.EvaluateAsync(
-                                "2+2",
-                                ScriptOptions.Default,
-                                instance,
-                                typeof(MainWindowTestAutomationView)).GetAwaiter().GetResult();
-                            socket.SendMessage(new ZMessage
-                            {
-                                new ZFrame(stringmessage),
-                                new ZFrame(result.ToString()),
-                            });
-                        }
-                        catch (CompilationErrorException e)
-                        {
-                            socket.SendMessage(new ZMessage
-                            {
-                                new ZFrame(stringmessage),
-                                new ZFrame(e.Diagnostics.ToString()),
-                            });
-                        }
-                        catch (Exception e)
-                        {
-                            socket.SendMessage(new ZMessage
-                            {
-                                new ZFrame(stringmessage),
-                                new ZFrame("AI: " + e.Message.ToString()),
-                            });
-                        }
-
-//                        var value = CSharpScript.Eval("X + Y", new Globals { X = 1, Y = 2 });
-                    }
-                }
-
-                socket?.Dispose();
-                socket = null;
-
-                cts = null;
-            });
-        }
-
         public void Stop()
         {
             cts?.Cancel();
@@ -184,27 +118,6 @@
             Guard.NotNull(instance, nameof(instance));
             this.instance = instance;
             instance.Initialize();
-        }
-
-        private void Initialize()
-        {
-            if (socket != null)
-                return;
-
-            lock (syncLock)
-            {
-                if (socket != null)
-                    return;
-
-                socket = new ZSocket(context, ZSocketType.REP)
-                {
-                    Linger = TimeSpan.Zero,
-                };
-
-                socket.Bind(settings.ZeroMqRequestResponseSocket);
-
-                Thread.Sleep(1);
-            }
         }
     }
 }
