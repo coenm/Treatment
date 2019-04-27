@@ -138,6 +138,7 @@
     <Compile Include="Interfaces\Events\Application\ApplicationStarted.cs" />
     <Compile Include="Interfaces\Events\Application\ApplicationStarting.cs" />
     <Compile Include="Interfaces\Events\Application\ApplicationStopped.cs" />
+    <Compile Include="Interfaces\Events\IEvent.cs" />
     <Compile Include="Interfaces\Events\TestElementEventBase.cs" />
     <Compile Include="Interfaces\Events\Element\UiElementAssigned.cs" />
     <Compile Include="Interfaces\Events\Element\UiElementCreated.cs" />

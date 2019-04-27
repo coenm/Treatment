@@ -59,19 +59,19 @@
             OpenSettingsButton = new ButtonAdapter(
                 FieldsHelper.FindFieldInUiElementByName<Button>(mainWindow, nameof(OpenSettingsButton)),
                 eventPublisher);
-            eventPublisher.PublishNewContol(OpenSettingsButton.Guid, typeof(ButtonAdapter), Guid);
+            eventPublisher.PublishNewControl(OpenSettingsButton.Guid, typeof(ButtonAdapter), Guid);
             OpenSettingsButton.Initialize();
 
             StatusBar = new MainViewStatusBarAdapter(
                 FieldsHelper.FindFieldInUiElementByName<StatusBar>(mainWindow, nameof(StatusBar)),
                 eventPublisher);
-            eventPublisher.PublishNewContol(StatusBar.Guid, typeof(MainViewStatusBarAdapter), Guid);
+            eventPublisher.PublishNewControl(StatusBar.Guid, typeof(MainViewStatusBarAdapter), Guid);
             StatusBar.Initialize();
 
             ProjectList = new ProjectListViewAdapter(
                 FieldsHelper.FindFieldInUiElementByName<ProjectListView>(mainWindow, nameof(ProjectList)),
                 eventPublisher);
-            eventPublisher.PublishNewContol(ProjectList.Guid, typeof(ProjectListViewAdapter), Guid);
+            eventPublisher.PublishNewControl(ProjectList.Guid, typeof(ProjectListViewAdapter), Guid);
             ProjectList.Initialize();
         }
 

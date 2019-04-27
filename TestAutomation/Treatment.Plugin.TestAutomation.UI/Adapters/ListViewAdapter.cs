@@ -141,7 +141,7 @@
                 {
                     var btn = dataTemplate.FindName("BtnFixCsProjectFiles", templateParent) as Button;
                     var btnAdapter = new ButtonAdapter(btn, eventPublisher);
-                    eventPublisher.PublishNewContol(btnAdapter.Guid, typeof(ButtonAdapter), Guid);
+                    eventPublisher.PublishNewControl(btnAdapter.Guid, typeof(ButtonAdapter), Guid);
                     btnAdapter.Initialize();
                 }
 

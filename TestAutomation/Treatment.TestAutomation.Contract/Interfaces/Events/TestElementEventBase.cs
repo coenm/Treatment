@@ -2,7 +2,7 @@
 {
     using System;
 
-    public abstract class TestElementEventBase
+    public abstract class TestElementEventBase : IEvent
     {
         private Guid Guid { get; set; }
     }

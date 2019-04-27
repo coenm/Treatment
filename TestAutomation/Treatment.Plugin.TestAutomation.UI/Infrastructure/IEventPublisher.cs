@@ -4,17 +4,18 @@
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
+    using Treatment.TestAutomation.Contract.Interfaces.Events;
 
     public interface IEventPublisher
     {
-        Task PublishAsync([NotNull] TestAutomationEvent evt);
+        Task PublishAsync([NotNull] IEvent evt);
     }
 
     public static class EventPublisherExtension
     {
-        public static Task PublishNewContol(this IEventPublisher publisher, Guid guid, Type type, Guid parent)
+        public static Task PublishNewControl(this IEventPublisher publisher, Guid guid, Type type, Guid parent)
         {
-            return publisher.PublishAsync(new TestAutomationEvent()
+            return publisher.PublishAsync(new TestAutomationEvent
             {
                 EventName = "CREATE",
                 Control = null,

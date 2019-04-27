@@ -3,7 +3,7 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using System.Windows;
+
     using JetBrains.Annotations;
     using SimpleInjector.Advanced;
     using SimpleInjector.Packaging;
@@ -11,6 +11,7 @@
     using Treatment.Plugin.TestAutomation.UI.Adapters;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Settings;
+    using Treatment.TestAutomation.Contract.Interfaces.Events.Application;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.UI.View;
     using ZeroMQ;
@@ -89,16 +90,18 @@
             var publisher = container.GetInstance<IEventPublisher>();
             var agent = container.GetInstance<ITestAutomationAgent>();
 
-            for (var i = 3; i >= 0; i--)
+            for (var countDown = 3; countDown >= 0; countDown--)
             {
-                publisher.PublishAsync(new TestAutomationEvent
+                publisher.PublishAsync(new ApplicationStarting
                 {
-                    Control = $"Start in {i} seconds",
+                    CountDown = countDown,
                 });
 
-                if (i > 0)
+                if (countDown > 0)
                     Thread.Sleep(1000);
             }
+
+            publisher.PublishAsync(new ApplicationStarted());
 
             var view = new MainWindowTestAutomationView(mainWindow, publisher, agent);
             publisher.PublishAsync(new TestAutomationEvent

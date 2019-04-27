@@ -42,7 +42,7 @@
             if (result != null)
             {
                 StatusText = new TextBlockAdapter(result, eventPublisher);
-                eventPublisher.PublishNewContol(StatusText.Guid, typeof(TextBlockAdapter), Guid);
+                eventPublisher.PublishNewControl(StatusText.Guid, typeof(TextBlockAdapter), Guid);
                 StatusText.Initialize();
             }
             else
@@ -54,7 +54,7 @@
                         continue;
 
                     StatusText = new TextBlockAdapter(result1, eventPublisher);
-                    eventPublisher.PublishNewContol(StatusText.Guid, typeof(TextBlockAdapter), Guid);
+                    eventPublisher.PublishNewControl(StatusText.Guid, typeof(TextBlockAdapter), Guid);
                     StatusText.Initialize();
                     break;
                 }
@@ -68,7 +68,7 @@
             if (result != null)
             {
                 StatusConfigFilename = new TextBlockAdapter(result, eventPublisher);
-                eventPublisher.PublishNewContol(StatusConfigFilename.Guid, typeof(TextBlockAdapter), Guid);
+                eventPublisher.PublishNewControl(StatusConfigFilename.Guid, typeof(TextBlockAdapter), Guid);
                 StatusConfigFilename.Initialize();
             }
             else
@@ -80,7 +80,7 @@
                         continue;
 
                     StatusConfigFilename = new TextBlockAdapter(result1, eventPublisher);
-                    eventPublisher.PublishNewContol(StatusConfigFilename.Guid, typeof(TextBlockAdapter), Guid);
+                    eventPublisher.PublishNewControl(StatusConfigFilename.Guid, typeof(TextBlockAdapter), Guid);
                     StatusConfigFilename.Initialize();
                     break;
                 }
@@ -94,7 +94,7 @@
             if (result != null)
             {
                 StatusDelayProcessCounter = new TextBlockAdapter(result, eventPublisher);
-                eventPublisher.PublishNewContol(StatusDelayProcessCounter.Guid, typeof(TextBlockAdapter), Guid);
+                eventPublisher.PublishNewControl(StatusDelayProcessCounter.Guid, typeof(TextBlockAdapter), Guid);
                 StatusDelayProcessCounter.Initialize();
             }
             else
@@ -106,7 +106,7 @@
                         continue;
 
                     StatusDelayProcessCounter = new TextBlockAdapter(result1, eventPublisher);
-                    eventPublisher.PublishNewContol(StatusDelayProcessCounter.Guid, typeof(TextBlockAdapter), Guid);
+                    eventPublisher.PublishNewControl(StatusDelayProcessCounter.Guid, typeof(TextBlockAdapter), Guid);
                     StatusDelayProcessCounter.Initialize();
                     break;
                 }
