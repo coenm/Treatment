@@ -135,6 +135,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CouldNotFindFieldException.cs" />
+    <Compile Include="Interfaces\Events\Application\ApplicationStarted.cs" />
+    <Compile Include="Interfaces\Events\Application\ApplicationStarting.cs" />
+    <Compile Include="Interfaces\Events\Application\ApplicationStopped.cs" />
+    <Compile Include="Interfaces\Events\TestElementEventBase.cs" />
+    <Compile Include="Interfaces\Events\Element\UiElementAssigned.cs" />
+    <Compile Include="Interfaces\Events\Element\UiElementCreated.cs" />
+    <Compile Include="Interfaces\Events\Element\UiElementDestroyed.cs" />
+    <Compile Include="Interfaces\Events\Element\UiElementUnassigned.cs" />
+    <Compile Include="Interfaces\Events\View\UiViewDestroyed.cs" />
+    <Compile Include="Interfaces\Events\View\UiViewCreated.cs" />
     <Compile Include="Interfaces\Framework\IButton.cs" />
     <Compile Include="Interfaces\Framework\IStatusBar.cs" />
     <Compile Include="Interfaces\Framework\ITestAutomation.cs" />
@@ -142,6 +152,8 @@
     <Compile Include="Interfaces\Framework\ITestAutomationView.cs" />
     <Compile Include="Interfaces\Framework\ITextBlock.cs" />
     <Compile Include="Interfaces\Framework\IUiElement.cs" />
+    <Compile Include="Interfaces\Events\MessageBox\MessageBoxClosed.cs" />
+    <Compile Include="Interfaces\Events\MessageBox\MessageBoxPoppedUp.cs" />
     <Compile Include="Interfaces\Treatment\IMainView.cs" />
     <Compile Include="Interfaces\Treatment\IMainViewStatusBar.cs" />
     <Compile Include="Interfaces\Treatment\IProjectListView.cs" />
