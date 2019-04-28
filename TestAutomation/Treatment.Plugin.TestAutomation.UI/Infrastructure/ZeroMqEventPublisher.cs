@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -9,6 +10,7 @@
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Settings;
     using Treatment.TestAutomation.Contract.Interfaces.Events;
+    using Treatment.TestAutomation.Contract.Interfaces.EventSerializers;
     using ZeroMQ;
 
     internal class ZeroMqEventPublisher : IEventPublisher, IDisposable
@@ -16,20 +18,42 @@
         [NotNull] private readonly object syncLock = new object();
         [NotNull] private readonly IZeroMqContextService contextService;
         [NotNull] private readonly ITestAutomationSettings settings;
+        [NotNull] private readonly IEnumerable<IEventSerializer> serializers;
         [CanBeNull] private ZSocket socket;
 
-        public ZeroMqEventPublisher([NotNull] IZeroMqContextService contextService, [NotNull] ITestAutomationSettings settings)
+        public ZeroMqEventPublisher(
+            [NotNull] IZeroMqContextService contextService,
+            [NotNull] ITestAutomationSettings settings,
+            [NotNull] IEnumerable<IEventSerializer> serializers)
         {
             Guard.NotNull(contextService, nameof(contextService));
             Guard.NotNull(settings, nameof(settings));
+            Guard.NotNull(serializers, nameof(serializers));
 
             this.contextService = contextService;
             this.settings = settings;
+            this.serializers = serializers;
         }
 
         public Task PublishAsync(IEvent evt)
         {
             Initialize();
+
+            var s = serializers.OrderBy(x => x.Priority).FirstOrDefault(x => x.CanSerialize(evt));
+            if (s != null)
+            {
+                var frames = new ZFrame[]
+                {
+                    new ZFrame(s.GetType().FullName),
+                }.Concat(s.Serialize(evt));
+
+                if (!socket.Send(new ZMessage(frames), ZSocketFlags.DontWait, out _))
+                {
+                    return Task.FromResult(false);
+                }
+
+                return Task.FromResult(true);
+            }
 
             if (evt is TestAutomationEvent taEvt)
             {
@@ -41,7 +65,7 @@
                     new ZFrame(DateTime.Now.ToString("HH:mm:ss:fff")),
                 };
 
-                if (!socket.Send(new ZMessage(frames), ZSocketFlags.DontWait, out ZError _))
+                if (!socket.Send(new ZMessage(frames), ZSocketFlags.DontWait, out _))
                 {
                     return Task.FromResult(false);
                 }
@@ -54,7 +78,7 @@
                     new ZFrame(DateTime.Now.ToString("HH:mm:ss:fff")),
                 };
 
-                if (!socket.Send(new ZMessage(frames), ZSocketFlags.DontWait, out ZError _))
+                if (!socket.Send(new ZMessage(frames), ZSocketFlags.DontWait, out _))
                 {
                     return Task.FromResult(false);
                 }

@@ -86,6 +86,9 @@
     <Reference Include="JetBrains.Annotations, Version=2019.1.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\..\packages\JetBrains.Annotations.2019.1.1\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -135,6 +138,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CouldNotFindFieldException.cs" />
+    <Compile Include="Interfaces\EventSerializers\Application\ApplicationStartedSerializer.cs" />
+    <Compile Include="Interfaces\EventSerializers\Application\ApplicationStartingSerializer.cs" />
+    <Compile Include="Interfaces\EventSerializers\Application\ApplicationStoppedSerializer.cs" />
+    <Compile Include="Interfaces\EventSerializers\EventSerializerBase.cs" />
+    <Compile Include="Interfaces\EventSerializers\IEventSerializer.cs" />
     <Compile Include="Interfaces\Events\Application\ApplicationStarted.cs" />
     <Compile Include="Interfaces\Events\Application\ApplicationStarting.cs" />
     <Compile Include="Interfaces\Events\Application\ApplicationStopped.cs" />

@@ -12,6 +12,7 @@
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Settings;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Application;
+    using Treatment.TestAutomation.Contract.Interfaces.EventSerializers;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.UI.View;
     using ZeroMQ;
@@ -43,6 +44,8 @@
             container.RegisterSingleton<IZeroMqContextService, ZeroMqContextService>();
 
             container.RegisterSingleton<ITestAutomationAgent, TestAutomationAgent>();
+
+            container.Collection.Register(typeof(IEventSerializer), typeof(IEventSerializer).Assembly);
 
             container.Options.RegisterResolveInterceptor(CollectResolvedMainWindowInstance, c => c.Producer.ServiceType == typeof(MainWindow));
 
