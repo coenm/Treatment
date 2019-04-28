@@ -163,8 +163,10 @@
                                     {
                                         ZFrame[] zFrames = zmsg.Skip(1).ToArray();
                                         IEvent evt = handler.Deserialize(zFrames);
-                                        Console.WriteLine($"| {handler.GetType().Name, -100} |");
-                                        Console.WriteLine($"| {JsonConvert.SerializeObject(evt), -100} | ");
+                                        Console.WriteLine($"| {evt.GetType().Name, -100} |");
+                                        string json = JsonConvert.SerializeObject(evt);
+                                        if (json != "{}")
+                                            Console.WriteLine($"| {json, -100} | ");
                                     }
                                     else
                                     {
