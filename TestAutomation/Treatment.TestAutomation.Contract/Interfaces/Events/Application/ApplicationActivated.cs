@@ -3,7 +3,7 @@
     using JetBrains.Annotations;
 
     [PublicAPI]
-    public class ApplicationStarted : TestElementEventBase
+    public class ApplicationActivated : TestElementEventBase
     {
     }
 }

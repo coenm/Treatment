@@ -65,10 +65,10 @@
                     new ZFrame(DateTime.Now.ToString("HH:mm:ss:fff")),
                 };
 
-                if (!socket.Send(new ZMessage(frames), ZSocketFlags.DontWait, out _))
-                {
+//                if (!socket.Send(new ZMessage(frames), ZSocketFlags.DontWait, out _))
+//                {
                     return Task.FromResult(false);
-                }
+//                }
             }
             else
             {

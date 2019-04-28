@@ -2,7 +2,7 @@
 {
     using Events.Application;
 
-    public class ApplicationStoppedSerializer : EmptyEventSerializerBase<ApplicationStopped>
+    public class ApplicationActivatedSerializer : EmptyEventSerializerBase<ApplicationActivated>
     {
     }
 }

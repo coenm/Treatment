@@ -5,6 +5,7 @@
     using Helpers.Guards;
     using ZeroMQ;
 
+
     public abstract class EventSerializerBase<T> : IEventSerializer
     {
         public int Priority { get; } = 10;
@@ -15,7 +16,7 @@
 
         public bool CanSerialize(IEvent evt) => evt != null && evt.GetType() == typeof(T);
 
-        public T GuardSerialize(IEvent evt)
+        protected T GuardSerialize(IEvent evt)
         {
             Guard.NotNull(evt, nameof(evt));
 

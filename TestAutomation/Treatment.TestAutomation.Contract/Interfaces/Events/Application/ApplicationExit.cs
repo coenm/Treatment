@@ -3,7 +3,8 @@
     using JetBrains.Annotations;
 
     [PublicAPI]
-    public class ApplicationStarted : TestElementEventBase
+    public class ApplicationExit : TestElementEventBase
     {
+        public int ApplicationExitCode { get; set; }
     }
 }

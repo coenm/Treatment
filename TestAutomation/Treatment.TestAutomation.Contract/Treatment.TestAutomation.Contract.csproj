@@ -138,11 +138,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CouldNotFindFieldException.cs" />
+    <Compile Include="Interfaces\EventSerializers\Application\ApplicationActivatedSerializer.cs" />
+    <Compile Include="Interfaces\EventSerializers\Application\ApplicationDeactivatedSerializer.cs" />
     <Compile Include="Interfaces\EventSerializers\Application\ApplicationStartedSerializer.cs" />
+    <Compile Include="Interfaces\EventSerializers\Application\ApplicationExitSerializer.cs" />
     <Compile Include="Interfaces\EventSerializers\Application\ApplicationStartingSerializer.cs" />
     <Compile Include="Interfaces\EventSerializers\Application\ApplicationStoppedSerializer.cs" />
+    <Compile Include="Interfaces\EventSerializers\EmptyEventSerializerBase.cs" />
     <Compile Include="Interfaces\EventSerializers\EventSerializerBase.cs" />
     <Compile Include="Interfaces\EventSerializers\IEventSerializer.cs" />
+    <Compile Include="Interfaces\Events\Application\ApplicationActivated.cs" />
+    <Compile Include="Interfaces\Events\Application\ApplicationDeactivated.cs" />
+    <Compile Include="Interfaces\Events\Application\ApplicationDispatcherUnhandledException.cs" />
+    <Compile Include="Interfaces\Events\Application\ApplicationExit.cs" />
     <Compile Include="Interfaces\Events\Application\ApplicationStarted.cs" />
     <Compile Include="Interfaces\Events\Application\ApplicationStarting.cs" />
     <Compile Include="Interfaces\Events\Application\ApplicationStopped.cs" />
@@ -154,6 +162,7 @@
     <Compile Include="Interfaces\Events\Element\UiElementUnassigned.cs" />
     <Compile Include="Interfaces\Events\View\UiViewDestroyed.cs" />
     <Compile Include="Interfaces\Events\View\UiViewCreated.cs" />
+    <Compile Include="Interfaces\Framework\IApplication.cs" />
     <Compile Include="Interfaces\Framework\IButton.cs" />
     <Compile Include="Interfaces\Framework\IStatusBar.cs" />
     <Compile Include="Interfaces\Framework\ITestAutomation.cs" />

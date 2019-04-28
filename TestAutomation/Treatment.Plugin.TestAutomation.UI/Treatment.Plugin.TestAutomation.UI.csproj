@@ -76,6 +76,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapters\ApplicationAdapter.cs" />
     <Compile Include="Adapters\ButtonAdapter.cs" />
     <Compile Include="Adapters\ListViewAdapter.cs" />
     <Compile Include="Adapters\MainWindowTestAutomationView.cs" />
