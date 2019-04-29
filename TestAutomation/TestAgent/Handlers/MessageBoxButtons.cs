@@ -1,4 +1,4 @@
-﻿namespace TestAgent.Interface
+﻿namespace TestAgent.Handlers
 {
     public enum MessageBoxButtons
     {

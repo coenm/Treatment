@@ -13,97 +13,85 @@
     using SimpleInjector;
     using Treatment.TestAutomation.Contract.Interfaces.Events;
     using Treatment.TestAutomation.Contract.Interfaces.EventSerializers;
+    using Treatment.TestAutomation.Contract.ZeroMq;
     using ZeroMQ;
 
     public static class Program
     {
         private const string SutPublishPort = "5558";
-        private const string SutReqRspPort = "5587";
+        private const string SutReqRspPort = "5557";
+        private const string AgentReqRspPort = "5556";
 
 #if DEBUG
-        private const string CONFIG = "Debug";
+        private const string Config = "Debug";
 #else
-        private const string CONFIG = "Release";
+        private const string Config = "Release";
 #endif
+
+        private static Container container;
 
         public static async Task Main(string[] args)
         {
-            var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var treatmentDir = currentDir;
-            while (!Directory.Exists(Path.Combine(treatmentDir, "src", "Treatment.UI.Start", "bin", "x64", CONFIG)))
-            {
-                treatmentDir = Path.GetFullPath(Path.Combine(treatmentDir, ".."));
-            }
+            container = new Container();
 
-            treatmentDir = Path.GetFullPath(Path.Combine(treatmentDir, "src", "Treatment.UI.Start", "bin", "x64", CONFIG));
-            var executable = Path.Combine(treatmentDir, "Treatment.UIStart.exe");
+            Bootstrapper.Bootstrap(container);
+            container.Verify(VerificationOption.VerifyOnly);
 
-            if (!File.Exists(executable))
-            {
-                Console.WriteLine($"File {executable} doesn't exist.");
-                Console.ReadLine();
+            var context = container.GetInstance<IZeroMqContextService>().GetContext();
+
+            if (FindTreatmentUi(out var treatmentDir, out var executable))
                 return;
-            }
-
-            var container = new Container();
-            container.Collection.Register(typeof(IEventSerializer), typeof(IEventSerializer).Assembly);
-
 
             var mreListening = new ManualResetEvent(false);
             var cts = new CancellationTokenSource();
 
-            var context = new ZContext();
+            var task0 = Task.Run(() =>
+            {
+                using (var request = new ZSocket(context, ZSocketType.REP))
+                using (cts.Token.Register(() => request.Dispose()))
+                {
+                    request.Bind($"tcp://localhost:{AgentReqRspPort}");
 
-//            var task0 = Task.Run(() =>
-//            {
-//                using (var request = new ZSocket(context, ZSocketType.REQ))
-//                using (cts.Token.Register(() => request.Dispose()))
-//                {
-//                    request.Connect($"tcp://localhost:{SutReqRspPort}");
-//
-//                    try
-//                    {
-//                        for (int i = 0; i < 10; i++)
-//                        {
-//                            var zmsg = new ZMessage();
-//                            ZError error;
-//
-//                            request.SendMessage(new ZMessage()
-//                            {
-//                                new ZFrame("question " + i)
-//                            });
-//
-//
-//                            if (!request.ReceiveMessage(ref zmsg, ZSocketFlags.None, out error))
-//                            {
-//                                Console.WriteLine($" Oops, could not receive a request: {error}");
-//                                return;
-//                            }
-//
-//                            using (zmsg)
-//                            {
-//                                Console.WriteLine();
-//                                Console.WriteLine(DateTime.Now.ToString("HH:mm:ss:fff"));
-//                                Console.WriteLine("+" + new string('-', 120 + 2) + "+");
-//
-//                                foreach (var frame in zmsg)
-//                                {
-//                                    var s = frame.ReadString();
-//                                    Console.WriteLine($"| {s,-120} |");
-//                                }
-//
-//                                Console.WriteLine("+" + new string('-', 120 + 2) + "+");
-//                                Console.WriteLine(" ");
-//                            }
-//                        }
-//                    }
-//                    catch (Exception e)
-//                    {
-//                        if (!cts.IsCancellationRequested)
-//                            Console.WriteLine(e.Message);
-//                    }
-//                }
-//            }).ConfigureAwait(false);
+                    try
+                    {
+                        var zmsg = new ZMessage();
+                        ZError error;
+
+
+                        if (!request.ReceiveMessage(ref zmsg, ZSocketFlags.None, out error))
+                        {
+                            Console.WriteLine($" Oops, could not receive a request: {error}");
+                            return;
+                        }
+
+                        using (zmsg)
+                        {
+
+
+                            foreach (var frame in zmsg)
+                            {
+                                var s = frame.ReadString();
+                                Console.WriteLine($"| {s,-120} |");
+                            }
+
+                            Console.WriteLine("+" + new string('-', 120 + 2) + "+");
+                            Console.WriteLine(" ");
+                        }
+
+
+
+                        // request.SendMessage(new ZMessage()
+                        // {
+                        //     new ZFrame("question " + i)
+                        // });
+                    }
+                    catch (Exception e)
+                    {
+                        if (!cts.IsCancellationRequested)
+                            Console.WriteLine(e.Message);
+                    }
+                }
+            }).ConfigureAwait(false);
 
 
             var task = Task.Run(() =>
@@ -218,6 +206,28 @@
             Console.WriteLine("Done. Press enter to exit.");
             Console.ReadLine();
             await task;
+        }
+
+        private static bool FindTreatmentUi(out string treatmentDir, out string executable)
+        {
+            var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            treatmentDir = currentDir;
+            while (!Directory.Exists(Path.Combine(treatmentDir, "src", "Treatment.UI.Start", "bin", "x64", Config)))
+            {
+                treatmentDir = Path.GetFullPath(Path.Combine(treatmentDir, ".."));
+            }
+
+            treatmentDir = Path.GetFullPath(Path.Combine(treatmentDir, "src", "Treatment.UI.Start", "bin", "x64", Config));
+            executable = Path.Combine(treatmentDir, "Treatment.UIStart.exe");
+
+            if (!File.Exists(executable))
+            {
+                Console.WriteLine($"File {executable} doesn't exist.");
+                Console.ReadLine();
+                return true;
+            }
+
+            return false;
         }
     }
 }

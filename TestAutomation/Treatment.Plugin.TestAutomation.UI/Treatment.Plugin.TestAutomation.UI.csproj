@@ -86,11 +86,10 @@
     <Compile Include="Adapters\ListViewAdapter.cs" />
     <Compile Include="Adapters\MainWindowTestAutomationView.cs" />
     <Compile Include="Adapters\Helpers\SizeChangedHelper.cs" />
+    <Compile Include="Infrastructure\EventPublisherExtension.cs" />
     <Compile Include="Settings\DummySettings.cs" />
     <Compile Include="Infrastructure\IEventPublisher.cs" />
-    <Compile Include="Infrastructure\IZeroMqContextService.cs" />
     <Compile Include="Infrastructure\TestAutomationEvent.cs" />
-    <Compile Include="Infrastructure\ZeroMqContextService.cs" />
     <Compile Include="Infrastructure\ZeroMqEventPublisher.cs" />
     <Compile Include="Adapters\ProjectListViewAdapter.cs" />
     <Compile Include="Reflection\FieldsHelper.cs" />

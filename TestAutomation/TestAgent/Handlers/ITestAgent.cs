@@ -1,4 +1,4 @@
-﻿namespace TestAgent.Interface
+﻿namespace TestAgent.Handlers
 {
     using System;
     using JetBrains.Annotations;
@@ -15,12 +15,6 @@
 
 //        [CanBeNull]
 //        ITestAutomationView MainView { get; }
-
-        [NotNull]
-        IMouse Mouse { get; }
-
-        [NotNull]
-        IKeyboard Keyboard { get; }
 
         byte[] GetFileContent(string filename);
 

@@ -11,6 +11,7 @@
     using Treatment.Plugin.TestAutomation.UI.Settings;
     using Treatment.TestAutomation.Contract.Interfaces.Events;
     using Treatment.TestAutomation.Contract.Interfaces.EventSerializers;
+    using Treatment.TestAutomation.Contract.ZeroMq;
     using ZeroMQ;
 
     internal class ZeroMqEventPublisher : IEventPublisher, IDisposable

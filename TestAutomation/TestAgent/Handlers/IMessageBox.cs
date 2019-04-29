@@ -1,4 +1,4 @@
-﻿namespace TestAgent.Interface
+﻿namespace TestAgent.Handlers
 {
     using System;
     using JetBrains.Annotations;

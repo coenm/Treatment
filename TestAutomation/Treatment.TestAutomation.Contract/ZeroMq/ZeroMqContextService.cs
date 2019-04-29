@@ -1,4 +1,4 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI.Infrastructure
+﻿namespace Treatment.TestAutomation.Contract.ZeroMq
 {
     using System;
     using ZeroMQ;
