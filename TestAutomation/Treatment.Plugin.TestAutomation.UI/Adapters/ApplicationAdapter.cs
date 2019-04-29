@@ -55,7 +55,7 @@
             item.DispatcherUnhandledException += ItemOnDispatcherUnhandledException;
         }
 
-        public void RegisterMainView(IMainView mainView)
+        public void RegisterAndInitializeMainView(IMainView mainView)
         {
             Guard.NotNull(mainView, nameof(mainView));
             MainView = mainView;

@@ -86,7 +86,7 @@
             var agent = container.GetInstance<ITestAutomationAgent>();
 
             var view = new MainWindowTestAutomationView(mainWindow, publisher);
-            agent.Application.RegisterMainView(view);
+            agent.Application.RegisterAndInitializeMainView(view);
 
             publisher.PublishAsync(new TestAutomationEvent
             {

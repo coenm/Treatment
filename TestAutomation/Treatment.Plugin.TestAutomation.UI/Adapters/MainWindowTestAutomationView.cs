@@ -68,7 +68,6 @@
             ProjectList.Initialize();
         }
 
-
         public event CancelEventHandler Closing
         {
             add => mainWindow.Closing += value;

@@ -19,6 +19,10 @@
         [NotNull] private readonly StatusBar item;
         [NotNull] private readonly IEventPublisher eventPublisher;
 
+        private ITextBlock statusText;
+        private ITextBlock statusConfigFilename;
+        private ITextBlock statusDelayProcessCounter;
+
         public MainViewStatusBarAdapter([NotNull] StatusBar item, [NotNull] IEventPublisher eventPublisher)
         {
             Guard.NotNull(item, nameof(item));
@@ -34,6 +38,7 @@
 
         public void Dispose()
         {
+            StatusText.Dispose();
         }
 
         public void Initialize()
@@ -121,11 +126,38 @@
             ((INotifyCollectionChanged)item.Items).CollectionChanged += OnCollectionChanged;
         }
 
-        public ITextBlock StatusText { get; set; }
+        public ITextBlock StatusText
+        {
+            get => statusText;
 
-        public ITextBlock StatusConfigFilename { get; set; }
+            private set
+            {
+                eventPublisher.PublishAssignedAsync(Guid, nameof(StatusText), value.Guid);
+                statusText = value;
+            }
+        }
 
-        public ITextBlock StatusDelayProcessCounter { get; set; }
+        public ITextBlock StatusConfigFilename
+        {
+            get => statusConfigFilename;
+
+            private set
+            {
+                eventPublisher.PublishAssignedAsync(Guid, nameof(StatusConfigFilename), value.Guid);
+                statusConfigFilename = value;
+            }
+        }
+
+        public ITextBlock StatusDelayProcessCounter
+        {
+            get => statusDelayProcessCounter;
+
+            private set
+            {
+                eventPublisher.PublishAssignedAsync(Guid, nameof(StatusDelayProcessCounter), value.Guid);
+                statusDelayProcessCounter = value;
+            }
+        }
 
         private void Items_CurrentChanged(object sender, System.EventArgs e)
         {

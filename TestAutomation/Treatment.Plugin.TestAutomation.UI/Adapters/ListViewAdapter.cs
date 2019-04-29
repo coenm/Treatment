@@ -2,13 +2,14 @@
 {
     using System;
     using System.Collections.Specialized;
-    using System.ComponentModel;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
     using System.Windows.Media;
+
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
+    using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
@@ -17,6 +18,8 @@
     {
         [NotNull] private readonly ListView item;
         [NotNull] private readonly IEventPublisher eventPublisher;
+        [NotNull] private readonly PositionChangedHelper helper1;
+        [NotNull] private readonly SizeChangedHelper helper2;
         [CanBeNull] private Point position;
         private bool itemAdded;
 
@@ -28,16 +31,24 @@
             this.eventPublisher = eventPublisher;
 
             Guid = Guid.NewGuid();
+
+            helper1 = new PositionChangedHelper(item, eventPublisher, Guid);
+            helper2 = new SizeChangedHelper(item, eventPublisher, Guid);
         }
 
         public Guid Guid { get; }
 
         public void Dispose()
         {
+            helper2.Dispose();
+            helper1.Dispose();
         }
 
         public void Initialize()
         {
+            helper1.Initialize();
+            helper2.Initialize();
+
             item.Loaded += ItemOnLoaded;
             item.DataContextChanged += ItemOnDataContextChanged;
             item.SelectionChanged += Item_SelectionChanged;
@@ -54,45 +65,6 @@
             {
                 itemsncc.CollectionChanged += OnCollectionChanged;
             }
-
-            item.SizeChanged += ItemOnSizeChanged;
-
-            if (Application.Current.MainWindow != null)
-                Application.Current.MainWindow.LocationChanged += MainWindowOnLocationChanged;
-        }
-
-
-        private void ItemOnSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            eventPublisher.PublishAsync(new TestAutomationEvent
-            {
-                Control = item.Name,
-                EventName = nameof(item.SizeChanged),
-                Payload = e.NewSize.ToString(),
-            });
-
-            if (!IsPositionUpdated())
-                return;
-
-            PublishPosition();
-        }
-
-        private bool IsPositionUpdated()
-        {
-            var pos = item.PointToScreen(new Point(0d, 0d));
-            if (pos == position)
-                return false;
-
-            position = pos;
-            return true;
-        }
-
-        private void MainWindowOnLocationChanged(object sender, EventArgs e)
-        {
-            if (!IsPositionUpdated())
-                return;
-
-            PublishPosition();
         }
 
         private static T GetFrameworkElementByName<T>(FrameworkElement referenceElement)
@@ -150,21 +122,6 @@
 //                    MessageBox.Show(String.Format("Current item's Year is:{0}", textYear.Text));
 //                }
             }
-
-            if (IsPositionUpdated())
-            {
-                PublishPosition();
-            }
-        }
-
-        private void PublishPosition()
-        {
-            eventPublisher.PublishAsync(new TestAutomationEvent
-            {
-                Control = item.Name,
-                EventName = "POSITION",
-                Payload = position,
-            });
         }
 
         private void ItemOnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -189,7 +146,6 @@
 
         private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 var x = e.NewItems[0];

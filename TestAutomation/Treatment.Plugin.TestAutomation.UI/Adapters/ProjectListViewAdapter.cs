@@ -24,8 +24,6 @@
 
             this.item = item;
             this.eventPublisher = eventPublisher;
-
-
         }
 
         public Guid Guid { get; }
@@ -41,7 +39,6 @@
                 FieldsHelper.FindFieldInUiElementByName<ListView>(item, nameof(Listview)),
                 eventPublisher);
         }
-
 
         public ListViewAdapter Listview { get; private set; }
     }

@@ -5,6 +5,7 @@
 
     using JetBrains.Annotations;
     using Treatment.TestAutomation.Contract.Interfaces.Events;
+    using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
 
     public interface IEventPublisher
     {
@@ -21,6 +22,17 @@
                 Control = null,
                 Payload = $"new: {guid}; type: {type.Name}; parent: {parent};"
             });
+        }
+
+        public static Task PublishAssignedAsync(this IEventPublisher publisher, Guid parent, string propertyName, Guid element)
+        {
+            return publisher.PublishAsync(
+                                          new UiElementAssigned
+                                          {
+                                              Guid = parent,
+                                              PropertyName = propertyName,
+                                              ChildElement = element,
+                                          });
         }
     }
 }

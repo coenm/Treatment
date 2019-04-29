@@ -78,8 +78,14 @@
   <ItemGroup>
     <Compile Include="Adapters\ApplicationAdapter.cs" />
     <Compile Include="Adapters\ButtonAdapter.cs" />
+    <Compile Include="Adapters\Helpers\FocusHelper.cs" />
+    <Compile Include="Adapters\Helpers\KeyboardFocusHelper.cs" />
+    <Compile Include="Adapters\Helpers\PositionChangedHelper.cs" />
+    <Compile Include="Adapters\Helpers\EnabledChangedHelper.cs" />
+    <Compile Include="Adapters\Helpers\TextBlockTextValueChangedHelper.cs" />
     <Compile Include="Adapters\ListViewAdapter.cs" />
     <Compile Include="Adapters\MainWindowTestAutomationView.cs" />
+    <Compile Include="Adapters\Helpers\SizeChangedHelper.cs" />
     <Compile Include="Settings\DummySettings.cs" />
     <Compile Include="Infrastructure\IEventPublisher.cs" />
     <Compile Include="Infrastructure\IZeroMqContextService.cs" />

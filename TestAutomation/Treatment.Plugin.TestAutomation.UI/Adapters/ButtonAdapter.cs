@@ -3,10 +3,10 @@
     using System;
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Input;
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
+    using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
@@ -14,6 +14,11 @@
     {
         [NotNull] private readonly Button item;
         [NotNull] private readonly IEventPublisher eventPublisher;
+        [NotNull] private readonly PositionChangedHelper helper1;
+        [NotNull] private readonly SizeChangedHelper helper2;
+        [NotNull] private readonly EnabledChangedHelper helper3;
+        [NotNull] private readonly KeyboardFocusHelper helper4;
+        [NotNull] private readonly FocusHelper helper5;
 
         public ButtonAdapter([NotNull] Button item, [NotNull] IEventPublisher eventPublisher)
         {
@@ -24,95 +29,47 @@
             this.eventPublisher = eventPublisher;
 
             Guid = Guid.NewGuid();
+
+            helper1 = new PositionChangedHelper(item, eventPublisher, Guid);
+            helper2 = new SizeChangedHelper(item, eventPublisher, Guid);
+            helper3 = new EnabledChangedHelper(item, eventPublisher, Guid);
+            helper4 = new KeyboardFocusHelper(item, eventPublisher, Guid);
+            helper5 = new FocusHelper(item, eventPublisher, Guid);
         }
 
         public Guid Guid { get; }
 
         public void Dispose()
         {
+            helper5.Dispose();
+            helper4.Dispose();
+            helper3.Dispose();
+            helper2.Dispose();
+            helper1.Dispose();
         }
 
         public void Initialize()
         {
-            item.IsEnabledChanged += ItemOnIsEnabledChanged;
-            item.Click += ItemOnClick;
-            item.FocusableChanged += ItemFocusableChanged;
-            item.GotFocus += ItemOnGotFocus;
-            item.GotKeyboardFocus += ItemOnGotKeyboardFocus;
-            item.LostKeyboardFocus += ItemOnLostKeyboardFocus;
+            helper1.Initialize();
+            helper2.Initialize();
+            helper3.Initialize();
+            helper4.Initialize();
+            helper5.Initialize();
+
+            // item.Click += ItemOnClick;
         }
 
-        private void ItemOnLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            var evt = new TestAutomationEvent
-            {
-                Control = item.Name,
-                EventName = nameof(item.LostKeyboardFocus),
-                Payload = e.OriginalSource,
-            };
-
-            eventPublisher.PublishAsync(evt);
-        }
-
-        private void ItemOnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            var evt = new TestAutomationEvent
-            {
-                Control = item.Name,
-                EventName = nameof(item.GotKeyboardFocus),
-                Payload = e.OriginalSource,
-            };
-
-            eventPublisher.PublishAsync(evt);
-        }
-
-        private void ItemOnGotFocus(object sender, RoutedEventArgs e)
-        {
-            var evt = new TestAutomationEvent
-            {
-                Control = item.Name,
-                EventName = nameof(item.GotFocus),
-                Payload = e.OriginalSource,
-            };
-
-            eventPublisher.PublishAsync(evt);
-        }
-
-        private void ItemFocusableChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            var evt = new TestAutomationEvent
-            {
-                Control = item.Name,
-                EventName = nameof(item.FocusableChanged),
-                Payload = e.NewValue,
-            };
-
-            eventPublisher.PublishAsync(evt);
-        }
-
-        private void ItemOnClick(object sender, RoutedEventArgs e)
-        {
-            var evt = new TestAutomationEvent
-            {
-                Control = item.Name,
-                EventName = nameof(item.Click),
-                Payload = e.OriginalSource,
-            };
-
-            eventPublisher.PublishAsync(evt);
-        }
-
-        private void ItemOnIsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            var evt = new TestAutomationEvent
-            {
-                Control = item.Name,
-                EventName = nameof(item.IsEnabledChanged),
-                Payload = e.NewValue,
-            };
-
-            eventPublisher.PublishAsync(evt);
-        }
+        // private void ItemOnClick(object sender, RoutedEventArgs e)
+        // {
+        //     var evt = new TestAutomationEvent
+        //     {
+        //         Control = item.Name,
+        //         EventName = nameof(item.Click),
+        //         Payload = e.OriginalSource,
+        //     };
+        //
+        //     eventPublisher.PublishAsync(evt);
+        // }
 
         public bool IsEnabled => item.IsEnabled;
 
