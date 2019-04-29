@@ -4,6 +4,6 @@
 
     public abstract class TestElementEventBase : IEvent
     {
-        private Guid Guid { get; set; }
+        public Guid Guid { get; set; }
     }
 }

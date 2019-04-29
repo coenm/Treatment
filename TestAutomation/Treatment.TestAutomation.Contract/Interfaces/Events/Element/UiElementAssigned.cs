@@ -1,5 +1,7 @@
 ﻿namespace Treatment.TestAutomation.Contract.Interfaces.Events.Element
 {
+    using System;
+
     using JetBrains.Annotations;
 
     /// <summary>
@@ -8,5 +10,8 @@
     [PublicAPI]
     public class UiElementAssigned : TestElementEventBase
     {
+        public string PropertyName { get; set; }
+
+        public Guid ChildElement { get; set; }
     }
 }

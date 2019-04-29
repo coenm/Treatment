@@ -7,6 +7,6 @@
     {
         IMainView MainView { get; }
 
-        void RegisterMainView([NotNull] IMainView mainView);
+        void RegisterAndInitializeMainView([NotNull] IMainView mainView);
     }
 }

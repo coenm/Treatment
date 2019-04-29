@@ -1,12 +1,12 @@
 ﻿namespace Treatment.TestAutomation.Contract.Interfaces.Events.Element
 {
+    using System.Windows;
+
     using JetBrains.Annotations;
 
-    /// <summary>
-    /// UI element that is destroyed.
-    /// </summary>
     [PublicAPI]
-    public class UiElementDestroyed : TestElementEventBase
+    public class PositionUpdated : TestElementEventBase
     {
+        public Point Point { get; set; }
     }
 }
