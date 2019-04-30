@@ -13,5 +13,9 @@
         public void Warn(string msg)
         {
         }
+
+        public void Info(string msg)
+        {
+        }
     }
 }
