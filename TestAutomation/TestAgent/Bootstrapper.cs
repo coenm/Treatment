@@ -3,6 +3,9 @@
     using Implementation;
     using JetBrains.Annotations;
     using SimpleInjector;
+    using TestAgent.ZeroMq;
+    using TestAgent.ZeroMq.PublishInfrastructure;
+    using TestAgent.ZeroMq.RequestReplyInfrastructure;
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.Contract.Interfaces.EventSerializers;
     using Treatment.TestAutomation.Contract.ZeroMq;
@@ -24,6 +27,9 @@
 
             container.Register<IRequestDispatcher, RequestDispatcher>(Lifestyle.Transient);
 
+
+            container.Register<ILogger, EmptyLogger>(Lifestyle.Singleton);
+
             BootstrapZeroMq(container);
         }
 
@@ -32,6 +38,12 @@
             // Ensures ZeroMq Context.
             container.RegisterSingleton<IZeroMqContextService, ZeroMqContextService>();
             container.Register<IZeroMqRequestDispatcher, ZeroMqZeroMqRequestDispatcher>(Lifestyle.Transient);
+
+            container.Register<ZeroMqPublishProxyConfig>(() => new ZeroMqPublishProxyConfig(string.Empty, string.Empty));
+            container.Register<IZeroMqPublishProxyFactory, ZeroMqPublishProxyFactory>(Lifestyle.Transient);
+
+            container.Register<ZeroMqReqRepProxyConfig>(() => new ZeroMqReqRepProxyConfig(string.Empty, string.Empty));
+            container.Register<IZeroMqReqRepProxyFactory, ZeroMqReqRepProxyFactory>(Lifestyle.Transient);
         }
     }
 }
