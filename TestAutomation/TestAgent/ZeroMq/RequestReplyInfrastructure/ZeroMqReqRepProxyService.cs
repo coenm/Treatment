@@ -16,104 +16,104 @@
     ///  </summary>
     public class ZeroMqReqRepProxyService : IDisposable
     {
-        private ZContext _ctx;
-        private readonly ZeroMqReqRepProxyConfig _config;
-        private readonly ILogger _logger;
-        private ZSocket _frontend;
-        private ZSocket _backend;
-        private readonly object _syncLock = new object();
-        private bool _socketBound;
-        private ZmqProxy _proxy;
-        private ZSocket _capture;
+        private ZContext ctx;
+        private readonly ZeroMqReqRepProxyConfig config;
+        private readonly ILogger logger;
+        private ZSocket frontend;
+        private ZSocket backend;
+        private readonly object syncLock = new object();
+        private bool socketBound;
+        private ZmqProxy proxy;
+        private ZSocket capture;
 
         public ZeroMqReqRepProxyService(ZContext context, ZeroMqReqRepProxyConfig config, ILogger logger)
         {
-             _ctx = context;
-            _config = config;
-            _logger = logger;
+             ctx = context;
+            this.config = config;
+            this.logger = logger;
 
-            _frontend = new ZSocket(_ctx, ZSocketType.ROUTER) { Linger = TimeSpan.Zero };
-            _backend = new ZSocket(_ctx, ZSocketType.DEALER) { Linger = TimeSpan.Zero };
+            frontend = new ZSocket(ctx, ZSocketType.ROUTER) { Linger = TimeSpan.Zero };
+            backend = new ZSocket(ctx, ZSocketType.DEALER) { Linger = TimeSpan.Zero };
 
-            if (!string.IsNullOrWhiteSpace(_config.CaptureAddress))
+            if (!string.IsNullOrWhiteSpace(this.config.CaptureAddress))
             {
-                _logger.Info("Creating a capture socket for the ReqRep proxy.");
-                _capture = new ZSocket(_ctx, ZSocketType.PUB) { Linger = TimeSpan.Zero };
+                this.logger.Info("Creating a capture socket for the ReqRep proxy.");
+                capture = new ZSocket(ctx, ZSocketType.PUB) { Linger = TimeSpan.Zero };
             }
         }
 
         public void Start()
         {
-            if (_proxy != null)
+            if (proxy != null)
                 return;
 
-            lock (_syncLock)
+            lock (syncLock)
             {
-                if (_proxy != null)
+                if (proxy != null)
                     return;
 
                 if (!Bind())
                     return;
 
-                _proxy = ZmqProxy.CreateAndRun(_ctx, _frontend, _backend, _capture);
+                proxy = ZmqProxy.CreateAndRun(ctx, frontend, backend, capture);
             }
         }
 
         private bool Bind()
         {
-            if (_socketBound)
+            if (socketBound)
                 return true;
 
             ZError error;
 
-            if (!_frontend.Bind(_config.FrontendAddress, out error))
+            if (!frontend.Bind(config.FrontendAddress, out error))
             {
-                _logger.Error($"Frontend socket of ReqRep proxy could not bind to {_config.FrontendAddress}. {error.Text}");
+                logger.Error($"Frontend socket of ReqRep proxy could not bind to {config.FrontendAddress}. {error.Text}");
                 return false;
             }
 
-            if (!_backend.Bind(_config.BackendAddress, out error))
+            if (!backend.Bind(config.BackendAddress, out error))
             {
-                _logger.Error($"Backend socket of ReqRep proxy could not bind to {_config.BackendAddress}. {error.Text}");
+                logger.Error($"Backend socket of ReqRep proxy could not bind to {config.BackendAddress}. {error.Text}");
                 return false;
             }
 
-            if (!string.IsNullOrWhiteSpace(_config.CaptureAddress))
+            if (!string.IsNullOrWhiteSpace(config.CaptureAddress))
             {
-                if (!_capture.Bind(_config.CaptureAddress, out error))
+                if (!capture.Bind(config.CaptureAddress, out error))
                 {
-                    _logger.Error($"Capture socket of ReqRep proxy could not bind to {_config.CaptureAddress}. {error.Text}");
+                    logger.Error($"Capture socket of ReqRep proxy could not bind to {config.CaptureAddress}. {error.Text}");
                     return false;
                 }
             }
 
-            _socketBound = true;
+            socketBound = true;
             return true;
         }
 
         public void Dispose()
         {
-            lock (_syncLock)
+            lock (syncLock)
             {
                 // Do NOT dispose the ctx. We don't own the context, only use it.
-                _ctx = null;
+                ctx = null;
 
-                _proxy?.Dispose();
-                _proxy = null;
+                proxy?.Dispose();
+                proxy = null;
 
-                _capture?.Close();
-                _capture?.Dispose();
-                _capture = null;
+                capture?.Close();
+                capture?.Dispose();
+                capture = null;
 
-                _frontend?.Close();
-                _frontend?.Dispose();
-                _frontend = null;
+                frontend?.Close();
+                frontend?.Dispose();
+                frontend = null;
 
-                _backend?.Close();
-                _backend?.Dispose();
-                _backend = null;
+                backend?.Close();
+                backend?.Dispose();
+                backend = null;
 
-                _socketBound = false;
+                socketBound = false;
             }
         }
     }

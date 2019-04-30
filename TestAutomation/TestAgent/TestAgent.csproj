@@ -185,6 +185,10 @@
     <Compile Include="ZeroMq\Extensions\ZmqSend.cs" />
     <Compile Include="ZeroMq\ILogger.cs" />
     <Compile Include="ZeroMq\ProxyState.cs" />
+    <Compile Include="ZeroMq\PublishInfrastructure\IZeroMqPublishProxyFactory.cs" />
+    <Compile Include="ZeroMq\PublishInfrastructure\ZeroMqPublishProxyConfig.cs" />
+    <Compile Include="ZeroMq\PublishInfrastructure\ZeroMqPublishProxyFactory.cs" />
+    <Compile Include="ZeroMq\PublishInfrastructure\ZeroMqPublishProxyService.cs" />
     <Compile Include="ZeroMq\RequestReplyInfrastructure\IZeroMqReqRepProxyFactory.cs" />
     <Compile Include="ZeroMq\RequestReplyInfrastructure\ZeroMqReqRepProxyConfig.cs" />
     <Compile Include="ZeroMq\RequestReplyInfrastructure\ZeroMqReqRepProxyFactory.cs" />

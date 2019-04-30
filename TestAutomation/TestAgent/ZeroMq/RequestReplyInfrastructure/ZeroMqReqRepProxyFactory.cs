@@ -4,25 +4,25 @@
 
     public class ZeroMqReqRepProxyFactory : IZeroMqReqRepProxyFactory
     {
-        private readonly IZeroMqContextService _contextService;
-        private readonly ZeroMqReqRepProxyConfig _config;
-        private readonly ILogger _logger;
+        private readonly IZeroMqContextService contextService;
+        private readonly ZeroMqReqRepProxyConfig config;
+        private readonly ILogger logger;
 
         public ZeroMqReqRepProxyFactory(IZeroMqContextService contextService, ZeroMqReqRepProxyConfig config, ILogger logger)
         {
-            _contextService = contextService;
-            _config = config;
-            _logger = logger;
+            this.contextService = contextService;
+            this.config = config;
+            this.logger = logger;
         }
 
         public ZeroMqReqRepProxyConfig GetConfig()
         {
-            return _config;
+            return config;
         }
 
         public ZeroMqReqRepProxyService Create()
         {
-            return new ZeroMqReqRepProxyService(_contextService.GetContext(), _config, _logger);
+            return new ZeroMqReqRepProxyService(contextService.GetContext(), config, logger);
         }
     }
 }
