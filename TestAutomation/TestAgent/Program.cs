@@ -20,7 +20,7 @@
     {
         private const string SutPublishPort = "5558";
         private const string SutReqRspPort = "5557";
-        private const string AgentReqRspPort = "5556";
+        private const string AgentReqRspPort = "5555";
 
 #if DEBUG
         private const string Config = "Debug";
@@ -37,7 +37,8 @@
             Bootstrapper.Bootstrap(container);
             container.Verify(VerificationOption.VerifyOnly);
 
-            var context = container.GetInstance<IZeroMqContextService>().GetContext();
+            // var context = container.GetInstance<IZeroMqContextService>().GetContext();
+            var context = new ZContext();
 
             if (FindTreatmentUi(out var treatmentDir, out var executable))
                 return;
@@ -45,53 +46,53 @@
             var mreListening = new ManualResetEvent(false);
             var cts = new CancellationTokenSource();
 
-            var task0 = Task.Run(() =>
-            {
-                using (var request = new ZSocket(context, ZSocketType.REP))
-                using (cts.Token.Register(() => request.Dispose()))
-                {
-                    request.Bind($"tcp://localhost:{AgentReqRspPort}");
-
-                    try
-                    {
-                        var zmsg = new ZMessage();
-                        ZError error;
-
-
-                        if (!request.ReceiveMessage(ref zmsg, ZSocketFlags.None, out error))
-                        {
-                            Console.WriteLine($" Oops, could not receive a request: {error}");
-                            return;
-                        }
-
-                        using (zmsg)
-                        {
-                            foreach (var frame in zmsg)
-                            {
-                                var s = frame.ReadString();
-                                Console.WriteLine($"| {s,-120} |");
-                            }
-
-                            Console.WriteLine("+" + new string('-', 120 + 2) + "+");
-                            Console.WriteLine(" ");
-                        }
-
-
-
-                        // request.SendMessage(new ZMessage()
-                        // {
-                        //     new ZFrame("question " + i)
-                        // });
-                    }
-                    catch (Exception e)
-                    {
-                        if (!cts.IsCancellationRequested)
-                            Console.WriteLine(e.Message);
-                    }
-                }
-            }).ConfigureAwait(false);
-
-
+            // var task0 = Task.Run(() =>
+            // {
+            //     using (var request = new ZSocket(context, ZSocketType.REP))
+            //     using (cts.Token.Register(() => request.Dispose()))
+            //     {
+            //         request.Bind($"tcp://localhost:{AgentReqRspPort}");
+            //
+            //         try
+            //         {
+            //             var zmsg = new ZMessage();
+            //             ZError error;
+            //
+            //
+            //             if (!request.ReceiveMessage(ref zmsg, ZSocketFlags.None, out error))
+            //             {
+            //                 Console.WriteLine($" Oops, could not receive a request: {error}");
+            //                 return;
+            //             }
+            //
+            //             using (zmsg)
+            //             {
+            //                 foreach (var frame in zmsg)
+            //                 {
+            //                     var s = frame.ReadString();
+            //                     Console.WriteLine($"| {s,-120} |");
+            //                 }
+            //
+            //                 Console.WriteLine("+" + new string('-', 120 + 2) + "+");
+            //                 Console.WriteLine(" ");
+            //             }
+            //
+            //
+            //
+            //             // request.SendMessage(new ZMessage()
+            //             // {
+            //             //     new ZFrame("question " + i)
+            //             // });
+            //         }
+            //         catch (Exception e)
+            //         {
+            //             if (!cts.IsCancellationRequested)
+            //                 Console.WriteLine(e.Message);
+            //         }
+            //     }
+            // }).ConfigureAwait(false);
+            //
+            //
             var task = Task.Run(() =>
             {
                 var handlers = container.GetInstance<IEnumerable<IEventSerializer>>();
@@ -210,7 +211,7 @@
         {
             var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             treatmentDir = currentDir;
-            while (!Directory.Exists(Path.Combine(treatmentDir, "src", "Treatment.UI.Start", "bin", "x64", Config)))
+            while (!Directory.Exists(Path.Combine(treatmentDir, "src", "Treatment.UI.Start", "bin", "x64", Config)) && treatmentDir?.Length > 4)
             {
                 treatmentDir = Path.GetFullPath(Path.Combine(treatmentDir, ".."));
             }

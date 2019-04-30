@@ -3,7 +3,7 @@
     using JetBrains.Annotations;
 
     [PublicAPI]
-    public class LocateExecutablesRequest : IRequest
+    public class LocateFilesRequest : IRequest
     {
         public string Directory { get; set; }
 

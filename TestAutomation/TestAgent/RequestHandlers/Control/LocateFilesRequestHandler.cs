@@ -15,11 +15,11 @@
     using Treatment.Helpers.Guards;
 
     [UsedImplicitly]
-    public class LocateExecutablesRequestHandler : IRequestHandler
+    public class LocateFilesRequestHandler : IRequestHandler
     {
-        public bool CanHandle(IRequest request) => request is LocateExecutablesRequest;
+        public bool CanHandle(IRequest request) => request is LocateFilesRequest;
 
-        public Task<IResponse> ExecuteAsync(IRequest request) => ExecuteAsync(request as LocateExecutablesRequest);
+        public Task<IResponse> ExecuteAsync(IRequest request) => ExecuteAsync(request as LocateFilesRequest);
 
         protected virtual IEnumerable<string> FindFilesIncludingSubdirectories(string rootPath, string mask)
         {
@@ -28,7 +28,7 @@
             return Directory.GetFiles(rootPath, mask, SearchOption.AllDirectories);
         }
 
-        private Task<IResponse> ExecuteAsync(LocateExecutablesRequest request)
+        private Task<IResponse> ExecuteAsync(LocateFilesRequest request)
         {
             Guard.NotNull(request, nameof(request));
 
@@ -40,7 +40,7 @@
 
             var files = FindFilesIncludingSubdirectories(request.Directory, request.Filename);
 
-            var response = new LocateExecutablesResponse
+            var response = new LocateFilesResponse
                 {
                     Executable = files.ToList()
                 };

@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class LocateExecutablesResponse : IResponse
+    public class LocateFilesResponse : IResponse
     {
         public List<string> Executable { get; set; }
     }

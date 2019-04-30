@@ -135,9 +135,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Interface\Control\LocateExecutablesRequest.cs" />
-    <Compile Include="Interface\Control\LocateExecutablesResponse.cs" />
-    <Compile Include="RequestHandlers\Control\LocateExecutablesRequestHandler.cs" />
+    <Compile Include="Interface\Control\LocateFilesRequest.cs" />
+    <Compile Include="Interface\Control\LocateFilesResponse.cs" />
+    <Compile Include="RequestHandlers\Control\LocateFilesRequestHandler.cs" />
     <Compile Include="RequestHandlers\Input\Keyboard\KeyCombinationPressRequestHandler.cs" />
     <Compile Include="RequestHandlers\Input\Keyboard\KeyDownRequestHandler.cs" />
     <Compile Include="RequestHandlers\Input\Keyboard\KeyPressesRequestHandler.cs" />
