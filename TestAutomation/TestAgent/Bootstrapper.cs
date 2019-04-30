@@ -12,9 +12,11 @@
 
     internal static class Bootstrapper
     {
-        public static void Bootstrap([NotNull] Container container)
+        public static void Bootstrap([NotNull] Container container, [NotNull] string endpointRequestResponse, [NotNull] string endpointPublish)
         {
             Guard.NotNull(container, nameof(container));
+            Guard.NotNull(endpointRequestResponse, nameof(endpointRequestResponse));
+            Guard.NotNull(endpointPublish, nameof(endpointPublish));
 
             // sut context
             container.RegisterSingleton<ISutContext, SutContext>();
@@ -30,19 +32,19 @@
 
             container.Register<ILogger, EmptyLogger>(Lifestyle.Singleton);
 
-            BootstrapZeroMq(container);
+            BootstrapZeroMq(container, endpointRequestResponse, endpointPublish);
         }
 
-        private static void BootstrapZeroMq([NotNull] Container container)
+        private static void BootstrapZeroMq([NotNull] Container container, [NotNull] string endpointReqRsp, [NotNull] string endpointPubSub)
         {
             // Ensures ZeroMq Context.
             container.RegisterSingleton<IZeroMqContextService, ZeroMqContextService>();
             container.Register<IZeroMqRequestDispatcher, ZeroMqZeroMqRequestDispatcher>(Lifestyle.Transient);
 
-            container.Register<ZeroMqPublishProxyConfig>(() => new ZeroMqPublishProxyConfig(string.Empty, string.Empty));
+            container.Register<ZeroMqPublishProxyConfig>(() => new ZeroMqPublishProxyConfig(endpointPubSub, "inproc://pub-sub"));
             container.Register<IZeroMqPublishProxyFactory, ZeroMqPublishProxyFactory>(Lifestyle.Transient);
 
-            container.Register<ZeroMqReqRepProxyConfig>(() => new ZeroMqReqRepProxyConfig(string.Empty, string.Empty));
+            container.Register<ZeroMqReqRepProxyConfig>(() => new ZeroMqReqRepProxyConfig(endpointReqRsp, "inproc://publish"));
             container.Register<IZeroMqReqRepProxyFactory, ZeroMqReqRepProxyFactory>(Lifestyle.Transient);
         }
     }

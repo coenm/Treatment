@@ -14,13 +14,16 @@
     using Treatment.TestAutomation.Contract.Interfaces.Events;
     using Treatment.TestAutomation.Contract.Interfaces.EventSerializers;
     using Treatment.TestAutomation.Contract.ZeroMq;
+    using ZeroMq.PublishInfrastructure;
+    using ZeroMq.RequestReplyInfrastructure;
     using ZeroMQ;
 
     public static class Program
     {
-        private const string SutPublishPort = "5558";
-        private const string SutReqRspPort = "5557";
         private const string AgentReqRspPort = "5555";
+        private const string AgentPublishPort = "5556";
+        private const string SutPublishPort = "5557";
+        private const string SutReqRspPort = "5558";
 
 #if DEBUG
         private const string Config = "Debug";
@@ -34,7 +37,11 @@
         {
             container = new Container();
 
-            Bootstrapper.Bootstrap(container);
+            Bootstrapper.Bootstrap(
+                container,
+                $"tcp://*:{AgentReqRspPort}",
+                $"tcp://*:{AgentPublishPort}");
+
             container.Verify(VerificationOption.VerifyOnly);
 
             var context = container.GetInstance<IZeroMqContextService>().GetContext();
@@ -45,7 +52,17 @@
             var mreListening = new ManualResetEvent(false);
             var cts = new CancellationTokenSource();
 
-           var task = Task.Run(() =>
+
+            var zeroMqReqRepProxyFactory = container.GetInstance<IZeroMqReqRepProxyFactory>();
+            var reqRspProxy = zeroMqReqRepProxyFactory.Create();
+            reqRspProxy.Start();
+
+            var zeroMqPublishProxyFactory = container.GetInstance<IZeroMqPublishProxyFactory>();
+            var publishProxy = zeroMqPublishProxyFactory.Create();
+            publishProxy.Start();
+
+
+            var task = Task.Run(() =>
             {
                 var handlers = container.GetInstance<IEnumerable<IEventSerializer>>();
 
@@ -102,10 +119,10 @@
                                     {
                                         ZFrame[] zFrames = zmsg.Skip(1).ToArray();
                                         IEvent evt = handler.Deserialize(zFrames);
-                                        Console.WriteLine($"| {evt.GetType().Name, -100} |");
+                                        Console.WriteLine($"| {evt.GetType().Name,-100} |");
                                         string json = JsonConvert.SerializeObject(evt);
                                         if (json != "{}")
-                                            Console.WriteLine($"| {json, -100} | ");
+                                            Console.WriteLine($"| {json,-100} | ");
                                     }
                                     else
                                     {
@@ -143,8 +160,10 @@
                     {
                         new KeyValuePair<string, string>("ENABLE_TEST_AUTOMATION", "true"),
                         new KeyValuePair<string, string>("TA_KEY", string.Empty),
-                        new KeyValuePair<string, string>("TA_PUBLISH_SOCKET", $"tcp://*:{SutPublishPort}"), // sut publishes events on this
-                        new KeyValuePair<string, string>("TA_REQ_RSP_SOCKET", $"tcp://*:{SutReqRspPort}"), // sut starts listening for requests on this port.
+                        new KeyValuePair<string, string>("TA_PUBLISH_SOCKET",
+                            $"tcp://*:{SutPublishPort}"), // sut publishes events on this
+                        new KeyValuePair<string, string>("TA_REQ_RSP_SOCKET",
+                            $"tcp://*:{SutReqRspPort}"), // sut starts listening for requests on this port.
                     });
                 });
 
@@ -157,6 +176,9 @@
             Console.WriteLine("Done. Press enter to exit.");
             Console.ReadLine();
             await task;
+
+            publishProxy.Dispose();
+            reqRspProxy.Dispose();
         }
 
         private static bool FindTreatmentUi(out string treatmentDir, out string executable)

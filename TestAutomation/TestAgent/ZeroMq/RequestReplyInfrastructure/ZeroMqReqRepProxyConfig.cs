@@ -12,6 +12,6 @@
 
         public string CaptureAddress { get; set; } // = Settings.Default.CommandQueryCaptureEndpoint;
 
-        public string BackendAddress { get; set; } = "inproc://req-rsp";
+        public string BackendAddress { get; set; }
     }
 }

@@ -12,6 +12,6 @@
 
         public string CaptureAddress { get; set; } // = Settings.Default.PublishCaptureEndpoint;
 
-        public string BackendAddress { get; set; } = "inproc://publish";
+        public string BackendAddress { get; set; }
     }
 }
