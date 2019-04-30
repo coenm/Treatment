@@ -1,4 +1,4 @@
-﻿namespace TestAgent.Handlers.Input.Keyboard.Mapper
+﻿namespace TestAgent.RequestHandlers.Input.Keyboard.Mapper
 {
     using Dapplo.Windows.Input.Enums;
 

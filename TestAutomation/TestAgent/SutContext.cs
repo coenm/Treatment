@@ -1,10 +1,9 @@
 ﻿namespace TestAgent
 {
-    public class SutContext
+    public class SutContext : ISutContext
     {
         public SutContext()
         {
         }
-
     }
 }

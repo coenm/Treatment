@@ -14,7 +14,7 @@
             Guard.NotNull(container, nameof(container));
 
             // sut context
-            container.RegisterSingleton<SutContext>();
+            container.RegisterSingleton<ISutContext, SutContext>();
 
             // Events from the TestAutomation plugin (specified in TestAutomation contact).
             container.Collection.Register(typeof(IEventSerializer), typeof(IEventSerializer).Assembly);

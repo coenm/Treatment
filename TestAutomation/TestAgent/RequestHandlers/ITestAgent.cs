@@ -1,6 +1,7 @@
-﻿namespace TestAgent.Handlers
+﻿namespace TestAgent.RequestHandlers
 {
     using System;
+
     using JetBrains.Annotations;
 
     public interface ITestAgent

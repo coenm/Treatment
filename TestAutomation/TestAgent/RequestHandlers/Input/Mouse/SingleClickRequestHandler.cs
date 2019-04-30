@@ -1,12 +1,14 @@
-﻿namespace TestAgent.Handlers.Input.Mouse
+﻿namespace TestAgent.RequestHandlers.Input.Mouse
 {
     using System.Threading.Tasks;
-    using Implementation;
-    using Interface;
+
     using JetBrains.Annotations;
 
+    using TestAgent.Implementation;
+    using TestAgent.Interface;
+
     [PublicAPI]
-    public class MoveMouseToRequestHandler : IRequestHandler
+    public class SingleClickRequestHandler : IRequestHandler
     {
         public Task<IResponse> ExecuteAsync(IRequest request)
         {

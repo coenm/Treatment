@@ -1,13 +1,16 @@
-﻿namespace TestAgent.Handlers.Input.Keyboard
+﻿namespace TestAgent.RequestHandlers.Input.Keyboard
 {
     using System.Threading.Tasks;
 
     using Dapplo.Windows.Input.Keyboard;
-    using Implementation;
-    using Interface;
-    using Interface.Input.Keyboard;
+
     using JetBrains.Annotations;
-    using Mapper;
+
+    using TestAgent.Implementation;
+    using TestAgent.Interface;
+    using TestAgent.Interface.Input.Keyboard;
+    using TestAgent.RequestHandlers.Input.Keyboard.Mapper;
+
     using Treatment.Helpers.Guards;
 
     [UsedImplicitly]
