@@ -17,7 +17,7 @@
 
     using ZeroMQ;
 
-    public class ReqRepWorkerManagement
+    public class ReqRepWorkerManagement : IWorker
     {
         private static readonly Random Random = new Random(DateTime.Now.Millisecond);
         [NotNull] private readonly IZeroMqContextService contextService;
@@ -48,9 +48,15 @@
             return items.AsEnumerable();
         }
 
-        public async Task StartSingleWorker([NotNull] IZeroMqRequestDispatcher messageDispatcher, CancellationToken ct = default)
+        public async Task StartSingleWorker(
+            [NotNull] IZeroMqRequestDispatcher messageDispatcher,
+            [NotNull] string backendAddress,
+            CancellationToken ct = default)
         {
             Guard.NotNull(messageDispatcher, nameof(messageDispatcher));
+            Guard.NotNullOrWhiteSpace(backendAddress, nameof(backendAddress));
+
+            await Task.Yield();
 
             logger.Debug("Starting zero mq worker");
             var socketName = GenerateChannelName();
@@ -74,7 +80,7 @@
                     return;
                 }
 
-                if (!workerSocket.TryConnect(reqRspServiceFactory.GetConfig().BackendAddress))
+                if (!workerSocket.TryConnect(backendAddress))
                 {
                     logger.Warn("Worker could not connect to proxy socket");
                     return;

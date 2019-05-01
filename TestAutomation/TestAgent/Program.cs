@@ -11,6 +11,10 @@
     using Medallion.Shell;
     using Newtonsoft.Json;
     using SimpleInjector;
+
+    using TestAgent.Implementation;
+    using TestAgent.ZeroMq.RequestReplyWorker;
+
     using Treatment.TestAutomation.Contract.Interfaces.Events;
     using Treatment.TestAutomation.Contract.Interfaces.EventSerializers;
     using Treatment.TestAutomation.Contract.ZeroMq;
@@ -61,6 +65,12 @@
             var publishProxy = zeroMqPublishProxyFactory.Create();
             publishProxy.Start();
 
+            var workerManager = container.GetInstance<ReqRepWorkerManagement>();
+
+            var workerTask = workerManager.StartSingleWorker(
+                                container.GetInstance<IZeroMqRequestDispatcher>(),
+                                zeroMqReqRepProxyFactory.GetConfig().BackendAddress,
+                                cts.Token);
 
             var task = Task.Run(() =>
             {
