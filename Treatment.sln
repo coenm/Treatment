@@ -52,6 +52,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAgent", "TestAutomation
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAgentEventsLogger", "TestAutomation\TestAgentEventsLogger\TestAgentEventsLogger.csproj", "{839B3E64-44AF-4836-B9DF-188CE43ECBE0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAgent.Tests", "TestAutomation\TestAgent.Tests\TestAgent.Tests.csproj", "{A01C3566-E0DE-4B5A-8392-AB8233EF0E08}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -194,6 +196,12 @@ Global
 		{839B3E64-44AF-4836-B9DF-188CE43ECBE0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{839B3E64-44AF-4836-B9DF-188CE43ECBE0}.Release|x64.ActiveCfg = Release|x64
 		{839B3E64-44AF-4836-B9DF-188CE43ECBE0}.Release|x64.Build.0 = Release|x64
+		{A01C3566-E0DE-4B5A-8392-AB8233EF0E08}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{A01C3566-E0DE-4B5A-8392-AB8233EF0E08}.Debug|x64.ActiveCfg = Debug|x64
+		{A01C3566-E0DE-4B5A-8392-AB8233EF0E08}.Debug|x64.Build.0 = Debug|x64
+		{A01C3566-E0DE-4B5A-8392-AB8233EF0E08}.Release|Any CPU.ActiveCfg = Release|x64
+		{A01C3566-E0DE-4B5A-8392-AB8233EF0E08}.Release|x64.ActiveCfg = Release|x64
+		{A01C3566-E0DE-4B5A-8392-AB8233EF0E08}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -207,6 +215,7 @@ Global
 		{0E179745-C4B4-41A0-8EF4-08A5F18FB8CD} = {969A961E-A168-468C-877B-056684B444B5}
 		{3E27FBFA-EC3B-4B1F-94E2-5BFBCFEDC27F} = {969A961E-A168-468C-877B-056684B444B5}
 		{839B3E64-44AF-4836-B9DF-188CE43ECBE0} = {969A961E-A168-468C-877B-056684B444B5}
+		{A01C3566-E0DE-4B5A-8392-AB8233EF0E08} = {969A961E-A168-468C-877B-056684B444B5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {192610B5-8639-40A0-AD86-79C24A14C9B9}
