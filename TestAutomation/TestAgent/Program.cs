@@ -68,7 +68,7 @@
 
             var workerTask = workerManager.StartSingleWorker(
                                 container.GetInstance<IZeroMqRequestDispatcher>(),
-                                zeroMqReqRepProxyFactory.GetConfig().BackendAddress,
+                                zeroMqReqRepProxyFactory.GetConfig().BackendAddress.First(),
                                 cts.Token);
 
             var task = Task.Run(() =>

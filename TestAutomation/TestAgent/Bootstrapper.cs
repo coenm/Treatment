@@ -41,10 +41,10 @@
             container.RegisterSingleton<IZeroMqContextService, ZeroMqContextService>();
             container.Register<IZeroMqRequestDispatcher, ZeroMqZeroMqRequestDispatcher>(Lifestyle.Transient);
 
-            container.Register<ZeroMqPublishProxyConfig>(() => new ZeroMqPublishProxyConfig(endpointPubSub, "inproc://pub-sub"));
+            container.Register<ZeroMqPublishProxyConfig>(() => new ZeroMqPublishProxyConfig(new []{ endpointPubSub }, new[] { "inproc://pub-sub" }));
             container.Register<IZeroMqPublishProxyFactory, ZeroMqPublishProxyFactory>(Lifestyle.Transient);
 
-            container.Register<ZeroMqReqRepProxyConfig>(() => new ZeroMqReqRepProxyConfig(endpointReqRsp, "inproc://publish"));
+            container.Register<ZeroMqReqRepProxyConfig>(() => new ZeroMqReqRepProxyConfig(new[] { endpointReqRsp }, new[] { "inproc://publish" }));
             container.Register<IZeroMqReqRepProxyFactory, ZeroMqReqRepProxyFactory>(Lifestyle.Transient);
         }
     }

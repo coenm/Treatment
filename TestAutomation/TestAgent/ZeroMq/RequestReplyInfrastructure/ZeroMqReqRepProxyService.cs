@@ -66,16 +66,22 @@
 
             ZError error;
 
-            if (!frontend.Bind(config.FrontendAddress, out error))
+            foreach (var address in config.FrontendAddress)
             {
-                logger.Error($"Frontend socket of ReqRep proxy could not bind to {config.FrontendAddress}. {error.Text}");
-                return false;
+                if (!frontend.Bind(address, out error))
+                {
+                    logger.Error($"Frontend socket of ReqRep proxy could not bind to {address}. {error.Text}");
+                    return false;
+                }
             }
 
-            if (!backend.Bind(config.BackendAddress, out error))
+            foreach (var address in config.BackendAddress)
             {
-                logger.Error($"Backend socket of ReqRep proxy could not bind to {config.BackendAddress}. {error.Text}");
-                return false;
+                if (!backend.Bind(address, out error))
+                {
+                    logger.Error($"Backend socket of ReqRep proxy could not bind to {address}. {error.Text}");
+                    return false;
+                }
             }
 
             if (!string.IsNullOrWhiteSpace(config.CaptureAddress))
