@@ -1,0 +1,10 @@
+﻿namespace TestAgentEventsLogger.Interface.Input.Mouse
+{
+    using JetBrains.Annotations;
+
+    [PublicAPI]
+    public class SingleClickRequest : IRequest
+    {
+        public MouseButtons Button { get; set; }
+    }
+}

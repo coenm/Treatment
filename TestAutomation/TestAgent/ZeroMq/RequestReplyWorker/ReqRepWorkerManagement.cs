@@ -7,14 +7,11 @@
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
-
     using TestAgent.Implementation;
     using TestAgent.ZeroMq.RequestReplyInfrastructure;
     using TestAgent.ZeroMq.Utils;
-
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.Contract.ZeroMq;
-
     using ZeroMQ;
 
     public class ReqRepWorkerManagement : IWorker

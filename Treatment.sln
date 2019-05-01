@@ -50,6 +50,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treatment.TestAutomation.Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAgent", "TestAutomation\TestAgent\TestAgent.csproj", "{3E27FBFA-EC3B-4B1F-94E2-5BFBCFEDC27F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAgentEventsLogger", "TestAutomation\TestAgentEventsLogger\TestAgentEventsLogger.csproj", "{839B3E64-44AF-4836-B9DF-188CE43ECBE0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -184,6 +186,14 @@ Global
 		{3E27FBFA-EC3B-4B1F-94E2-5BFBCFEDC27F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3E27FBFA-EC3B-4B1F-94E2-5BFBCFEDC27F}.Release|x64.ActiveCfg = Release|x64
 		{3E27FBFA-EC3B-4B1F-94E2-5BFBCFEDC27F}.Release|x64.Build.0 = Release|x64
+		{839B3E64-44AF-4836-B9DF-188CE43ECBE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{839B3E64-44AF-4836-B9DF-188CE43ECBE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{839B3E64-44AF-4836-B9DF-188CE43ECBE0}.Debug|x64.ActiveCfg = Debug|x64
+		{839B3E64-44AF-4836-B9DF-188CE43ECBE0}.Debug|x64.Build.0 = Debug|x64
+		{839B3E64-44AF-4836-B9DF-188CE43ECBE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{839B3E64-44AF-4836-B9DF-188CE43ECBE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{839B3E64-44AF-4836-B9DF-188CE43ECBE0}.Release|x64.ActiveCfg = Release|x64
+		{839B3E64-44AF-4836-B9DF-188CE43ECBE0}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -196,6 +206,7 @@ Global
 		{6AD8EA5D-EEC6-4AB3-8EC2-D3FFE5EBC4F7} = {969A961E-A168-468C-877B-056684B444B5}
 		{0E179745-C4B4-41A0-8EF4-08A5F18FB8CD} = {969A961E-A168-468C-877B-056684B444B5}
 		{3E27FBFA-EC3B-4B1F-94E2-5BFBCFEDC27F} = {969A961E-A168-468C-877B-056684B444B5}
+		{839B3E64-44AF-4836-B9DF-188CE43ECBE0} = {969A961E-A168-468C-877B-056684B444B5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {192610B5-8639-40A0-AD86-79C24A14C9B9}
