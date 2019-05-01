@@ -1,6 +1,6 @@
-﻿namespace TestAgent.Interface.Input.Mouse
+﻿namespace TestAgent.Contract.Interface.Input.Mouse
 {
-    using System.Windows;
+    using Base;
     using JetBrains.Annotations;
 
     [PublicAPI]

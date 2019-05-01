@@ -135,8 +135,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Interface\Control\LocateFilesRequest.cs" />
-    <Compile Include="Interface\Control\LocateFilesResponse.cs" />
     <Compile Include="RequestHandlers\Control\LocateFilesRequestHandler.cs" />
     <Compile Include="RequestHandlers\Input\Keyboard\KeyCombinationPressRequestHandler.cs" />
     <Compile Include="RequestHandlers\Input\Keyboard\KeyDownRequestHandler.cs" />
@@ -146,32 +144,16 @@
     <Compile Include="RequestHandlers\Input\Mouse\DoubleClickRequestHandler.cs" />
     <Compile Include="RequestHandlers\Input\Mouse\MoveMouseToRequestHandler.cs" />
     <Compile Include="RequestHandlers\Input\Mouse\SingleClickRequestHandler.cs" />
-    <Compile Include="Interface\OkResponse.cs" />
-    <Compile Include="Interface\ExceptionResponse.cs" />
-    <Compile Include="Interface\Input\Enums\VirtualKeyCode.cs" />
-    <Compile Include="Interface\Input\Keyboard\KeyCombinationPressRequest.cs" />
-    <Compile Include="Interface\Input\Keyboard\KeyDownRequest.cs" />
-    <Compile Include="Interface\Input\Keyboard\KeyUpRequest.cs" />
-    <Compile Include="Interface\Input\Keyboard\KeyPressesRequest.cs" />
-    <Compile Include="Interface\Input\Enums\VirtualKeyCodeExtensions.cs" />
     <Compile Include="RequestHandlers\IMessageBox.cs" />
     <Compile Include="RequestHandlers\ITestAgent.cs" />
     <Compile Include="RequestHandlers\MessageBoxButtons.cs" />
-    <Compile Include="Interface\Input\Mouse\DoubleClickRequest.cs" />
-    <Compile Include="Interface\Input\Mouse\MouseButtons.cs" />
-    <Compile Include="Interface\Input\Mouse\MoveMouseToRequest.cs" />
-    <Compile Include="Interface\Input\Mouse\SingleClickRequest.cs" />
-    <Compile Include="Interface\IRequest.cs" />
     <Compile Include="Implementation\IRequestDispatcher.cs" />
     <Compile Include="Implementation\IRequestHandler.cs" />
-    <Compile Include="Interface\IResponse.cs" />
     <Compile Include="Implementation\ISutEvents.cs" />
     <Compile Include="Implementation\ISutEventsPublisher.cs" />
     <Compile Include="Implementation\IZeroMqRequestDispatcher.cs" />
     <Compile Include="Implementation\RequestDispatcher.cs" />
-    <Compile Include="Interface\Control\StartSutRequest.cs" />
     <Compile Include="RequestHandlers\Control\StartSutRequestHandler.cs" />
-    <Compile Include="Interface\Control\StartSutResponse.cs" />
     <Compile Include="Implementation\ZeroMqSutEvents.cs" />
     <Compile Include="Implementation\ZeroMqZeroMqRequestDispatcher.cs" />
     <Compile Include="ISutContext.cs" />
@@ -207,6 +189,10 @@
     <ProjectReference Include="..\..\src\Treatment.Helpers\Treatment.Helpers.csproj">
       <Project>{0d6db733-febe-4f4d-9d99-3808517a9f7f}</Project>
       <Name>Treatment.Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestAgent.Contract\TestAgent.Contract.csproj">
+      <Project>{f3973336-d09c-40f2-b8f4-0e6238fcea13}</Project>
+      <Name>TestAgent.Contract</Name>
     </ProjectReference>
     <ProjectReference Include="..\Treatment.TestAutomation.Contract\Treatment.TestAutomation.Contract.csproj">
       <Project>{0E179745-C4B4-41A0-8EF4-08A5F18FB8CD}</Project>

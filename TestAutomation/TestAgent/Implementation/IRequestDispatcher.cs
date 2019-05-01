@@ -1,7 +1,7 @@
 ﻿namespace TestAgent.Implementation
 {
     using System.Threading.Tasks;
-    using Interface;
+    using Contract.Interface;
 
     public interface IRequestDispatcher
     {

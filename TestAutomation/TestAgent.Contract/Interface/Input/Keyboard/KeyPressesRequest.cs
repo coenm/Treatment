@@ -1,4 +1,4 @@
-﻿namespace TestAgent.Interface.Input.Keyboard
+﻿namespace TestAgent.Contract.Interface.Input.Keyboard
 {
     using Enums;
     using JetBrains.Annotations;

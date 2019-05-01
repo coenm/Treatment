@@ -4,9 +4,9 @@
     using System.Collections.Concurrent;
     using System.Linq;
     using System.Threading.Tasks;
-    using Interface;
+    using Contract.Interface;
+    using Contract.Serializer;
     using JetBrains.Annotations;
-    using Newtonsoft.Json;
     using Treatment.Helpers.Guards;
     using ZeroMQ;
 
@@ -34,45 +34,21 @@
         [NotNull]
         private static ZMessage Serialize([NotNull] IResponse rsp)
         {
+            var (type, payload) = RequestResponseSerializer.Serialize(rsp);
+
             return new ZMessage
             {
-                new ZFrame(rsp.GetType().FullName),
-                new ZFrame(JsonConvert.SerializeObject(rsp))
+                new ZFrame(type),
+                new ZFrame(payload)
             };
         }
 
-        [NotNull]
+        [CanBeNull]
         private static IRequest Deserialize([NotNull] ZMessage message)
         {
-            Type payloadType;
-            var typeString = message[0].ReadString();
-            var payload = message[1].ReadString();
-
-            try
-            {
-                payloadType = TypeCache.GetOrAdd(
-                    typeString,
-                    _ => AppDomain.CurrentDomain
-                        .GetAssemblies()
-                        .Select(a => a.GetType(typeString, false))
-                        .Single(t => t != null));
-            }
-            catch (Exception)
-            {
-                throw;
-                // var errorMsg = $"Type not found for message {req.PayloadType}.";
-                // _logger.Warn(errorMsg + " Return Exception message");
-                //
-                // var ex = new Exception(errorMsg);
-                // return new ZmqExceptionResponseMessage(req, ex);
-            }
-
-            if (string.IsNullOrWhiteSpace(payload))
-            {
-                throw new Exception("payload is null");
-            }
-
-            return JsonConvert.DeserializeObject(payload, payloadType) as IRequest ?? throw new InvalidOperationException();
+            return RequestResponseSerializer.DeserializeRequest(
+                message[0].ReadString(),
+                message[1].ReadString());
         }
     }
 }

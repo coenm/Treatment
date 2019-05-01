@@ -1,4 +1,4 @@
-﻿namespace TestAgent.Interface.Input.Enums
+﻿namespace TestAgent.Contract.Interface.Input.Enums
 {
     /// <summary>
     /// Extensions for VirtualKeyCode

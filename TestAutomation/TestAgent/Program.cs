@@ -7,14 +7,12 @@
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
-
+    using Contract.Serializer;
     using Medallion.Shell;
     using Newtonsoft.Json;
     using SimpleInjector;
-
     using TestAgent.Implementation;
     using TestAgent.ZeroMq.RequestReplyWorker;
-
     using Treatment.TestAutomation.Contract.Interfaces.Events;
     using Treatment.TestAutomation.Contract.Interfaces.EventSerializers;
     using Treatment.TestAutomation.Contract.ZeroMq;
@@ -130,6 +128,7 @@
                                         ZFrame[] zFrames = zmsg.Skip(1).ToArray();
                                         IEvent evt = handler.Deserialize(zFrames);
                                         Console.WriteLine($"| {evt.GetType().Name,-100} |");
+
                                         string json = JsonConvert.SerializeObject(evt);
                                         if (json != "{}")
                                             Console.WriteLine($"| {json,-100} | ");

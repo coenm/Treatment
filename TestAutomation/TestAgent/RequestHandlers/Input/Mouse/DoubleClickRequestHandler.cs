@@ -1,11 +1,10 @@
 ﻿namespace TestAgent.RequestHandlers.Input.Mouse
 {
     using System.Threading.Tasks;
-
+    using Contract.Interface;
     using JetBrains.Annotations;
 
     using TestAgent.Implementation;
-    using TestAgent.Interface;
 
     [PublicAPI]
     public class DoubleClickRequestHandler : IRequestHandler

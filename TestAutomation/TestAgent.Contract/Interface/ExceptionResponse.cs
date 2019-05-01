@@ -1,4 +1,4 @@
-﻿namespace TestAgent.Interface
+﻿namespace TestAgent.Contract.Interface
 {
     using JetBrains.Annotations;
 

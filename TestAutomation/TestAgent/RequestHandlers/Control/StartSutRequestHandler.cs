@@ -1,13 +1,11 @@
 ﻿namespace TestAgent.RequestHandlers.Control
 {
     using System.Threading.Tasks;
-
+    using Contract.Interface;
+    using Contract.Interface.Control;
     using JetBrains.Annotations;
 
     using TestAgent.Implementation;
-    using TestAgent.Interface;
-    using TestAgent.Interface.Control;
-
     using Treatment.Helpers.Guards;
 
     public class StartSutRequestHandler : IRequestHandler

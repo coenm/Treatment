@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Interface;
+    using Contract.Interface;
 
     public class RequestDispatcher : IRequestDispatcher
     {
