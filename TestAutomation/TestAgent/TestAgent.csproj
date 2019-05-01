@@ -16,27 +16,6 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <LangVersion>7.3</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <LangVersion>7.3</LangVersion>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
@@ -160,15 +139,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SutContext.cs" />
-    <Compile Include="ZeroMq\EmptyLogger.cs" />
     <Compile Include="ZeroMq\RequestReplyWorker\IWorker.cs" />
-    <Compile Include="ZeroMq\Utils\ZmqPolls.cs" />
-    <Compile Include="ZeroMq\Utils\ZmqConnect.cs" />
-    <Compile Include="ZeroMq\Utils\ZmqConnection.cs" />
-    <Compile Include="ZeroMq\Utils\ZmqReceive.cs" />
-    <Compile Include="ZeroMq\Utils\ZmqSend.cs" />
-    <Compile Include="ZeroMq\ILogger.cs" />
-    <Compile Include="ZeroMq\ProxyState.cs" />
     <Compile Include="ZeroMq\PublishInfrastructure\IZeroMqPublishProxyFactory.cs" />
     <Compile Include="ZeroMq\PublishInfrastructure\ZeroMqPublishProxyConfig.cs" />
     <Compile Include="ZeroMq\PublishInfrastructure\ZeroMqPublishProxyFactory.cs" />
@@ -178,7 +149,6 @@
     <Compile Include="ZeroMq\RequestReplyInfrastructure\ZeroMqReqRepProxyFactory.cs" />
     <Compile Include="ZeroMq\RequestReplyInfrastructure\ZeroMqReqRepProxyService.cs" />
     <Compile Include="ZeroMq\RequestReplyWorker\ReqRepWorkerManagement.cs" />
-    <Compile Include="ZeroMq\ZeroMqProxy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -190,9 +160,17 @@
       <Project>{0d6db733-febe-4f4d-9d99-3808517a9f7f}</Project>
       <Name>Treatment.Helpers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Treatment.ZeroMq\Treatment.ZeroMq.csproj">
+      <Project>{3D1F845A-A217-4EE4-9C56-C97EF7EC8F9C}</Project>
+      <Name>Treatment.ZeroMq</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TestAgent.Contract\TestAgent.Contract.csproj">
       <Project>{f3973336-d09c-40f2-b8f4-0e6238fcea13}</Project>
       <Name>TestAgent.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestAgentEventsLogger\TestAgentEventsLogger.csproj">
+      <Project>{839B3E64-44AF-4836-B9DF-188CE43ECBE0}</Project>
+      <Name>TestAgentEventsLogger</Name>
     </ProjectReference>
     <ProjectReference Include="..\Treatment.TestAutomation.Contract\Treatment.TestAutomation.Contract.csproj">
       <Project>{0E179745-C4B4-41A0-8EF4-08A5F18FB8CD}</Project>

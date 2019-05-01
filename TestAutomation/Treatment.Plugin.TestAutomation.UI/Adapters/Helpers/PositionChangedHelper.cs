@@ -4,7 +4,6 @@
     using System.Windows;
 
     using JetBrains.Annotations;
-
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
@@ -59,12 +58,19 @@
 
         private bool IsPositionUpdated()
         {
-            var pos = frameworkElement.PointToScreen(new Point(0d, 0d));
-            if (pos == position)
-                return false;
+            try
+            {
+                var pos = frameworkElement.PointToScreen(new Point(0d, 0d));
+                if (pos == position)
+                    return false;
 
-            position = pos;
-            return true;
+                position = pos;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         private void PublishPositionIfUpdated()

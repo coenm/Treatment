@@ -1,4 +1,4 @@
-﻿namespace TestAgentEventsLogger.ZeroMq.Utils
+﻿namespace TreatmentZeroMq.Helpers
 {
     using ZeroMQ;
 

@@ -1,7 +1,7 @@
 ﻿namespace TestAgent.ZeroMq.RequestReplyInfrastructure
 {
     using System;
-
+    using TreatmentZeroMq.Proxy;
     using ZeroMQ;
 
     /// <inheritdoc />
@@ -18,7 +18,6 @@
     {
         private ZContext ctx;
         private readonly ZeroMqReqRepProxyConfig config;
-        private readonly ILogger logger;
         private ZSocket frontend;
         private ZSocket backend;
         private readonly object syncLock = new object();
@@ -26,18 +25,17 @@
         private ZmqProxy proxy;
         private ZSocket capture;
 
-        public ZeroMqReqRepProxyService(ZContext context, ZeroMqReqRepProxyConfig config, ILogger logger)
+        public ZeroMqReqRepProxyService(ZContext context, ZeroMqReqRepProxyConfig config)
         {
              ctx = context;
             this.config = config;
-            this.logger = logger;
 
             frontend = new ZSocket(ctx, ZSocketType.ROUTER) { Linger = TimeSpan.Zero };
             backend = new ZSocket(ctx, ZSocketType.DEALER) { Linger = TimeSpan.Zero };
 
             if (!string.IsNullOrWhiteSpace(this.config.CaptureAddress))
             {
-                this.logger.Info("Creating a capture socket for the ReqRep proxy.");
+//                this.logger.Info("Creating a capture socket for the ReqRep proxy.");
                 capture = new ZSocket(ctx, ZSocketType.PUB) { Linger = TimeSpan.Zero };
             }
         }
@@ -70,7 +68,7 @@
             {
                 if (!frontend.Bind(address, out error))
                 {
-                    logger.Error($"Frontend socket of ReqRep proxy could not bind to {address}. {error.Text}");
+//                    logger.Error($"Frontend socket of ReqRep proxy could not bind to {address}. {error.Text}");
                     return false;
                 }
             }
@@ -79,7 +77,7 @@
             {
                 if (!backend.Bind(address, out error))
                 {
-                    logger.Error($"Backend socket of ReqRep proxy could not bind to {address}. {error.Text}");
+//                    logger.Error($"Backend socket of ReqRep proxy could not bind to {address}. {error.Text}");
                     return false;
                 }
             }
@@ -88,7 +86,7 @@
             {
                 if (!capture.Bind(config.CaptureAddress, out error))
                 {
-                    logger.Error($"Capture socket of ReqRep proxy could not bind to {config.CaptureAddress}. {error.Text}");
+//                    logger.Error($"Capture socket of ReqRep proxy could not bind to {config.CaptureAddress}. {error.Text}");
                     return false;
                 }
             }

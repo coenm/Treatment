@@ -7,8 +7,8 @@
     using TestAgent.ZeroMq.PublishInfrastructure;
     using TestAgent.ZeroMq.RequestReplyInfrastructure;
     using Treatment.Helpers.Guards;
-    using Treatment.TestAutomation.Contract.Interfaces.EventSerializers;
-    using Treatment.TestAutomation.Contract.ZeroMq;
+    using TreatmentZeroMq;
+    using TreatmentZeroMq.ContextService;
 
     internal static class Bootstrapper
     {
@@ -21,16 +21,10 @@
             // sut context
             container.RegisterSingleton<ISutContext, SutContext>();
 
-            // Events from the TestAutomation plugin (specified in TestAutomation contact).
-            container.Collection.Register(typeof(IEventSerializer), typeof(IEventSerializer).Assembly);
-
             // all possible request handlers
             container.Collection.Register(typeof(IRequestHandler), typeof(IRequestHandler).Assembly);
 
             container.Register<IRequestDispatcher, RequestDispatcher>(Lifestyle.Transient);
-
-
-            container.Register<ILogger, EmptyLogger>(Lifestyle.Singleton);
 
             BootstrapZeroMq(container, endpointRequestResponse, endpointPublish);
         }

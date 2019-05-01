@@ -9,6 +9,7 @@
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
+    using Treatment.TestAutomation.Contract.Interfaces;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
     internal class TextBlockAdapter : ITextBlock

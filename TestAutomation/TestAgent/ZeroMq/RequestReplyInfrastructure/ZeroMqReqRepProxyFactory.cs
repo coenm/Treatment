@@ -1,18 +1,24 @@
 ﻿namespace TestAgent.ZeroMq.RequestReplyInfrastructure
 {
-    using Treatment.TestAutomation.Contract.ZeroMq;
+    using JetBrains.Annotations;
+    using Treatment.Helpers.Guards;
+    using TreatmentZeroMq;
+    using TreatmentZeroMq.ContextService;
 
     public class ZeroMqReqRepProxyFactory : IZeroMqReqRepProxyFactory
     {
-        private readonly IZeroMqContextService contextService;
-        private readonly ZeroMqReqRepProxyConfig config;
-        private readonly ILogger logger;
+        [NotNull] private readonly IZeroMqContextService contextService;
+        [NotNull] private readonly ZeroMqReqRepProxyConfig config;
 
-        public ZeroMqReqRepProxyFactory(IZeroMqContextService contextService, ZeroMqReqRepProxyConfig config, ILogger logger)
+        public ZeroMqReqRepProxyFactory(
+            [NotNull] IZeroMqContextService contextService,
+            [NotNull] ZeroMqReqRepProxyConfig config)
         {
+            Guard.NotNull(contextService, nameof(contextService));
+            Guard.NotNull(config, nameof(contextService));
+
             this.contextService = contextService;
             this.config = config;
-            this.logger = logger;
         }
 
         public ZeroMqReqRepProxyConfig GetConfig()
@@ -22,7 +28,7 @@
 
         public ZeroMqReqRepProxyService Create()
         {
-            return new ZeroMqReqRepProxyService(contextService.GetContext(), config, logger);
+            return new ZeroMqReqRepProxyService(contextService.GetContext(), config);
         }
     }
 }

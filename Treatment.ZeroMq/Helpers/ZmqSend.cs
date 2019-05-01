@@ -1,9 +1,8 @@
-﻿namespace TestAgentEventsLogger.ZeroMq.Utils
+﻿namespace TreatmentZeroMq.Helpers
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-
     using ZeroMQ;
 
     public static class ZmqSend

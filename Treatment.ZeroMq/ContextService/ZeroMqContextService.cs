@@ -1,4 +1,4 @@
-﻿namespace Treatment.TestAutomation.Contract.ZeroMq
+﻿namespace TreatmentZeroMq.ContextService
 {
     using System;
     using ZeroMQ;

@@ -1,14 +1,13 @@
-﻿namespace TestAgent.ZeroMq
+﻿namespace TreatmentZeroMq.Proxy
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
 
-    using TestAgent.ZeroMq.Utils;
-
+    using Helpers;
     using ZeroMQ;
 
-    internal class ZmqProxy
+    public class ZmqProxy
     {
         private static readonly Random Random = new Random(DateTime.Now.Millisecond);
 
@@ -16,19 +15,16 @@
         private readonly ManualResetEvent proxyStartedSignal;
         private readonly ZSocket controlSocketSub;
         private readonly ZSocket controlSocketPub;
-        private readonly ILogger logger;
 
         private Task runningProxyTask;
         private bool disposed;
 
-        private ZmqProxy(ZContext context, string controlChannel, ILogger logger)
+        private ZmqProxy(ZContext context, string controlChannel)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
             if (string.IsNullOrWhiteSpace(controlChannel))
                 throw new ArgumentNullException(nameof(controlChannel));
-
-            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             controlSocketPub = new ZSocket(context, ZSocketType.PUB) { Linger = TimeSpan.Zero };
             controlSocketSub = new ZSocket(context, ZSocketType.SUB) { Linger = TimeSpan.Zero };
@@ -36,13 +32,13 @@
 
             if (!controlSocketSub.TryBind(controlChannel))
             {
-                this.logger.Error($"Could not bind to control channel '{controlChannel}'");
+//                this.logger.Error($"Could not bind to control channel '{controlChannel}'");
                 throw new ApplicationException();
             }
 
             if (!controlSocketPub.TryConnect(controlChannel))
             {
-                this.logger.Error($"Could not connect to control channel '{controlChannel}'");
+//                this.logger.Error($"Could not connect to control channel '{controlChannel}'");
                 throw new ApplicationException();
             }
 
@@ -81,11 +77,11 @@
 
                 if (proxyResult && (error == null || ZError.None.Equals(error)))
                 {
-                    logger.Debug("ZmqProxy closed");
+//                    logger.Debug("ZmqProxy closed");
                     return;
                 }
 
-                logger.Warn($"The ZmqProxy could not be closed normally. {error.Text}");
+//                logger.Warn($"The ZmqProxy could not be closed normally. {error.Text}");
             }
 
             runningProxyTask = Task.Run(() => StartProxying());
@@ -100,10 +96,10 @@
         /// <param name="logger">Logger to use</param>
         /// <exception cref="ApplicationException">Thrown when the proxy could not start.</exception>
         /// <returns></returns>
-        public static ZmqProxy CreateAndRun(ZContext context, ZSocket frontend, ZSocket backend, ZSocket capture = null, ILogger logger = null)
+        public static ZmqProxy CreateAndRun(ZContext context, ZSocket frontend, ZSocket backend, ZSocket capture = null)
         {
             const int startingTimeoutSec = 10;
-            var result = new ZmqProxy(context, GenerateChannelName(), logger ?? new EmptyLogger());
+            var result = new ZmqProxy(context, GenerateChannelName());
             result.StartProxy(frontend, backend, capture);
             var signaled = result.proxyStartedSignal.WaitOne(startingTimeoutSec * 1000);
             if (signaled)

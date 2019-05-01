@@ -12,10 +12,11 @@
     using Treatment.Plugin.TestAutomation.UI.Adapters;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Settings;
-    using Treatment.TestAutomation.Contract.Interfaces.EventSerializers;
+    using Treatment.TestAutomation.Contract.Interfaces;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
-    using Treatment.TestAutomation.Contract.ZeroMq;
     using Treatment.UI.View;
+    using TreatmentZeroMq;
+    using TreatmentZeroMq.ContextService;
     using ZeroMQ;
 
     using Container = SimpleInjector.Container;
@@ -45,8 +46,6 @@
             container.RegisterSingleton<IZeroMqContextService, ZeroMqContextService>();
 
             container.RegisterSingleton<ITestAutomationAgent, TestAutomationAgent>();
-
-            container.Collection.Register(typeof(IEventSerializer), typeof(IEventSerializer).Assembly);
 
             container.Options.RegisterResolveInterceptor(CollectResolvedApplication, c => c.Producer.ServiceType == typeof(Application));
 
@@ -87,7 +86,7 @@
             var agent = container.GetInstance<ITestAutomationAgent>();
 
             var view = new MainWindowTestAutomationView(mainWindow, publisher);
-            agent.Application.RegisterAndInitializeMainView(view);
+            agent.RegisterAndInitializeMainView(view);
 
             publisher.PublishAsync(new TestAutomationEvent
             {
@@ -133,6 +132,8 @@
         void AddPopupView(SettingWindowTestAutomationView view);
 
         void RegisterAndInitializeApplication([NotNull] IApplication application);
+
+        void RegisterAndInitializeMainView(MainWindowTestAutomationView view);
     }
 
     internal class SettingWindowTestAutomationView : ITestAutomationView
@@ -171,6 +172,7 @@
         [CanBeNull] private ZSocket socket;
 
         private CancellationTokenSource cts;
+        private MainWindowTestAutomationView view;
 
         public TestAutomationAgent([NotNull] IZeroMqContextService contextService, [NotNull] ITestAutomationSettings settings)
         {
@@ -183,7 +185,6 @@
 
         public IApplication Application { get; private set; }
 
-
         public void AddPopupView(SettingWindowTestAutomationView view)
         {
             view.Initialize();
@@ -194,6 +195,23 @@
             Guard.NotNull(application, nameof(application));
             Application = application;
             Application.Initialize();
+
+            if (view == null)
+                return;
+            Application.RegisterAndInitializeMainView(view);
+            view = null;
+        }
+
+        public void RegisterAndInitializeMainView(MainWindowTestAutomationView view)
+        {
+            if (Application != null)
+            {
+                Application.RegisterAndInitializeMainView(view);
+            }
+            else
+            {
+                this.view = view;
+            }
         }
     }
 }

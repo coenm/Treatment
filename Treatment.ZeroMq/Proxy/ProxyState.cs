@@ -1,4 +1,4 @@
-﻿namespace TestAgent.ZeroMq
+﻿namespace TreatmentZeroMq.Proxy
 {
     public enum ProxyState
     {

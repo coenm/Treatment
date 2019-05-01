@@ -2,6 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
+    using Treatment.TestAutomation.Contract.Interfaces;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
 
     public static class EventPublisherExtension

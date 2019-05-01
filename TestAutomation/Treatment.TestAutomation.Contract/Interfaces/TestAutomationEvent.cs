@@ -1,7 +1,9 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI.Infrastructure
+﻿namespace Treatment.TestAutomation.Contract.Interfaces
 {
-    using Treatment.TestAutomation.Contract.Interfaces.Events;
+    using System;
+    using Events;
 
+    [Obsolete]
     public class TestAutomationEvent : IEvent
     {
         public string Control { get; set; }

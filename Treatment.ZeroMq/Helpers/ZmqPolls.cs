@@ -1,9 +1,7 @@
-﻿namespace TestAgent.ZeroMq.Utils
+﻿namespace TreatmentZeroMq.Helpers
 {
     using System.Collections.Generic;
-
     using Treatment.Helpers.Guards;
-
     using ZeroMQ;
 
     public static class ZmqPolls

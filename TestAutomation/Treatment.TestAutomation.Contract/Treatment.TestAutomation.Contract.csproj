@@ -53,36 +53,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CustomMarshalers" />
-    <Reference Include="Dapplo.Log, Version=1.3.0.0, Culture=neutral, PublicKeyToken=26f3e58a2304a05e, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Dapplo.Log.1.3.11\lib\net45\Dapplo.Log.dll</HintPath>
-    </Reference>
-    <Reference Include="Dapplo.Windows, Version=0.8.0.0, Culture=neutral, PublicKeyToken=5be96fed5d651fee, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Dapplo.Windows.0.8.18\lib\net471\Dapplo.Windows.dll</HintPath>
-    </Reference>
-    <Reference Include="Dapplo.Windows.Com, Version=0.8.0.0, Culture=neutral, PublicKeyToken=5be96fed5d651fee, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Dapplo.Windows.Com.0.8.18\lib\net471\Dapplo.Windows.Com.dll</HintPath>
-    </Reference>
-    <Reference Include="Dapplo.Windows.Common, Version=0.8.0.0, Culture=neutral, PublicKeyToken=5be96fed5d651fee, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Dapplo.Windows.Common.0.8.18\lib\net471\Dapplo.Windows.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Dapplo.Windows.DesktopWindowsManager, Version=0.8.0.0, Culture=neutral, PublicKeyToken=5be96fed5d651fee, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Dapplo.Windows.DesktopWindowsManager.0.8.18\lib\net471\Dapplo.Windows.DesktopWindowsManager.dll</HintPath>
-    </Reference>
-    <Reference Include="Dapplo.Windows.Gdi32, Version=0.8.0.0, Culture=neutral, PublicKeyToken=5be96fed5d651fee, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Dapplo.Windows.Gdi32.0.8.18\lib\net471\Dapplo.Windows.Gdi32.dll</HintPath>
-    </Reference>
-    <Reference Include="Dapplo.Windows.Input, Version=0.8.0.0, Culture=neutral, PublicKeyToken=5be96fed5d651fee, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Dapplo.Windows.Input.0.8.18\lib\net471\Dapplo.Windows.Input.dll</HintPath>
-    </Reference>
-    <Reference Include="Dapplo.Windows.Kernel32, Version=0.8.0.0, Culture=neutral, PublicKeyToken=5be96fed5d651fee, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Dapplo.Windows.Kernel32.0.8.18\lib\net471\Dapplo.Windows.Kernel32.dll</HintPath>
-    </Reference>
-    <Reference Include="Dapplo.Windows.Messages, Version=0.8.0.0, Culture=neutral, PublicKeyToken=5be96fed5d651fee, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Dapplo.Windows.Messages.0.8.18\lib\net471\Dapplo.Windows.Messages.dll</HintPath>
-    </Reference>
-    <Reference Include="Dapplo.Windows.User32, Version=0.8.0.0, Culture=neutral, PublicKeyToken=5be96fed5d651fee, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Dapplo.Windows.User32.0.8.18\lib\net471\Dapplo.Windows.User32.dll</HintPath>
-    </Reference>
     <Reference Include="JetBrains.Annotations, Version=2019.1.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\..\packages\JetBrains.Annotations.2019.1.1\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
@@ -101,9 +71,6 @@
     <Reference Include="System.IO.FileSystem.Primitives" />
     <Reference Include="System.Linq" />
     <Reference Include="System.Linq.Expressions" />
-    <Reference Include="System.Reactive, Version=4.1.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Reactive.4.1.3\lib\net46\System.Reactive.dll</HintPath>
-    </Reference>
     <Reference Include="System.Reflection" />
     <Reference Include="System.Runtime" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -132,28 +99,10 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.ReaderWriter" />
     <Reference Include="WindowsBase" />
-    <Reference Include="ZeroMQ, Version=4.1.0.31, Culture=neutral, PublicKeyToken=4a9630883fd6c563, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ZeroMQ.4.1.0.31\lib\net40\ZeroMQ.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CouldNotFindFieldException.cs" />
-    <Compile Include="Interfaces\EventSerializers\Application\ApplicationActivatedSerializer.cs" />
-    <Compile Include="Interfaces\EventSerializers\Application\ApplicationDeactivatedSerializer.cs" />
-    <Compile Include="Interfaces\EventSerializers\Application\ApplicationStartedSerializer.cs" />
-    <Compile Include="Interfaces\EventSerializers\Application\ApplicationExitSerializer.cs" />
-    <Compile Include="Interfaces\EventSerializers\Application\ApplicationStartingSerializer.cs" />
-    <Compile Include="Interfaces\EventSerializers\Application\ApplicationStoppedSerializer.cs" />
-    <Compile Include="Interfaces\EventSerializers\Element\PositionUpdatedSerializer.cs" />
-    <Compile Include="Interfaces\EventSerializers\Element\FocusableChangedSerializer.cs" />
-    <Compile Include="Interfaces\EventSerializers\Element\GotFocusSerializer.cs" />
-    <Compile Include="Interfaces\EventSerializers\Element\LostFocusSerializer.cs" />
-    <Compile Include="Interfaces\EventSerializers\Element\TextValueChangedSerializer.cs" />
-    <Compile Include="Interfaces\EventSerializers\Element\UiElementAssignedSerializer.cs" />
-    <Compile Include="Interfaces\EventSerializers\Element\UiElementDestroyedSerializer.cs" />
-    <Compile Include="Interfaces\EventSerializers\EmptyEventSerializerBase.cs" />
-    <Compile Include="Interfaces\EventSerializers\EventSerializerBase.cs" />
-    <Compile Include="Interfaces\EventSerializers\IEventSerializer.cs" />
+    <Compile Include="Interfaces\TestAutomationEvent.cs" />
     <Compile Include="Interfaces\Events\Application\ApplicationActivated.cs" />
     <Compile Include="Interfaces\Events\Application\ApplicationDeactivated.cs" />
     <Compile Include="Interfaces\Events\Application\ApplicationDispatcherUnhandledException.cs" />
@@ -191,8 +140,7 @@
     <Compile Include="Interfaces\Treatment\IMainViewStatusBar.cs" />
     <Compile Include="Interfaces\Treatment\IProjectListView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ZeroMq\IZeroMqContextService.cs" />
-    <Compile Include="ZeroMq\ZeroMqContextService.cs" />
+    <Compile Include="Serializer\Serializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -205,11 +153,4 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\..\packages\ZeroMQ.4.1.0.31\build\net40\ZeroMQ.targets" Condition="Exists('..\..\packages\ZeroMQ.4.1.0.31\build\net40\ZeroMQ.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\ZeroMQ.4.1.0.31\build\net40\ZeroMQ.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\ZeroMQ.4.1.0.31\build\net40\ZeroMQ.targets'))" />
-  </Target>
 </Project>

@@ -9,9 +9,9 @@
     using JetBrains.Annotations;
     using TestAgent.Implementation;
     using TestAgent.ZeroMq.RequestReplyInfrastructure;
-    using TestAgent.ZeroMq.Utils;
     using Treatment.Helpers.Guards;
-    using Treatment.TestAutomation.Contract.ZeroMq;
+    using TreatmentZeroMq.ContextService;
+    using TreatmentZeroMq.Helpers;
     using ZeroMQ;
 
     public class ReqRepWorkerManagement : IWorker
@@ -19,20 +19,16 @@
         private static readonly Random Random = new Random(DateTime.Now.Millisecond);
         [NotNull] private readonly IZeroMqContextService contextService;
         [NotNull] private readonly IZeroMqReqRepProxyFactory reqRspServiceFactory;
-        [NotNull] private readonly ILogger logger;
 
         public ReqRepWorkerManagement(
             [NotNull] IZeroMqContextService contextService,
-            [NotNull] IZeroMqReqRepProxyFactory reqRspServiceFactory,
-            [NotNull] ILogger logger)
+            [NotNull] IZeroMqReqRepProxyFactory reqRspServiceFactory)
         {
             Guard.NotNull(contextService, nameof(contextService));
             Guard.NotNull(reqRspServiceFactory, nameof(reqRspServiceFactory));
-            Guard.NotNull(logger, nameof(logger));
 
             this.contextService = contextService;
             this.reqRspServiceFactory = reqRspServiceFactory;
-            this.logger = logger;
         }
 
         private static string GenerateChannelName()
@@ -55,7 +51,7 @@
 
             await Task.Yield();
 
-            logger.Debug("Starting zero mq worker");
+//            logger.Debug("Starting zero mq worker");
             var socketName = GenerateChannelName();
 
             var ctx = contextService.GetContext();
@@ -66,37 +62,37 @@
             {
                 if (!cancelSocketReceive.TryBind(socketName))
                 {
-                    logger.Warn("Worker could not bind to (receiving) cancel socket");
+//                    logger.Warn("Worker could not bind to (receiving) cancel socket");
                     return;
                 }
                 cancelSocketReceive.SubscribeAll();
 
                 if (!cancelSocketSend.TryConnect(socketName))
                 {
-                    logger.Warn("Worker could not connect to (sending) cancel socket");
+//                    logger.Warn("Worker could not connect to (sending) cancel socket");
                     return;
                 }
 
                 if (!workerSocket.TryConnect(backendAddress))
                 {
-                    logger.Warn("Worker could not connect to proxy socket");
+//                    logger.Warn("Worker could not connect to proxy socket");
                     return;
                 }
 
                 // ReSharper disable once AccessToDisposedClosure
                 // The registration is disposed before the cancelSocketSend is disposed.
-                using (ct.Register(() => cancelSocketSend.TryPoke()))
+                using (ct.Register(() => ZmqSend.TryPoke(cancelSocketSend)))
                 {
                     // To prevent deadlocks (ie, token was canceled just before the registration so no the cancelSocket wasn't 'poked')
                     if (ct.IsCancellationRequested)
                         return;
 
-                    logger.Info("Zero mq worker started");
+//                    logger.Info("Zero mq worker started");
                     await HandleIncomingMessagesAsync(messageDispatcher, workerSocket, cancelSocketReceive)
                         .ConfigureAwait(false);
                 }
 
-                logger.Info("Zero mq worker stopped");
+//                logger.Info("Zero mq worker stopped");
             }
         }
 
@@ -116,10 +112,10 @@
                     if (Equals(error, ZError.EAGAIN))
                         continue;
 
-                    if (Equals(error, ZError.ETERM))
-                        logger.Warn($"ZeroMq Req/Rep worker terminated. {error.Text}.");
-                    else
-                        logger.Error($"ZeroMq Req/Rep worker stopped. {error.Text}.");
+//                    if (Equals(error, ZError.ETERM))
+//                        logger.Warn($"ZeroMq Req/Rep worker terminated. {error.Text}.");
+//                    else
+//                        logger.Error($"ZeroMq Req/Rep worker stopped. {error.Text}.");
 
                     return;
                 }
@@ -129,7 +125,7 @@
                     // This message is sent using the cancel socket.
                     // Therefore we don't even want to investigate the message
                     // but make sure this loop stops.
-                    logger.Info("ZeroMq Req/Rep worker received 'Stop' message -> stop working.");
+//                    logger.Info("ZeroMq Req/Rep worker received 'Stop' message -> stop working.");
                     continueRunning = false;
                     messages[0].Dispose();
                     messages[0] = null;
@@ -139,21 +135,21 @@
                 {
                     // This is a real message for the worker
                     // Handle the message and send back the result.
-                    logger.Debug("ZeroMq Req/Rep worker received message -> process it.");
+//                    logger.Debug("ZeroMq Req/Rep worker received message -> process it.");
                     using (messages[1])
                     {
                         var result = await zMessageHandler.ProcessAsync(messages[1]).ConfigureAwait(false);
 
-                        logger.Debug("ZeroMq Req/Rep worker sending back response.");
+//                        logger.Debug("ZeroMq Req/Rep worker sending back response.");
                         using (result)
                         {
-                            if (workerSocket.TrySend(result, out error))
+                            if (ZmqSend.TrySend(workerSocket, result, out error))
                                 continue;
 
-                            if (Equals(error, ZError.ETERM))
-                                logger.Warn($"ZeroMq Req/Rep worker terminated while sending. {error.Text}.");
-                            else
-                                logger.Error($"ZeroMq Req/Rep worker experienced error while sending {error.Text}. Worker has stopped.");
+//                            if (Equals(error, ZError.ETERM))
+//                                logger.Warn($"ZeroMq Req/Rep worker terminated while sending. {error.Text}.");
+//                            else
+//                                logger.Error($"ZeroMq Req/Rep worker experienced error while sending {error.Text}. Worker has stopped.");
 
                             return;
                         }
@@ -163,7 +159,7 @@
                 else
                 {
                     // this should never happen, strange. we stop the loop.
-                    logger.Error("Strange things happen in the Zero Mq worker. Therefore it is stopped. Worker sockets.PollIn returned but it wasn't message[0] or message[1].");
+//                    logger.Error("Strange things happen in the Zero Mq worker. Therefore it is stopped. Worker sockets.PollIn returned but it wasn't message[0] or message[1].");
                     continueRunning = false;
                 }
             }

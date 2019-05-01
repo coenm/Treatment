@@ -3,17 +3,14 @@
     using JetBrains.Annotations;
     using SimpleInjector;
     using Treatment.Helpers.Guards;
-    using Treatment.TestAutomation.Contract.Interfaces.EventSerializers;
-    using Treatment.TestAutomation.Contract.ZeroMq;
+    using TreatmentZeroMq;
+    using TreatmentZeroMq.ContextService;
 
     internal static class Bootstrapper
     {
         public static void Bootstrap([NotNull] Container container)
         {
             Guard.NotNull(container, nameof(container));
-
-            // Events from the TestAutomation plugin (specified in TestAutomation contact).
-            container.Collection.Register(typeof(IEventSerializer), typeof(IEventSerializer).Assembly);
 
             BootstrapZeroMq(container);
         }

@@ -1,16 +1,12 @@
 ﻿namespace TestAgentEventsLogger
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
-    using Newtonsoft.Json;
     using SimpleInjector;
-    using Treatment.TestAutomation.Contract.Interfaces.Events;
-    using Treatment.TestAutomation.Contract.Interfaces.EventSerializers;
-    using Treatment.TestAutomation.Contract.ZeroMq;
+    using TreatmentZeroMq;
+    using TreatmentZeroMq.ContextService;
     using ZeroMQ;
 
     public static class Program
@@ -35,8 +31,6 @@
 
             var task = Task.Run(() =>
             {
-                var handlers = container.GetInstance<IEnumerable<IEventSerializer>>();
-
                 using (var subscriber = new ZSocket(context, ZSocketType.SUB))
                 using (cts.Token.Register(() => subscriber.Dispose()))
                 {
@@ -85,24 +79,10 @@
                                 if (!subscribeUnsubscribe)
                                 {
                                     // read first frame
-                                    var firstFrame = zmsg[0].ReadString();
-                                    var handler = handlers.FirstOrDefault(x => x.GetType().FullName == firstFrame);
-                                    if (handler != null)
+                                    foreach (var frame in zmsg)
                                     {
-                                        ZFrame[] zFrames = zmsg.Skip(1).ToArray();
-                                        IEvent evt = handler.Deserialize(zFrames);
-                                        Console.WriteLine($"| {evt.GetType().Name,-100} |");
-                                        string json = JsonConvert.SerializeObject(evt);
-                                        if (json != "{}")
-                                            Console.WriteLine($"| {json,-100} | ");
-                                    }
-                                    else
-                                    {
-                                        foreach (var frame in zmsg)
-                                        {
-                                            var s = frame.ReadString();
-                                            Console.WriteLine($"| {s,-100} |");
-                                        }
+                                        var s = frame.ReadString();
+                                        Console.WriteLine($"| {s,-100} |");
                                     }
                                 }
 

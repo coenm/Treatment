@@ -7,15 +7,13 @@
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
-    using Contract.Serializer;
+
     using Medallion.Shell;
-    using Newtonsoft.Json;
     using SimpleInjector;
     using TestAgent.Implementation;
     using TestAgent.ZeroMq.RequestReplyWorker;
-    using Treatment.TestAutomation.Contract.Interfaces.Events;
-    using Treatment.TestAutomation.Contract.Interfaces.EventSerializers;
-    using Treatment.TestAutomation.Contract.ZeroMq;
+    using TreatmentZeroMq;
+    using TreatmentZeroMq.ContextService;
     using ZeroMq.PublishInfrastructure;
     using ZeroMq.RequestReplyInfrastructure;
     using ZeroMQ;
@@ -71,7 +69,7 @@
 
             var task = Task.Run(() =>
             {
-                var handlers = container.GetInstance<IEnumerable<IEventSerializer>>();
+//                var handlers = container.GetInstance<IEnumerable<IEventSerializer>>();
 
                 using (var subscriber = new ZSocket(context, ZSocketType.SUB))
                 using (cts.Token.Register(() => subscriber.Dispose()))
@@ -121,25 +119,21 @@
                                 if (!subscribeUnsubscribe)
                                 {
                                     // read first frame
-                                    var firstFrame = zmsg[0].ReadString();
-                                    var handler = handlers.FirstOrDefault(x => x.GetType().FullName == firstFrame);
-                                    if (handler != null)
-                                    {
-                                        ZFrame[] zFrames = zmsg.Skip(1).ToArray();
-                                        IEvent evt = handler.Deserialize(zFrames);
-                                        Console.WriteLine($"| {evt.GetType().Name,-100} |");
 
-                                        string json = JsonConvert.SerializeObject(evt);
-                                        if (json != "{}")
-                                            Console.WriteLine($"| {json,-100} | ");
-                                    }
-                                    else
+//                                    try
+//                                    {
+//                                        IEvent evt = EventSerializer.DeserializeEvent(
+//                                            zmsg[0].ReadString(),
+//                                            zmsg[1].ReadString());
+//                                    }
+//                                    catch (Exception e)
+//                                    {
+//                                    }
+
+                                    foreach (var frame in zmsg)
                                     {
-                                        foreach (var frame in zmsg)
-                                        {
-                                            var s = frame.ReadString();
-                                            Console.WriteLine($"| {s,-100} |");
-                                        }
+                                        var s = frame.ReadString();
+                                        Console.WriteLine($"| {s,-100} |");
                                     }
                                 }
 

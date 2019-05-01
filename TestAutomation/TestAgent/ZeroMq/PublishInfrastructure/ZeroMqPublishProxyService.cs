@@ -1,7 +1,7 @@
 ﻿namespace TestAgent.ZeroMq.PublishInfrastructure
 {
     using System;
-
+    using TreatmentZeroMq.Proxy;
     using ZeroMQ;
 
     /// <inheritdoc />
@@ -14,7 +14,6 @@
     {
         private readonly object syncLock = new object();
         private readonly ZeroMqPublishProxyConfig config;
-        private readonly ILogger logger;
 
         private ZContext ctx;
         private ZSocket frontend;
@@ -24,10 +23,9 @@
 
         private ZmqProxy proxy;
 
-        public ZeroMqPublishProxyService(ZContext context, ZeroMqPublishProxyConfig config, ILogger logger)
+        public ZeroMqPublishProxyService(ZContext context, ZeroMqPublishProxyConfig config)
         {
             this.config = config;
-            this.logger = logger;
             ctx = context;
             frontend = new ZSocket(ctx, ZSocketType.XPUB) { Linger = TimeSpan.Zero };
             backend = new ZSocket(ctx, ZSocketType.XSUB) { Linger = TimeSpan.Zero };
@@ -35,7 +33,7 @@
             if (string.IsNullOrWhiteSpace(this.config.CaptureAddress))
                 return;
 
-            this.logger.Info("Creating a capture socket for the publish proxy.");
+//            this.logger.Info("Creating a capture socket for the publish proxy.");
             capture = new ZSocket(ctx, ZSocketType.PUB) { Linger = TimeSpan.Zero };
         }
 
@@ -93,7 +91,7 @@
             {
                 if (!frontend.Bind(address, out error))
                 {
-                    logger.Error($"Frontend socket of publish proxy could not bind to {address}. {error.Text}");
+//                    logger.Error($"Frontend socket of publish proxy could not bind to {address}. {error.Text}");
                     return false;
                 }
             }
@@ -102,7 +100,7 @@
             {
                 if (!backend.Bind(address, out error))
                 {
-                    logger.Error($"Backend socket of publish proxy could not bind to {address}. {error.Text}");
+//                    logger.Error($"Backend socket of publish proxy could not bind to {address}. {error.Text}");
                     return false;
                 }
             }
@@ -111,7 +109,7 @@
             {
                 if (!capture.Bind(config.CaptureAddress, out error))
                 {
-                    logger.Error($"Capture socket of publish proxy could not bind to {config.CaptureAddress}. {error.Text}");
+//                    logger.Error($"Capture socket of publish proxy could not bind to {config.CaptureAddress}. {error.Text}");
                     return false;
                 }
             }

@@ -1,18 +1,23 @@
 ﻿namespace TestAgent.ZeroMq.PublishInfrastructure
 {
-    using Treatment.TestAutomation.Contract.ZeroMq;
+    using JetBrains.Annotations;
+    using Treatment.Helpers.Guards;
+    using TreatmentZeroMq.ContextService;
 
     public class ZeroMqPublishProxyFactory : IZeroMqPublishProxyFactory
     {
-        private readonly IZeroMqContextService contextService;
-        private readonly ZeroMqPublishProxyConfig config;
-        private readonly ILogger logger;
+        [NotNull] private readonly IZeroMqContextService contextService;
+        [NotNull] private readonly ZeroMqPublishProxyConfig config;
 
-    public ZeroMqPublishProxyFactory(IZeroMqContextService contextService, ZeroMqPublishProxyConfig config, ILogger logger)
+    public ZeroMqPublishProxyFactory(
+        [NotNull] IZeroMqContextService contextService,
+        [NotNull] ZeroMqPublishProxyConfig config)
         {
+            Guard.NotNull(contextService, nameof(contextService));
+            Guard.NotNull(config, nameof(config));
+
             this.contextService = contextService;
             this.config = config;
-            this.logger = logger;
         }
 
         public ZeroMqPublishProxyConfig GetConfig()
@@ -22,7 +27,7 @@
 
         public ZeroMqPublishProxyService Create()
         {
-            return new ZeroMqPublishProxyService(contextService.GetContext(), config, logger);
+            return new ZeroMqPublishProxyService(contextService.GetContext(), config);
         }
     }
 }

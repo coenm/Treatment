@@ -72,20 +72,33 @@
         }
 
         private void ItemOnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e) =>
-            eventPublisher.PublishAsync(new ApplicationDispatcherUnhandledException());
+            eventPublisher.PublishAsync(new ApplicationDispatcherUnhandledException
+            {
+                Guid = Guid,
+            });
 
         private void ItemOnExit(object sender, ExitEventArgs e)
         {
             eventPublisher.PublishAsync(new ApplicationExit
             {
+                Guid = Guid,
                 ApplicationExitCode = e.ApplicationExitCode,
             });
         }
 
-        private void ItemOnDeactivated(object sender, EventArgs e) => eventPublisher.PublishAsync(new ApplicationDeactivated());
+        private void ItemOnDeactivated(object sender, EventArgs e) => eventPublisher.PublishAsync(new ApplicationDeactivated
+        {
+            Guid = Guid,
+        });
 
-        private void ItemOnStartup(object sender, StartupEventArgs e) => eventPublisher.PublishAsync(new ApplicationStarted());
+        private void ItemOnStartup(object sender, StartupEventArgs e) => eventPublisher.PublishAsync(new ApplicationStarted
+        {
+            Guid = Guid,
+        });
 
-        private void ItemOnActivated(object sender, EventArgs e) => eventPublisher.PublishAsync(new ApplicationActivated());
+        private void ItemOnActivated(object sender, EventArgs e) => eventPublisher.PublishAsync(new ApplicationActivated
+        {
+            Guid = Guid,
+        });
     }
 }
