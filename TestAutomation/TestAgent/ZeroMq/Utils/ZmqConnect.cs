@@ -1,4 +1,4 @@
-﻿namespace TestAgent.ZeroMq.Extensions
+﻿namespace TestAgent.ZeroMq.Utils
 {
     using ZeroMQ;
 

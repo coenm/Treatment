@@ -1,4 +1,4 @@
-﻿namespace TestAgent.ZeroMq.Extensions
+﻿namespace TestAgent.ZeroMq.Utils
 {
     using System;
     using System.Threading;

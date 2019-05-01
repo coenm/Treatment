@@ -4,7 +4,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using TestAgent.ZeroMq.Extensions;
+    using TestAgent.ZeroMq.Utils;
 
     using ZeroMQ;
 

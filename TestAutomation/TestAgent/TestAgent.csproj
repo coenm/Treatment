@@ -179,10 +179,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SutContext.cs" />
     <Compile Include="ZeroMq\EmptyLogger.cs" />
-    <Compile Include="ZeroMq\Extensions\ZmqConnect.cs" />
-    <Compile Include="ZeroMq\Extensions\ZmqConnection.cs" />
-    <Compile Include="ZeroMq\Extensions\ZmqReceive.cs" />
-    <Compile Include="ZeroMq\Extensions\ZmqSend.cs" />
+    <Compile Include="ZeroMq\Utils\ZmqPolls.cs" />
+    <Compile Include="ZeroMq\Utils\ZmqConnect.cs" />
+    <Compile Include="ZeroMq\Utils\ZmqConnection.cs" />
+    <Compile Include="ZeroMq\Utils\ZmqReceive.cs" />
+    <Compile Include="ZeroMq\Utils\ZmqSend.cs" />
     <Compile Include="ZeroMq\ILogger.cs" />
     <Compile Include="ZeroMq\ProxyState.cs" />
     <Compile Include="ZeroMq\PublishInfrastructure\IZeroMqPublishProxyFactory.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="ZeroMq\RequestReplyInfrastructure\ZeroMqReqRepProxyConfig.cs" />
     <Compile Include="ZeroMq\RequestReplyInfrastructure\ZeroMqReqRepProxyFactory.cs" />
     <Compile Include="ZeroMq\RequestReplyInfrastructure\ZeroMqReqRepProxyService.cs" />
+    <Compile Include="ZeroMq\RequestReplyWorker\ReqRepWorkerManagement.cs" />
     <Compile Include="ZeroMq\ZeroMqProxy.cs" />
   </ItemGroup>
   <ItemGroup>
