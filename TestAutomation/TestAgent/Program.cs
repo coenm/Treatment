@@ -12,7 +12,6 @@
     using SimpleInjector;
     using TestAgent.Implementation;
     using TestAgent.ZeroMq.RequestReplyWorker;
-    using TreatmentZeroMq;
     using TreatmentZeroMq.ContextService;
     using ZeroMq.PublishInfrastructure;
     using ZeroMq.RequestReplyInfrastructure;
@@ -69,8 +68,7 @@
 
             var task = Task.Run(() =>
             {
-//                var handlers = container.GetInstance<IEnumerable<IEventSerializer>>();
-
+                int received = 0;
                 using (var subscriber = new ZSocket(context, ZSocketType.SUB))
                 using (cts.Token.Register(() => subscriber.Dispose()))
                 {
@@ -91,6 +89,9 @@
                                 Console.WriteLine($" Oops, could not receive a request: {error}");
                                 return;
                             }
+
+                            received++;
+                            Console.Title = $"Agent Received #{received}";
 
                             using (zmsg)
                             using (var zmsg2 = zmsg.Duplicate())
@@ -118,18 +119,6 @@
 
                                 if (!subscribeUnsubscribe)
                                 {
-                                    // read first frame
-
-//                                    try
-//                                    {
-//                                        IEvent evt = EventSerializer.DeserializeEvent(
-//                                            zmsg[0].ReadString(),
-//                                            zmsg[1].ReadString());
-//                                    }
-//                                    catch (Exception e)
-//                                    {
-//                                    }
-
                                     foreach (var frame in zmsg)
                                     {
                                         var s = frame.ReadString();
