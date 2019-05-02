@@ -160,10 +160,6 @@
       <Project>{0d6db733-febe-4f4d-9d99-3808517a9f7f}</Project>
       <Name>Treatment.Helpers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Treatment.ZeroMq\Treatment.ZeroMq.csproj">
-      <Project>{3D1F845A-A217-4EE4-9C56-C97EF7EC8F9C}</Project>
-      <Name>Treatment.ZeroMq</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TestAgent.Contract\TestAgent.Contract.csproj">
       <Project>{f3973336-d09c-40f2-b8f4-0e6238fcea13}</Project>
       <Name>TestAgent.Contract</Name>
@@ -175,6 +171,10 @@
     <ProjectReference Include="..\Treatment.TestAutomation.Contract\Treatment.TestAutomation.Contract.csproj">
       <Project>{0E179745-C4B4-41A0-8EF4-08A5F18FB8CD}</Project>
       <Name>Treatment.TestAutomation.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Treatment.ZeroMq\Treatment.ZeroMq.csproj">
+      <Project>{3D1F845A-A217-4EE4-9C56-C97EF7EC8F9C}</Project>
+      <Name>Treatment.ZeroMq</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

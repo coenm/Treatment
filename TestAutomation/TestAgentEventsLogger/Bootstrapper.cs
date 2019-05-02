@@ -3,7 +3,6 @@
     using JetBrains.Annotations;
     using SimpleInjector;
     using Treatment.Helpers.Guards;
-    using TreatmentZeroMq;
     using TreatmentZeroMq.ContextService;
 
     internal static class Bootstrapper

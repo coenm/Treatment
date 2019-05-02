@@ -9,7 +9,6 @@
     using Treatment.Plugin.TestAutomation.UI.Settings;
     using Treatment.TestAutomation.Contract.Interfaces.Events;
     using Treatment.TestAutomation.Contract.Serializer;
-    using TreatmentZeroMq;
     using TreatmentZeroMq.ContextService;
     using ZeroMQ;
 

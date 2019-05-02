@@ -85,7 +85,7 @@
             container.RegisterSingleton<Application, App>();
 
          //   if (Environment.GetEnvironmentVariable("ENABLE_TEST_AUTOMATION") == null)
-                container.Verify(VerificationOption.VerifyAndDiagnose);
+                // container.Verify(VerificationOption.VerifyAndDiagnose);
 
             return container;
         }

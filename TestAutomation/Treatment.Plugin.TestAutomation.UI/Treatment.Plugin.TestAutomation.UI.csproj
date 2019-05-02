@@ -120,13 +120,13 @@
       <Project>{3C621AFB-C34D-40A6-8EC9-C61F3B3C96FD}</Project>
       <Name>Treatment.UI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Treatment.ZeroMq\Treatment.ZeroMq.csproj">
-      <Project>{3D1F845A-A217-4EE4-9C56-C97EF7EC8F9C}</Project>
-      <Name>Treatment.ZeroMq</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Treatment.TestAutomation.Contract\Treatment.TestAutomation.Contract.csproj">
       <Project>{0e179745-c4b4-41a0-8ef4-08a5f18fb8cd}</Project>
       <Name>Treatment.TestAutomation.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Treatment.ZeroMq\Treatment.ZeroMq.csproj">
+      <Project>{3D1F845A-A217-4EE4-9C56-C97EF7EC8F9C}</Project>
+      <Name>Treatment.ZeroMq</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
