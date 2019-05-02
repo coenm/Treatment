@@ -1,7 +1,6 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters
 {
     using System;
-    using System.Threading;
     using System.Windows;
     using System.Windows.Threading;
 
@@ -29,17 +28,10 @@
 
             Guid = Guid.NewGuid();
 
-            // this is a special case , otherwise, no publishing etc in ctor.
-            for (var countDown = 3; countDown >= 0; countDown--)
+            eventPublisher.PublishAsync(new ApplicationStarting
             {
-                eventPublisher.PublishAsync(new ApplicationStarting
-                {
-                    CountDown = countDown,
-                });
-
-                if (countDown > 0)
-                    Thread.Sleep(1000);
-            }
+                CountDown = 0,
+            });
         }
 
         public Guid Guid { get; }

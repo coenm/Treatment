@@ -15,7 +15,6 @@
     using Treatment.TestAutomation.Contract.Interfaces;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.UI.View;
-    using TreatmentZeroMq;
     using TreatmentZeroMq.ContextService;
     using ZeroMQ;
 
@@ -198,6 +197,7 @@
 
             if (view == null)
                 return;
+
             Application.RegisterAndInitializeMainView(view);
             view = null;
         }

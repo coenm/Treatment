@@ -22,7 +22,6 @@
         private const string AgentReqRspPort = "5555";
         private const string AgentPublishPort = "5556";
         private const string SutPublishPort = "5557";
-        private const string SutReqRspPort = "5558";
 
 #if DEBUG
         private const string Config = "Debug";
@@ -39,7 +38,8 @@
             Bootstrapper.Bootstrap(
                 container,
                 $"tcp://*:{AgentReqRspPort}",
-                $"tcp://*:{AgentPublishPort}");
+                $"tcp://*:{AgentPublishPort}",
+                SutPublishPort);
 
             container.Verify(VerificationOption.VerifyOnly);
 
@@ -72,7 +72,7 @@
                 using (var subscriber = new ZSocket(context, ZSocketType.SUB))
                 using (cts.Token.Register(() => subscriber.Dispose()))
                 {
-                    subscriber.Bind($"tcp://*:{SutPublishPort}");
+                    subscriber.Connect($"tcp://localhost:{AgentPublishPort}");
                     subscriber.SubscribeAll();
                     mreListening.Set();
 
@@ -152,9 +152,19 @@
                         new KeyValuePair<string, string>("ENABLE_TEST_AUTOMATION", "true"),
                         new KeyValuePair<string, string>("TA_KEY", string.Empty),
                         new KeyValuePair<string, string>("TA_PUBLISH_SOCKET", $"tcp://localhost:{SutPublishPort}"), // sut publishes events on this
-                        new KeyValuePair<string, string>("TA_REQ_RSP_SOCKET", $"tcp://*:{SutReqRspPort}"), // sut starts listening for requests on this port.
                     });
                 });
+
+            // inproc://publish
+            using (var agentPublishSocket = new ZSocket(context, ZSocketType.PUB))
+            {
+                agentPublishSocket.Connect("inproc://publish");
+                agentPublishSocket.Send(new ZMessage(new[]
+                {
+                    new ZFrame("AGENT"),
+                    new ZFrame("Started"),
+                }));
+            }
 
             var result = await command.Task.ConfigureAwait(true);
 

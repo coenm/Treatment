@@ -11,7 +11,6 @@
 
     public static class Program
     {
-        private const string SutPublishPort = "5557";
         private const string AgentPublishPort = "5556";
 
         private static Container container;
@@ -34,7 +33,6 @@
                 using (var subscriber = new ZSocket(context, ZSocketType.SUB))
                 using (cts.Token.Register(() => subscriber.Dispose()))
                 {
-                    subscriber.Connect($"tcp://localhost:{SutPublishPort}");
                     subscriber.Connect($"tcp://localhost:{AgentPublishPort}");
                     subscriber.SubscribeAll();
 

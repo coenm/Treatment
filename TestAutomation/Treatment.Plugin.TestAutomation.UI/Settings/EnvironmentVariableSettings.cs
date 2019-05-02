@@ -21,9 +21,6 @@
         public string ZeroMqEventPublishSocket { get; } = GetString("TA_PUBLISH_SOCKET");
 
         [CanBeNull]
-        public string ZeroMqRequestResponseSocket { get; } = GetString("TA_REQ_RSP_SOCKET");
-
-        [CanBeNull]
         public string ZeroMqKey { get; } = GetString("TA_KEY");
 
         private static bool TryGetBool(string key, out bool value)
