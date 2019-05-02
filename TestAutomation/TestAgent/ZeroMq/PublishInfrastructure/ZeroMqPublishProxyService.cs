@@ -4,7 +4,6 @@
     using TreatmentZeroMq.Proxy;
     using ZeroMQ;
 
-    /// <inheritdoc />
     /// <summary>
     /// ProxyService with the frontend as XPUB and backend as XSUB. Both sockets will bind to the configurable endpoint.
     /// Usage: Different threads can open a PUB socket and connect to this backends XSUB socket and publish a message simultaneously.
