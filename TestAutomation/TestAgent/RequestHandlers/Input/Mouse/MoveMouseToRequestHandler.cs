@@ -2,21 +2,23 @@
 {
     using System.Threading.Tasks;
     using Contract.Interface;
+    using Contract.Interface.Input.Mouse;
     using JetBrains.Annotations;
-
     using TestAgent.Implementation;
+    using Treatment.Helpers.Guards;
 
     [PublicAPI]
     public class MoveMouseToRequestHandler : IRequestHandler
     {
-        public Task<IResponse> ExecuteAsync(IRequest request)
-        {
-            throw new System.NotImplementedException();
-        }
+        public bool CanHandle(IRequest request) => request is MoveMouseToRequest;
 
-        public bool CanHandle(IRequest request)
+        public Task<IResponse> ExecuteAsync(IRequest request) => ExecuteAsync(request as MoveMouseToRequest);
+
+        private Task<IResponse> ExecuteAsync(MoveMouseToRequest request)
         {
-            throw new System.NotImplementedException();
+            Guard.NotNull(request, nameof(request));
+
+            return Task.FromResult(new OkResponse() as IResponse);
         }
     }
 }

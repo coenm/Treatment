@@ -1,16 +1,19 @@
 ﻿namespace TestAgentEventsLogger
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
 
     using SimpleInjector;
-    using TreatmentZeroMq;
+    using TestAgent.Contract.Interface.Control;
+    using TestAgent.Contract.Serializer;
     using TreatmentZeroMq.ContextService;
     using ZeroMQ;
 
     public static class Program
     {
+        private const string AgentReqRspPort = "5555";
         private const string AgentPublishPort = "5556";
 
         private static Container container;
@@ -27,6 +30,36 @@
 
             var mreListening = new ManualResetEvent(false);
             var cts = new CancellationTokenSource();
+
+
+            var req = new ZSocket(context, ZSocketType.REQ) {Linger = TimeSpan.Zero};
+            req.Connect($"tcp://localhost:{AgentReqRspPort}");
+
+            var (type, payload) = RequestResponseSerializer.Serialize(new LocateFilesRequest
+            {
+                Directory = "C:\\",
+                Filename = "TestAgent.exe",
+            });
+
+            req.Send(new List<ZFrame>
+            {
+                new ZFrame(type),
+                new ZFrame(payload),
+            });
+
+            Console.WriteLine("Press enter for response");
+            Console.ReadLine();
+            var rsp = req.ReceiveMessage(ZSocketFlags.DontWait);
+            foreach (var frame in rsp)
+            {
+                var s = frame.ReadString();
+                Console.WriteLine($"| {s,-100} |");
+            }
+
+            Console.WriteLine("Press enter to continue");
+            Console.ReadLine();
+
+            req.Dispose();
 
             var task = Task.Run(() =>
             {

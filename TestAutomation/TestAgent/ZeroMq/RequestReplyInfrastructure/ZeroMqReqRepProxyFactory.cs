@@ -2,7 +2,6 @@
 {
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using TreatmentZeroMq;
     using TreatmentZeroMq.ContextService;
 
     public class ZeroMqReqRepProxyFactory : IZeroMqReqRepProxyFactory

@@ -52,9 +52,10 @@
 
             container.Register<ZeroMqReqRepProxyConfig>(() => new ZeroMqReqRepProxyConfig(
                 new[] { endpointReqRsp },
-                new[] { "inproc://reqrsp" }));
+                new[] { "inproc://reqrsp" }),
+                Lifestyle.Singleton);
 
-            container.Register<IZeroMqReqRepProxyFactory, ZeroMqReqRepProxyFactory>(Lifestyle.Transient);
+            container.Register<IZeroMqReqRepProxyFactory, ZeroMqReqRepProxyFactory>(Lifestyle.Singleton);
         }
     }
 }

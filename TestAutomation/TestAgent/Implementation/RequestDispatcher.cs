@@ -17,12 +17,21 @@
 
         public async Task<IResponse> ProcessAsync(IRequest request)
         {
-            var handler = handlers.FirstOrDefault(h => h.CanHandle(request));
+            try
+            {
+                var handler = handlers.FirstOrDefault(h => h.CanHandle(request));
 
-            if (handler == null)
-                throw new NotImplementedException();
+                if (handler == null)
+                    throw new NotImplementedException();
 
-            return await handler.ExecuteAsync(request);
+                return await handler.ExecuteAsync(request);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

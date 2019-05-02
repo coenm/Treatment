@@ -2,21 +2,24 @@
 {
     using System.Threading.Tasks;
     using Contract.Interface;
+    using Contract.Interface.Input.Mouse;
     using JetBrains.Annotations;
 
     using TestAgent.Implementation;
+    using Treatment.Helpers.Guards;
 
     [PublicAPI]
     public class DoubleClickRequestHandler : IRequestHandler
     {
-        public Task<IResponse> ExecuteAsync(IRequest request)
-        {
-            throw new System.NotImplementedException();
-        }
+        public bool CanHandle(IRequest request) => request is DoubleClickRequest;
 
-        public bool CanHandle(IRequest request)
+        public Task<IResponse> ExecuteAsync(IRequest request) => ExecuteAsync(request as DoubleClickRequest);
+
+        private Task<IResponse> ExecuteAsync(DoubleClickRequest request)
         {
-            throw new System.NotImplementedException();
+            Guard.NotNull(request, nameof(request));
+
+            return Task.FromResult(new OkResponse() as IResponse);
         }
     }
 }

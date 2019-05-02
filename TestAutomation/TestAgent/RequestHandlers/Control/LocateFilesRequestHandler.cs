@@ -8,7 +8,6 @@
     using Contract.Interface;
     using Contract.Interface.Control;
     using JetBrains.Annotations;
-
     using TestAgent.Implementation;
     using Treatment.Helpers.Guards;
 
@@ -23,7 +22,18 @@
         {
             // note this this might take a while.
             // can throw exceptions..
-            return Directory.GetFiles(rootPath, mask, SearchOption.AllDirectories);
+            try
+            {
+                return Directory.GetFiles(rootPath, mask, SearchOption.AllDirectories);
+            }
+            catch (Exception e)
+            {
+                return new List<string>
+                {
+                    "This is stupid..",
+                    e.Message,
+                };
+            }
         }
 
         private Task<IResponse> ExecuteAsync(LocateFilesRequest request)

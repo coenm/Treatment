@@ -90,24 +90,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Interface\Control\LocateFilesRequest.cs" />
-    <Compile Include="Interface\Control\LocateFilesResponse.cs" />
-    <Compile Include="Interface\OkResponse.cs" />
-    <Compile Include="Interface\ExceptionResponse.cs" />
-    <Compile Include="Interface\Input\Enums\VirtualKeyCode.cs" />
-    <Compile Include="Interface\Input\Keyboard\KeyCombinationPressRequest.cs" />
-    <Compile Include="Interface\Input\Keyboard\KeyDownRequest.cs" />
-    <Compile Include="Interface\Input\Keyboard\KeyUpRequest.cs" />
-    <Compile Include="Interface\Input\Keyboard\KeyPressesRequest.cs" />
-    <Compile Include="Interface\Input\Enums\VirtualKeyCodeExtensions.cs" />
-    <Compile Include="Interface\Input\Mouse\DoubleClickRequest.cs" />
-    <Compile Include="Interface\Input\Mouse\MouseButtons.cs" />
-    <Compile Include="Interface\Input\Mouse\MoveMouseToRequest.cs" />
-    <Compile Include="Interface\Input\Mouse\SingleClickRequest.cs" />
-    <Compile Include="Interface\IRequest.cs" />
-    <Compile Include="Interface\IResponse.cs" />
-    <Compile Include="Interface\Control\StartSutRequest.cs" />
-    <Compile Include="Interface\Control\StartSutResponse.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -120,6 +102,10 @@
     <ProjectReference Include="..\..\src\Treatment.Helpers\Treatment.Helpers.csproj">
       <Project>{0d6db733-febe-4f4d-9d99-3808517a9f7f}</Project>
       <Name>Treatment.Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestAgent.Contract\TestAgent.Contract.csproj">
+      <Project>{F3973336-D09C-40F2-B8F4-0E6238FCEA13}</Project>
+      <Name>TestAgent.Contract</Name>
     </ProjectReference>
     <ProjectReference Include="..\Treatment.Plugin.TestAutomation.UI\Treatment.Plugin.TestAutomation.UI.csproj">
       <Project>{2C76194B-5B5E-4153-A3A2-EEA9BA669EF3}</Project>
