@@ -80,6 +80,7 @@
     <Compile Include="Adapters\ButtonAdapter.cs" />
     <Compile Include="Adapters\Helpers\FocusHelper.cs" />
     <Compile Include="Adapters\Helpers\IInitializable.cs" />
+    <Compile Include="Adapters\Helpers\ButtonClickedHelper.cs" />
     <Compile Include="Adapters\Helpers\KeyboardFocusHelper.cs" />
     <Compile Include="Adapters\Helpers\PositionChangedHelper.cs" />
     <Compile Include="Adapters\Helpers\EnabledChangedHelper.cs" />

@@ -24,13 +24,14 @@
 
             Guid = Guid.NewGuid();
 
-            helpers = new List<IInitializable>(5)
+            helpers = new List<IInitializable>(6)
                       {
                           new PositionChangedHelper(item, eventPublisher, Guid),
                           new SizeChangedHelper(item, eventPublisher, Guid),
                           new EnabledChangedHelper(item, eventPublisher, Guid),
                           new KeyboardFocusHelper(item, eventPublisher, Guid),
                           new FocusHelper(item, eventPublisher, Guid),
+                          new ButtonClickedHelper(item, eventPublisher, Guid),
                       };
         }
 
@@ -44,21 +45,7 @@
         public void Initialize()
         {
             helpers.ForEach(helper => helper.Initialize());
-
-            // item.Click += ItemOnClick;
         }
-
-        // private void ItemOnClick(object sender, RoutedEventArgs e)
-        // {
-        //     var evt = new TestAutomationEvent
-        //     {
-        //         Control = item.Name,
-        //         EventName = nameof(item.Click),
-        //         Payload = e.OriginalSource,
-        //     };
-        //
-        //     eventPublisher.PublishAsync(evt);
-        // }
 
         public bool IsEnabled => item.IsEnabled;
 
