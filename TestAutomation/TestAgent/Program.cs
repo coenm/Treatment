@@ -72,9 +72,9 @@
                 using (var subscriber = new ZSocket(context, ZSocketType.SUB))
                 using (cts.Token.Register(() => subscriber.Dispose()))
                 {
-                    subscriber.Connect($"tcp://localhost:{SutPublishPort}");
-                    subscriber.Connect($"tcp://localhost:{AgentPublishPort}");
+                    subscriber.Bind($"tcp://*:{SutPublishPort}");
                     subscriber.SubscribeAll();
+                    mreListening.Set();
 
                     try
                     {
@@ -82,7 +82,6 @@
                         {
                             var zmsg = new ZMessage();
                             ZError error;
-                            mreListening.Set();
 
                             if (!subscriber.ReceiveMessage(ref zmsg, ZSocketFlags.None, out error))
                             {
@@ -152,10 +151,8 @@
                     {
                         new KeyValuePair<string, string>("ENABLE_TEST_AUTOMATION", "true"),
                         new KeyValuePair<string, string>("TA_KEY", string.Empty),
-                        new KeyValuePair<string, string>("TA_PUBLISH_SOCKET",
-                            $"tcp://*:{SutPublishPort}"), // sut publishes events on this
-                        new KeyValuePair<string, string>("TA_REQ_RSP_SOCKET",
-                            $"tcp://*:{SutReqRspPort}"), // sut starts listening for requests on this port.
+                        new KeyValuePair<string, string>("TA_PUBLISH_SOCKET", $"tcp://localhost:{SutPublishPort}"), // sut publishes events on this
+                        new KeyValuePair<string, string>("TA_REQ_RSP_SOCKET", $"tcp://*:{SutReqRspPort}"), // sut starts listening for requests on this port.
                     });
                 });
 

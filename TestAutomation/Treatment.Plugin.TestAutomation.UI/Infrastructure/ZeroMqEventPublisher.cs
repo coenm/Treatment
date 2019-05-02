@@ -90,7 +90,7 @@
                     Linger = TimeSpan.Zero,
                 };
 
-                socket.Bind(settings.ZeroMqEventPublishSocket);
+                socket.Connect(settings.ZeroMqEventPublishSocket);
 
                 ZmqConnection.GiveZeroMqTimeToFinishConnectOrBind();
             }
