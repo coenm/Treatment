@@ -10,7 +10,7 @@
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
-    internal class FocusHelper : IUiElement, IDisposable
+    internal class FocusHelper : IUiElement, IInitializable, IDisposable
     {
         [NotNull] private readonly FrameworkElement frameworkElement;
         [NotNull] private readonly IEventPublisher eventPublisher;

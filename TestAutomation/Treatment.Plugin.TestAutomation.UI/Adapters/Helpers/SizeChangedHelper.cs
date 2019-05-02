@@ -10,7 +10,7 @@
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
-    internal class SizeChangedHelper : IUiElement, IDisposable
+    internal class SizeChangedHelper : IUiElement, IInitializable, IDisposable
     {
         [NotNull] private readonly FrameworkElement frameworkElement;
         [NotNull] private readonly IEventPublisher eventPublisher;

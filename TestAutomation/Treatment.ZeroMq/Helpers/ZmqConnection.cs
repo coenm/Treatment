@@ -3,7 +3,7 @@
     using System.Runtime.CompilerServices;
     using System.Threading;
 
-    internal static class ZmqConnection
+    public static class ZmqConnection
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void GiveZeroMqTimeToFinishConnectOrBind()

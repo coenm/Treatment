@@ -1,7 +1,7 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters
 {
     using System;
-    using System.Windows;
+    using System.Collections.Generic;
     using System.Windows.Controls;
 
     using JetBrains.Annotations;
@@ -13,12 +13,7 @@
     public class ButtonAdapter : IButton
     {
         [NotNull] private readonly Button item;
-        [NotNull] private readonly IEventPublisher eventPublisher;
-        [NotNull] private readonly PositionChangedHelper helper1;
-        [NotNull] private readonly SizeChangedHelper helper2;
-        [NotNull] private readonly EnabledChangedHelper helper3;
-        [NotNull] private readonly KeyboardFocusHelper helper4;
-        [NotNull] private readonly FocusHelper helper5;
+        [NotNull] private readonly List<IInitializable> helpers;
 
         public ButtonAdapter([NotNull] Button item, [NotNull] IEventPublisher eventPublisher)
         {
@@ -26,35 +21,29 @@
             Guard.NotNull(eventPublisher, nameof(eventPublisher));
 
             this.item = item;
-            this.eventPublisher = eventPublisher;
 
             Guid = Guid.NewGuid();
 
-            helper1 = new PositionChangedHelper(item, eventPublisher, Guid);
-            helper2 = new SizeChangedHelper(item, eventPublisher, Guid);
-            helper3 = new EnabledChangedHelper(item, eventPublisher, Guid);
-            helper4 = new KeyboardFocusHelper(item, eventPublisher, Guid);
-            helper5 = new FocusHelper(item, eventPublisher, Guid);
+            helpers = new List<IInitializable>(5)
+                      {
+                          new PositionChangedHelper(item, eventPublisher, Guid),
+                          new SizeChangedHelper(item, eventPublisher, Guid),
+                          new EnabledChangedHelper(item, eventPublisher, Guid),
+                          new KeyboardFocusHelper(item, eventPublisher, Guid),
+                          new FocusHelper(item, eventPublisher, Guid),
+                      };
         }
 
         public Guid Guid { get; }
 
         public void Dispose()
         {
-            helper5.Dispose();
-            helper4.Dispose();
-            helper3.Dispose();
-            helper2.Dispose();
-            helper1.Dispose();
+            helpers.ForEach(helper => helper.Dispose());
         }
 
         public void Initialize()
         {
-            helper1.Initialize();
-            helper2.Initialize();
-            helper3.Initialize();
-            helper4.Initialize();
-            helper5.Initialize();
+            helpers.ForEach(helper => helper.Initialize());
 
             // item.Click += ItemOnClick;
         }

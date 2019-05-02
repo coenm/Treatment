@@ -1,7 +1,6 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI.Infrastructure
 {
     using System;
-    using System.Threading;
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
@@ -10,6 +9,7 @@
     using Treatment.TestAutomation.Contract.Interfaces.Events;
     using Treatment.TestAutomation.Contract.Serializer;
     using TreatmentZeroMq.ContextService;
+    using TreatmentZeroMq.Helpers;
     using ZeroMQ;
 
     internal class ZeroMqEventPublisher : IEventPublisher, IDisposable
@@ -32,10 +32,10 @@
 
         public Task PublishAsync(IEvent evt)
         {
-            Initialize();
-
             if (evt == null)
                 return Task.CompletedTask;
+
+            Initialize();
 
             var type = string.Empty;
             var payload = string.Empty;
@@ -92,7 +92,7 @@
 
                 socket.Bind(settings.ZeroMqEventPublishSocket);
 
-                Thread.Sleep(1);
+                ZmqConnection.GiveZeroMqTimeToFinishConnectOrBind();
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿namespace TreatmentZeroMq.ContextService
 {
     using System;
+
     using ZeroMQ;
 
     public class ZeroMqContextService : IZeroMqContextService

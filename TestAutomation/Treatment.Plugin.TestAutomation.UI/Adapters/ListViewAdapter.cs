@@ -1,6 +1,7 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.Windows;
     using System.Windows.Controls;
@@ -19,36 +20,36 @@
     {
         [NotNull] private readonly ListView item;
         [NotNull] private readonly IEventPublisher eventPublisher;
-        [NotNull] private readonly PositionChangedHelper helper1;
-        [NotNull] private readonly SizeChangedHelper helper2;
-        [CanBeNull] private Point position;
+        [NotNull] private readonly List<IInitializable> helpers;
         private bool itemAdded;
 
         public ListViewAdapter([NotNull] ListView item, [NotNull] IEventPublisher eventPublisher)
         {
             Guard.NotNull(item, nameof(item));
             Guard.NotNull(eventPublisher, nameof(eventPublisher));
+
             this.item = item;
             this.eventPublisher = eventPublisher;
 
             Guid = Guid.NewGuid();
 
-            helper1 = new PositionChangedHelper(item, eventPublisher, Guid);
-            helper2 = new SizeChangedHelper(item, eventPublisher, Guid);
+            helpers = new List<IInitializable>(2)
+                      {
+                          new PositionChangedHelper(item, eventPublisher, Guid),
+                          new SizeChangedHelper(item, eventPublisher, Guid),
+                      };
         }
 
         public Guid Guid { get; }
 
         public void Dispose()
         {
-            helper2.Dispose();
-            helper1.Dispose();
+            helpers.ForEach(item => item.Dispose());
         }
 
         public void Initialize()
         {
-            helper1.Initialize();
-            helper2.Initialize();
+            helpers.ForEach(item => item.Initialize());
 
             item.Loaded += ItemOnLoaded;
             item.DataContextChanged += ItemOnDataContextChanged;

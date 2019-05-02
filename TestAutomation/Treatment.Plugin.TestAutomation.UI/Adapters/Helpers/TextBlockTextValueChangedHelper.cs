@@ -11,7 +11,7 @@
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
-    internal class TextBlockTextValueChangedHelper : IUiElement, IDisposable
+    internal class TextBlockTextValueChangedHelper : IUiElement, IInitializable, IDisposable
     {
         [NotNull] private readonly TextBlock frameworkElement;
         [NotNull] private readonly IEventPublisher eventPublisher;

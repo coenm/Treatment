@@ -1,6 +1,7 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters
 {
     using System;
+    using System.Collections.Generic;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
@@ -16,10 +17,7 @@
     {
         [NotNull] private readonly TextBlock item;
         [NotNull] private readonly IEventPublisher eventPublisher;
-        [NotNull] private readonly PositionChangedHelper helper1;
-        [NotNull] private readonly SizeChangedHelper helper2;
-        [NotNull] private readonly EnabledChangedHelper helper3;
-        [NotNull] private readonly TextBlockTextValueChangedHelper helper4;
+        [NotNull] private readonly List<IInitializable> helpers;
 
         public TextBlockAdapter([NotNull] TextBlock item, [NotNull] IEventPublisher eventPublisher)
         {
@@ -31,28 +29,25 @@
 
             Guid = Guid.NewGuid();
 
-            helper1 = new PositionChangedHelper(item, eventPublisher, Guid);
-            helper2 = new SizeChangedHelper(item, eventPublisher, Guid);
-            helper3 = new EnabledChangedHelper(item, eventPublisher, Guid);
-            helper4 = new TextBlockTextValueChangedHelper(item, eventPublisher, Guid);
+            helpers = new List<IInitializable>(4)
+                      {
+                          new PositionChangedHelper(item, eventPublisher, Guid),
+                          new SizeChangedHelper(item, eventPublisher, Guid),
+                          new EnabledChangedHelper(item, eventPublisher, Guid),
+                          new TextBlockTextValueChangedHelper(item, eventPublisher, Guid),
+                      };
         }
 
         public Guid Guid { get; }
 
         public void Dispose()
         {
-            helper4.Dispose();
-            helper3.Dispose();
-            helper2.Dispose();
-            helper1.Dispose();
+            helpers.ForEach(helper => helper.Dispose());
         }
 
         public void Initialize()
         {
-            helper1.Initialize();
-            helper2.Initialize();
-            helper3.Initialize();
-            helper4.Initialize();
+            helpers.ForEach(helper => helper.Initialize());
 
             item.TargetUpdated += Item_TargetUpdated;
             item.TextInput += ItemOnTextInput;
