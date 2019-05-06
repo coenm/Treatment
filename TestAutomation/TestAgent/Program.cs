@@ -40,9 +40,6 @@
 
             var context = container.GetInstance<IZeroMqContextService>().GetContext();
 
-            if (FindTreatmentUi(out var treatmentDir, out var executable))
-                return;
-
             var mreListening = new ManualResetEvent(false);
             var cts = new CancellationTokenSource();
 
@@ -177,28 +174,6 @@
 
             publishProxy.Dispose();
             reqRspProxy.Dispose();
-        }
-
-        private static bool FindTreatmentUi(out string treatmentDir, out string executable)
-        {
-            var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            treatmentDir = currentDir;
-            while (!Directory.Exists(Path.Combine(treatmentDir, "src", "Treatment.UI.Start", "bin", "x64", Config)) && treatmentDir?.Length > 4)
-            {
-                treatmentDir = Path.GetFullPath(Path.Combine(treatmentDir, ".."));
-            }
-
-            treatmentDir = Path.GetFullPath(Path.Combine(treatmentDir, "src", "Treatment.UI.Start", "bin", "x64", Config));
-            executable = Path.Combine(treatmentDir, "Treatment.UIStart.exe");
-
-            if (!File.Exists(executable))
-            {
-                Console.WriteLine($"File {executable} doesn't exist.");
-                Console.ReadLine();
-                return true;
-            }
-
-            return false;
         }
     }
 }
