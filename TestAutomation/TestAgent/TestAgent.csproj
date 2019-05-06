@@ -132,10 +132,11 @@
     <Compile Include="RequestHandlers\Control\StartSutRequestHandler.cs" />
     <Compile Include="Implementation\ZeroMqSutEvents.cs" />
     <Compile Include="Implementation\ZeroMqZeroMqRequestDispatcher.cs" />
-    <Compile Include="ISutContext.cs" />
+    <Compile Include="IAgentContext.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SutContext.cs" />
+    <Compile Include="AgentContext.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="ZeroMq\PublishInfrastructure\IZeroMqPublishProxyFactory.cs" />
     <Compile Include="ZeroMq\PublishInfrastructure\ZeroMqPublishProxyConfig.cs" />
     <Compile Include="ZeroMq\PublishInfrastructure\ZeroMqPublishProxyFactory.cs" />

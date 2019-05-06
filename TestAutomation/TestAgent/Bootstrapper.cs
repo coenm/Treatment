@@ -25,7 +25,7 @@
             Guard.NotNull(sutReqRspPort, nameof(sutReqRspPort));
 
             // sut context
-            container.RegisterSingleton<ISutContext, SutContext>();
+            container.RegisterSingleton<IAgentContext, AgentContext>();
 
             // all possible request handlers
             container.Collection.Register(typeof(IRequestHandler), typeof(IRequestHandler).Assembly);

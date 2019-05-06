@@ -17,11 +17,6 @@
 
     public static class Program
     {
-        private const string AgentReqRspPort = "5555";
-        private const string AgentPublishPort = "5556";
-        private const string SutPublishPort = "5557";
-        private const string SutReqRspPort = "5558";
-
 #if DEBUG
         private const string Config = "Debug";
 #else
@@ -36,10 +31,10 @@
 
             Bootstrapper.Bootstrap(
                 container,
-                $"tcp://*:{AgentReqRspPort}",
-                $"tcp://*:{AgentPublishPort}",
-                SutPublishPort,
-                SutReqRspPort);
+                $"tcp://*:{Settings.AgentReqRspPort}",
+                $"tcp://*:{Settings.AgentPublishPort}",
+                Settings.SutPublishPort,
+                Settings.SutReqRspPort);
 
             container.Verify(VerificationOption.VerifyOnly);
 
@@ -72,7 +67,7 @@
                 using (var subscriber = new ZSocket(context, ZSocketType.SUB))
                 using (cts.Token.Register(() => subscriber.Dispose()))
                 {
-                    subscriber.Connect($"tcp://localhost:{AgentPublishPort}");
+                    subscriber.Connect($"tcp://localhost:{Settings.AgentPublishPort}");
                     subscriber.SubscribeAll();
                     mreListening.Set();
 
@@ -140,42 +135,45 @@
 
             mreListening.WaitOne();
 
-            var command = Command.Run(
-                executable,
-                new string[0],
-                options =>
-                {
-                    options.WorkingDirectory(treatmentDir);
-                    options.CancellationToken(cts.Token);
-                    options.EnvironmentVariables(new[]
-                    {
-                        new KeyValuePair<string, string>("ENABLE_TEST_AUTOMATION", "true"),
-                        new KeyValuePair<string, string>("TA_KEY", string.Empty),
-                        new KeyValuePair<string, string>("TA_PUBLISH_SOCKET", $"tcp://localhost:{SutPublishPort}"), // sut publishes events on this
-                        new KeyValuePair<string, string>("TA_REQ_RSP_SOCKET", $"tcp://localhost:{SutReqRspPort}"), // sut handles the mouse and keyboard requests.
-                    });
-                });
+            //            var command = Command.Run(
+            //                executable,
+            //                new string[0],
+            //                options =>
+            //                {
+            //                    options.WorkingDirectory(treatmentDir);
+            //                    options.CancellationToken(cts.Token);
+            //                    options.EnvironmentVariables(new[]
+            //                    {
+            //                        new KeyValuePair<string, string>("ENABLE_TEST_AUTOMATION", "true"),
+            //                        new KeyValuePair<string, string>("TA_KEY", string.Empty),
+            //                        new KeyValuePair<string, string>("TA_PUBLISH_SOCKET", $"tcp://localhost:{Settings.SutPublishPort}"), // sut publishes events on this
+            //                        new KeyValuePair<string, string>("TA_REQ_RSP_SOCKET", $"tcp://localhost:{Settings.SutReqRspPort}"), // sut handles the mouse and keyboard requests.
+            //                    });
+            //                });
+            //
+            //            // inproc://publish
+            //            using (var agentPublishSocket = new ZSocket(context, ZSocketType.PUB))
+            //            {
+            //                agentPublishSocket.Connect("inproc://publish");
+            //                agentPublishSocket.Send(new ZMessage(new[]
+            //                {
+            //                    new ZFrame("AGENT"),
+            //                    new ZFrame("Started"),
+            //                }));
+            //            }
+            //
+            //            var result = await command.Task.ConfigureAwait(true);
+            //
+            //            Console.WriteLine(result.StandardOutput);
+            //            Console.WriteLine(result.StandardError);
+            //
+            //            cts.Cancel();
+            //            Console.WriteLine("Done. Press enter to exit.");
+            //            Console.ReadLine();
+            //            await task;
 
-            // inproc://publish
-            using (var agentPublishSocket = new ZSocket(context, ZSocketType.PUB))
-            {
-                agentPublishSocket.Connect("inproc://publish");
-                agentPublishSocket.Send(new ZMessage(new[]
-                {
-                    new ZFrame("AGENT"),
-                    new ZFrame("Started"),
-                }));
-            }
-
-            var result = await command.Task.ConfigureAwait(true);
-
-            Console.WriteLine(result.StandardOutput);
-            Console.WriteLine(result.StandardError);
-
-            cts.Cancel();
             Console.WriteLine("Done. Press enter to exit.");
-            Console.ReadLine();
-            await task;
+            Console.ReadKey();
 
             publishProxy.Dispose();
             reqRspProxy.Dispose();

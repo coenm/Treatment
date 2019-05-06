@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
@@ -52,7 +53,9 @@
                         slnDir = Path.GetFullPath(Path.Combine(slnDir, ".."));
                     }
 
-                    var (type, payload) = TestAgentRequestResponseSerializer.Serialize(new LocateFilesRequest { Directory = slnDir, Filename = "TestAgent.exe", });
+                    var (type, payload) = TestAgentRequestResponseSerializer.Serialize(new LocateFilesRequest { Directory = slnDir, Filename = "Treatment.UIStart.exe", });
+
+                    var foundExecutable = string.Empty;
 
                     var msg = new ZMessage(new List<ZFrame> { new ZFrame("TESTAGENT"), new ZFrame(type), new ZFrame(payload), });
                     if (socket.TrySend(msg, 5, i => 10 * i))
@@ -69,6 +72,21 @@
                                     foreach (var e in locateFilesRsp.Executable)
                                     {
                                         Console.WriteLine($"| {e,-100} |");
+                                    }
+
+                                    foundExecutable = locateFilesRsp.Executable.FirstOrDefault(x => x.EndsWith("Treatment.UI.Start\\bin\\x64\\Debug\\Treatment.UIStart.exe"));
+                                    if (string.IsNullOrWhiteSpace(foundExecutable))
+                                    {
+                                        foundExecutable = locateFilesRsp.Executable.FirstOrDefault();
+                                    }
+
+                                    if (string.IsNullOrWhiteSpace(foundExecutable))
+                                    {
+                                        Console.WriteLine("NOTHING FOUND");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine($">>> {foundExecutable}");
                                     }
                                 }
                                 else
@@ -87,6 +105,42 @@
                             }
                         }
                     }
+
+                    if (!string.IsNullOrWhiteSpace(foundExecutable))
+                    {
+                        (type, payload) = TestAgentRequestResponseSerializer.Serialize(new StartSutRequest
+                        {
+                            Executable = foundExecutable,
+                            WorkingDirectory = new FileInfo(foundExecutable).DirectoryName,
+                        });
+
+                        msg = new ZMessage(new List<ZFrame> { new ZFrame("TESTAGENT"), new ZFrame(type), new ZFrame(payload), });
+                        if (socket.TrySend(msg, 5, i => 10 * i))
+                        {
+                            if (socket.TryReceive(out var rsp, 5, i => i * 10))
+                            {
+                                if (rsp.Count >= 2)
+                                {
+                                    var t = rsp.Pop().ReadString();
+                                    var p = rsp.Pop().ReadString();
+                                    var resp = TestAgentRequestResponseSerializer.DeserializeResponse(t, p);
+
+                                    Console.WriteLine($"| {t,-100} |");
+                                    Console.WriteLine($"| {p,-100} |");
+                                }
+                                else
+                                {
+                                    foreach (var frame in rsp)
+                                    {
+                                        var s = frame.ReadString();
+                                        Console.WriteLine($"| {s,-100} |");
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
 
                     // 1880
                     // 1112 - 1137
@@ -165,53 +219,6 @@
                     }
 
                     Thread.Sleep(1000);
-
-                    //
-                    //
-                    // Random random = new Random();
-                    // for (int y = 10; y < 1200; y += 10)
-                    // {
-                    //     for (int x = 0; x < 3000; x++)
-                    //     {
-                    //         (type, payload) = RequestResponseSerializer.Serialize(new MoveMouseToRequest { Position = new Point { X = x, Y = y } });
-                    //
-                    //         msg = new ZMessage(new List<ZFrame> { new ZFrame(type), new ZFrame(payload), });
-                    //         if (socket.TrySend(msg, 5, i => 10 * i))
-                    //         {
-                    //             if (socket.TryReceive(out var rsp, 5, i => i * 10))
-                    //             {
-                    //                 if (rsp.Count >= 2)
-                    //                 {
-                    //                     var t = rsp.Pop().ReadString();
-                    //                     var p = rsp.Pop().ReadString();
-                    //                     var resp = RequestResponseSerializer.DeserializeResponse(t, p);
-                    //                     if (resp is LocateFilesResponse locateFilesRsp)
-                    //                     {
-                    //                         foreach (var e in locateFilesRsp.Executable)
-                    //                         {
-                    //                             Console.WriteLine($"| {e,-100} |");
-                    //                         }
-                    //                     }
-                    //                     else
-                    //                     {
-                    //                         Console.WriteLine($"| {t,-100} |");
-                    //                         Console.WriteLine($"| {p,-100} |");
-                    //                     }
-                    //                 }
-                    //                 else
-                    //                 {
-                    //                     foreach (var frame in rsp)
-                    //                     {
-                    //                         var s = frame.ReadString();
-                    //                         Console.WriteLine($"| {s,-100} |");
-                    //                     }
-                    //                 }
-                    //             }
-                    //         }
-                    //     }
-                    //
-                    //     Thread.Sleep(random.Next(50, 250));
-                    // }
                 }
 
                 socket.Disconnect($"tcp://localhost:{AgentReqRspPort}");

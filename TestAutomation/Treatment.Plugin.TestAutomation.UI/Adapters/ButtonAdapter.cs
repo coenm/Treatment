@@ -22,8 +22,12 @@
 
             this.item = item;
 
-            // Guid = Guid.NewGuid();
-            Guid = Guid.Empty;
+            Guid = Guid.NewGuid();
+
+            if (item.Name == "OpenSettingsButton")
+            {
+                Guid = Guid.Parse("30A6A1F1-5E47-4F45-B6AF-20A705C29A47");
+            }
 
             helpers = new List<IInitializable>(6)
                       {

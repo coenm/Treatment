@@ -6,5 +6,6 @@
     public class StartSutRequest : IRequest
     {
         public string Executable { get; set; }
+        public string WorkingDirectory { get; set; }
     }
 }

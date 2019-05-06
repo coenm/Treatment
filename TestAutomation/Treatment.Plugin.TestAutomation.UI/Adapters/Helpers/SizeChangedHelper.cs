@@ -35,14 +35,20 @@
         public void Dispose()
         {
             frameworkElement.SizeChanged -= ItemOnSizeChanged;
+            PublishEvent(new Size(frameworkElement.ActualWidth, frameworkElement.ActualHeight));
         }
 
         private void ItemOnSizeChanged(object sender, SizeChangedEventArgs e)
         {
+            PublishEvent(e.NewSize);
+        }
+
+        private void PublishEvent(Size size)
+        {
             eventPublisher.PublishAsync(new SizeUpdated
             {
                 Guid = Guid,
-                Size = e.NewSize,
+                Size = size,
             });
         }
     }
