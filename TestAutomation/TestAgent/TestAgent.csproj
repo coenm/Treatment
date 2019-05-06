@@ -165,6 +165,10 @@
       <Project>{0d6db733-febe-4f4d-9d99-3808517a9f7f}</Project>
       <Name>Treatment.Helpers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Treatment.UI.Start\Treatment.UI.Start.csproj">
+      <Project>{a0406998-8a76-47ab-b8c1-c139461a4433}</Project>
+      <Name>Treatment.UI.Start</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TestAgent.Contract\TestAgent.Contract.csproj">
       <Project>{f3973336-d09c-40f2-b8f4-0e6238fcea13}</Project>
       <Name>TestAgent.Contract</Name>

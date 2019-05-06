@@ -2,6 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
+    using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -9,6 +11,8 @@
     using TestAgent.Contract.Interface.Control;
     using TestAgent.Contract.Serializer;
     using TreatmentZeroMq.ContextService;
+    using TreatmentZeroMq.Helpers;
+
     using ZeroMQ;
 
     public static class Program
@@ -32,34 +36,63 @@
             var cts = new CancellationTokenSource();
 
 
-            var req = new ZSocket(context, ZSocketType.REQ) {Linger = TimeSpan.Zero};
-            req.Connect($"tcp://localhost:{AgentReqRspPort}");
-
-            var (type, payload) = RequestResponseSerializer.Serialize(new LocateFilesRequest
+            using (var socket = new ZSocket(context, ZSocketType.REQ) { Linger = TimeSpan.Zero })
             {
-                Directory = "C:\\",
-                Filename = "TestAgent.exe",
-            });
+                if (socket.TryConnect($"tcp://localhost:{AgentReqRspPort}"))
+                {
+                    ZmqConnection.GiveZeroMqTimeToFinishConnectOrBind();
 
-            req.Send(new List<ZFrame>
-            {
-                new ZFrame(type),
-                new ZFrame(payload),
-            });
+                    var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                    var slnDir = currentDir;
+                    while (!File.Exists(Path.Combine(slnDir, "Treatment.sln")) && slnDir?.Length > 4)
+                    {
+                        slnDir = Path.GetFullPath(Path.Combine(slnDir, ".."));
+                    }
 
-            Console.WriteLine("Press enter for response");
-            Console.ReadLine();
-            var rsp = req.ReceiveMessage(ZSocketFlags.DontWait);
-            foreach (var frame in rsp)
-            {
-                var s = frame.ReadString();
-                Console.WriteLine($"| {s,-100} |");
+                    var (type, payload) = RequestResponseSerializer.Serialize(new LocateFilesRequest { Directory = slnDir, Filename = "TestAgent.exe", });
+
+                    var msg = new ZMessage(new List<ZFrame> { new ZFrame(type), new ZFrame(payload), });
+                    if (socket.TrySend(msg, 5, i => 10 * i))
+                    {
+                        if (socket.TryReceive(out var rsp, 5, i => i * 10))
+                        {
+
+                            if (rsp.Count >= 2)
+                            {
+                                var t = rsp.Pop().ReadString();
+                                var p = rsp.Pop().ReadString();
+                                var resp = RequestResponseSerializer.DeserializeResponse(t, p);
+                                if (resp is LocateFilesResponse locateFilesRsp)
+                                {
+                                    foreach (var e in locateFilesRsp.Executable)
+                                    {
+                                        Console.WriteLine($"| {e,-100} |");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine($"| {t,-100} |");
+                                    Console.WriteLine($"| {p,-100} |");
+                                }
+                            }
+                            else
+                            {
+                                foreach (var frame in rsp)
+                                {
+                                    var s = frame.ReadString();
+                                    Console.WriteLine($"| {s,-100} |");
+                                }
+                            }
+                        }
+                    }
+                }
+
+                socket.Disconnect($"tcp://localhost:{AgentReqRspPort}");
             }
 
             Console.WriteLine("Press enter to continue");
             Console.ReadLine();
-
-            req.Dispose();
+            Console.WriteLine("Start listening for events");
 
             var task = Task.Run(() =>
             {
