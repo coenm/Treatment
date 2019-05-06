@@ -6,6 +6,9 @@
     public interface IAgentContext
     {
         void SetSutProcess(Command command);
+
         CancellationToken CancellationToken { get; }
+
+        void Stop();
     }
 }

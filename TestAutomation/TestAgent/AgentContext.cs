@@ -22,5 +22,9 @@
         }
 
         public CancellationToken CancellationToken => cancellationTokenSource.Token;
+        public void Stop()
+        {
+            cancellationTokenSource.Cancel();
+        }
     }
 }

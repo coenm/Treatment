@@ -132,45 +132,25 @@
 
             mreListening.WaitOne();
 
-            //            var command = Command.Run(
-            //                executable,
-            //                new string[0],
-            //                options =>
-            //                {
-            //                    options.WorkingDirectory(treatmentDir);
-            //                    options.CancellationToken(cts.Token);
-            //                    options.EnvironmentVariables(new[]
-            //                    {
-            //                        new KeyValuePair<string, string>("ENABLE_TEST_AUTOMATION", "true"),
-            //                        new KeyValuePair<string, string>("TA_KEY", string.Empty),
-            //                        new KeyValuePair<string, string>("TA_PUBLISH_SOCKET", $"tcp://localhost:{Settings.SutPublishPort}"), // sut publishes events on this
-            //                        new KeyValuePair<string, string>("TA_REQ_RSP_SOCKET", $"tcp://localhost:{Settings.SutReqRspPort}"), // sut handles the mouse and keyboard requests.
-            //                    });
-            //                });
-            //
-            //            // inproc://publish
-            //            using (var agentPublishSocket = new ZSocket(context, ZSocketType.PUB))
-            //            {
-            //                agentPublishSocket.Connect("inproc://publish");
-            //                agentPublishSocket.Send(new ZMessage(new[]
-            //                {
-            //                    new ZFrame("AGENT"),
-            //                    new ZFrame("Started"),
-            //                }));
-            //            }
-            //
-            //            var result = await command.Task.ConfigureAwait(true);
-            //
-            //            Console.WriteLine(result.StandardOutput);
-            //            Console.WriteLine(result.StandardError);
-            //
-            //            cts.Cancel();
-            //            Console.WriteLine("Done. Press enter to exit.");
-            //            Console.ReadLine();
-            //            await task;
+
+            // let listeners know agent has started.
+            using (var agentPublishSocket = new ZSocket(context, ZSocketType.PUB))
+            {
+                agentPublishSocket.Connect("inproc://publish");
+                agentPublishSocket.Send(new ZMessage(new[]
+                {
+                    new ZFrame("AGENT"),
+                    new ZFrame("Started"),
+                }));
+            }
 
             Console.WriteLine("Done. Press enter to exit.");
             Console.ReadKey();
+
+            var agent = container.GetInstance<IAgentContext>();
+            agent.Stop();
+
+            Thread.Sleep(5000);
 
             publishProxy.Dispose();
             reqRspProxy.Dispose();
