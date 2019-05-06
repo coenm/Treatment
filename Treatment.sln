@@ -58,6 +58,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAgent.Contract", "TestA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treatment.ZeroMq", "TestAutomation\Treatment.ZeroMq\Treatment.ZeroMq.csproj", "{3D1F845A-A217-4EE4-9C56-C97EF7EC8F9C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAutomation.Contract.Input", "TestAutomation\TestAutomation.Contract.Input\TestAutomation.Contract.Input.csproj", "{6AAB1C15-076E-4E4B-A0A9-D99210FCADDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAutomation.InputHandler", "TestAutomation\TestAutomation.InputHandler\TestAutomation.InputHandler.csproj", "{B1308572-4927-44B9-B5E2-53A648F82A38}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -152,6 +156,14 @@ Global
 		{3D1F845A-A217-4EE4-9C56-C97EF7EC8F9C}.Debug|x64.Build.0 = Debug|x64
 		{3D1F845A-A217-4EE4-9C56-C97EF7EC8F9C}.Release|x64.ActiveCfg = Release|x64
 		{3D1F845A-A217-4EE4-9C56-C97EF7EC8F9C}.Release|x64.Build.0 = Release|x64
+		{6AAB1C15-076E-4E4B-A0A9-D99210FCADDB}.Debug|x64.ActiveCfg = Debug|x64
+		{6AAB1C15-076E-4E4B-A0A9-D99210FCADDB}.Debug|x64.Build.0 = Debug|x64
+		{6AAB1C15-076E-4E4B-A0A9-D99210FCADDB}.Release|x64.ActiveCfg = Release|x64
+		{6AAB1C15-076E-4E4B-A0A9-D99210FCADDB}.Release|x64.Build.0 = Release|x64
+		{B1308572-4927-44B9-B5E2-53A648F82A38}.Debug|x64.ActiveCfg = Debug|x64
+		{B1308572-4927-44B9-B5E2-53A648F82A38}.Debug|x64.Build.0 = Debug|x64
+		{B1308572-4927-44B9-B5E2-53A648F82A38}.Release|x64.ActiveCfg = Release|x64
+		{B1308572-4927-44B9-B5E2-53A648F82A38}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -168,6 +180,8 @@ Global
 		{A01C3566-E0DE-4B5A-8392-AB8233EF0E08} = {969A961E-A168-468C-877B-056684B444B5}
 		{F3973336-D09C-40F2-B8F4-0E6238FCEA13} = {969A961E-A168-468C-877B-056684B444B5}
 		{3D1F845A-A217-4EE4-9C56-C97EF7EC8F9C} = {969A961E-A168-468C-877B-056684B444B5}
+		{6AAB1C15-076E-4E4B-A0A9-D99210FCADDB} = {969A961E-A168-468C-877B-056684B444B5}
+		{B1308572-4927-44B9-B5E2-53A648F82A38} = {969A961E-A168-468C-877B-056684B444B5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {192610B5-8639-40A0-AD86-79C24A14C9B9}

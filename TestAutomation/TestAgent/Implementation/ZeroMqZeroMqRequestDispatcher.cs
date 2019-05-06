@@ -2,12 +2,12 @@
 {
     using System;
     using System.Collections.Concurrent;
-    using System.Linq;
     using System.Threading.Tasks;
     using Contract.Interface;
     using Contract.Serializer;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
+    using TreatmentZeroMq.Worker;
     using ZeroMQ;
 
     [UsedImplicitly]
@@ -34,7 +34,7 @@
         [NotNull]
         private static ZMessage Serialize([NotNull] IResponse rsp)
         {
-            var (type, payload) = RequestResponseSerializer.Serialize(rsp);
+            var (type, payload) = TestAgentRequestResponseSerializer.Serialize(rsp);
 
             return new ZMessage
             {
@@ -46,7 +46,7 @@
         [CanBeNull]
         private static IRequest Deserialize([NotNull] ZMessage message)
         {
-            return RequestResponseSerializer.DeserializeRequest(
+            return TestAgentRequestResponseSerializer.DeserializeRequest(
                 message[0].ReadString(),
                 message[1].ReadString());
         }

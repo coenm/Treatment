@@ -70,6 +70,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.AppContext" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Console" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -120,14 +121,6 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="RequestHandlers\Control\LocateFilesRequestHandler.cs" />
-    <Compile Include="RequestHandlers\Input\Keyboard\KeyCombinationPressRequestHandler.cs" />
-    <Compile Include="RequestHandlers\Input\Keyboard\KeyDownRequestHandler.cs" />
-    <Compile Include="RequestHandlers\Input\Keyboard\KeyPressesRequestHandler.cs" />
-    <Compile Include="RequestHandlers\Input\Keyboard\KeyUpRequestHandler.cs" />
-    <Compile Include="RequestHandlers\Input\Keyboard\Mapper\KeyCodesMapper.cs" />
-    <Compile Include="RequestHandlers\Input\Mouse\DoubleClickRequestHandler.cs" />
-    <Compile Include="RequestHandlers\Input\Mouse\MoveMouseToRequestHandler.cs" />
-    <Compile Include="RequestHandlers\Input\Mouse\SingleClickRequestHandler.cs" />
     <Compile Include="RequestHandlers\IMessageBox.cs" />
     <Compile Include="RequestHandlers\ITestAgent.cs" />
     <Compile Include="RequestHandlers\MessageBoxButtons.cs" />
@@ -135,7 +128,6 @@
     <Compile Include="Implementation\IRequestHandler.cs" />
     <Compile Include="Implementation\ISutEvents.cs" />
     <Compile Include="Implementation\ISutEventsPublisher.cs" />
-    <Compile Include="Implementation\IZeroMqRequestDispatcher.cs" />
     <Compile Include="Implementation\RequestDispatcher.cs" />
     <Compile Include="RequestHandlers\Control\StartSutRequestHandler.cs" />
     <Compile Include="Implementation\ZeroMqSutEvents.cs" />
@@ -144,7 +136,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SutContext.cs" />
-    <Compile Include="ZeroMq\RequestReplyWorker\IWorker.cs" />
     <Compile Include="ZeroMq\PublishInfrastructure\IZeroMqPublishProxyFactory.cs" />
     <Compile Include="ZeroMq\PublishInfrastructure\ZeroMqPublishProxyConfig.cs" />
     <Compile Include="ZeroMq\PublishInfrastructure\ZeroMqPublishProxyFactory.cs" />
@@ -153,7 +144,6 @@
     <Compile Include="ZeroMq\RequestReplyInfrastructure\ZeroMqReqRepProxyConfig.cs" />
     <Compile Include="ZeroMq\RequestReplyInfrastructure\ZeroMqReqRepProxyFactory.cs" />
     <Compile Include="ZeroMq\RequestReplyInfrastructure\ZeroMqReqRepProxyService.cs" />
-    <Compile Include="ZeroMq\RequestReplyWorker\ReqRepWorkerManagement.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -176,6 +166,10 @@
     <ProjectReference Include="..\TestAgentEventsLogger\TestAgentEventsLogger.csproj">
       <Project>{839B3E64-44AF-4836-B9DF-188CE43ECBE0}</Project>
       <Name>TestAgentEventsLogger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestAutomation.Contract.Input\TestAutomation.Contract.Input.csproj">
+      <Project>{6AAB1C15-076E-4E4B-A0A9-D99210FCADDB}</Project>
+      <Name>TestAutomation.Contract.Input</Name>
     </ProjectReference>
     <ProjectReference Include="..\Treatment.TestAutomation.Contract\Treatment.TestAutomation.Contract.csproj">
       <Project>{0E179745-C4B4-41A0-8EF4-08A5F18FB8CD}</Project>

@@ -16,6 +16,12 @@
         string ZeroMqEventPublishSocket { get; }
 
         /// <summary>
+        /// ZeroMq endpoint for handling request to move mouse and keyboard.
+        /// </summary>
+        [CanBeNull]
+        string ZeroMqRequestResponseSocket { get; }
+
+        /// <summary>
         /// ZeroMq private key.
         /// </summary>
         [CanBeNull]

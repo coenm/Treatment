@@ -94,7 +94,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
@@ -107,9 +109,9 @@
       <Project>{F3973336-D09C-40F2-B8F4-0E6238FCEA13}</Project>
       <Name>TestAgent.Contract</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Treatment.Plugin.TestAutomation.UI\Treatment.Plugin.TestAutomation.UI.csproj">
-      <Project>{2C76194B-5B5E-4153-A3A2-EEA9BA669EF3}</Project>
-      <Name>Treatment.Plugin.TestAutomation.UI</Name>
+    <ProjectReference Include="..\TestAutomation.Contract.Input\TestAutomation.Contract.Input.csproj">
+      <Project>{6aab1c15-076e-4e4b-a0a9-d99210fcaddb}</Project>
+      <Name>TestAutomation.Contract.Input</Name>
     </ProjectReference>
     <ProjectReference Include="..\Treatment.TestAutomation.Contract\Treatment.TestAutomation.Contract.csproj">
       <Project>{0E179745-C4B4-41A0-8EF4-08A5F18FB8CD}</Project>

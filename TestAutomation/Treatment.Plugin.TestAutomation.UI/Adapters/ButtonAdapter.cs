@@ -22,7 +22,8 @@
 
             this.item = item;
 
-            Guid = Guid.NewGuid();
+            // Guid = Guid.NewGuid();
+            Guid = Guid.Empty;
 
             helpers = new List<IInitializable>(6)
                       {

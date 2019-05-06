@@ -93,7 +93,6 @@
         /// <param name="frontend">socket, already setup and connected/bound</param>
         /// <param name="backend">socket, already setup and connected/bound</param>
         /// <param name="capture"></param>
-        /// <param name="logger">Logger to use</param>
         /// <exception cref="ApplicationException">Thrown when the proxy could not start.</exception>
         /// <returns></returns>
         public static ZmqProxy CreateAndRun(ZContext context, ZSocket frontend, ZSocket backend, ZSocket capture = null)

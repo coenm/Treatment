@@ -101,6 +101,9 @@
     <Compile Include="TestAutomationPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Adapters\TextBlockAdapter.cs" />
+    <Compile Include="UserInput\RequestDispatcher.cs" />
+    <Compile Include="UserInput\IRequestDispatcher.cs" />
+    <Compile Include="UserInput\ZeroMqZeroMqRequestDispatcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -122,6 +125,14 @@
     <ProjectReference Include="..\..\src\Treatment.UI\Treatment.UI.csproj">
       <Project>{3C621AFB-C34D-40A6-8EC9-C61F3B3C96FD}</Project>
       <Name>Treatment.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestAutomation.Contract.Input\TestAutomation.Contract.Input.csproj">
+      <Project>{6aab1c15-076e-4e4b-a0a9-d99210fcaddb}</Project>
+      <Name>TestAutomation.Contract.Input</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestAutomation.InputHandler\TestAutomation.InputHandler.csproj">
+      <Project>{b1308572-4927-44b9-b5e2-53a648f82a38}</Project>
+      <Name>TestAutomation.InputHandler</Name>
     </ProjectReference>
     <ProjectReference Include="..\Treatment.TestAutomation.Contract\Treatment.TestAutomation.Contract.csproj">
       <Project>{0e179745-c4b4-41a0-8ef4-08a5f18fb8cd}</Project>

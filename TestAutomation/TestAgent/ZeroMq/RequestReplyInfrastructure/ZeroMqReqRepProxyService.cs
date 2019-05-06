@@ -1,7 +1,9 @@
 ﻿namespace TestAgent.ZeroMq.RequestReplyInfrastructure
 {
     using System;
-    using TreatmentZeroMq.Proxy;
+    using System.Collections.Generic;
+    using TreatmentZeroMq.Helpers;
+    using TreatmentZeroMq.ProxyExt;
     using ZeroMQ;
 
     /// <inheritdoc />
@@ -19,10 +21,10 @@
         private ZContext ctx;
         private readonly ZeroMqReqRepProxyConfig config;
         private ZSocket frontend;
-        private ZSocket backend;
+        private readonly List<ZKeySocket> backends;
         private readonly object syncLock = new object();
         private bool socketBound;
-        private ZmqProxy proxy;
+        private ZmqProxyExtended proxy;
         private ZSocket capture;
 
         public ZeroMqReqRepProxyService(ZContext context, ZeroMqReqRepProxyConfig config)
@@ -31,7 +33,12 @@
             this.config = config;
 
             frontend = new ZSocket(ctx, ZSocketType.ROUTER) { Linger = TimeSpan.Zero };
-            backend = new ZSocket(ctx, ZSocketType.DEALER) { Linger = TimeSpan.Zero };
+
+            backends = new List<ZKeySocket>();
+            foreach (var item in config.BackendAddress)
+            {
+                backends.Add(new ZKeySocket(new ZSocket(ctx, ZSocketType.DEALER) {Linger = TimeSpan.Zero}, item.Key, item.Value));
+            }
 
             if (!string.IsNullOrWhiteSpace(this.config.CaptureAddress))
             {
@@ -53,7 +60,7 @@
                 if (!Bind())
                     return;
 
-                proxy = ZmqProxy.CreateAndRun(ctx, frontend, backend, capture);
+                proxy = ZmqProxyExtended.CreateAndRun(ctx, frontend, backends.ToArray());
             }
         }
 
@@ -73,11 +80,11 @@
                 }
             }
 
-            foreach (var address in config.BackendAddress)
+
+            foreach (var backend in backends)
             {
-                if (!backend.Bind(address, out error))
+                if (!backend.Socket.TryBind(backend.Address))
                 {
-//                    logger.Error($"Backend socket of ReqRep proxy could not bind to {address}. {error.Text}");
                     return false;
                 }
             }
@@ -113,9 +120,11 @@
                 frontend?.Dispose();
                 frontend = null;
 
-                backend?.Close();
-                backend?.Dispose();
-                backend = null;
+                foreach (var backend in backends)
+                {
+                    backend.Socket.Close();
+                    backend.Socket.Dispose();
+                }
 
                 socketBound = false;
             }

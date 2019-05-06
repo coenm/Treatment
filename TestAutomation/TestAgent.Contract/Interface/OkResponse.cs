@@ -5,5 +5,6 @@
     [PublicAPI]
     public class OkResponse : IResponse
     {
+        [CanBeNull] public string Msg { get; set; }
     }
 }

@@ -1,8 +1,10 @@
 ﻿namespace TestAgent.ZeroMq.RequestReplyInfrastructure
 {
+    using System.Collections.Generic;
+
     public class ZeroMqReqRepProxyConfig
     {
-        public ZeroMqReqRepProxyConfig(string[] frontendAddress, string[] backendAddress)
+        public ZeroMqReqRepProxyConfig(string[] frontendAddress, Dictionary<string, string> backendAddress)
         {
             FrontendAddress = frontendAddress;
             BackendAddress = backendAddress;
@@ -12,6 +14,6 @@
 
         public string CaptureAddress { get; set; } // = Settings.Default.CommandQueryCaptureEndpoint;
 
-        public string[] BackendAddress { get; set; }
+        public Dictionary<string, string> BackendAddress { get; set; }
     }
 }

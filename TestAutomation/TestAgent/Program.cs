@@ -3,16 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
 
     using Medallion.Shell;
     using SimpleInjector;
-    using TestAgent.Implementation;
-    using TestAgent.ZeroMq.RequestReplyWorker;
     using TreatmentZeroMq.ContextService;
+    using TreatmentZeroMq.Worker;
     using ZeroMq.PublishInfrastructure;
     using ZeroMq.RequestReplyInfrastructure;
     using ZeroMQ;
@@ -22,6 +20,7 @@
         private const string AgentReqRspPort = "5555";
         private const string AgentPublishPort = "5556";
         private const string SutPublishPort = "5557";
+        private const string SutReqRspPort = "5558";
 
 #if DEBUG
         private const string Config = "Debug";
@@ -39,7 +38,8 @@
                 container,
                 $"tcp://*:{AgentReqRspPort}",
                 $"tcp://*:{AgentPublishPort}",
-                SutPublishPort);
+                SutPublishPort,
+                SutReqRspPort);
 
             container.Verify(VerificationOption.VerifyOnly);
 
@@ -63,7 +63,7 @@
 
             var workerTask = workerManager.StartSingleWorker(
                                 container.GetInstance<IZeroMqRequestDispatcher>(),
-                                zeroMqReqRepProxyFactory.GetConfig().BackendAddress.First(),
+                                "inproc://reqrsp",
                                 cts.Token);
 
             var task = Task.Run(() =>
@@ -152,6 +152,7 @@
                         new KeyValuePair<string, string>("ENABLE_TEST_AUTOMATION", "true"),
                         new KeyValuePair<string, string>("TA_KEY", string.Empty),
                         new KeyValuePair<string, string>("TA_PUBLISH_SOCKET", $"tcp://localhost:{SutPublishPort}"), // sut publishes events on this
+                        new KeyValuePair<string, string>("TA_REQ_RSP_SOCKET", $"tcp://localhost:{SutReqRspPort}"), // sut handles the mouse and keyboard requests.
                     });
                 });
 

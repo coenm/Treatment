@@ -1,21 +1,26 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
 
+    using global::TestAutomation.InputHandler.RequestHandlers;
     using JetBrains.Annotations;
+    using SimpleInjector;
     using SimpleInjector.Advanced;
     using SimpleInjector.Packaging;
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Adapters;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Settings;
+    using Treatment.Plugin.TestAutomation.UI.UserInput;
     using Treatment.TestAutomation.Contract.Interfaces;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.UI.View;
     using TreatmentZeroMq.ContextService;
+    using TreatmentZeroMq.Worker;
     using ZeroMQ;
 
     using Container = SimpleInjector.Container;
@@ -46,6 +51,14 @@
 
             container.RegisterSingleton<ITestAutomationAgent, TestAutomationAgent>();
 
+            container.RegisterSingleton<ReqRepWorkerManagement>();
+            container.Register<IZeroMqRequestDispatcher, ZeroMqZeroMqRequestDispatcher>(Lifestyle.Transient);
+
+            // all possible request handlers
+            container.Collection.Register(typeof(IRequestHandler), typeof(IRequestHandler).Assembly);
+
+            container.Register<IRequestDispatcher, RequestDispatcher>(Lifestyle.Transient);
+
             container.Options.RegisterResolveInterceptor(CollectResolvedApplication, c => c.Producer.ServiceType == typeof(Application));
 
             container.Options.RegisterResolveInterceptor(CollectResolvedMainWindowInstance, c => c.Producer.ServiceType == typeof(MainWindow));
@@ -70,6 +83,18 @@
 
             var applicationAdapter = new ApplicationAdapter(appInstance, publisher);
             agent.RegisterAndInitializeApplication(applicationAdapter);
+
+            var config = container.GetInstance<ITestAutomationSettings>();
+
+            if (!string.IsNullOrWhiteSpace(config.ZeroMqRequestResponseSocket))
+            {
+                var worker = container.GetInstance<ReqRepWorkerManagement>()
+                    .StartSingleWorker(
+                        container.GetInstance<IZeroMqRequestDispatcher>(),
+                        config.ZeroMqRequestResponseSocket,
+                        CancellationToken.None);
+                agent.RegisterWorker(worker);
+            }
 
             return instance;
         }
@@ -133,6 +158,8 @@
         void RegisterAndInitializeApplication([NotNull] IApplication application);
 
         void RegisterAndInitializeMainView(MainWindowTestAutomationView view);
+
+        void RegisterWorker(Task worker);
     }
 
     internal class SettingWindowTestAutomationView : ITestAutomationView
@@ -163,6 +190,7 @@
 
     internal class TestAutomationAgent : ITestAutomationAgent
     {
+        [NotNull ]private readonly List<Task> workers = new List<Task>();
         private MainWindowTestAutomationView instance;
         [NotNull] private readonly ITestAutomationSettings settings;
         [NotNull] private readonly object syncLock = new object();
@@ -212,6 +240,11 @@
             {
                 this.view = view;
             }
+        }
+
+        public void RegisterWorker(Task worker)
+        {
+            workers.Add(worker);
         }
     }
 }

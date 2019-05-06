@@ -7,7 +7,7 @@
     using JetBrains.Annotations;
     using Newtonsoft.Json;
 
-    public static class RequestResponseSerializer
+    public static class TestAgentRequestResponseSerializer
     {
         private static readonly List<Type> RequestTypes = typeof(IRequest).Assembly
             .GetTypes()

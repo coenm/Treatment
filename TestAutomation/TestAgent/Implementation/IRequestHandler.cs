@@ -2,7 +2,6 @@
 {
     using System.Threading.Tasks;
     using Contract.Interface;
-    using JetBrains.Annotations;
 
     public interface IRequestHandler
     {
