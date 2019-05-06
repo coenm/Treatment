@@ -1,8 +1,10 @@
 ﻿namespace TestAutomation.InputHandler.RequestHandlers.Input.Mouse
 {
     using System.Threading.Tasks;
+    using System.Windows;
     using Contract.Input.Interface;
     using Contract.Input.Interface.Input.Mouse;
+    using Dapplo.Windows.Common.Extensions;
     using Dapplo.Windows.Common.Structs;
     using Dapplo.Windows.Input.Mouse;
     using JetBrains.Annotations;

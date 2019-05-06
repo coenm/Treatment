@@ -1,13 +1,9 @@
 ﻿namespace TestAgent
 {
     using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
 
-    using Medallion.Shell;
     using SimpleInjector;
     using TreatmentZeroMq.ContextService;
     using TreatmentZeroMq.Worker;
