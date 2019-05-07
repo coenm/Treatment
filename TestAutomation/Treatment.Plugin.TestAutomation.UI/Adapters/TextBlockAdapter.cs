@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Input;
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
@@ -52,49 +51,6 @@
         public void Initialize()
         {
             helpers.ForEach(helper => helper.Initialize());
-
-            item.TargetUpdated += Item_TargetUpdated;
-            item.TextInput += ItemOnTextInput;
-            item.Loaded += ItemOnLoaded;
-
-            if (item.IsLoaded)
-                ItemOnLoaded(item, null);
         }
-
-        private void ItemOnLoaded(object sender, RoutedEventArgs e)
-        {
-            eventPublisher.PublishAsync(new TestAutomationEvent
-            {
-                Control = item.Name,
-                EventName = nameof(item.Loaded),
-                Payload = null,
-            });
-        }
-
-        private void ItemOnTextInput(object sender, TextCompositionEventArgs e)
-        {
-            eventPublisher.PublishAsync(new TestAutomationEvent
-            {
-                Control = item.Name,
-                EventName = nameof(item.TextInput),
-                Payload = e.Text + "  " + e.ControlText,
-            });
-        }
-
-        private void Item_TargetUpdated(object sender, System.Windows.Data.DataTransferEventArgs e)
-        {
-            eventPublisher.PublishAsync(new TestAutomationEvent
-            {
-                Control = item.Name,
-                EventName = nameof(item.TargetUpdated),
-                Payload = e.Property,
-            });
-        }
-
-        public bool IsEnabled { get; }
-
-        public double Width { get; }
-
-        public double Height { get; }
     }
 }

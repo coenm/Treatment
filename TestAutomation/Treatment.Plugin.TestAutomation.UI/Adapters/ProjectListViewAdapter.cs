@@ -14,34 +14,33 @@
     {
         [NotNull] private readonly ProjectListView item;
         [NotNull] private readonly IEventPublisher eventPublisher;
+        [NotNull] private readonly ListViewAdapter listview;
 
         public ProjectListViewAdapter([NotNull] ProjectListView item, [NotNull] IEventPublisher eventPublisher)
         {
             Guard.NotNull(item, nameof(item));
             Guard.NotNull(eventPublisher, nameof(eventPublisher));
 
-            Guid = Guid.NewGuid();
-
             this.item = item;
             this.eventPublisher = eventPublisher;
 
-            eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IProjectListView));
+            listview = new ListViewAdapter(
+                FieldsHelper.FindFieldInUiElementByName<ListView>(item, nameof(listview)),
+                eventPublisher);
+
+            Guid = listview.Guid;
         }
 
         public Guid Guid { get; }
 
         public void Dispose()
         {
-            Listview.Dispose();
+            listview.Dispose();
         }
 
         public void Initialize()
         {
-            Listview = new ListViewAdapter(
-                FieldsHelper.FindFieldInUiElementByName<ListView>(item, nameof(Listview)),
-                eventPublisher);
+            listview.Initialize();
         }
-
-        public ListViewAdapter Listview { get; private set; }
     }
 }

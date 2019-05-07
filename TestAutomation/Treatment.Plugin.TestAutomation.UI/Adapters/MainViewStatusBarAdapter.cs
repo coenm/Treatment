@@ -67,9 +67,8 @@
             }
 
             if (StatusText == null)
-                throw new System.Exception("Could not find element.");
+                throw new Exception("Could not find element.");
 
-            result = null;
             result = FieldsHelper.FindChild<TextBlock>(item, nameof(StatusConfigFilename));
             if (result != null)
             {
@@ -91,9 +90,8 @@
             }
 
             if (StatusConfigFilename == null)
-                throw new System.Exception("Could not find element.");
+                throw new Exception("Could not find element.");
 
-            result = null;
             result = FieldsHelper.FindChild<TextBlock>(item, nameof(StatusDelayProcessCounter));
             if (result != null)
             {

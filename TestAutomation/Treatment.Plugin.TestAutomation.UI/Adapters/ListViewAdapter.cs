@@ -47,12 +47,12 @@
 
         public void Dispose()
         {
-            helpers.ForEach(item => item.Dispose());
+            helpers.ForEach(helper => helper.Dispose());
         }
 
         public void Initialize()
         {
-            helpers.ForEach(item => item.Initialize());
+            helpers.ForEach(helper => helper.Initialize());
 
             item.Loaded += ItemOnLoaded;
             item.DataContextChanged += ItemOnDataContextChanged;
@@ -62,7 +62,8 @@
 
             item.Items.CurrentChanged += Items_CurrentChanged;
 
-            var gv = item.View as GridView;
+            // view is a gridview but for now, we don't use this info.
+            // var gv = item.View as GridView;
 
             item.SelectionChanged += ItemOnSelectionChanged;
 
@@ -109,22 +110,14 @@
 
                 //get the item's template parent
                 var templateParent = GetFrameworkElementByName<ContentPresenter>(lvi);
+                var dataTemplate = templateParent.ContentTemplate;
 
-                //get the DataTemplate that TextBlock in.
-
-                DataTemplate dataTemplate = item.ItemTemplate;
-
-                if (dataTemplate != null && templateParent != null)
+                if (dataTemplate != null)
                 {
                     var btn = dataTemplate.FindName("BtnFixCsProjectFiles", templateParent) as Button;
                     var btnAdapter = new ButtonAdapter(btn, eventPublisher);
                     btnAdapter.Initialize();
                 }
-
-//                if (textYear != null)
-//                {
-//                    MessageBox.Show(String.Format("Current item's Year is:{0}", textYear.Text));
-//                }
             }
         }
 
@@ -188,12 +181,16 @@
 
         private void ItemOnLoaded(object sender, RoutedEventArgs e)
         {
-            eventPublisher.PublishAsync(new TestAutomationEvent
+            if (e.Source is ListView lv)
             {
-                Control = item.Name,
-                EventName = nameof(item.Loaded),
-                Payload = e.Source,
-            });
+                eventPublisher.PublishAsync(
+                    new TestAutomationEvent
+                    {
+                        Control = item.Name,
+                        EventName = nameof(item.Loaded),
+                        Payload = lv.Items.Count,
+                    });
+            }
         }
 
         private void Item_SelectionChanged(object sender, SelectionChangedEventArgs e)

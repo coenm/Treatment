@@ -1,6 +1,7 @@
 ﻿namespace Treatment.TestAutomation.Contract.Interfaces
 {
     using System;
+
     using Events;
 
     [Obsolete]

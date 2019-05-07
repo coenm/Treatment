@@ -2,7 +2,7 @@
 {
     using Framework;
 
-    public interface IProjectListView : IUiElement
+    public interface IProjectListView : IListView
     {
     }
 }
