@@ -90,6 +90,9 @@
     <Compile Include="Adapters\MainWindowTestAutomationView.cs" />
     <Compile Include="Adapters\Helpers\SizeChangedHelper.cs" />
     <Compile Include="Infrastructure\EventPublisherExtension.cs" />
+    <Compile Include="Interceptors\ApplicationInterceptor.cs" />
+    <Compile Include="Interceptors\SettingWindowInterceptor.cs" />
+    <Compile Include="Interceptors\MainWindowInterceptor.cs" />
     <Compile Include="Settings\DummySettings.cs" />
     <Compile Include="Infrastructure\IEventPublisher.cs" />
     <Compile Include="Infrastructure\ZeroMqEventPublisher.cs" />

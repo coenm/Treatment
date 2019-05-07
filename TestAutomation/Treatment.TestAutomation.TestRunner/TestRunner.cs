@@ -145,8 +145,6 @@
         [Fact]
         public void ClickMouse()
         {
-            Thread.Sleep(5000);
-
             int x = 251;
             int y = 483;
 
