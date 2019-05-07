@@ -1,12 +1,15 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
+    using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers;
+    using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.WindowControl;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Reflection;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
@@ -18,6 +21,7 @@
     {
         [NotNull] private readonly MainWindow mainWindow;
         [NotNull] private readonly IEventPublisher eventPublisher;
+        [NotNull] private readonly List<IInitializable> helpers;
 
         public MainWindowTestAutomationView(
             [NotNull] MainWindow mainWindow,
@@ -30,6 +34,14 @@
 
             this.mainWindow = mainWindow;
             this.eventPublisher = eventPublisher;
+
+            helpers = new List<IInitializable>
+                      {
+                          new WindowInitializedHelper(mainWindow, eventPublisher, Guid),
+                          new WindowClosingHelper(mainWindow, eventPublisher, Guid),
+                          new WindowClosedHelper(mainWindow, eventPublisher, Guid),
+                          new WindowActivatedDeactivatedHelper(mainWindow, eventPublisher, Guid),
+                      };
         }
 
         public IButton OpenSettingsButton { get; private set; }
@@ -42,12 +54,12 @@
 
         public void Dispose()
         {
+            helpers.ForEach(helper => helper.Dispose());
         }
 
         public void Initialize()
         {
-            mainWindow.Closing += MainWindowOnClosing;
-            mainWindow.Closed += MainWindowOnClosed;
+            helpers.ForEach(helper => helper.Initialize());
 
             OpenSettingsButton = new ButtonAdapter(
                 FieldsHelper.FindFieldInUiElementByName<Button>(mainWindow, nameof(OpenSettingsButton)),
@@ -72,18 +84,6 @@
         {
             add => mainWindow.Closing += value;
             remove => mainWindow.Closing -= value;
-        }
-
-        private void MainWindowOnClosed(object sender, EventArgs e)
-        {
-            mainWindow.Closing -= MainWindowOnClosing;
-            mainWindow.Closed -= MainWindowOnClosed;
-            return;
-        }
-
-        private void MainWindowOnClosing(object sender, CancelEventArgs e)
-        {
-            return;
         }
     }
 }

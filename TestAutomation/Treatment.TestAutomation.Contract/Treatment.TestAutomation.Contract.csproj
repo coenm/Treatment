@@ -88,6 +88,11 @@
   <ItemGroup>
     <Compile Include="CouldNotFindFieldException.cs" />
     <Compile Include="Interfaces\Events\ButtonBase\FocusableChanged.cs" />
+    <Compile Include="Interfaces\Events\Window\WindowActivated.cs" />
+    <Compile Include="Interfaces\Events\Window\WindowClosing.cs" />
+    <Compile Include="Interfaces\Events\Window\WindowClosed.cs" />
+    <Compile Include="Interfaces\Events\Window\WindowDeactivated.cs" />
+    <Compile Include="Interfaces\Events\Window\WindowInitialized.cs" />
     <Compile Include="Interfaces\TestAutomationEvent.cs" />
     <Compile Include="Interfaces\Events\Application\ApplicationActivated.cs" />
     <Compile Include="Interfaces\Events\Application\ApplicationDeactivated.cs" />

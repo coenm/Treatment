@@ -91,6 +91,10 @@
     <Compile Include="Adapters\Helpers\Button\ButtonClickedHelper.cs" />
     <Compile Include="Adapters\Helpers\FrameworkElementControl\EnabledChangedHelper.cs" />
     <Compile Include="Adapters\Helpers\TextBlockControl\TextBlockTextValueChangedHelper.cs" />
+    <Compile Include="Adapters\Helpers\WindowControl\WindowActivatedDeactivatedHelper.cs" />
+    <Compile Include="Adapters\Helpers\WindowControl\WindowClosingHelper.cs" />
+    <Compile Include="Adapters\Helpers\WindowControl\WindowClosedHelper.cs" />
+    <Compile Include="Adapters\Helpers\WindowControl\WindowInitializedHelper.cs" />
     <Compile Include="Adapters\ListViewAdapter.cs" />
     <Compile Include="Adapters\MainWindowTestAutomationView.cs" />
     <Compile Include="Infrastructure\EventPublisherExtension.cs" />
