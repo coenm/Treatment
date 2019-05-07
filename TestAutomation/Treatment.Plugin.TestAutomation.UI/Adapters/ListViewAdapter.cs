@@ -17,7 +17,7 @@
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
     // https://social.msdn.microsoft.com/Forums/vstudio/en-US/29ecc8ee-26ee-4331-8f97-35ff9d3e6886/how-to-access-items-in-a-datatemplate-for-wpf-listview?forum=wpf
-    internal class ListViewAdapter : IUiElement, IDisposable
+    internal class ListViewAdapter : IListView, IDisposable
     {
         [NotNull] private readonly ListView item;
         [NotNull] private readonly IEventPublisher eventPublisher;
@@ -39,6 +39,8 @@
                           new PositionChangedHelper(item, eventPublisher, Guid),
                           new SizeChangedHelper(item, eventPublisher, Guid),
                       };
+
+            eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IListView));
         }
 
         public Guid Guid { get; }
@@ -116,7 +118,6 @@
                 {
                     var btn = dataTemplate.FindName("BtnFixCsProjectFiles", templateParent) as Button;
                     var btnAdapter = new ButtonAdapter(btn, eventPublisher);
-                    eventPublisher.PublishNewControl(btnAdapter.Guid, typeof(ButtonAdapter), Guid);
                     btnAdapter.Initialize();
                 }
 

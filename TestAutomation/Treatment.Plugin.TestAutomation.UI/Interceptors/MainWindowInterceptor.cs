@@ -34,7 +34,7 @@
             var publisher = container.GetInstance<IEventPublisher>();
             var agent = container.GetInstance<ITestAutomationAgent>();
 
-            var view = new MainWindowTestAutomationView(mainWindow, publisher);
+            var view = new MainWindowAdapter(mainWindow, publisher);
             agent.RegisterAndInitializeMainView(view);
 
             publisher.PublishAsync(new TestAutomationEvent

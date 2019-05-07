@@ -3,23 +3,29 @@
     using System;
     using System.Threading.Tasks;
 
-    using Treatment.TestAutomation.Contract.Interfaces;
+    using JetBrains.Annotations;
+    using Treatment.Helpers.Guards;
+    using Treatment.TestAutomation.Contract.Interfaces.Events;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
 
     public static class EventPublisherExtension
     {
-        public static Task PublishNewControl(this IEventPublisher publisher, Guid guid, Type type, Guid parent)
+        public static Task PublishNewControlCreatedAsync([NotNull] this IEventPublisher publisher, Guid guid, Type type)
         {
-            return publisher.PublishAsync(new TestAutomationEvent
-            {
-                EventName = "CREATE",
-                Control = null,
-                Payload = $"new: {guid}; type: {type.Name}; parent: {parent};"
-            });
+            Guard.NotNull(publisher, nameof(publisher));
+
+            return publisher.PublishAsync(
+                new NewControlCreated
+                {
+                    Guid = guid,
+                    Interface = type,
+                });
         }
 
-        public static Task PublishAssignedAsync(this IEventPublisher publisher, Guid parent, string propertyName, Guid element)
+        public static Task PublishAssignedAsync([NotNull] this IEventPublisher publisher, Guid parent, string propertyName, Guid element)
         {
+            Guard.NotNull(publisher, nameof(publisher));
+
             return publisher.PublishAsync(
                 new UiElementAssigned
                 {

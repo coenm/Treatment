@@ -5,9 +5,10 @@
     using JetBrains.Annotations;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
+    using Treatment.TestAutomation.Contract.Interfaces.Treatment;
     using Treatment.UI.View;
 
-    internal class SettingWindowAdapter : ITestAutomationView
+    internal class SettingWindowAdapter : ISettingWindow, ITestAutomationView
     {
         [NotNull] private SettingsWindow settingsWindow;
         [NotNull] private IEventPublisher publisher;
@@ -20,6 +21,8 @@
             this.agent = agent ?? throw new ArgumentNullException(nameof(agent));
 
             Guid = Guid.NewGuid();
+
+            publisher.PublishNewControlCreatedAsync(Guid, typeof(ISettingWindow));
         }
 
         public Guid Guid { get; }
@@ -31,5 +34,11 @@
         public void Initialize()
         {
         }
+
+        public IButton OpenSettingsButton { get; }
+
+        public IProjectListView ProjectList { get; }
+
+        public IMainViewStatusBar StatusBar { get; }
     }
 }

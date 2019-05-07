@@ -16,7 +16,7 @@
     internal class TestAutomationAgent : ITestAutomationAgent
     {
         [NotNull] private readonly List<Task> workers = new List<Task>();
-        private MainWindowTestAutomationView instance;
+        private MainWindowAdapter instance;
         [NotNull] private readonly ITestAutomationSettings settings;
         [NotNull] private readonly object syncLock = new object();
         [NotNull] private readonly ZContext context;
@@ -24,7 +24,7 @@
         [CanBeNull] private ZSocket socket;
 
         private CancellationTokenSource cts;
-        private MainWindowTestAutomationView view;
+        private MainWindowAdapter view;
 
         public TestAutomationAgent([NotNull] IZeroMqContextService contextService, [NotNull] ITestAutomationSettings settings)
         {
@@ -55,7 +55,7 @@
             view = null;
         }
 
-        public void RegisterAndInitializeMainView(MainWindowTestAutomationView view)
+        public void RegisterAndInitializeMainView(MainWindowAdapter view)
         {
             if (Application != null)
             {

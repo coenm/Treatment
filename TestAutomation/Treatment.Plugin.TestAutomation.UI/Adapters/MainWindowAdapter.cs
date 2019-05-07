@@ -17,13 +17,13 @@
     using Treatment.UI.UserControls;
     using Treatment.UI.View;
 
-    internal class MainWindowTestAutomationView : IMainView
+    internal class MainWindowAdapter : IMainView
     {
         [NotNull] private readonly MainWindow mainWindow;
         [NotNull] private readonly IEventPublisher eventPublisher;
         [NotNull] private readonly List<IInitializable> helpers;
 
-        public MainWindowTestAutomationView(
+        public MainWindowAdapter(
             [NotNull] MainWindow mainWindow,
             [NotNull] IEventPublisher eventPublisher)
         {
@@ -42,6 +42,8 @@
                           new WindowClosedHelper(mainWindow, eventPublisher, Guid),
                           new WindowActivatedDeactivatedHelper(mainWindow, eventPublisher, Guid),
                       };
+
+            eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IMainView));
         }
 
         public IButton OpenSettingsButton { get; private set; }
@@ -64,19 +66,16 @@
             OpenSettingsButton = new ButtonAdapter(
                 FieldsHelper.FindFieldInUiElementByName<Button>(mainWindow, nameof(OpenSettingsButton)),
                 eventPublisher);
-            eventPublisher.PublishNewControl(OpenSettingsButton.Guid, typeof(ButtonAdapter), Guid);
             OpenSettingsButton.Initialize();
 
             StatusBar = new MainViewStatusBarAdapter(
                 FieldsHelper.FindFieldInUiElementByName<StatusBar>(mainWindow, nameof(StatusBar)),
                 eventPublisher);
-            eventPublisher.PublishNewControl(StatusBar.Guid, typeof(MainViewStatusBarAdapter), Guid);
             StatusBar.Initialize();
 
             ProjectList = new ProjectListViewAdapter(
                 FieldsHelper.FindFieldInUiElementByName<ProjectListView>(mainWindow, nameof(ProjectList)),
                 eventPublisher);
-            eventPublisher.PublishNewControl(ProjectList.Guid, typeof(ProjectListViewAdapter), Guid);
             ProjectList.Initialize();
         }
 

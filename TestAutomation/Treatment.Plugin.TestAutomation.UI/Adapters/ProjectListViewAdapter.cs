@@ -24,6 +24,8 @@
 
             this.item = item;
             this.eventPublisher = eventPublisher;
+
+            eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IProjectListView));
         }
 
         public Guid Guid { get; }

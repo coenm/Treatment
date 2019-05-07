@@ -88,11 +88,13 @@
   <ItemGroup>
     <Compile Include="CouldNotFindFieldException.cs" />
     <Compile Include="Interfaces\Events\ButtonBase\FocusableChanged.cs" />
+    <Compile Include="Interfaces\Events\NewControlCreated.cs" />
     <Compile Include="Interfaces\Events\Window\WindowActivated.cs" />
     <Compile Include="Interfaces\Events\Window\WindowClosing.cs" />
     <Compile Include="Interfaces\Events\Window\WindowClosed.cs" />
     <Compile Include="Interfaces\Events\Window\WindowDeactivated.cs" />
     <Compile Include="Interfaces\Events\Window\WindowInitialized.cs" />
+    <Compile Include="Interfaces\Framework\IListView.cs" />
     <Compile Include="Interfaces\TestAutomationEvent.cs" />
     <Compile Include="Interfaces\Events\Application\ApplicationActivated.cs" />
     <Compile Include="Interfaces\Events\Application\ApplicationDeactivated.cs" />
@@ -130,7 +132,7 @@
     <Compile Include="Interfaces\Treatment\IMainView.cs" />
     <Compile Include="Interfaces\Treatment\IMainViewStatusBar.cs" />
     <Compile Include="Interfaces\Treatment\IProjectListView.cs" />
-    <Compile Include="Interfaces\Treatment\ISettingView.cs" />
+    <Compile Include="Interfaces\Treatment\ISettingWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serializer\Serializer.cs" />
   </ItemGroup>

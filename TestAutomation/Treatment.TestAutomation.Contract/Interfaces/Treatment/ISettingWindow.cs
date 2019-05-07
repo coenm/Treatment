@@ -2,7 +2,7 @@
 {
     using global::Treatment.TestAutomation.Contract.Interfaces.Framework;
 
-    public interface ISettingView : ITestAutomationView
+    public interface ISettingWindow : ITestAutomationView
     {
         IButton OpenSettingsButton { get; }
 

@@ -5,7 +5,6 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    using System.Threading;
     using global::TestAutomation.Contract.Input.Interface.Base;
     using global::TestAutomation.Contract.Input.Interface.Input.Mouse;
     using global::TestAutomation.Contract.Input.Serializer;
@@ -17,7 +16,6 @@
     using TreatmentZeroMq.Helpers;
     using Xunit;
     using Xunit.Abstractions;
-
     using ZeroMQ;
 
     public class TestRunner : IDisposable

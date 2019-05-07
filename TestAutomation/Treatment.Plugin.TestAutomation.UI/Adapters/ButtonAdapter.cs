@@ -40,6 +40,8 @@
                           new FocusHelper(item, eventPublisher, Guid),
                           new ButtonClickedHelper(item, eventPublisher, Guid),
                       };
+
+            eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IButton));
         }
 
         public Guid Guid { get; }

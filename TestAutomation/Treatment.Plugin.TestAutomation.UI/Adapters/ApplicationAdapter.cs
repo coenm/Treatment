@@ -43,6 +43,8 @@
                           new ApplicationExitHelper(item, eventPublisher, Guid),
                           new ApplicationDispatcherUnhandledExceptionHelper(item, eventPublisher, Guid),
                       };
+
+            eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IApplication));
         }
 
         public Guid Guid { get; }

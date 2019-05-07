@@ -96,7 +96,7 @@
     <Compile Include="Adapters\Helpers\WindowControl\WindowClosedHelper.cs" />
     <Compile Include="Adapters\Helpers\WindowControl\WindowInitializedHelper.cs" />
     <Compile Include="Adapters\ListViewAdapter.cs" />
-    <Compile Include="Adapters\MainWindowTestAutomationView.cs" />
+    <Compile Include="Adapters\MainWindowAdapter.cs" />
     <Compile Include="Infrastructure\EventPublisherExtension.cs" />
     <Compile Include="Interceptors\ApplicationInterceptor.cs" />
     <Compile Include="Interceptors\SettingWindowInterceptor.cs" />

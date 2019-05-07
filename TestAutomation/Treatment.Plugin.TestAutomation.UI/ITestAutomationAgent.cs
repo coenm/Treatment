@@ -14,7 +14,7 @@
 
         void RegisterAndInitializeApplication([NotNull] IApplication application);
 
-        void RegisterAndInitializeMainView(MainWindowTestAutomationView view);
+        void RegisterAndInitializeMainView(MainWindowAdapter view);
 
         void RegisterWorker(Task worker);
     }

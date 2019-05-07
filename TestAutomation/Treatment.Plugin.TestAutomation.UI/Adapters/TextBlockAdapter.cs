@@ -38,6 +38,8 @@
                           new EnabledChangedHelper(item, eventPublisher, Guid),
                           new TextBlockTextValueChangedHelper(item, eventPublisher, Guid),
                       };
+
+            eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(ITextBlock));
         }
 
         public Guid Guid { get; }
