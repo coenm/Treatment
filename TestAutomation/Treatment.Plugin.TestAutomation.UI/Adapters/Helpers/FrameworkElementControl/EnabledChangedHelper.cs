@@ -1,21 +1,20 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters.Helpers
+﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl
 {
     using System;
     using System.Windows;
 
     using JetBrains.Annotations;
-
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
-    internal class SizeChangedHelper : IUiElement, IInitializable, IDisposable
+    internal class EnabledChangedHelper : IUiElement, IInitializable, IDisposable
     {
         [NotNull] private readonly FrameworkElement frameworkElement;
         [NotNull] private readonly IEventPublisher eventPublisher;
 
-        public SizeChangedHelper([NotNull] FrameworkElement frameworkElement, [NotNull] IEventPublisher eventPublisher, [NotNull] Guid guid)
+        public EnabledChangedHelper([NotNull] FrameworkElement frameworkElement, [NotNull] IEventPublisher eventPublisher, [NotNull] Guid guid)
         {
             Guard.NotNull(frameworkElement, nameof(frameworkElement));
             Guard.NotNull(eventPublisher, nameof(eventPublisher));
@@ -29,26 +28,20 @@
 
         public void Initialize()
         {
-            frameworkElement.SizeChanged += ItemOnSizeChanged;
+            frameworkElement.IsEnabledChanged += IsEnabledChanged;
         }
 
         public void Dispose()
         {
-            frameworkElement.SizeChanged -= ItemOnSizeChanged;
-            PublishEvent(new Size(frameworkElement.ActualWidth, frameworkElement.ActualHeight));
+            frameworkElement.IsEnabledChanged -= IsEnabledChanged;
         }
 
-        private void ItemOnSizeChanged(object sender, SizeChangedEventArgs e)
+        private void IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            PublishEvent(e.NewSize);
-        }
-
-        private void PublishEvent(Size size)
-        {
-            eventPublisher.PublishAsync(new SizeUpdated
+            eventPublisher.PublishAsync(new IsEnabledChanged
             {
                 Guid = Guid,
-                Size = size,
+                Enabled = (bool)e.NewValue,
             });
         }
     }

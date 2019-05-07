@@ -39,8 +39,8 @@
             var publisher = container.GetInstance<IEventPublisher>();
             var agent = container.GetInstance<ITestAutomationAgent>();
 
-            var applicationAdapter = new ApplicationAdapter(appInstance, publisher);
-            agent.RegisterAndInitializeApplication(applicationAdapter);
+            var application = new ApplicationAdapter(appInstance, publisher);
+            agent.RegisterAndInitializeApplication(application);
 
             var config = container.GetInstance<ITestAutomationSettings>();
 

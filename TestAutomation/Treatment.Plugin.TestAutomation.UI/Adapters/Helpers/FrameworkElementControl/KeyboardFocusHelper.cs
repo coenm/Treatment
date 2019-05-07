@@ -1,21 +1,21 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters.Helpers
+﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl
 {
     using System;
     using System.Windows;
+    using System.Windows.Input;
 
     using JetBrains.Annotations;
-
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
-    internal class FocusHelper : IUiElement, IInitializable, IDisposable
+    internal class KeyboardFocusHelper : IUiElement, IInitializable, IDisposable
     {
         [NotNull] private readonly FrameworkElement frameworkElement;
         [NotNull] private readonly IEventPublisher eventPublisher;
 
-        public FocusHelper([NotNull] FrameworkElement frameworkElement, [NotNull] IEventPublisher eventPublisher, [NotNull] Guid guid)
+        public KeyboardFocusHelper([NotNull] FrameworkElement frameworkElement, [NotNull] IEventPublisher eventPublisher, [NotNull] Guid guid)
         {
             Guard.NotNull(frameworkElement, nameof(frameworkElement));
             Guard.NotNull(eventPublisher, nameof(eventPublisher));
@@ -29,43 +29,33 @@
 
         public void Initialize()
         {
-            frameworkElement.FocusableChanged += FocusableChanged;
-            frameworkElement.GotFocus += GotFocus;
-            frameworkElement.LostFocus += LostFocus;
+            frameworkElement.GotKeyboardFocus += ItemOnGotKeyboardFocus;
+            frameworkElement.LostKeyboardFocus += ItemOnLostKeyboardFocus;
         }
 
         public void Dispose()
         {
-            frameworkElement.FocusableChanged -= FocusableChanged;
-            frameworkElement.GotFocus -= GotFocus;
-            frameworkElement.LostFocus -= LostFocus;
+            frameworkElement.GotKeyboardFocus -= ItemOnGotKeyboardFocus;
+            frameworkElement.LostKeyboardFocus -= ItemOnLostKeyboardFocus;
         }
 
-        private void GotFocus(object sender, RoutedEventArgs e)
+        private void ItemOnLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            var evt = new GotFocus
+            var evt = new KeyboardFocusChanged
                       {
                           Guid = Guid,
+                          Focussed = false,
                       };
 
             eventPublisher.PublishAsync(evt);
         }
 
-        private void LostFocus(object sender, RoutedEventArgs e)
+        private void ItemOnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            var evt = new LostFocus
+            var evt = new KeyboardFocusChanged
                       {
                           Guid = Guid,
-                      };
-
-            eventPublisher.PublishAsync(evt);
-        }
-
-        private void FocusableChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            var evt = new FocusableChanged
-                      {
-                          Guid = Guid,
+                          Focussed = true,
                       };
 
             eventPublisher.PublishAsync(evt);

@@ -1,26 +1,25 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters.Helpers
+﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.Application
 {
     using System;
     using System.Windows;
-    using System.Windows.Controls.Primitives;
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
-    using Treatment.TestAutomation.Contract.Interfaces.Events.ButtonBase;
+    using Treatment.TestAutomation.Contract.Interfaces.Events.Application;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
-    internal class ButtonClickedHelper : IUiElement, IInitializable, IDisposable
+    internal class ApplicationStartupHelper : IUiElement, IInitializable, IDisposable
     {
-        [NotNull] private readonly ButtonBase button;
+        [NotNull] private readonly Application application;
         [NotNull] private readonly IEventPublisher eventPublisher;
 
-        public ButtonClickedHelper([NotNull] ButtonBase button, [NotNull] IEventPublisher eventPublisher, [NotNull] Guid guid)
+        public ApplicationStartupHelper([NotNull] Application application, [NotNull] IEventPublisher eventPublisher, [NotNull] Guid guid)
         {
-            Guard.NotNull(button, nameof(button));
+            Guard.NotNull(application, nameof(application));
             Guard.NotNull(eventPublisher, nameof(eventPublisher));
 
-            this.button = button;
+            this.application = application;
             this.eventPublisher = eventPublisher;
             Guid = guid;
         }
@@ -29,17 +28,17 @@
 
         public void Initialize()
         {
-            button.Click += ItemOnClick;
+            application.Startup += ApplicationOnStartup;
         }
 
         public void Dispose()
         {
-            button.Click -= ItemOnClick;
+            application.Startup -= ApplicationOnStartup;
         }
 
-        private void ItemOnClick(object sender, RoutedEventArgs e)
+        private void ApplicationOnStartup(object sender, StartupEventArgs e)
         {
-            var evt = new Clicked
+            var evt = new ApplicationStarted
                       {
                           Guid = Guid,
                       };

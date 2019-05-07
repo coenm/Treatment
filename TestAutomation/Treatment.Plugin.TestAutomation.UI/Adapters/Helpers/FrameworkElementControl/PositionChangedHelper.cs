@@ -1,4 +1,4 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters.Helpers
+﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl
 {
     using System;
     using System.Windows;
@@ -34,7 +34,7 @@
             frameworkElement.LayoutUpdated += OnLayoutUpdated;
 
             // todo inject window to subscribe on?!
-            registeredWindow = Application.Current.MainWindow;
+            registeredWindow = System.Windows.Application.Current.MainWindow;
 
             if (registeredWindow == null)
                 return;

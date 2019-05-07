@@ -1,11 +1,13 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters
 {
     using System;
+    using System.Collections.Generic;
     using System.Windows;
-    using System.Windows.Threading;
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
+    using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers;
+    using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.Application;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Application;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
@@ -15,6 +17,7 @@
     {
         [NotNull] private readonly Application item;
         [NotNull] private readonly IEventPublisher eventPublisher;
+        [NotNull] private readonly List<IInitializable> helpers;
 
         public ApplicationAdapter(
             [NotNull] Application item,
@@ -32,6 +35,14 @@
             {
                 CountDown = 0,
             });
+
+            helpers = new List<IInitializable>
+                      {
+                          new ApplicationActivationHelper(item, eventPublisher, Guid),
+                          new ApplicationStartupHelper(item, eventPublisher, Guid),
+                          new ApplicationExitHelper(item, eventPublisher, Guid),
+                          new ApplicationDispatcherUnhandledExceptionHelper(item, eventPublisher, Guid),
+                      };
         }
 
         public Guid Guid { get; }
@@ -40,11 +51,7 @@
 
         public void Initialize()
         {
-            item.Startup += ItemOnStartup;
-            item.Activated += ItemOnActivated;
-            item.Deactivated += ItemOnDeactivated;
-            item.Exit += ItemOnExit;
-            item.DispatcherUnhandledException += ItemOnDispatcherUnhandledException;
+            helpers.ForEach(helper => helper.Initialize());
         }
 
         public void RegisterAndInitializeMainView(IMainView mainView)
@@ -56,41 +63,7 @@
 
         public void Dispose()
         {
-            item.Startup -= ItemOnStartup;
-            item.Activated -= ItemOnActivated;
-            item.Deactivated -= ItemOnDeactivated;
-            item.Exit -= ItemOnExit;
-            item.DispatcherUnhandledException -= ItemOnDispatcherUnhandledException;
+            helpers.ForEach(helper => helper.Dispose());
         }
-
-        private void ItemOnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e) =>
-            eventPublisher.PublishAsync(new ApplicationDispatcherUnhandledException
-            {
-                Guid = Guid,
-            });
-
-        private void ItemOnExit(object sender, ExitEventArgs e)
-        {
-            eventPublisher.PublishAsync(new ApplicationExit
-            {
-                Guid = Guid,
-                ApplicationExitCode = e.ApplicationExitCode,
-            });
-        }
-
-        private void ItemOnDeactivated(object sender, EventArgs e) => eventPublisher.PublishAsync(new ApplicationDeactivated
-        {
-            Guid = Guid,
-        });
-
-        private void ItemOnStartup(object sender, StartupEventArgs e) => eventPublisher.PublishAsync(new ApplicationStarted
-        {
-            Guid = Guid,
-        });
-
-        private void ItemOnActivated(object sender, EventArgs e) => eventPublisher.PublishAsync(new ApplicationActivated
-        {
-            Guid = Guid,
-        });
     }
 }

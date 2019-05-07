@@ -1,11 +1,10 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters.Helpers
+﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.TextBlockControl
 {
     using System;
     using System.ComponentModel;
     using System.Windows.Controls;
 
     using JetBrains.Annotations;
-
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;

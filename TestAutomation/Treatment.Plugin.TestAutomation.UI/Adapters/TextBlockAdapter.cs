@@ -9,6 +9,8 @@
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers;
+    using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl;
+    using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.TextBlockControl;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
