@@ -1,8 +1,8 @@
 ﻿namespace Treatment.TestAutomation.Contract.Interfaces.Treatment
 {
-    using Framework;
+    using global::Treatment.TestAutomation.Contract.Interfaces.Framework;
 
-    public interface IMainView : ITestAutomationView
+    public interface ISettingView : ITestAutomationView
     {
         IButton OpenSettingsButton { get; }
 

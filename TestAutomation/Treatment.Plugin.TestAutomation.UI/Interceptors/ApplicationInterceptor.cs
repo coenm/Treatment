@@ -5,15 +5,12 @@
     using System.Windows;
 
     using JetBrains.Annotations;
-
     using SimpleInjector;
     using SimpleInjector.Advanced;
-
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Adapters;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Settings;
-
     using TreatmentZeroMq.Worker;
 
     internal class ApplicationInterceptor

@@ -110,7 +110,7 @@
     <Compile Include="Settings\EnvironmentVariableSettings.cs" />
     <Compile Include="Settings\ITestAutomationSettings.cs" />
     <Compile Include="Adapters\MainViewStatusBarAdapter.cs" />
-    <Compile Include="Adapters\SettingWindowTestAutomationView.cs" />
+    <Compile Include="Adapters\SettingWindowAdapter.cs" />
     <Compile Include="TestAutomationAgent.cs" />
     <Compile Include="TestAutomationPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

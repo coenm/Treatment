@@ -3,10 +3,8 @@
     using System;
 
     using JetBrains.Annotations;
-
     using SimpleInjector;
     using SimpleInjector.Advanced;
-
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Adapters;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
@@ -46,7 +44,7 @@
             var publisher = container.GetInstance<IEventPublisher>();
             var agent = container.GetInstance<ITestAutomationAgent>();
 
-            var view = new SettingWindowTestAutomationView(sw, publisher, agent);
+            var view = new SettingWindowAdapter(sw, publisher, agent);
             publisher.PublishAsync(new TestAutomationEvent
                                    {
                                        Control = null,

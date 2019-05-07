@@ -10,7 +10,7 @@
     {
         IApplication Application { get; }
 
-        void AddPopupView(SettingWindowTestAutomationView view);
+        void AddPopupView(SettingWindowAdapter view);
 
         void RegisterAndInitializeApplication([NotNull] IApplication application);
 

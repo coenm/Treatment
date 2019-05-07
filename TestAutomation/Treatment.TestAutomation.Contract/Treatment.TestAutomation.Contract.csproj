@@ -130,6 +130,7 @@
     <Compile Include="Interfaces\Treatment\IMainView.cs" />
     <Compile Include="Interfaces\Treatment\IMainViewStatusBar.cs" />
     <Compile Include="Interfaces\Treatment\IProjectListView.cs" />
+    <Compile Include="Interfaces\Treatment\ISettingView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serializer\Serializer.cs" />
   </ItemGroup>

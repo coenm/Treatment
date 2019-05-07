@@ -37,7 +37,7 @@
 
         public IApplication Application { get; private set; }
 
-        public void AddPopupView(SettingWindowTestAutomationView view)
+        public void AddPopupView(SettingWindowAdapter view)
         {
             view.Initialize();
         }
