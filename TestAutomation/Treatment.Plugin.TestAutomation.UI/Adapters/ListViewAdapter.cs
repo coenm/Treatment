@@ -110,13 +110,15 @@
 
                 //get the item's template parent
                 var templateParent = GetFrameworkElementByName<ContentPresenter>(lvi);
-                var dataTemplate = templateParent.ContentTemplate;
+                var dataTemplate = templateParent?.ContentTemplate;
 
-                if (dataTemplate != null)
+                if (dataTemplate != null && templateParent != null)
                 {
-                    var btn = dataTemplate.FindName("BtnFixCsProjectFiles", templateParent) as Button;
-                    var btnAdapter = new ButtonAdapter(btn, eventPublisher);
-                    btnAdapter.Initialize();
+                    if (dataTemplate.FindName("BtnFixCsProjectFiles", templateParent) is Button btn)
+                    {
+                        var btnAdapter = new ButtonAdapter(btn, eventPublisher);
+                        btnAdapter.Initialize();
+                    }
                 }
             }
         }
