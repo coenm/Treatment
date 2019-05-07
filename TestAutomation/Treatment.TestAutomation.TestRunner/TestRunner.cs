@@ -16,19 +16,21 @@
     using TreatmentZeroMq.ContextService;
     using TreatmentZeroMq.Helpers;
     using Xunit;
+    using Xunit.Abstractions;
+
     using ZeroMQ;
 
     public class TestRunner : IDisposable
     {
-        private Container container;
-        private ManualResetEvent mreListening;
-        private CancellationTokenSource cts;
-        private ZContext context;
-        private ZSocket socket;
+        private readonly ITestOutputHelper output;
+        private readonly Container container;
+        private readonly ZContext context;
+        private readonly ZSocket socket;
         private bool connected;
 
-        public TestRunner()
+        public TestRunner(ITestOutputHelper output)
         {
+            this.output = output;
             container = new Container();
             container.RegisterSingleton<IZeroMqContextService, ZeroMqContextService>();
 
@@ -37,10 +39,6 @@
             socket = new ZSocket(context, ZSocketType.REQ) { Linger = TimeSpan.Zero };
             connected = socket.TryConnect($"tcp://localhost:{Settings.AgentReqRspPort}");
             ZmqConnection.GiveZeroMqTimeToFinishConnectOrBind();
-
-            mreListening = new ManualResetEvent(false);
-
-            cts = new CancellationTokenSource();
         }
 
         public void Dispose()
@@ -78,7 +76,7 @@
                         {
                             foreach (var e in locateFilesRsp.Executable)
                             {
-                                Console.WriteLine($"| {e,-100} |");
+                                output.WriteLine($"| {e,-100} |");
                             }
 
                             foundExecutable = locateFilesRsp.Executable.FirstOrDefault(x => x.EndsWith("Treatment.UI.Start\\bin\\x64\\Debug\\Treatment.UIStart.exe"));
@@ -88,18 +86,14 @@
                             }
 
                             if (string.IsNullOrWhiteSpace(foundExecutable))
-                            {
-                                Console.WriteLine("NOTHING FOUND");
-                            }
+                                output.WriteLine("NOTHING FOUND");
                             else
-                            {
-                                Console.WriteLine($">>> {foundExecutable}");
-                            }
+                                output.WriteLine($">>> {foundExecutable}");
                         }
                         else
                         {
-                            Console.WriteLine($"| {t,-100} |");
-                            Console.WriteLine($"| {p,-100} |");
+                            output.WriteLine($"| {t,-100} |");
+                            output.WriteLine($"| {p,-100} |");
                         }
                     }
                     else
@@ -107,7 +101,7 @@
                         foreach (var frame in rsp)
                         {
                             var s = frame.ReadString();
-                            Console.WriteLine($"| {s,-100} |");
+                            output.WriteLine($"| {s,-100} |");
                         }
                     }
                 }
@@ -132,15 +126,15 @@
                             var p = rsp.Pop().ReadString();
                             var resp = TestAgentRequestResponseSerializer.DeserializeResponse(t, p);
 
-                            Console.WriteLine($"| {t,-100} |");
-                            Console.WriteLine($"| {p,-100} |");
+                            output.WriteLine($"| {t,-100} |");
+                            output.WriteLine($"| {p,-100} |");
                         }
                         else
                         {
                             foreach (var frame in rsp)
                             {
                                 var s = frame.ReadString();
-                                Console.WriteLine($"| {s,-100} |");
+                                output.WriteLine($"| {s,-100} |");
                             }
                         }
                     }
@@ -153,33 +147,25 @@
         {
             Thread.Sleep(5000);
 
-            int x = 20;
-            int y = 60;
+            int x = 251;
+            int y = 483;
 
-//            for (x = 0; x < 1920; x += 100)
-//            {
-//                for (y = 0; y < 1080; y += 100)
-//                {
-                    var pos = new Point { X = x, Y = y };
-                    var (type, payload) = RequestResponseSerializer.Serialize(new MoveMouseToRequest { Position = pos });
+            var pos = new Point { X = x, Y = y };
+            var (type, payload) = RequestResponseSerializer.Serialize(new MoveMouseToRequest { Position = pos });
 
-                    var msg = new ZMessage(new List<ZFrame> { new ZFrame("SUT"), new ZFrame(type), new ZFrame(payload), });
+            var msg = new ZMessage(new List<ZFrame> { new ZFrame("SUT"), new ZFrame(type), new ZFrame(payload), });
 
-                    if (socket.TrySend(msg))
+            if (socket.TrySend(msg))
+            {
+                if (socket.TryReceive(out var rsp))
+                {
+                    foreach (var frame in rsp)
                     {
-                        if (socket.TryReceive(out var rsp))
-                        {
-                            foreach (var frame in rsp)
-                            {
-                                var s = frame.ReadString();
-                                Console.WriteLine($"| {s,-100} |");
-                            }
-                        }
+                        var s = frame.ReadString();
+                        output.WriteLine($"| {s,-100} |");
                     }
-
-                    Thread.Sleep(1000);
-//                }
-//            }
+                }
+            }
         }
     }
 }

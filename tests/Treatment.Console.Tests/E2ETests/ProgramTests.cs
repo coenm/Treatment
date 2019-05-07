@@ -5,14 +5,10 @@
     using System.Text;
 
     using ApprovalTests;
-
     using FluentAssertions;
-
     using JetBrains.Annotations;
-
     using Treatment.Console.Console;
     using Treatment.Console.Tests.E2ETests.Fakes;
-
     using Xunit;
 
     public class ProgramTests

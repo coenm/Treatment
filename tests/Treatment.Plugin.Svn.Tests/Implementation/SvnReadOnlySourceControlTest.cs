@@ -4,15 +4,11 @@
 
     using ApprovalTests;
     using ApprovalTests.Reporters;
-
     using FluentAssertions;
-
     using TestHelper;
-
     using Treatment.Contract.Plugin.SourceControl;
     using Treatment.Core.FileSystem;
     using Treatment.Plugin.Svn.Implementation;
-
     using Xunit;
 
     public class SvnReadOnlySourceControlTest
