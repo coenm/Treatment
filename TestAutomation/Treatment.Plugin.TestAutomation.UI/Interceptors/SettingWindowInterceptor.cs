@@ -8,7 +8,6 @@
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Adapters;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
-    using Treatment.TestAutomation.Contract.Interfaces;
     using Treatment.UI.View;
 
     internal class SettingWindowInterceptor
@@ -18,15 +17,9 @@
         private SettingWindowInterceptor([NotNull] Container container)
         {
             Guard.NotNull(container, nameof(container));
+
             this.container = container;
-            container.Options.RegisterResolveInterceptor(
-                                                         CollectResolvedMainWindowInstanceSecondWindow,
-                                                         c =>
-                                                         {
-                                                             if (c.Producer.ServiceType == typeof(MainWindow))
-                                                                 return false;
-                                                             return true;
-                                                         });
+            container.Options.RegisterResolveInterceptor(CollectResolvedMainWindowInstanceSecondWindow, c => c.Producer.ServiceType != typeof(MainWindow));
         }
 
         public static SettingWindowInterceptor Register(Container container) => new SettingWindowInterceptor(container);
@@ -45,12 +38,6 @@
             var agent = container.GetInstance<ITestAutomationAgent>();
 
             var view = new SettingWindowAdapter(sw, publisher, agent);
-            publisher.PublishAsync(new TestAutomationEvent
-                                   {
-                                       Control = null,
-                                       EventName = "Creation",
-                                       Payload = view.Guid,
-                                   });
 
             agent.AddPopupView(view);
 

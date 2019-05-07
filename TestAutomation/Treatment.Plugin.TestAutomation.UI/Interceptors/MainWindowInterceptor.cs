@@ -37,13 +37,6 @@
             var view = new MainWindowAdapter(mainWindow, publisher);
             agent.RegisterAndInitializeMainView(view);
 
-            publisher.PublishAsync(new TestAutomationEvent
-                                   {
-                                       Control = null,
-                                       EventName = "Creation",
-                                       Payload = view.Guid,
-                                   });
-
             return instance;
         }
     }
