@@ -1,4 +1,4 @@
-﻿namespace TestAutomation.Contract.Input.Interface.Input.Enums
+﻿namespace TestAutomation.Input.Contract.Interface.Input.Enums
 {
     /// <summary>
     ///     Symbolic constant names, hexadecimal values, and mouse or keyboard equivalents for the virtual-key codes used by

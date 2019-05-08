@@ -5,8 +5,8 @@
 
     public interface IRequestHandler
     {
-        Task<IResponse> ExecuteAsync(IRequest request);
+        Task<IControlResponse> ExecuteAsync(IControlRequest request);
 
-        bool CanHandle(IRequest request);
+        bool CanHandle(IControlRequest request);
     }
 }

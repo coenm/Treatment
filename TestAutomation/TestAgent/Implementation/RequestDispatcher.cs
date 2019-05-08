@@ -15,7 +15,7 @@
             this.handlers = handlers.ToList();
         }
 
-        public async Task<IResponse> ProcessAsync(IRequest request)
+        public async Task<IControlResponse> ProcessAsync(IControlRequest request)
         {
             try
             {

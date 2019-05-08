@@ -32,7 +32,7 @@
         }
 
         [NotNull]
-        private static ZMessage Serialize([NotNull] IResponse rsp)
+        private static ZMessage Serialize([NotNull] IControlResponse rsp)
         {
             var (type, payload) = TestAgentRequestResponseSerializer.Serialize(rsp);
 
@@ -44,7 +44,7 @@
         }
 
         [CanBeNull]
-        private static IRequest Deserialize([NotNull] ZMessage message)
+        private static IControlRequest Deserialize([NotNull] ZMessage message)
         {
             return TestAgentRequestResponseSerializer.DeserializeRequest(
                 message[0].ReadString(),

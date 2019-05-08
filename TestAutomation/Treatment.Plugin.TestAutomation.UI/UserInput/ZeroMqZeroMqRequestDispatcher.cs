@@ -3,14 +3,12 @@
     using System;
     using System.Collections.Concurrent;
     using System.Threading.Tasks;
-
+    using global::TestAutomation.Input.Contract.Interface;
+    using global::TestAutomation.Input.Contract.Serializer;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using TreatmentZeroMq.Worker;
     using ZeroMQ;
-
-    using global::TestAutomation.Contract.Input.Interface;
-    using global::TestAutomation.Contract.Input.Serializer;
 
     [UsedImplicitly]
     public class ZeroMqZeroMqRequestDispatcher : IZeroMqRequestDispatcher
@@ -34,9 +32,9 @@
         }
 
         [NotNull]
-        private static ZMessage Serialize([NotNull] IResponse rsp)
+        private static ZMessage Serialize([NotNull] IInputResponse rsp)
         {
-            var (type, payload) = RequestResponseSerializer.Serialize(rsp);
+            var (type, payload) = InputRequestResponseSerializer.Serialize(rsp);
 
             return new ZMessage
             {
@@ -46,9 +44,9 @@
         }
 
         [CanBeNull]
-        private static IRequest Deserialize([NotNull] ZMessage message)
+        private static IInputRequest Deserialize([NotNull] ZMessage message)
         {
-            return RequestResponseSerializer.DeserializeRequest(
+            return InputRequestResponseSerializer.DeserializeRequest(
                 message[0].ReadString(),
                 message[1].ReadString());
         }

@@ -62,6 +62,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContextService\IZeroMqContextService.cs" />
+    <Compile Include="Socket\DefaultSocketFactory.cs" />
+    <Compile Include="Socket\IZeroMqSocketFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ContextService\ZeroMqContextService.cs" />
     <Compile Include="Helpers\ZmqConnect.cs" />

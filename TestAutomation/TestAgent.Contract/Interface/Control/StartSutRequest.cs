@@ -3,9 +3,9 @@
     using JetBrains.Annotations;
 
     [PublicAPI]
-    public class StartSutRequest : IRequest
+    public class StartSutRequest : IControlRequest
     {
-        public string Executable { get; set; }
+        [CanBeNull]
         public string WorkingDirectory { get; set; }
     }
 }

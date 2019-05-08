@@ -24,6 +24,8 @@
             Guard.NotNull(sutPublishPort, nameof(sutPublishPort));
             Guard.NotNull(sutReqRspPort, nameof(sutReqRspPort));
 
+            container.RegisterSingleton<ISutExecutable, LocateSutExecutable>();
+
             // sut context
             container.RegisterSingleton<IAgentContext, AgentContext>();
 

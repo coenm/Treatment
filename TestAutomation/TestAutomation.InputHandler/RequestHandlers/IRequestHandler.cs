@@ -1,12 +1,12 @@
 ﻿namespace TestAutomation.InputHandler.RequestHandlers
 {
     using System.Threading.Tasks;
-    using Contract.Input.Interface;
+    using TestAutomation.Input.Contract.Interface;
 
     public interface IRequestHandler
     {
-        Task<IResponse> ExecuteAsync(IRequest request);
+        Task<IInputResponse> ExecuteAsync(IInputRequest request);
 
-        bool CanHandle(IRequest request);
+        bool CanHandle(IInputRequest request);
     }
 }

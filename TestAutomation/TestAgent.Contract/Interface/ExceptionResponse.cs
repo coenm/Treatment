@@ -3,7 +3,7 @@
     using JetBrains.Annotations;
 
     [PublicAPI]
-    public class ExceptionResponse : IResponse
+    public class ExceptionResponse : IControlResponse
     {
     }
 }

@@ -1,9 +1,9 @@
-﻿namespace TestAutomation.Contract.Input.Interface
+﻿namespace TestAutomation.Input.Contract.Interface
 {
     using JetBrains.Annotations;
 
     [PublicAPI]
-    public class OkResponse : IResponse
+    public class OkInputResponse : IInputResponse
     {
         [CanBeNull] public string Msg { get; set; }
     }

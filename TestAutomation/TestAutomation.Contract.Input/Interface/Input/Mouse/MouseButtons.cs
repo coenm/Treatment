@@ -1,4 +1,4 @@
-﻿namespace TestAutomation.Contract.Input.Interface.Input.Mouse
+﻿namespace TestAutomation.Input.Contract.Interface.Input.Mouse
 {
     using System;
 

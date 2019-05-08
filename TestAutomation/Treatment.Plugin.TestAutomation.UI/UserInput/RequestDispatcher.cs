@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using global::TestAutomation.Contract.Input.Interface;
+    using global::TestAutomation.Input.Contract.Interface;
     using global::TestAutomation.InputHandler.RequestHandlers;
 
     public class RequestDispatcher : IRequestDispatcher
@@ -16,7 +16,7 @@
             this.handlers = handlers.ToList();
         }
 
-        public async Task<IResponse> ProcessAsync(IRequest request)
+        public async Task<IInputResponse> ProcessAsync(IInputRequest request)
         {
             try
             {

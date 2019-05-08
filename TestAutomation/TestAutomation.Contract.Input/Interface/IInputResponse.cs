@@ -1,9 +1,9 @@
-﻿namespace TestAutomation.Contract.Input.Interface
+﻿namespace TestAutomation.Input.Contract.Interface
 {
     /// <summary>
     /// Response from TestAgent to Test.
     /// </summary>
-    public interface IResponse
+    public interface IInputResponse
     {
     }
 }

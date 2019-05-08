@@ -3,7 +3,7 @@
     using JetBrains.Annotations;
 
     [PublicAPI]
-    public class OkResponse : IResponse
+    public class OkResponse : IControlResponse
     {
         [CanBeNull] public string Msg { get; set; }
     }

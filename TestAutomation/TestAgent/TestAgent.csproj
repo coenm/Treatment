@@ -120,6 +120,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="ISutExecutable.cs" />
+    <Compile Include="LocateSutExecutable.cs" />
     <Compile Include="RequestHandlers\Control\LocateFilesRequestHandler.cs" />
     <Compile Include="RequestHandlers\IMessageBox.cs" />
     <Compile Include="RequestHandlers\ITestAgent.cs" />

@@ -1,21 +1,21 @@
 ﻿namespace TestAutomation.InputHandler.RequestHandlers.Input.Keyboard
 {
     using System.Threading.Tasks;
-    using Contract.Input.Interface;
-    using Contract.Input.Interface.Input.Keyboard;
     using Dapplo.Windows.Input.Keyboard;
     using JetBrains.Annotations;
     using Mapper;
+    using TestAutomation.Input.Contract.Interface;
+    using TestAutomation.Input.Contract.Interface.Input.Keyboard;
     using Treatment.Helpers.Guards;
 
     [UsedImplicitly]
     public class KeyCombinationPressRequestHandler : IRequestHandler
     {
-        public bool CanHandle(IRequest request) => request is KeyCombinationPressRequest;
+        public bool CanHandle(IInputRequest request) => request is KeyCombinationPressRequest;
 
-        public Task<IResponse> ExecuteAsync(IRequest request) => ExecuteAsync(request as KeyCombinationPressRequest);
+        public Task<IInputResponse> ExecuteAsync(IInputRequest request) => ExecuteAsync(request as KeyCombinationPressRequest);
 
-        private Task<IResponse> ExecuteAsync(KeyCombinationPressRequest request)
+        private Task<IInputResponse> ExecuteAsync(KeyCombinationPressRequest request)
         {
             Guard.NotNull(request, nameof(request));
 
@@ -23,7 +23,7 @@
 
             KeyboardInputGenerator.KeyCombinationPress(keycodes);
 
-            return Task.FromResult(new OkResponse() as IResponse);
+            return Task.FromResult(new OkInputResponse() as IInputResponse);
         }
     }
 }

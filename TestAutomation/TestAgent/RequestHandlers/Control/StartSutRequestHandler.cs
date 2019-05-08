@@ -15,35 +15,46 @@
     public class StartSutRequestHandler : IRequestHandler
     {
         [NotNull] private readonly IAgentContext context;
+        [NotNull] private readonly ISutExecutable sutExecutable;
 
-        public StartSutRequestHandler([NotNull] IAgentContext context)
+        public StartSutRequestHandler([NotNull] IAgentContext context, [NotNull] ISutExecutable sutExecutable)
         {
             Guard.NotNull(context, nameof(context));
+            Guard.NotNull(sutExecutable, nameof(sutExecutable));
+
             this.context = context;
+            this.sutExecutable = sutExecutable;
         }
 
-        public bool CanHandle(IRequest request) => request is StartSutRequest;
+        public bool CanHandle(IControlRequest request) => request is StartSutRequest;
 
-        public Task<IResponse> ExecuteAsync(IRequest request) => ExecuteAsync(request as StartSutRequest);
+        public Task<IControlResponse> ExecuteAsync(IControlRequest request) => ExecuteAsync(request as StartSutRequest);
 
-        private Task<IResponse> ExecuteAsync(StartSutRequest request)
+        private Task<IControlResponse> ExecuteAsync(StartSutRequest request)
         {
             Guard.NotNull(request, nameof(request));
 
-            if (!File.Exists(request.Executable))
+            var executable = sutExecutable.Executable;
+
+            if (string.IsNullOrWhiteSpace(executable) || !File.Exists(executable))
             {
-                return Task.FromResult(new OkResponse
+                return Task.FromResult(new StartSutResponse
                 {
-                    Msg = "File does not exists."
-                } as IResponse);
+                    Executable = executable,
+                    Success = false,
+                } as IControlResponse);
             }
 
+            var workingDirectory = request.WorkingDirectory;
+            if (string.IsNullOrWhiteSpace(workingDirectory) || Directory.Exists(workingDirectory) == false)
+                workingDirectory = new FileInfo(executable).DirectoryName;
+
             var command = Command.Run(
-                request.Executable,
+                executable,
                 new string[0],
                 options =>
                 {
-                    options.WorkingDirectory(request.WorkingDirectory);
+                    options.WorkingDirectory(workingDirectory);
                     options.CancellationToken(context.CancellationToken);
                     options.EnvironmentVariables(new[]
                     {
@@ -56,19 +67,11 @@
 
             context.SetSutProcess(command);
 
-            return Task.FromResult(new OkResponse { Msg = "Started" } as IResponse);
-
-
-//            // inproc://publish
-//            using (var agentPublishSocket = new ZSocket(context, ZSocketType.PUB))
-//            {
-//                agentPublishSocket.Connect("inproc://publish");
-//                agentPublishSocket.Send(new ZMessage(new[]
-//                {
-//                    new ZFrame("AGENT"),
-//                    new ZFrame("Started"),
-//                }));
-//            }
+            return Task.FromResult(new StartSutResponse
+            {
+                Executable = executable,
+                Success = true,
+            } as IControlResponse);
 
             //            var result = await command.Task.ConfigureAwait(true);
             //

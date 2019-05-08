@@ -4,7 +4,7 @@
 
     internal static class KeyCodesMapper
     {
-        public static VirtualKeyCode[] Map(Contract.Input.Interface.Input.Enums.VirtualKeyCode[] keyCodes)
+        public static VirtualKeyCode[] Map(TestAutomation.Input.Contract.Interface.Input.Enums.VirtualKeyCode[] keyCodes)
         {
             if (keyCodes == null)
                 return null;

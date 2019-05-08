@@ -1,22 +1,22 @@
 ﻿namespace TestAutomation.InputHandler.RequestHandlers.Input.Mouse
 {
     using System.Threading.Tasks;
-    using Contract.Input.Interface;
-    using Contract.Input.Interface.Input.Mouse;
     using Dapplo.Windows.Common.Structs;
     using Dapplo.Windows.Input.Mouse;
     using JetBrains.Annotations;
+    using TestAutomation.Input.Contract.Interface;
+    using TestAutomation.Input.Contract.Interface.Input.Mouse;
     using Treatment.Helpers.Guards;
     using MouseButtons = Dapplo.Windows.Input.Enums.MouseButtons;
 
     [PublicAPI]
     public class SingleClickRequestHandler : IRequestHandler
     {
-        public bool CanHandle(IRequest request) => request is SingleClickRequest;
+        public bool CanHandle(IInputRequest request) => request is SingleClickRequest;
 
-        public Task<IResponse> ExecuteAsync(IRequest request) => ExecuteAsync(request as SingleClickRequest);
+        public Task<IInputResponse> ExecuteAsync(IInputRequest request) => ExecuteAsync(request as SingleClickRequest);
 
-        private async Task<IResponse> ExecuteAsync(SingleClickRequest request)
+        private async Task<IInputResponse> ExecuteAsync(SingleClickRequest request)
         {
             Guard.NotNull(request, nameof(request));
 
@@ -40,7 +40,7 @@
             await Task.Delay(1000);
 
             MouseInputGenerator.MouseUp(MouseButtons.Left, new NativePoint(1900, 1100));
-            return new OkResponse {Msg = "Check8"};
+            return new OkInputResponse {Msg = "Check8"};
         }
     }
 }

@@ -3,23 +3,21 @@
     using System.Threading.Tasks;
 
     using AxMouseManipulator;
-
-    using Contract.Input.Interface;
-    using Contract.Input.Interface.Input.Mouse;
-
     using Dapplo.Windows.Common.Structs;
     using Dapplo.Windows.Input.Mouse;
     using JetBrains.Annotations;
+    using TestAutomation.Input.Contract.Interface;
+    using TestAutomation.Input.Contract.Interface.Input.Mouse;
     using Treatment.Helpers.Guards;
 
     [PublicAPI]
     public class MoveMouseToRequestHandler : IRequestHandler
     {
-        public bool CanHandle(IRequest request) => request is MoveMouseToRequest;
+        public bool CanHandle(IInputRequest request) => request is MoveMouseToRequest;
 
-        public Task<IResponse> ExecuteAsync(IRequest request) => ExecuteAsync(request as MoveMouseToRequest);
+        public Task<IInputResponse> ExecuteAsync(IInputRequest request) => ExecuteAsync(request as MoveMouseToRequest);
 
-        private Task<IResponse> ExecuteAsync(MoveMouseToRequest request)
+        private Task<IInputResponse> ExecuteAsync(MoveMouseToRequest request)
         {
             Guard.NotNull(request, nameof(request));
 
@@ -32,10 +30,10 @@
 
 
 
-            return Task.FromResult(new OkResponse
+            return Task.FromResult(new OkInputResponse
                                    {
                                        Msg = pos.X + "   " + pos.Y,
-                                   }as IResponse);
+                                   }as IInputResponse);
         }
     }
 }

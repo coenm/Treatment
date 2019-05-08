@@ -108,6 +108,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Framework\EventBasedButton.cs" />
+    <Compile Include="Controls\Framework\ObjectStore.cs" />
+    <Compile Include="Framework\Bootstrapper.cs" />
+    <Compile Include="BunchOfTests.cs" />
+    <Compile Include="Sut\IApplication.cs" />
+    <Compile Include="Sut\IExecuteControl.cs" />
+    <Compile Include="Sut\IExecuteInput.cs" />
+    <Compile Include="Sut\ISut.cs" />
+    <Compile Include="Sut\ITestAgent.cs" />
+    <Compile Include="Sut\MyExecuteControl.cs" />
+    <Compile Include="Sut\MyExecuteInput.cs" />
+    <Compile Include="Sut\StartedTreatment.cs" />
+    <Compile Include="Sut\StartedTreatmentFixture.cs" />
+    <Compile Include="Sut\TestAgent.cs" />
+    <Compile Include="TestHelper.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="TestRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -147,6 +162,9 @@
       <Project>{3D1F845A-A217-4EE4-9C56-C97EF7EC8F9C}</Project>
       <Name>Treatment.ZeroMq</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controls\Treatment\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

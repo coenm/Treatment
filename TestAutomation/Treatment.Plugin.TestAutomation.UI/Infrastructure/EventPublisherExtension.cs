@@ -10,15 +10,16 @@
 
     public static class EventPublisherExtension
     {
-        public static Task PublishNewControlCreatedAsync([NotNull] this IEventPublisher publisher, Guid guid, Type type)
+        public static Task PublishNewControlCreatedAsync([NotNull] this IEventPublisher publisher, Guid guid, [NotNull] Type type)
         {
             Guard.NotNull(publisher, nameof(publisher));
+            Guard.NotNull(type, nameof(type));
 
             return publisher.PublishAsync(
                 new NewControlCreated
                 {
                     Guid = guid,
-                    Interface = type,
+                    InterfaceType = type.FullName,
                 });
         }
 

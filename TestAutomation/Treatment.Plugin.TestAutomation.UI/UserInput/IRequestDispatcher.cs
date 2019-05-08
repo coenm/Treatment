@@ -1,10 +1,10 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI.UserInput
 {
     using System.Threading.Tasks;
-    using global::TestAutomation.Contract.Input.Interface;
+    using global::TestAutomation.Input.Contract.Interface;
 
     public interface IRequestDispatcher
     {
-        Task<IResponse> ProcessAsync(IRequest request);
+        Task<IInputResponse> ProcessAsync(IInputRequest request);
     }
 }

@@ -14,9 +14,9 @@
     [UsedImplicitly]
     public class LocateFilesRequestHandler : IRequestHandler
     {
-        public bool CanHandle(IRequest request) => request is LocateFilesRequest;
+        public bool CanHandle(IControlRequest request) => request is LocateFilesRequest;
 
-        public Task<IResponse> ExecuteAsync(IRequest request) => ExecuteAsync(request as LocateFilesRequest);
+        public Task<IControlResponse> ExecuteAsync(IControlRequest request) => ExecuteAsync(request as LocateFilesRequest);
 
         protected virtual IEnumerable<string> FindFilesIncludingSubdirectories(string rootPath, string mask)
         {
@@ -36,7 +36,7 @@
             }
         }
 
-        private Task<IResponse> ExecuteAsync(LocateFilesRequest request)
+        private Task<IControlResponse> ExecuteAsync(LocateFilesRequest request)
         {
             Guard.NotNull(request, nameof(request));
 
@@ -52,7 +52,7 @@
                 {
                     Executable = files.ToList()
                 };
-            return Task.FromResult((IResponse)response);
+            return Task.FromResult((IControlResponse)response);
         }
     }
 }

@@ -58,8 +58,8 @@
     <Compile Include="Interface\Control\StartSutRequest.cs" />
     <Compile Include="Interface\Control\StartSutResponse.cs" />
     <Compile Include="Interface\ExceptionResponse.cs" />
-    <Compile Include="Interface\IRequest.cs" />
-    <Compile Include="Interface\IResponse.cs" />
+    <Compile Include="Interface\IControlRequest.cs" />
+    <Compile Include="Interface\IControlResponse.cs" />
     <Compile Include="Interface\OkResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serializer\Serializer.cs" />

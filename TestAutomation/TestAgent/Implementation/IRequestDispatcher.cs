@@ -5,6 +5,6 @@
 
     public interface IRequestDispatcher
     {
-        Task<IResponse> ProcessAsync(IRequest request);
+        Task<IControlResponse> ProcessAsync(IControlRequest request);
     }
 }
