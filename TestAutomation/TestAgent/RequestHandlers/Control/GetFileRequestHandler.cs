@@ -4,9 +4,9 @@
     using System.IO;
     using System.Threading.Tasks;
 
+    using JetBrains.Annotations;
     using TestAgent.Contract.Interface;
     using TestAgent.Contract.Interface.Control;
-    using JetBrains.Annotations;
     using TestAgent.Implementation;
     using Treatment.Helpers.Guards;
 

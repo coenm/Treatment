@@ -6,10 +6,10 @@
 
     using SimpleInjector;
     using TestAgent.ZeroMq.PublishInfrastructure;
+    using TestAgent.ZeroMq.RequestReplyInfrastructure;
     using TreatmentZeroMq.ContextService;
     using TreatmentZeroMq.Worker;
     using ZeroMQ;
-    using TestAgent.ZeroMq.RequestReplyInfrastructure;
 
     public static class Program
     {
