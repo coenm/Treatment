@@ -46,6 +46,12 @@
             eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IMainView));
         }
 
+        public event CancelEventHandler Closing
+        {
+            add => mainWindow.Closing += value;
+            remove => mainWindow.Closing -= value;
+        }
+
         public IButton OpenSettingsButton { get; private set; }
 
         public IProjectListView ProjectList { get; private set; }
@@ -53,12 +59,6 @@
         public IMainViewStatusBar StatusBar { get; private set; }
 
         public Guid Guid { get; }
-
-        public event CancelEventHandler Closing
-        {
-            add => mainWindow.Closing += value;
-            remove => mainWindow.Closing -= value;
-        }
 
         public void Dispose()
         {

@@ -9,20 +9,4 @@
     {
         public int? AddedCount { get; set; }
     }
-
-    [PublicAPI]
-    public class CurrentChanged: TestElementEventBase
-    {
-    }
-
-    [PublicAPI]
-    public class DataContextChanged: TestElementEventBase
-    {
-    }
-
-    [PublicAPI]
-    public class CollectionChanged : TestElementEventBase
-    {
-        public string Action { get; set; }
-    }
 }

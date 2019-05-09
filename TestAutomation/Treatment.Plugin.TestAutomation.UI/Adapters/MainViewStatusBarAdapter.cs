@@ -8,10 +8,10 @@
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
 
-    using Helpers;
-    using Helpers.FrameworkElementControl;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
+    using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers;
+    using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Reflection;
     using Treatment.TestAutomation.Contract.Interfaces;
@@ -22,7 +22,7 @@
     {
         [NotNull] private readonly StatusBar item;
         [NotNull] private readonly IEventPublisher eventPublisher;
-        [NotNull] private List<IInitializable> helpers;
+        [NotNull] private readonly List<IInitializable> helpers;
 
         private ITextBlock statusText;
         private ITextBlock statusConfigFilename;

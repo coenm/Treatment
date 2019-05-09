@@ -94,6 +94,9 @@
   <ItemGroup>
     <Compile Include="CouldNotFindFieldException.cs" />
     <Compile Include="Interfaces\Events\ButtonBase\Clicked.cs" />
+    <Compile Include="Interfaces\Events\Collection\CollectionChanged.cs" />
+    <Compile Include="Interfaces\Events\Collection\CurrentChanged.cs" />
+    <Compile Include="Interfaces\Events\Collection\DataContextChanged.cs" />
     <Compile Include="Interfaces\Events\Collection\SelectionChanged.cs" />
     <Compile Include="Interfaces\Events\Element\Loaded.cs" />
     <Compile Include="Interfaces\Events\NewControlCreated.cs" />
