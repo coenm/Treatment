@@ -29,7 +29,7 @@
 
         private IKeyboard Keyboard { get; }
 
-        private IApplication Application { get; }
+        private ITreatmentApplication Application { get; }
 
         private ITestAgent Agent { get; }
 
@@ -51,12 +51,21 @@
         }
 
         [Fact]
+        public async Task StartSutAndCheckApplicationCreatedSetting()
+        {
+            var started = await Agent.StartSutAsync();
+            started.Should().BeTrue();
+
+            await Task.Delay(5000);
+            Application.Created.Should().BeTrue();
+        }
+
+        [Fact]
         public async Task StartSut()
         {
             var started = await Agent.StartSutAsync();
             started.Should().BeTrue();
 
-            await Task.Delay(1000);
             await Mouse.DragAsync(40, 230, 100, 600);
 
             await Task.Delay(10000);
@@ -67,6 +76,8 @@
 
             await Task.Delay(1000);
             await Mouse.ClickAsync();
+
+            Application.Created.Should().BeTrue();
         }
     }
 }

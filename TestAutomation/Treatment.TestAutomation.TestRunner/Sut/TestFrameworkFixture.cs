@@ -2,10 +2,9 @@
 {
     using System;
 
-    using global::Treatment.TestAutomation.TestRunner.Framework;
     using JetBrains.Annotations;
     using SimpleInjector;
-    using TreatmentZeroMq.Socket;
+    using Treatment.TestAutomation.TestRunner.Framework;
 
     [UsedImplicitly]
     public class TestFrameworkFixture : ITestFramework, IDisposable
@@ -18,16 +17,13 @@
             bootstrapper = new Bootstrapper();
             container = bootstrapper.RegisterAll();
 
-            var socketFactory = container.GetInstance<IZeroMqSocketFactory>();
-            var agentEndPoint = $"tcp://localhost:{Settings.AgentReqRspPort}";
-
-            Application = new RemoteApplication();
-            Agent = new RemoteTestAgent(new MyExecuteControl(socketFactory, agentEndPoint));
-            Mouse = new RemoteMouse(new MyExecuteInput(socketFactory, agentEndPoint));
-            Keyboard = new RemoteKeyboard(new MyExecuteInput(socketFactory, agentEndPoint));
+            Application = container.GetInstance<ITreatmentApplication>();
+            Agent = container.GetInstance<ITestAgent>();
+            Mouse = container.GetInstance<IMouse>();
+            Keyboard = container.GetInstance<IKeyboard>();
         }
 
-        public IApplication Application { get; }
+        public ITreatmentApplication Application { get; }
 
         public ITestAgent Agent { get; }
 
@@ -43,4 +39,3 @@
         }
     }
 }
-
