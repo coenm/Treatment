@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Treatment.UIStart</RootNamespace>
     <AssemblyName>Treatment.UIStart</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -17,6 +17,7 @@
     <LangVersion>7.2</LangVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Treatment.ruleset</CodeAnalysisRuleSet>
@@ -283,10 +284,6 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Treatment.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Treatment.Core\bin\x64\Debug\netstandard2.0\Treatment.Core.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -335,6 +332,10 @@
       <Project>{3A303101-54C7-493E-8A9C-D7DE22C32568}</Project>
       <Name>Treatment.Contract</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Treatment.Core\Treatment.Core.csproj">
+      <Project>{852975da-cbf2-4659-8da4-3aa6a1b5aa25}</Project>
+      <Name>Treatment.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Treatment.Helpers\Treatment.Helpers.csproj">
       <Project>{0d6db733-febe-4f4d-9d99-3808517a9f7f}</Project>
       <Name>Treatment.Helpers</Name>
@@ -348,7 +349,7 @@
       <Name>Treatment.Plugin.Svn</Name>
     </ProjectReference>
     <ProjectReference Include="..\Treatment.UI\Treatment.UI.csproj">
-      <Project>{3C621AFB-C34D-40A6-8EC9-C61F3B3C96FD}</Project>
+      <Project>{3c621afb-c34d-40a6-8ec9-c61f3b3c96fd}</Project>
       <Name>Treatment.UI</Name>
     </ProjectReference>
   </ItemGroup>
