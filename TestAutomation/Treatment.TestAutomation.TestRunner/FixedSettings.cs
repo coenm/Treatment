@@ -1,6 +1,6 @@
 ﻿namespace Treatment.TestAutomation.TestRunner
 {
-    public static class Settings
+    internal static class FixedSettings
     {
         public const string AgentReqRspPort = "5555";
         public const string AgentPublishPort = "5556";

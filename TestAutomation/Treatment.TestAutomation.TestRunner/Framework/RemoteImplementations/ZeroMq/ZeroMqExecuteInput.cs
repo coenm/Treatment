@@ -1,24 +1,25 @@
-﻿namespace Treatment.TestAutomation.TestRunner.Sut
+﻿namespace Treatment.TestAutomation.TestRunner.Framework.RemoteImplementations.ZeroMq
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using global::TestAgent.Contract.Interface;
-    using global::TestAgent.Contract.Serializer;
+    using global::TestAutomation.Input.Contract.Interface;
+    using global::TestAutomation.Input.Contract.Serializer;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
+    using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
     using TreatmentZeroMq.Helpers;
     using TreatmentZeroMq.Socket;
     using ZeroMQ;
 
     [UsedImplicitly]
-    internal class ZeroMqExecuteControl : IExecuteControl
+    internal class ZeroMqExecuteInput : IExecuteInput
     {
         [NotNull] private readonly IZeroMqSocketFactory socketFactory;
         [NotNull] private readonly string endpoint;
 
-        public ZeroMqExecuteControl([NotNull] IZeroMqSocketFactory socketFactory, [NotNull] IAgentSettings agentSettings)
+        public ZeroMqExecuteInput([NotNull] IZeroMqSocketFactory socketFactory, [NotNull] IAgentSettings agentSettings)
         {
             Guard.NotNull(socketFactory, nameof(socketFactory));
             Guard.NotNull(agentSettings, nameof(agentSettings));
@@ -27,20 +28,20 @@
             endpoint = agentSettings.ControlEndpoint;
         }
 
-        public Task<IControlResponse> ExecuteControl(IControlRequest request)
+        public Task<IInputResponse> ExecuteInput(IInputRequest request)
         {
             if (request == null)
                 return null;
 
-            var (type, payload) = TestAgentRequestResponseSerializer.Serialize(request);
+            var (type, payload) = InputRequestResponseSerializer.Serialize(request);
 
             var msg = new ZMessage(
-                new List<ZFrame>
-                {
-                    new ZFrame("TESTAGENT"),
-                    new ZFrame(type),
-                    new ZFrame(payload),
-                });
+               new List<ZFrame>
+               {
+                   new ZFrame("SUT"),
+                   new ZFrame(type),
+                   new ZFrame(payload),
+               });
 
             using (var socket = socketFactory.Create(ZSocketType.REQ))
             {
@@ -58,7 +59,7 @@
 
                 var t = rsp.Pop().ReadString();
                 var p = rsp.Pop().ReadString();
-                var resp = TestAgentRequestResponseSerializer.DeserializeResponse(t, p);
+                var resp = InputRequestResponseSerializer.DeserializeResponse(t, p);
                 return Task.FromResult(resp);
             }
         }

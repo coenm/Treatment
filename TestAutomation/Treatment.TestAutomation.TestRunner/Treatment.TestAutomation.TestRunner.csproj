@@ -136,28 +136,28 @@
     <Compile Include="Controls\Framework\ObjectStore.cs" />
     <Compile Include="Framework\Bootstrapper.cs" />
     <Compile Include="BunchOfTests.cs" />
-    <Compile Include="Sut\IAgentSettings.cs" />
-    <Compile Include="Sut\ITreatmentApplication.cs" />
-    <Compile Include="Sut\IApplicationEvents.cs" />
-    <Compile Include="Sut\IExecuteControl.cs" />
-    <Compile Include="Sut\IExecuteInput.cs" />
-    <Compile Include="Sut\IKeyboard.cs" />
-    <Compile Include="Sut\IMouse.cs" />
-    <Compile Include="Sut\ITestFramework.cs" />
-    <Compile Include="Sut\ITestAgent.cs" />
-    <Compile Include="Sut\MouseExtensions.cs" />
-    <Compile Include="Sut\ZeroMqExecuteControl.cs" />
-    <Compile Include="Sut\ZeroMqExecuteInput.cs" />
-    <Compile Include="Sut\RemoteApplicationEvents.cs" />
-    <Compile Include="Sut\StaticAgentSettings.cs" />
-    <Compile Include="Sut\TestFramework.cs" />
-    <Compile Include="Sut\TestFrameworkFixture.cs" />
-    <Compile Include="Sut\RemoteTestAgent.cs" />
-    <Compile Include="Sut\RemoteTreatmentApplication.cs" />
-    <Compile Include="Sut\RemoteKeyboard.cs" />
-    <Compile Include="Sut\RemoteMouse.cs" />
+    <Compile Include="Framework\Interfaces\IAgentSettings.cs" />
+    <Compile Include="Framework\Interfaces\ITreatmentApplication.cs" />
+    <Compile Include="Framework\Interfaces\IApplicationEvents.cs" />
+    <Compile Include="Framework\Interfaces\IExecuteControl.cs" />
+    <Compile Include="Framework\Interfaces\IExecuteInput.cs" />
+    <Compile Include="Framework\Interfaces\IKeyboard.cs" />
+    <Compile Include="Framework\Interfaces\IMouse.cs" />
+    <Compile Include="Framework\Interfaces\ITestFramework.cs" />
+    <Compile Include="Framework\Interfaces\ITestAgent.cs" />
+    <Compile Include="Framework\Interfaces\MouseExtensions.cs" />
+    <Compile Include="Framework\RemoteImplementations\ZeroMq\ZeroMqExecuteControl.cs" />
+    <Compile Include="Framework\RemoteImplementations\ZeroMq\ZeroMqExecuteInput.cs" />
+    <Compile Include="Framework\RemoteImplementations\RemoteApplicationEvents.cs" />
+    <Compile Include="Framework\Settings\StaticAgentSettings.cs" />
+    <Compile Include="XUnit\TestFramework.cs" />
+    <Compile Include="Framework\TestFrameworkFixture.cs" />
+    <Compile Include="Framework\RemoteImplementations\RemoteTestAgent.cs" />
+    <Compile Include="Framework\RemoteImplementations\RemoteTreatmentApplication.cs" />
+    <Compile Include="Framework\RemoteImplementations\RemoteKeyboard.cs" />
+    <Compile Include="Framework\RemoteImplementations\RemoteMouse.cs" />
     <Compile Include="Helpers\FileSystem.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="FixedSettings.cs" />
     <Compile Include="TestRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -183,6 +183,10 @@
     <ProjectReference Include="..\TestAgent.Contract\TestAgent.Contract.csproj">
       <Project>{F3973336-D09C-40F2-B8F4-0E6238FCEA13}</Project>
       <Name>TestAgent.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestAgent\TestAgent.csproj">
+      <Project>{3E27FBFA-EC3B-4B1F-94E2-5BFBCFEDC27F}</Project>
+      <Name>TestAgent</Name>
     </ProjectReference>
     <ProjectReference Include="..\TestAutomation.Contract.Input\TestAutomation.Contract.Input.csproj">
       <Project>{6AAB1C15-076E-4E4B-A0A9-D99210FCADDB}</Project>

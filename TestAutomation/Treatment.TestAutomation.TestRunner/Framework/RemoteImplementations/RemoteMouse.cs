@@ -1,10 +1,11 @@
-﻿namespace Treatment.TestAutomation.TestRunner.Sut
+﻿namespace Treatment.TestAutomation.TestRunner.Framework.RemoteImplementations
 {
     using System;
     using System.Threading.Tasks;
 
     using global::TestAutomation.Input.Contract.Interface.Base;
     using global::TestAutomation.Input.Contract.Interface.Input.Mouse;
+    using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
     internal class RemoteMouse : IMouse
     {

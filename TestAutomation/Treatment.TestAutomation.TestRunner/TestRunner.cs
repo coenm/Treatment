@@ -5,18 +5,16 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
+
     using FluentAssertions;
-    using Treatment.TestAutomation.TestRunner.Framework;
     using global::TestAutomation.Input.Contract.Interface.Base;
     using global::TestAutomation.Input.Contract.Interface.Input.Mouse;
     using global::TestAutomation.Input.Contract.Serializer;
     using SimpleInjector;
-
     using TestAgent.Contract.Interface.Control;
     using TestAgent.Contract.Serializer;
-
+    using Treatment.TestAutomation.TestRunner.Framework;
     using Treatment.TestAutomation.TestRunner.Helpers;
-
     using TreatmentZeroMq.ContextService;
     using TreatmentZeroMq.Helpers;
     using TreatmentZeroMq.Socket;
@@ -40,7 +38,7 @@
             var socketFactory = container.GetInstance<IZeroMqSocketFactory>();
             socket = socketFactory.Create(ZSocketType.REQ);
 
-            connected = socket.TryConnect($"tcp://localhost:{Settings.AgentReqRspPort}");
+            connected = socket.TryConnect($"tcp://localhost:{FixedSettings.AgentReqRspPort}");
 
         }
 

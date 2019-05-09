@@ -1,10 +1,11 @@
-﻿namespace Treatment.TestAutomation.TestRunner.Sut
+﻿namespace Treatment.TestAutomation.TestRunner.Framework.RemoteImplementations
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using global::TestAgent.Contract.Interface.Control;
+    using TestAgent.Contract.Interface.Control;
+    using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
     internal class RemoteTestAgent : ITestAgent
     {

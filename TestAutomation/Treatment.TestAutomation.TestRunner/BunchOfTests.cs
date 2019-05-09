@@ -4,7 +4,9 @@
     using System.Threading.Tasks;
 
     using FluentAssertions;
-    using Treatment.TestAutomation.TestRunner.Sut;
+    using Treatment.TestAutomation.TestRunner.Framework;
+    using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
+    using Treatment.TestAutomation.TestRunner.XUnit;
     using Xunit;
     using Xunit.Abstractions;
 

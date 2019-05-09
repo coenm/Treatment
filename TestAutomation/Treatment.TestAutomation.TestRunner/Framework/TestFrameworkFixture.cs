@@ -1,10 +1,10 @@
-﻿namespace Treatment.TestAutomation.TestRunner.Sut
+﻿namespace Treatment.TestAutomation.TestRunner.Framework
 {
     using System;
 
     using JetBrains.Annotations;
     using SimpleInjector;
-    using Treatment.TestAutomation.TestRunner.Framework;
+    using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
     [UsedImplicitly]
     public class TestFrameworkFixture : ITestFramework, IDisposable

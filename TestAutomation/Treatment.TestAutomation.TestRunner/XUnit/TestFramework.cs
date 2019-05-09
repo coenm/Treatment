@@ -1,5 +1,6 @@
-﻿namespace Treatment.TestAutomation.TestRunner.Sut
+﻿namespace Treatment.TestAutomation.TestRunner.XUnit
 {
+    using Treatment.TestAutomation.TestRunner.Framework;
     using Xunit;
 
     [CollectionDefinition(nameof(TestFramework))]

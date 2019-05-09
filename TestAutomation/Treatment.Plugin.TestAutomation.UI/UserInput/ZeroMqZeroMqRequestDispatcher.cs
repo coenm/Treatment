@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Concurrent;
     using System.Threading.Tasks;
+
     using global::TestAutomation.Input.Contract.Interface;
     using global::TestAutomation.Input.Contract.Serializer;
     using JetBrains.Annotations;

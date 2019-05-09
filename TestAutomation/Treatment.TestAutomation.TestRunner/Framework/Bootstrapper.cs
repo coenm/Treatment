@@ -3,11 +3,14 @@
     using System;
 
     using SimpleInjector;
-    using Treatment.TestAutomation.TestRunner.Sut;
+    using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
+    using Treatment.TestAutomation.TestRunner.Framework.RemoteImplementations;
+    using Treatment.TestAutomation.TestRunner.Framework.RemoteImplementations.ZeroMq;
+    using Treatment.TestAutomation.TestRunner.Framework.Settings;
     using TreatmentZeroMq.ContextService;
     using TreatmentZeroMq.Socket;
 
-    public class Bootstrapper : IDisposable
+    internal class Bootstrapper : IDisposable
     {
         private readonly Container container;
 
@@ -19,8 +22,8 @@
         public Container RegisterAll()
         {
             var settings = new StaticAgentSettings(
-                $"tcp://localhost:{Settings.AgentPublishPort}",
-                $"tcp://localhost:{Settings.AgentReqRspPort}");
+                $"tcp://localhost:{FixedSettings.AgentPublishPort}",
+                $"tcp://localhost:{FixedSettings.AgentReqRspPort}");
 
             container.RegisterInstance<IAgentSettings>(settings);
 

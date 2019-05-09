@@ -1,7 +1,8 @@
-﻿namespace Treatment.TestAutomation.TestRunner.Sut
+﻿namespace Treatment.TestAutomation.TestRunner.Framework.Settings
 {
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
+    using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
     internal class StaticAgentSettings : IAgentSettings
     {

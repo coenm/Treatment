@@ -1,4 +1,4 @@
-﻿namespace Treatment.TestAutomation.TestRunner.Sut
+﻿namespace Treatment.TestAutomation.TestRunner.Framework.RemoteImplementations
 {
     using System;
     using System.Reactive.Subjects;
@@ -8,6 +8,7 @@
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.Contract.Interfaces.Events;
     using Treatment.TestAutomation.Contract.Serializer;
+    using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
     using TreatmentZeroMq.Socket;
     using ZeroMQ;
 

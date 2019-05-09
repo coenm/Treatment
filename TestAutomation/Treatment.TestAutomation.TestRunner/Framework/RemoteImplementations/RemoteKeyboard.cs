@@ -1,6 +1,8 @@
-﻿namespace Treatment.TestAutomation.TestRunner.Sut
+﻿namespace Treatment.TestAutomation.TestRunner.Framework.RemoteImplementations
 {
     using System;
+
+    using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
     internal class RemoteKeyboard : IKeyboard
     {

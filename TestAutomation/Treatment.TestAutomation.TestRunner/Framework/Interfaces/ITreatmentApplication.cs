@@ -1,4 +1,4 @@
-﻿namespace Treatment.TestAutomation.TestRunner.Sut
+﻿namespace Treatment.TestAutomation.TestRunner.Framework.Interfaces
 {
     public interface ITreatmentApplication
     {
