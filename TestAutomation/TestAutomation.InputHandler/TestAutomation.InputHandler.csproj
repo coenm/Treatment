@@ -110,6 +110,8 @@
     <Compile Include="RequestHandlers\Input\Keyboard\KeyUpRequestHandler.cs" />
     <Compile Include="RequestHandlers\Input\Keyboard\Mapper\KeyCodesMapper.cs" />
     <Compile Include="RequestHandlers\Input\Mouse\DoubleClickRequestHandler.cs" />
+    <Compile Include="RequestHandlers\Input\Mouse\MouseDownRequestHandler.cs" />
+    <Compile Include="RequestHandlers\Input\Mouse\MouseUpRequestHandler.cs" />
     <Compile Include="RequestHandlers\Input\Mouse\MoveMouseToRequestHandler.cs" />
     <Compile Include="RequestHandlers\Input\Mouse\SingleClickRequestHandler.cs" />
     <Compile Include="RequestHandlers\IRequestHandler.cs" />

@@ -285,7 +285,7 @@
     </Reference>
     <Reference Include="Treatment.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Treatment.Core\bin\x64\Release\netstandard2.0\Treatment.Core.dll</HintPath>
+      <HintPath>..\Treatment.Core\bin\x64\Debug\netstandard2.0\Treatment.Core.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />

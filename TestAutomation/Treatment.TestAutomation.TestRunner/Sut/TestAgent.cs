@@ -5,21 +5,14 @@
     using System.Threading.Tasks;
 
     using global::TestAgent.Contract.Interface.Control;
-    using TreatmentZeroMq.Helpers;
-    using TreatmentZeroMq.Socket;
-    using ZeroMQ;
 
     internal class TestAgent : ITestAgent
     {
-        private readonly ZSocket socket;
         private readonly IExecuteControl execute;
 
-        public TestAgent(IZeroMqSocketFactory socketFactory, string endpoint)
+        public TestAgent(IExecuteControl execute)
         {
-            socket = socketFactory.Create(ZSocketType.REQ);
-            socket.TryConnect(endpoint);
-            ZmqConnection.GiveZeroMqTimeToFinishConnectOrBind();
-            execute = new MyExecuteControl(socket);
+            this.execute = execute;
         }
 
         public async Task<List<string>> LocateFilesAsync(string directory, string filename)
@@ -52,7 +45,6 @@
 
         public void Dispose()
         {
-            socket?.Dispose();
         }
     }
 }

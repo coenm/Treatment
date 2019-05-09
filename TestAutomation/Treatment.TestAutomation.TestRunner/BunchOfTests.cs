@@ -17,13 +17,32 @@
         {
             this.fixture = fixture;
             this.output = output;
+
+            Mouse = fixture.Mouse;
+            Keyboard = fixture.Keyboard;
         }
+
+        private IMouse Mouse { get; }
+
+        private IKeyboard Keyboard { get; }
 
         [Fact]
         public async Task StartSut()
         {
             var started = await fixture.Agent.StartSutAsync();
             started.Should().BeTrue();
+
+            await Task.Delay(1000);
+            await Mouse.DragAsync(40, 230, 100, 600);
+
+            await Task.Delay(10000);
+            await Mouse.MoveCursorAsync(200, 100);
+
+            await Task.Delay(1000);
+            await Mouse.MoveCursorAsync(40, 30);
+
+            await Task.Delay(1000);
+            await Mouse.ClickAsync();
         }
     }
 }

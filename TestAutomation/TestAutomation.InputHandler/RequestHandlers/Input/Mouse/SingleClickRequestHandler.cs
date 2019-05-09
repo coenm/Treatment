@@ -1,7 +1,7 @@
 ﻿namespace TestAutomation.InputHandler.RequestHandlers.Input.Mouse
 {
     using System.Threading.Tasks;
-    using Dapplo.Windows.Common.Structs;
+
     using Dapplo.Windows.Input.Mouse;
     using JetBrains.Annotations;
     using TestAutomation.Input.Contract.Interface;
@@ -9,7 +9,7 @@
     using Treatment.Helpers.Guards;
     using MouseButtons = Dapplo.Windows.Input.Enums.MouseButtons;
 
-    [PublicAPI]
+    [UsedImplicitly]
     public class SingleClickRequestHandler : IRequestHandler
     {
         public bool CanHandle(IInputRequest request) => request is SingleClickRequest;
@@ -20,27 +20,39 @@
         {
             Guard.NotNull(request, nameof(request));
 
-            MouseInputGenerator.MoveMouse(new NativePoint(0, 0));
-            await Task.Delay(1000);
-            // MouseInputGenerator.MouseDown(MouseButtons.Left, new NativePoint(0, 0));
+            // MouseInputGenerator.MouseClick(MouseButtons.Left);
 
-            await Task.Delay(5000);
+            MouseInputGenerator.MouseDown(MouseButtons.Left);
 
-            MouseInputGenerator.MoveMouse(new NativePoint(1000, 1000));
-            await Task.Delay(1000);
+            await Task.Delay(50);
+
+            MouseInputGenerator.MouseUp(MouseButtons.Left);
+
+
+            // MouseInputGenerator.MoveMouse(new NativePoint(0, 0));
+            // await Task.Delay(1000);
+            // // MouseInputGenerator.MouseDown(MouseButtons.Left, new NativePoint(0, 0));
+            //
             // await Task.Delay(5000);
+            //
+            // MouseInputGenerator.MoveMouse(new NativePoint(1000, 1000));
+            // await Task.Delay(1000);
+            // // await Task.Delay(5000);
+            //
+            // // MouseInputGenerator.MouseUp(MouseButtons.Left, new NativePoint(1000, 1000));
+            // await Task.Delay(5000);
+            //
+            // MouseInputGenerator.MoveMouse(new NativePoint(1900, 1100));
+            // await Task.Delay(1000);
+            //
+            // MouseInputGenerator.MouseDown(MouseButtons.Left, new NativePoint(1900, 1100));
+            // await Task.Delay(1000);
+            //
+            // MouseInputGenerator.MouseUp(MouseButtons.Left, new NativePoint(1900, 1100));
+            //
 
-            // MouseInputGenerator.MouseUp(MouseButtons.Left, new NativePoint(1000, 1000));
-            await Task.Delay(5000);
-
-            MouseInputGenerator.MoveMouse(new NativePoint(1900, 1100));
-            await Task.Delay(1000);
-
-            MouseInputGenerator.MouseDown(MouseButtons.Left, new NativePoint(1900, 1100));
-            await Task.Delay(1000);
-
-            MouseInputGenerator.MouseUp(MouseButtons.Left, new NativePoint(1900, 1100));
-            return new OkInputResponse {Msg = "Check8"};
+            await Task.CompletedTask;
+            return new SingleClickResponse();
         }
     }
 }

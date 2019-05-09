@@ -291,7 +291,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Treatment.Core">
-      <HintPath>..\Treatment.Core\bin\x64\Release\netstandard2.0\Treatment.Core.dll</HintPath>
+      <HintPath>..\Treatment.Core\bin\x64\Debug\netstandard2.0\Treatment.Core.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />

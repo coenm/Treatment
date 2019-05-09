@@ -5,5 +5,9 @@
         IApplication Application { get; }
 
         ITestAgent Agent { get; }
+
+        IMouse Mouse { get; }
+
+        IKeyboard Keyboard { get; }
     }
 }
