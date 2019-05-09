@@ -85,6 +85,7 @@
     <Compile Include="Adapters\Helpers\Application\ApplicationStartupHelper.cs" />
     <Compile Include="Adapters\Helpers\FrameworkElementControl\FocusHelper.cs" />
     <Compile Include="Adapters\Helpers\FrameworkElementControl\KeyboardFocusHelper.cs" />
+    <Compile Include="Adapters\Helpers\FrameworkElementControl\OnLoadedHelper.cs" />
     <Compile Include="Adapters\Helpers\FrameworkElementControl\PositionChangedHelper.cs" />
     <Compile Include="Adapters\Helpers\FrameworkElementControl\SizeChangedHelper.cs" />
     <Compile Include="Adapters\Helpers\IInitializable.cs" />

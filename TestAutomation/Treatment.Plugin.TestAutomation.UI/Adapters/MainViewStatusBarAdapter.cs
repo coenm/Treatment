@@ -1,12 +1,15 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
 
+    using Helpers;
+    using Helpers.FrameworkElementControl;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
@@ -19,6 +22,7 @@
     {
         [NotNull] private readonly StatusBar item;
         [NotNull] private readonly IEventPublisher eventPublisher;
+        [NotNull] private List<IInitializable> helpers;
 
         private ITextBlock statusText;
         private ITextBlock statusConfigFilename;
@@ -35,14 +39,16 @@
             Guid = Guid.NewGuid();
 
             eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IMainViewStatusBar));
+
+            helpers = new List<IInitializable>(3)
+            {
+                new PositionChangedHelper(item, eventPublisher, Guid),
+                new SizeChangedHelper(item, eventPublisher, Guid),
+                new OnLoadedHelper(item, eventPublisher, Guid),
+            };
         }
 
         public Guid Guid { get; }
-
-        public void Dispose()
-        {
-            StatusText.Dispose();
-        }
 
         public ITextBlock StatusText
         {
@@ -77,8 +83,16 @@
             }
         }
 
+        public void Dispose()
+        {
+            helpers.ForEach(helper => helper.Dispose());
+            StatusText.Dispose();
+        }
+
         public void Initialize()
         {
+            helpers.ForEach(helper => helper.Initialize());
+
             var result = FieldsHelper.FindChild<TextBlock>(item, nameof(StatusText));
             if (result != null)
             {
@@ -148,9 +162,9 @@
             if (StatusDelayProcessCounter == null)
                 throw new Exception("Could not find element.");
 
-            item.Loaded += ItemOnLoaded;
             item.DataContextChanged += ItemOnDataContextChanged;
             item.SourceUpdated += ItemOnSourceUpdated;
+
             ((INotifyCollectionChanged)item.Items).CollectionChanged += OnCollectionChanged;
         }
 
@@ -193,16 +207,6 @@
                 Control = item.Name,
                 EventName = nameof(item.DataContextChanged),
                 Payload = e.Property.Name,
-            });
-        }
-
-        private void ItemOnLoaded(object sender, RoutedEventArgs e)
-        {
-            eventPublisher.PublishAsync(new TestAutomationEvent
-            {
-                Control = item.Name,
-                EventName = nameof(item.Loaded),
-                Payload = e.Source,
             });
         }
     }

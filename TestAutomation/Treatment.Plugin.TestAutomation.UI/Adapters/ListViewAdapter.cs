@@ -5,7 +5,6 @@
     using System.Collections.Specialized;
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Data;
     using System.Windows.Media;
 
     using JetBrains.Annotations;
@@ -14,6 +13,7 @@
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces;
+    using Treatment.TestAutomation.Contract.Interfaces.Events.Collection;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
     // https://social.msdn.microsoft.com/Forums/vstudio/en-US/29ecc8ee-26ee-4331-8f97-35ff9d3e6886/how-to-access-items-in-a-datatemplate-for-wpf-listview?forum=wpf
@@ -34,10 +34,11 @@
 
             Guid = Guid.NewGuid();
 
-            helpers = new List<IInitializable>(2)
+            helpers = new List<IInitializable>(3)
                       {
                           new PositionChangedHelper(item, eventPublisher, Guid),
                           new SizeChangedHelper(item, eventPublisher, Guid),
+                          new OnLoadedHelper(item, eventPublisher, Guid),
                       };
 
             eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IListView));
@@ -54,22 +55,18 @@
         {
             helpers.ForEach(helper => helper.Initialize());
 
-            item.Loaded += ItemOnLoaded;
             item.DataContextChanged += ItemOnDataContextChanged;
-            item.SelectionChanged += Item_SelectionChanged;
-            item.SourceUpdated += ItemOnSourceUpdated;
             item.LayoutUpdated += ItemOnLayoutUpdated;
+            item.SelectionChanged += ItemOnSelectionChanged;
 
             item.Items.CurrentChanged += Items_CurrentChanged;
 
             // view is a gridview but for now, we don't use this info.
             // var gv = item.View as GridView;
 
-            item.SelectionChanged += ItemOnSelectionChanged;
-
-            if (item.Items is INotifyCollectionChanged itemsncc)
+            if (item.Items is INotifyCollectionChanged notifyCollectionChanged)
             {
-                itemsncc.CollectionChanged += OnCollectionChanged;
+                notifyCollectionChanged.CollectionChanged += OnCollectionChanged;
             }
         }
 
@@ -125,22 +122,16 @@
 
         private void ItemOnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            eventPublisher.PublishAsync(new TestAutomationEvent
-            {
-                Control = item.Name,
-                EventName = nameof(item.SelectionChanged),
-                Payload = e,
-            });
+            eventPublisher.PublishAsync(new SelectionChanged
+                {
+                    Guid = Guid,
+                    AddedCount = e.AddedItems?.Count,
+                });
         }
 
-        private void Items_CurrentChanged(object sender, System.EventArgs e)
+        private void Items_CurrentChanged(object sender, EventArgs e)
         {
-            eventPublisher.PublishAsync(new TestAutomationEvent
-            {
-                Control = item.Name,
-                EventName = nameof(item.Items.CurrentChanged),
-                Payload = e,
-            });
+            eventPublisher.PublishAsync(new CurrentChanged { Guid = Guid, });
         }
 
         private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -153,14 +144,10 @@
                 itemAdded = true;
             }
 
-            eventPublisher.PublishAsync(new TestAutomationEvent
-            {
-                Control = item.Name,
-                EventName = nameof(INotifyCollectionChanged.CollectionChanged),
-                Payload = e.Action,
-            });
+            eventPublisher.PublishAsync(new CollectionChanged { Guid = Guid, Action = e.Action.ToString()});
         }
 
+        /*
         private void ItemOnSourceUpdated(object sender, DataTransferEventArgs e)
         {
             eventPublisher.PublishAsync(new TestAutomationEvent
@@ -170,39 +157,11 @@
                 Payload = e.Property.Name,
             });
         }
+        */
 
         private void ItemOnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            eventPublisher.PublishAsync(new TestAutomationEvent
-            {
-                Control = item.Name,
-                EventName = nameof(item.DataContextChanged),
-                Payload = e.Property.Name,
-            });
-        }
-
-        private void ItemOnLoaded(object sender, RoutedEventArgs e)
-        {
-            if (e.Source is ListView lv)
-            {
-                eventPublisher.PublishAsync(
-                    new TestAutomationEvent
-                    {
-                        Control = item.Name,
-                        EventName = nameof(item.Loaded),
-                        Payload = lv.Items.Count,
-                    });
-            }
-        }
-
-        private void Item_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            eventPublisher.PublishAsync(new TestAutomationEvent
-            {
-                Control = item.Name,
-                EventName = nameof(item.SelectionChanged),
-                Payload = e.AddedItems?.Count,
-            });
+            eventPublisher.PublishAsync(new DataContextChanged { Guid = Guid, });
         }
     }
 }

@@ -94,6 +94,8 @@
   <ItemGroup>
     <Compile Include="CouldNotFindFieldException.cs" />
     <Compile Include="Interfaces\Events\ButtonBase\Clicked.cs" />
+    <Compile Include="Interfaces\Events\Collection\SelectionChanged.cs" />
+    <Compile Include="Interfaces\Events\Element\Loaded.cs" />
     <Compile Include="Interfaces\Events\NewControlCreated.cs" />
     <Compile Include="Interfaces\Events\Window\WindowActivated.cs" />
     <Compile Include="Interfaces\Events\Window\WindowClosing.cs" />
