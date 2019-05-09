@@ -5,6 +5,6 @@
 
     public interface IDelayService
     {
-        Task DelayAsync(CancellationToken ct = default(CancellationToken));
+        Task DelayAsync(CancellationToken ct = default);
     }
 }

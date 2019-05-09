@@ -6,7 +6,5 @@
     {
         [CanBeNull]
         ITestAutomationView MainView { get; }
-
     }
 }
-

@@ -3,6 +3,7 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+
     using ZeroMQ;
 
     public static class ZmqSend
@@ -53,7 +54,6 @@
             if (msg == null)
                 throw new ArgumentNullException(nameof(msg));
 
-
             if (delayInMsAlgo == null)
             {
                 delayInMsAlgo = DetermineDelay;
@@ -86,8 +86,7 @@
 
         public static bool TrySend(this ZSocket socket, ZMessage msg, int nrOfRetries = 5, Func<int, int> delayInMsAlgo = null)
         {
-            ZError error;
-            return TrySend(socket, msg, out error, nrOfRetries, delayInMsAlgo);
+            return TrySend(socket, msg, out _, nrOfRetries, delayInMsAlgo);
         }
 
         public static bool TrySend(this ZSocket socket, ZFrame frame, out ZError error, int nrOfRetries = 5, Func<int, int> delayInMsAlgo = null)
@@ -103,21 +102,19 @@
 
         public static bool TrySend(this ZSocket socket, ZFrame frame, int nrOfRetries = 5, Func<int, int> delayInMsAlgo = null)
         {
-            ZError error;
-            return TrySend(socket, frame, out error, nrOfRetries, delayInMsAlgo);
+            return TrySend(socket, frame, out _, nrOfRetries, delayInMsAlgo);
         }
 
         /// <summary>Try to send a single, empty ZFrame to the socket.</summary>
-        /// <param name="socket">ZSocket to send the empty message to</param>
+        /// <param name="socket">ZSocket to send the empty message to.</param>
         /// <param name="nrOfRetries">Number of send tries.</param>
         /// <param name="delayInMsAlgo">Optional algorithm to determine the wait before the next retry in milliseconds.</param>
-        /// <returns></returns>
+        /// <returns>boolean if poke has succeeded.</returns>
         public static bool TryPoke(this ZSocket socket, int nrOfRetries = 5, Func<int, int> delayInMsAlgo = null)
         {
-            ZError error;
             using (var frame = new ZFrame())
             {
-                return TrySend(socket, frame, out error, nrOfRetries, delayInMsAlgo);
+                return TrySend(socket, frame, out _, nrOfRetries, delayInMsAlgo);
             }
         }
 

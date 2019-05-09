@@ -1,15 +1,15 @@
 ﻿namespace TestAutomation.Input.Contract.Interface.Input.Enums
 {
     /// <summary>
-    /// Extensions for VirtualKeyCode
+    /// Extensions for VirtualKeyCode.
     /// </summary>
     public static class VirtualKeyCodeExtensions
     {
         /// <summary>
-        /// Test if the VirtualKeyCode is a modifier key
+        /// Test if the VirtualKeyCode is a modifier key.
         /// </summary>
-        /// <param name="virtualKeyCode">VirtualKeyCode</param>
-        /// <returns>bool</returns>
+        /// <param name="virtualKeyCode">VirtualKeyCode.</param>
+        /// <returns>bool.</returns>
         public static bool IsModifier(this VirtualKeyCode virtualKeyCode)
         {
             var isModifier = false;

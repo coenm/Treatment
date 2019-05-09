@@ -39,7 +39,6 @@
             socket = socketFactory.Create(ZSocketType.REQ);
 
             connected = socket.TryConnect($"tcp://localhost:{FixedSettings.AgentReqRspPort}");
-
         }
 
         public void Dispose()

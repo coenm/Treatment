@@ -6,11 +6,11 @@
 
     public class EventBasedButton : IButton
     {
+        public Guid Guid { get; }
+
         public void Dispose()
         {
         }
-
-        public Guid Guid { get; }
 
         public void Initialize()
         {

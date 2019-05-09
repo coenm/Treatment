@@ -10,4 +10,3 @@
         public Size Size { get; set; }
     }
 }
-

@@ -46,6 +46,12 @@
 
         public Guid Guid { get; }
 
+        public bool IsEnabled => item.IsEnabled;
+
+        public double Width => item.Width;
+
+        public double Height => item.Height;
+
         public void Dispose()
         {
             helpers.ForEach(helper => helper.Dispose());
@@ -55,11 +61,5 @@
         {
             helpers.ForEach(helper => helper.Initialize());
         }
-
-        public bool IsEnabled => item.IsEnabled;
-
-        public double Width => item.Width;
-
-        public double Height => item.Height;
     }
 }

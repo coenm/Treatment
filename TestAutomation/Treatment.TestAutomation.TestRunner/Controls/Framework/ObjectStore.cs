@@ -11,7 +11,5 @@
         {
             objects = new Dictionary<Guid, object>();
         }
-
-        
     }
 }

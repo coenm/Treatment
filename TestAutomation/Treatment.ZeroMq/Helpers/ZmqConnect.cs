@@ -6,9 +6,9 @@
     {
         public static bool TryConnect(this ZSocket socket, string endpoint)
         {
-            if (!socket.Connect(endpoint, out ZError _))
+            if (!socket.Connect(endpoint, out _))
             {
-                //Error(Logger, "ZeroMq could not connect", error);
+                // Error(Logger, "ZeroMq could not connect", error);
                 return false;
             }
 
@@ -17,9 +17,9 @@
 
         public static bool TryBind(this ZSocket socket, string endpoint)
         {
-            if (!socket.Bind(endpoint, out ZError _))
+            if (!socket.Bind(endpoint, out _))
             {
-                //Error(Logger, "ZeroMq could not bind", error);
+                // Error(Logger, "ZeroMq could not bind", error);
                 return false;
             }
 

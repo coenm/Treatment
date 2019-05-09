@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    /// Defines which mouse buttons to use
+    /// Defines which mouse buttons to use.
     /// </summary>
     [Flags]
     public enum MouseButtons
@@ -37,6 +37,5 @@
         /// Extra button 2
         /// </summary>
         XButton2 = 0x1000000,
-
     }
 }

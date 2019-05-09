@@ -1,10 +1,10 @@
 ﻿namespace TestAutomation.Input.Contract.Interface.Input.Keyboard
 {
-    using Enums;
     using JetBrains.Annotations;
+    using TestAutomation.Input.Contract.Interface.Input.Enums;
 
     /// <summary>
-    /// Generate key press(es)
+    /// Generate key press(es).
     /// </summary>
     [PublicAPI]
     public class KeyPressesRequest : IInputRequest

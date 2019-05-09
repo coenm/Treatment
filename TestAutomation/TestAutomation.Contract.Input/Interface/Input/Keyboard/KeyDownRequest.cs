@@ -1,10 +1,10 @@
 ﻿namespace TestAutomation.Input.Contract.Interface.Input.Keyboard
 {
-    using Enums;
     using JetBrains.Annotations;
+    using TestAutomation.Input.Contract.Interface.Input.Enums;
 
     /// <summary>
-    /// Generate key down
+    /// Generate key down.
     /// </summary>
     [PublicAPI]
     public class KeyDownRequest : IInputRequest

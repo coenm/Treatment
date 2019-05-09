@@ -8,6 +8,6 @@
 
         Paused,
 
-        Terminated
+        Terminated,
     }
 }

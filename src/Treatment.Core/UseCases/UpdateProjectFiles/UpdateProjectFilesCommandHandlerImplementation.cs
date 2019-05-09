@@ -35,7 +35,7 @@
             regex = new Regex(Search, RegexOptions.Compiled);
         }
 
-        public Task ExecuteAsync(UpdateProjectFilesCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
+        public Task ExecuteAsync(UpdateProjectFilesCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)
         {
             var files = GetCsFiles(command.Directory);
             foreach (var file in files)

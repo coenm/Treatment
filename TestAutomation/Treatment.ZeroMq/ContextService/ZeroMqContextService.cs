@@ -26,15 +26,15 @@
 
                 try
                 {
-                    //Terminate is blocking
+                    // Terminate is blocking
                     if (!context.Terminate(out var error))
                         throw new ZException(error, "Could not Terminate the ZeroMq context");
 
                     context.Dispose();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    //_logger.Error($"Could not dispose the ZeroMq context. {e.Message}", e, Priority.High);
+                    // _logger.Error($"Could not dispose the ZeroMq context. {e.Message}", e, Priority.High);
                 }
                 finally
                 {

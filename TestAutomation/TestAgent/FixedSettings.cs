@@ -1,6 +1,6 @@
 ﻿namespace TestAgent
 {
-    internal class Settings
+    internal static class FixedSettings
     {
         public const string AgentReqRspPort = "5555";
 

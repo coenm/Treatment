@@ -6,8 +6,10 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using Helpers;
-    using Proxy;
+    using JetBrains.Annotations;
+    using Treatment.Helpers.Guards;
+    using TreatmentZeroMq.Helpers;
+    using TreatmentZeroMq.Proxy;
     using ZeroMQ;
 
     public class ZmqProxyExtended
@@ -39,8 +41,11 @@
             return $"inproc://gen_{nameof(ZmqProxy)}_{DateTime.Now:ddhhmmssfff}_{Random.Next(10000)}";
         }
 
-        private void StartProxy(ZSocket frontend, ZKeySocket[] backend)
+        private void StartProxy([NotNull] ZSocket frontend, [NotNull] [ItemNotNull] ZKeySocket[] backend)
         {
+            Guard.NotNull(frontend, nameof(frontend));
+            Guard.NotNull(backend, nameof(backend));
+
             void StartProxying()
             {
                 lock (syncLock)
@@ -56,11 +61,9 @@
                     proxyStartedSignal.Set();
                 }
 
-
-                var sockets = new List<ZSocket> {frontend}.Concat(backend.Select(x => x.Socket)).ToList();
+                var sockets = new List<ZSocket> { frontend }.Concat(backend.Select(x => x.Socket)).ToList();
 
                 var polls = ZmqPolls.CreateReceiverPolls(sockets.Count);
-
 
                 var continueRunning = true;
                 while (continueRunning)
@@ -90,7 +93,6 @@
                         }
                     }
 
-
                     // backend -> send to frontend.
                     for (var i = 1; i < messages.Length; i++)
                     {
@@ -112,15 +114,18 @@
             runningProxyTask = Task.Run(() => StartProxying());
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="context">current context</param>
-        /// <param name="frontend">socket, already setup and connected/bound</param>
-        /// <param name="backends">socket, already setup and connected/bound</param>
+        /// <summary>Create and run the proxy.</summary>
+        /// <param name="context">Current context.</param>
+        /// <param name="frontend">Frontend socket, already setup and connected/bound.</param>
+        /// <param name="backends">Multiple backend sockets, already setup and connected/bound.</param>
         /// <exception cref="ApplicationException">Thrown when the proxy could not start.</exception>
-        /// <returns></returns>
-        public static ZmqProxyExtended CreateAndRun(ZContext context, ZSocket frontend, ZKeySocket[] backends)
+        /// <returns>The proxy.</returns>
+        public static ZmqProxyExtended CreateAndRun([NotNull] ZContext context, ZSocket frontend, ZKeySocket[] backends)
         {
+            Guard.NotNull(context, nameof(context));
+            Guard.NotNull(frontend, nameof(frontend));
+            Guard.NotNull(backends, nameof(backends));
+
             const int startingTimeoutSec = 10;
             var result = new ZmqProxyExtended(context, GenerateChannelName());
             result.StartProxy(frontend, backends);

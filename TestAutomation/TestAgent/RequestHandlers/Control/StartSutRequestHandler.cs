@@ -4,10 +4,10 @@
     using System.IO;
     using System.Threading.Tasks;
 
-    using Contract.Interface;
-    using Contract.Interface.Control;
     using JetBrains.Annotations;
     using Medallion.Shell;
+    using TestAgent.Contract.Interface;
+    using TestAgent.Contract.Interface.Control;
     using TestAgent.Implementation;
     using Treatment.Helpers.Guards;
 
@@ -36,13 +36,16 @@
 
             var executable = sutExecutable.Executable;
 
+            IControlResponse response;
+
             if (string.IsNullOrWhiteSpace(executable) || !File.Exists(executable))
             {
-                return Task.FromResult(new StartSutResponse
-                {
-                    Executable = executable,
-                    Success = false,
-                } as IControlResponse);
+                response = new StartSutResponse
+                    {
+                        Executable = executable,
+                        Success = false,
+                    };
+                return Task.FromResult(response);
             }
 
             var workingDirectory = request.WorkingDirectory;
@@ -60,23 +63,23 @@
                     {
                         new KeyValuePair<string, string>("ENABLE_TEST_AUTOMATION", "true"),
                         new KeyValuePair<string, string>("TA_KEY", string.Empty),
-                        new KeyValuePair<string, string>("TA_PUBLISH_SOCKET", $"tcp://localhost:{Settings.SutPublishPort}"), // sut publishes events on this
-                        new KeyValuePair<string, string>("TA_REQ_RSP_SOCKET", $"tcp://localhost:{Settings.SutReqRspPort}"), // sut handles the mouse and keyboard requests.
+                        new KeyValuePair<string, string>("TA_PUBLISH_SOCKET", $"tcp://localhost:{FixedSettings.SutPublishPort}"), // sut publishes events on this
+                        new KeyValuePair<string, string>("TA_REQ_RSP_SOCKET", $"tcp://localhost:{FixedSettings.SutReqRspPort}"), // sut handles the mouse and keyboard requests.
                     });
                 });
 
             context.SetSutProcess(command);
 
-            return Task.FromResult(new StartSutResponse
-            {
-                Executable = executable,
-                Success = true,
-            } as IControlResponse);
+            response = new StartSutResponse
+                {
+                    Executable = executable,
+                    Success = true,
+                };
+            return Task.FromResult(response);
 
-            //            var result = await command.Task.ConfigureAwait(true);
-            //
-            //            Console.WriteLine(result.StandardOutput);
-            //            Console.WriteLine(result.StandardError);
+            // var result = await command.Task.ConfigureAwait(true);
+            // Console.WriteLine(result.StandardOutput);
+            // Console.WriteLine(result.StandardError);
         }
     }
 }

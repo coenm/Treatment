@@ -1,9 +1,10 @@
 ﻿namespace TestAutomation.InputHandler.RequestHandlers.Input.Keyboard
 {
     using System.Threading.Tasks;
+
     using Dapplo.Windows.Input.Keyboard;
     using JetBrains.Annotations;
-    using Mapper;
+    using TestAutomation.InputHandler.RequestHandlers.Input.Keyboard.Mapper;
     using TestAutomation.Input.Contract.Interface;
     using TestAutomation.Input.Contract.Interface.Input.Keyboard;
     using Treatment.Helpers.Guards;

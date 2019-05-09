@@ -7,6 +7,7 @@
     using TestAutomation.Input.Contract.Interface;
     using TestAutomation.Input.Contract.Interface.Input.Mouse;
     using Treatment.Helpers.Guards;
+
     using MouseButtons = Dapplo.Windows.Input.Enums.MouseButtons;
 
     [UsedImplicitly]

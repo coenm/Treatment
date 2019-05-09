@@ -7,6 +7,7 @@
     using TestAutomation.Input.Contract.Interface;
     using TestAutomation.Input.Contract.Interface.Input.Mouse;
     using Treatment.Helpers.Guards;
+
     using MouseButtons = Dapplo.Windows.Input.Enums.MouseButtons;
 
     [UsedImplicitly]
@@ -21,13 +22,11 @@
             Guard.NotNull(request, nameof(request));
 
             // MouseInputGenerator.MouseClick(MouseButtons.Left);
-
             MouseInputGenerator.MouseDown(MouseButtons.Left);
 
             await Task.Delay(50);
 
             MouseInputGenerator.MouseUp(MouseButtons.Left);
-
 
             // MouseInputGenerator.MoveMouse(new NativePoint(0, 0));
             // await Task.Delay(1000);
@@ -49,7 +48,6 @@
             // await Task.Delay(1000);
             //
             // MouseInputGenerator.MouseUp(MouseButtons.Left, new NativePoint(1900, 1100));
-            //
 
             await Task.CompletedTask;
             return new SingleClickResponse();

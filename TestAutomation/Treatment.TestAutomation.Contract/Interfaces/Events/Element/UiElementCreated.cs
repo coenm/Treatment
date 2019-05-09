@@ -8,6 +8,5 @@
     [PublicAPI]
     public class UiElementCreated : TestElementEventBase
     {
-
     }
 }

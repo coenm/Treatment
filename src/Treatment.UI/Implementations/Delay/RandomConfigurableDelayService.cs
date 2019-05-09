@@ -28,7 +28,7 @@
             disposables.Add(subscription);
         }
 
-        public async Task DelayAsync(CancellationToken ct = default(CancellationToken))
+        public async Task DelayAsync(CancellationToken ct = default)
         {
             var config = await GetConfigurationAsync();
 

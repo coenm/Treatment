@@ -3,9 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Interfaces.Events;
+
     using JetBrains.Annotations;
     using Newtonsoft.Json;
+    using Treatment.TestAutomation.Contract.Interfaces.Events;
 
     public static class EventSerializer
     {

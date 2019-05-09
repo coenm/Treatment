@@ -44,6 +44,39 @@
             StatusText.Dispose();
         }
 
+        public ITextBlock StatusText
+        {
+            get => statusText;
+
+            private set
+            {
+                eventPublisher.PublishAssignedAsync(Guid, nameof(StatusText), value.Guid);
+                statusText = value;
+            }
+        }
+
+        public ITextBlock StatusConfigFilename
+        {
+            get => statusConfigFilename;
+
+            private set
+            {
+                eventPublisher.PublishAssignedAsync(Guid, nameof(StatusConfigFilename), value.Guid);
+                statusConfigFilename = value;
+            }
+        }
+
+        public ITextBlock StatusDelayProcessCounter
+        {
+            get => statusDelayProcessCounter;
+
+            private set
+            {
+                eventPublisher.PublishAssignedAsync(Guid, nameof(StatusDelayProcessCounter), value.Guid);
+                statusDelayProcessCounter = value;
+            }
+        }
+
         public void Initialize()
         {
             var result = FieldsHelper.FindChild<TextBlock>(item, nameof(StatusText));
@@ -119,39 +152,6 @@
             item.DataContextChanged += ItemOnDataContextChanged;
             item.SourceUpdated += ItemOnSourceUpdated;
             ((INotifyCollectionChanged)item.Items).CollectionChanged += OnCollectionChanged;
-        }
-
-        public ITextBlock StatusText
-        {
-            get => statusText;
-
-            private set
-            {
-                eventPublisher.PublishAssignedAsync(Guid, nameof(StatusText), value.Guid);
-                statusText = value;
-            }
-        }
-
-        public ITextBlock StatusConfigFilename
-        {
-            get => statusConfigFilename;
-
-            private set
-            {
-                eventPublisher.PublishAssignedAsync(Guid, nameof(StatusConfigFilename), value.Guid);
-                statusConfigFilename = value;
-            }
-        }
-
-        public ITextBlock StatusDelayProcessCounter
-        {
-            get => statusDelayProcessCounter;
-
-            private set
-            {
-                eventPublisher.PublishAssignedAsync(Guid, nameof(StatusDelayProcessCounter), value.Guid);
-                statusDelayProcessCounter = value;
-            }
         }
 
         private void Items_CurrentChanged(object sender, System.EventArgs e)

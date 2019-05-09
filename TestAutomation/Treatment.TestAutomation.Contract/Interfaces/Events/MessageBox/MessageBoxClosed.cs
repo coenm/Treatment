@@ -2,6 +2,7 @@
 {
     using System;
     using System.Windows.Forms;
+
     using JetBrains.Annotations;
 
     [PublicAPI]
@@ -13,11 +14,9 @@
         [CanBeNull]
         public Guid ParentGuid { get; set; }
 
-
         /// <summary>
         /// Result of the messagebox. Not sure if we can extract this information.
         /// </summary>
         public DialogResult DialogResult { get; set; }
-
     }
 }

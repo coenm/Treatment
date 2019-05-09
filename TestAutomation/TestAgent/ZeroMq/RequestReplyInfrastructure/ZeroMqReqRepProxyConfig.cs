@@ -10,10 +10,10 @@
             BackendAddress = backendAddress;
         }
 
-        public string[] FrontendAddress { get; set; }//  = Settings.Default.CommandQueryEndpoint;
+        public string[] FrontendAddress { get; }
 
-        public string CaptureAddress { get; set; } // = Settings.Default.CommandQueryCaptureEndpoint;
+        public string CaptureAddress { get; set; }
 
-        public Dictionary<string, string> BackendAddress { get; set; }
+        public Dictionary<string, string> BackendAddress { get; }
     }
 }

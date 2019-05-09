@@ -3,8 +3,9 @@
     using System;
     using System.Collections.Concurrent;
     using System.Threading.Tasks;
-    using Contract.Interface;
-    using Contract.Serializer;
+
+    using TestAgent.Contract.Interface;
+    using TestAgent.Contract.Serializer;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using TreatmentZeroMq.Worker;
@@ -39,7 +40,7 @@
             return new ZMessage
             {
                 new ZFrame(type),
-                new ZFrame(payload)
+                new ZFrame(payload),
             };
         }
 

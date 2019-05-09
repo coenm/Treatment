@@ -54,6 +54,12 @@
 
         public Guid Guid { get; }
 
+        public event CancelEventHandler Closing
+        {
+            add => mainWindow.Closing += value;
+            remove => mainWindow.Closing -= value;
+        }
+
         public void Dispose()
         {
             helpers.ForEach(helper => helper.Dispose());
@@ -77,12 +83,6 @@
                 FieldsHelper.FindFieldInUiElementByName<ProjectListView>(mainWindow, nameof(ProjectList)),
                 eventPublisher);
             ProjectList.Initialize();
-        }
-
-        public event CancelEventHandler Closing
-        {
-            add => mainWindow.Closing += value;
-            remove => mainWindow.Closing -= value;
         }
     }
 }

@@ -4,8 +4,8 @@
     using System.IO;
     using System.Threading.Tasks;
 
-    using Contract.Interface;
-    using Contract.Interface.Control;
+    using TestAgent.Contract.Interface;
+    using TestAgent.Contract.Interface.Control;
     using JetBrains.Annotations;
     using TestAgent.Implementation;
     using Treatment.Helpers.Guards;
@@ -24,7 +24,6 @@
             if (string.IsNullOrWhiteSpace(request.Filename))
                 throw new ArgumentNullException(nameof(request.Filename));
 
-
             IControlResponse response = null;
 
             try
@@ -32,14 +31,14 @@
                 var data = File.ReadAllBytes(request.Filename);
                 response = new GetFileResponse
                            {
-                               Data = data
+                               Data = data,
                            };
             }
             catch (Exception e)
             {
                 response = new ExceptionResponse
                            {
-                               Message = "Something went wrong reading the requested file. " + e.Message
+                               Message = "Something went wrong reading the requested file. " + e.Message,
                            };
             }
 

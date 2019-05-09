@@ -7,12 +7,12 @@
         event EventHandler Updated;
 
         /// <summary>
-        /// Status text
+        /// Status text.
         /// </summary>
         string StatusText { get; }
 
         /// <summary>
-        /// Configuration filename
+        /// Configuration filename.
         /// </summary>
         string ConfigFilename { get; }
 

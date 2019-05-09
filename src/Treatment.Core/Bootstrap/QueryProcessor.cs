@@ -19,7 +19,7 @@
             this.container = container;
         }
 
-        public async Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query, CancellationToken ct = default(CancellationToken))
+        public async Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query, CancellationToken ct = default)
         {
             Guard.NotNull(query, nameof(query));
 

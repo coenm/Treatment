@@ -2,6 +2,7 @@
 {
     using System;
     using System.Threading;
+
     using ZeroMQ;
 
     public static class ZmqReceive
@@ -41,7 +42,6 @@
             error = internalError;
             return false;
         }
-
 
         public static bool TryReceive(this ZSocket socket, out ZMessage msg, int nrOfRetries = 5, Func<int, int> delayInMsAlgo = null)
         {

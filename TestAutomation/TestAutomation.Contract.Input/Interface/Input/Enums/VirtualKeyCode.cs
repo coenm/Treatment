@@ -1,10 +1,10 @@
 ﻿namespace TestAutomation.Input.Contract.Interface.Input.Enums
 {
     /// <summary>
-    ///     Symbolic constant names, hexadecimal values, and mouse or keyboard equivalents for the virtual-key codes used by
-    ///     the system.
-    ///     The codes are listed in numeric order.
-    ///     See <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd375731.aspx">Virtual-Key Codes</a>
+    /// Symbolic constant names, hexadecimal values, and mouse or keyboard equivalents for the virtual-key codes used by
+    /// the system.
+    /// The codes are listed in numeric order.
+    /// See <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd375731.aspx">Virtual-Key Codes</a>.
     /// </summary>
     /// <remarks>Taken from <see href="https://github.com/dapplo/Dapplo.Windows/blob/9a59152faf532508405b4833f33d8b71e006839f/src/Dapplo.Windows.Input/Enums/VirtualKeyCode.cs"/>.</remarks>
     public enum VirtualKeyCode : ushort
@@ -880,6 +880,6 @@
         /// <summary>
         ///     Clear key
         /// </summary>
-        OemClear = 0xFE
+        OemClear = 0xFE,
     }
 }

@@ -6,6 +6,6 @@
         Cancel,
         Yes,
         No,
-        Abort
+        Abort,
     }
 }

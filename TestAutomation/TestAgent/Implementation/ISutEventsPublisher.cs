@@ -1,6 +1,7 @@
 ﻿namespace TestAgent.Implementation
 {
     using System.Reactive.Subjects;
+
     using JetBrains.Annotations;
     using Treatment.TestAutomation.Contract.Interfaces.Events;
 

@@ -9,9 +9,9 @@
         [NotNull] private readonly IZeroMqContextService contextService;
         [NotNull] private readonly ZeroMqPublishProxyConfig config;
 
-    public ZeroMqPublishProxyFactory(
-        [NotNull] IZeroMqContextService contextService,
-        [NotNull] ZeroMqPublishProxyConfig config)
+        public ZeroMqPublishProxyFactory(
+            [NotNull] IZeroMqContextService contextService,
+            [NotNull] ZeroMqPublishProxyConfig config)
         {
             Guard.NotNull(contextService, nameof(contextService));
             Guard.NotNull(config, nameof(config));

@@ -5,11 +5,11 @@
     using System.Threading.Tasks;
 
     using SimpleInjector;
+    using TestAgent.ZeroMq.PublishInfrastructure;
     using TreatmentZeroMq.ContextService;
     using TreatmentZeroMq.Worker;
-    using ZeroMq.PublishInfrastructure;
-    using ZeroMq.RequestReplyInfrastructure;
     using ZeroMQ;
+    using TestAgent.ZeroMq.RequestReplyInfrastructure;
 
     public static class Program
     {
@@ -21,16 +21,16 @@
 
         private static Container container;
 
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
             container = new Container();
 
             Bootstrapper.Bootstrap(
                 container,
-                $"tcp://*:{Settings.AgentReqRspPort}",
-                $"tcp://*:{Settings.AgentPublishPort}",
-                Settings.SutPublishPort,
-                Settings.SutReqRspPort);
+                $"tcp://*:{FixedSettings.AgentReqRspPort}",
+                $"tcp://*:{FixedSettings.AgentPublishPort}",
+                FixedSettings.SutPublishPort,
+                FixedSettings.SutReqRspPort);
 
             container.Verify(VerificationOption.VerifyOnly);
 
@@ -56,11 +56,11 @@
 
             var task = Task.Run(() =>
             {
-                int received = 0;
+                var received = 0;
                 using (var subscriber = new ZSocket(context, ZSocketType.SUB))
                 using (cts.Token.Register(() => subscriber.Dispose()))
                 {
-                    subscriber.Connect($"tcp://localhost:{Settings.AgentPublishPort}");
+                    subscriber.Connect($"tcp://localhost:{FixedSettings.AgentPublishPort}");
                     subscriber.SubscribeAll();
                     mreListening.Set();
 
@@ -127,7 +127,6 @@
             }).ConfigureAwait(false);
 
             mreListening.WaitOne();
-
 
             // let listeners know agent has started.
             using (var agentPublishSocket = new ZSocket(context, ZSocketType.PUB))

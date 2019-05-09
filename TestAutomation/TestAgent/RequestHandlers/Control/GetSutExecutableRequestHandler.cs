@@ -41,7 +41,7 @@
             {
                 response = new ExceptionResponse
                            {
-                               Message = "Something went wrong reading the requested file. "  + e.Message
+                               Message = "Something went wrong reading the requested file. " + e.Message,
                            };
             }
 

@@ -1,6 +1,7 @@
 ﻿namespace TreatmentZeroMq.Helpers
 {
     using System.Collections.Generic;
+
     using Treatment.Helpers.Guards;
     using ZeroMQ;
 
@@ -8,7 +9,7 @@
     {
         public static List<ZPollItem> CreateReceiverPolls(int count)
         {
-            Guard.MustBeGreaterThan(count,0, nameof(count));
+            Guard.MustBeGreaterThan(count, 0, nameof(count));
 
             var result = new List<ZPollItem>();
             for (uint i = 0; i < count; i++)

@@ -3,7 +3,7 @@
     using JetBrains.Annotations;
 
     [PublicAPI]
-    public class WindowClosing: TestElementEventBase
+    public class WindowClosing : TestElementEventBase
     {
     }
 }

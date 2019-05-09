@@ -36,6 +36,12 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <LangVersion>7.1</LangVersion>
   </PropertyGroup>
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>..\..\Treatment.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\stylecop.json" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="JetBrains.Annotations, Version=2019.1.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\..\packages\JetBrains.Annotations.2019.1.1\lib\net20\JetBrains.Annotations.dll</HintPath>
@@ -74,7 +80,7 @@
     <Compile Include="ProxyExt\ZKeySocket.cs" />
     <Compile Include="ProxyExt\ZmqProxyExtended.cs" />
     <Compile Include="Proxy\ProxyState.cs" />
-    <Compile Include="Proxy\ZeroMqProxy.cs" />
+    <Compile Include="Proxy\ZmqProxy.cs" />
     <Compile Include="Worker\IWorker.cs" />
     <Compile Include="Worker\IZeroMqRequestDispatcher.cs" />
     <Compile Include="Worker\ReqRepWorkerManagement.cs" />

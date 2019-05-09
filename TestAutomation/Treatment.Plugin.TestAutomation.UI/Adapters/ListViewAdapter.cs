@@ -108,7 +108,7 @@
 
                 var lvi = x as ListViewItem;
 
-                //get the item's template parent
+                // get the item's template parent
                 var templateParent = GetFrameworkElementByName<ContentPresenter>(lvi);
                 var dataTemplate = templateParent?.ContentTemplate;
 

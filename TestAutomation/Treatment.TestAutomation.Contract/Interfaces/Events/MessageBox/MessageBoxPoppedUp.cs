@@ -2,6 +2,7 @@
 {
     using System;
     using System.Windows.Forms;
+
     using JetBrains.Annotations;
 
     [PublicAPI]
@@ -39,6 +40,5 @@
         /// Icon of the messagebox.
         /// </summary>
         public MessageBoxIcon Icon { get; set; }
-
     }
 }

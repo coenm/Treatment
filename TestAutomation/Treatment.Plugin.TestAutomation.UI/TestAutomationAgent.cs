@@ -16,10 +16,10 @@
     internal class TestAutomationAgent : ITestAutomationAgent
     {
         [NotNull] private readonly List<Task> workers = new List<Task>();
-        private MainWindowAdapter instance;
         [NotNull] private readonly ITestAutomationSettings settings;
         [NotNull] private readonly object syncLock = new object();
         [NotNull] private readonly ZContext context;
+        private MainWindowAdapter instance;
         [CanBeNull] private Task task;
         [CanBeNull] private ZSocket socket;
 

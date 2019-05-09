@@ -4,7 +4,9 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using Helpers;
+    using JetBrains.Annotations;
+    using Treatment.Helpers.Guards;
+    using TreatmentZeroMq.Helpers;
     using ZeroMQ;
 
     public class ZmqProxy
@@ -19,12 +21,10 @@
         private Task runningProxyTask;
         private bool disposed;
 
-        private ZmqProxy(ZContext context, string controlChannel)
+        private ZmqProxy([NotNull] ZContext context, [NotNull] string controlChannel)
         {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
-            if (string.IsNullOrWhiteSpace(controlChannel))
-                throw new ArgumentNullException(nameof(controlChannel));
+            Guard.NotNull(context, nameof(context));
+            Guard.NotNullOrWhiteSpace(controlChannel, nameof(controlChannel));
 
             controlSocketPub = new ZSocket(context, ZSocketType.PUB) { Linger = TimeSpan.Zero };
             controlSocketSub = new ZSocket(context, ZSocketType.SUB) { Linger = TimeSpan.Zero };
@@ -32,13 +32,13 @@
 
             if (!controlSocketSub.TryBind(controlChannel))
             {
-//                this.logger.Error($"Could not bind to control channel '{controlChannel}'");
+                // this.logger.Error($"Could not bind to control channel '{controlChannel}'");
                 throw new ApplicationException();
             }
 
             if (!controlSocketPub.TryConnect(controlChannel))
             {
-//                this.logger.Error($"Could not connect to control channel '{controlChannel}'");
+                // this.logger.Error($"Could not connect to control channel '{controlChannel}'");
                 throw new ApplicationException();
             }
 
@@ -77,27 +77,35 @@
 
                 if (proxyResult && (error == null || ZError.None.Equals(error)))
                 {
-//                    logger.Debug("ZmqProxy closed");
+                    // logger.Debug("ZmqProxy closed");
                     return;
                 }
 
-//                logger.Warn($"The ZmqProxy could not be closed normally. {error.Text}");
+                // logger.Warn($"The ZmqProxy could not be closed normally. {error.Text}");
             }
 
             runningProxyTask = Task.Run(() => StartProxying());
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="context">current context</param>
-        /// <param name="frontend">socket, already setup and connected/bound</param>
-        /// <param name="backend">socket, already setup and connected/bound</param>
-        /// <param name="capture"></param>
+        /// <summary>Create and run the proxy.</summary>
+        /// <param name="context">Current context.</param>
+        /// <param name="frontend">Frontend socket, already setup and connected/bound.</param>
+        /// <param name="backend">Backend socket, already setup and connected/bound.</param>
+        /// <param name="capture">Socket where all the captured content is published on. Can be <c>null</c>.</param>
         /// <exception cref="ApplicationException">Thrown when the proxy could not start.</exception>
-        /// <returns></returns>
-        public static ZmqProxy CreateAndRun(ZContext context, ZSocket frontend, ZSocket backend, ZSocket capture = null)
+        /// <returns>The proxy.</returns>
+        public static ZmqProxy CreateAndRun(
+            [NotNull] ZContext context,
+            [NotNull] ZSocket frontend,
+            [NotNull] ZSocket backend,
+            [CanBeNull] ZSocket capture = null)
         {
+            Guard.NotNull(context, nameof(context));
+            Guard.NotNull(frontend, nameof(frontend));
+            Guard.NotNull(backend, nameof(backend));
+
             const int startingTimeoutSec = 10;
+
             var result = new ZmqProxy(context, GenerateChannelName());
             result.StartProxy(frontend, backend, capture);
             var signaled = result.proxyStartedSignal.WaitOne(startingTimeoutSec * 1000);
@@ -108,6 +116,7 @@
             throw new ApplicationException($"Could not create and start a proxy within {startingTimeoutSec} seconds.");
         }
 
+        [PublicAPI]
         public void Pause()
         {
             if (disposed)
@@ -131,6 +140,7 @@
             }
         }
 
+        [PublicAPI]
         public void Resume()
         {
             if (disposed)

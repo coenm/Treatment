@@ -5,9 +5,10 @@
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-    using Contract.Interface;
-    using Contract.Interface.Control;
+
     using JetBrains.Annotations;
+    using TestAgent.Contract.Interface;
+    using TestAgent.Contract.Interface.Control;
     using TestAgent.Implementation;
     using Treatment.Helpers.Guards;
 
@@ -50,7 +51,7 @@
 
             var response = new LocateFilesResponse
                 {
-                    Executable = files.ToList()
+                    Executable = files.ToList(),
                 };
             return Task.FromResult((IControlResponse)response);
         }

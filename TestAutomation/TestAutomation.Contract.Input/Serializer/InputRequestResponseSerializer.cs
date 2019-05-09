@@ -1,26 +1,26 @@
-﻿namespace TestAgent.Contract.Serializer
+﻿namespace TestAutomation.Input.Contract.Serializer
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Interface;
+
     using JetBrains.Annotations;
     using Newtonsoft.Json;
+    using TestAutomation.Input.Contract.Interface;
 
-    public static class TestAgentRequestResponseSerializer
+    public static class InputRequestResponseSerializer
     {
-        private static readonly List<Type> RequestTypes = typeof(IControlRequest).Assembly
+        private static readonly List<Type> RequestTypes = typeof(IInputRequest).Assembly
             .GetTypes()
-            .Where(type => typeof(IControlRequest).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract)
+            .Where(type => typeof(IInputRequest).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract)
             .ToList();
 
-        private static readonly List<Type> ResponseTypes = typeof(IControlResponse).Assembly
+        private static readonly List<Type> ResponseTypes = typeof(IInputResponse).Assembly
             .GetTypes()
-            .Where(type => typeof(IControlResponse).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract)
+            .Where(type => typeof(IInputResponse).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract)
             .ToList();
 
-
-        public static (string, string) Serialize([NotNull] IControlRequest request)
+        public static (string, string) Serialize([NotNull] IInputRequest request)
         {
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
@@ -28,15 +28,15 @@
             return (request.GetType().FullName, JsonConvert.SerializeObject(request));
         }
 
-        public static (string, string) Serialize([NotNull] IControlResponse response)
+        public static (string, string) Serialize([NotNull] IInputResponse inputResponse)
         {
-            if (response == null)
-                throw new ArgumentNullException(nameof(response));
+            if (inputResponse == null)
+                throw new ArgumentNullException(nameof(inputResponse));
 
-            return (response.GetType().FullName, JsonConvert.SerializeObject(response));
+            return (inputResponse.GetType().FullName, JsonConvert.SerializeObject(inputResponse));
         }
 
-        public static IControlRequest DeserializeRequest([NotNull] string type, [NotNull] string payload)
+        public static IInputRequest DeserializeRequest([NotNull] string type, [NotNull] string payload)
         {
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
@@ -47,7 +47,7 @@
                 if (payloadType == null)
                     throw new ArgumentException($"Could not find type '{type}'", nameof(type));
 
-                return JsonConvert.DeserializeObject(payload, payloadType) as IControlRequest;
+                return JsonConvert.DeserializeObject(payload, payloadType) as IInputRequest;
             }
             catch (Exception)
             {
@@ -55,7 +55,7 @@
             }
         }
 
-        public static IControlResponse DeserializeResponse([NotNull] string type, [NotNull] string payload)
+        public static IInputResponse DeserializeResponse([NotNull] string type, [NotNull] string payload)
         {
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
@@ -66,7 +66,7 @@
                 if (payloadType == null)
                     throw new ArgumentException($"Could not find type '{type}'", nameof(type));
 
-                return JsonConvert.DeserializeObject(payload, payloadType) as IControlResponse;
+                return JsonConvert.DeserializeObject(payload, payloadType) as IInputResponse;
             }
             catch (Exception)
             {

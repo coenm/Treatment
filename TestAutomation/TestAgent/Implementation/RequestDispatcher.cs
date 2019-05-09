@@ -4,7 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Contract.Interface;
+
+    using TestAgent.Contract.Interface;
 
     public class RequestDispatcher : IRequestDispatcher
     {
@@ -25,7 +26,6 @@
                     throw new NotImplementedException();
 
                 return await handler.ExecuteAsync(request);
-
             }
             catch (Exception e)
             {

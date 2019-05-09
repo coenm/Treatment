@@ -2,12 +2,14 @@
 {
     using System;
     using System.Collections.Generic;
+
+    using JetBrains.Annotations;
+    using Treatment.Helpers.Guards;
     using TreatmentZeroMq.Helpers;
     using TreatmentZeroMq.ProxyExt;
     using ZeroMQ;
 
-    /// <inheritdoc />
-    ///  <summary>
+    /// <summary>
     ///  ProxyService with the frontend as ROUTER and backend as DEALER. Both sockets will bind to the configurable endpoint.
     ///  Usage: One or multiple 'worker' threads can connect to the backends DEALER socket using a RSP socket and
     ///  one or more clients can connect to the frontends ROUTER port using a REQ socket.
@@ -18,18 +20,21 @@
     ///  </summary>
     public class ZeroMqReqRepProxyService : IDisposable
     {
-        private ZContext ctx;
         private readonly ZeroMqReqRepProxyConfig config;
-        private ZSocket frontend;
         private readonly List<ZKeySocket> backends;
         private readonly object syncLock = new object();
+        private ZContext ctx;
+        private ZSocket frontend;
         private bool socketBound;
         private ZmqProxyExtended proxy;
         private ZSocket capture;
 
-        public ZeroMqReqRepProxyService(ZContext context, ZeroMqReqRepProxyConfig config)
+        public ZeroMqReqRepProxyService([NotNull] ZContext context, [NotNull] ZeroMqReqRepProxyConfig config)
         {
-             ctx = context;
+            Guard.NotNull(context, nameof(context));
+            Guard.NotNull(config, nameof(config));
+
+            ctx = context;
             this.config = config;
 
             frontend = new ZSocket(ctx, ZSocketType.ROUTER) { Linger = TimeSpan.Zero };
@@ -37,12 +42,12 @@
             backends = new List<ZKeySocket>();
             foreach (var item in config.BackendAddress)
             {
-                backends.Add(new ZKeySocket(new ZSocket(ctx, ZSocketType.DEALER) {Linger = TimeSpan.Zero}, item.Key, item.Value));
+                backends.Add(new ZKeySocket(new ZSocket(ctx, ZSocketType.DEALER) { Linger = TimeSpan.Zero }, item.Key, item.Value));
             }
 
             if (!string.IsNullOrWhiteSpace(this.config.CaptureAddress))
             {
-//                this.logger.Info("Creating a capture socket for the ReqRep proxy.");
+                // this.logger.Info("Creating a capture socket for the ReqRep proxy.");
                 capture = new ZSocket(ctx, ZSocketType.PUB) { Linger = TimeSpan.Zero };
             }
         }
@@ -62,44 +67,6 @@
 
                 proxy = ZmqProxyExtended.CreateAndRun(ctx, frontend, backends.ToArray());
             }
-        }
-
-        private bool Bind()
-        {
-            if (socketBound)
-                return true;
-
-            ZError error;
-
-            foreach (var address in config.FrontendAddress)
-            {
-                if (!frontend.Bind(address, out error))
-                {
-//                    logger.Error($"Frontend socket of ReqRep proxy could not bind to {address}. {error.Text}");
-                    return false;
-                }
-            }
-
-
-            foreach (var backend in backends)
-            {
-                if (!backend.Socket.TryBind(backend.Address))
-                {
-                    return false;
-                }
-            }
-
-            if (!string.IsNullOrWhiteSpace(config.CaptureAddress))
-            {
-                if (!capture.Bind(config.CaptureAddress, out error))
-                {
-//                    logger.Error($"Capture socket of ReqRep proxy could not bind to {config.CaptureAddress}. {error.Text}");
-                    return false;
-                }
-            }
-
-            socketBound = true;
-            return true;
         }
 
         public void Dispose()
@@ -128,6 +95,41 @@
 
                 socketBound = false;
             }
+        }
+
+        private bool Bind()
+        {
+            if (socketBound)
+                return true;
+
+            foreach (var address in config.FrontendAddress)
+            {
+                if (!frontend.Bind(address, out _))
+                {
+                    // logger.Error($"Frontend socket of ReqRep proxy could not bind to {address}. {error.Text}");
+                    return false;
+                }
+            }
+
+            foreach (var backend in backends)
+            {
+                if (!backend.Socket.TryBind(backend.Address))
+                {
+                    return false;
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(config.CaptureAddress))
+            {
+                if (!capture.Bind(config.CaptureAddress, out _))
+                {
+                    // logger.Error($"Capture socket of ReqRep proxy could not bind to {config.CaptureAddress}. {error.Text}");
+                    return false;
+                }
+            }
+
+            socketBound = true;
+            return true;
         }
     }
 }

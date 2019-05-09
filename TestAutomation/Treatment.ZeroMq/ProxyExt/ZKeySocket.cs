@@ -1,20 +1,27 @@
 ﻿namespace TreatmentZeroMq.ProxyExt
 {
-    using System;
+    using JetBrains.Annotations;
+    using Treatment.Helpers.Guards;
     using ZeroMQ;
 
     public class ZKeySocket
     {
-        public ZKeySocket(ZSocket socket, string key, string address)
+        public ZKeySocket([NotNull] ZSocket socket, [NotNull] string key, [NotNull] string address)
         {
-            Socket = socket ?? throw new ArgumentNullException(nameof(socket));
-            Key = key ?? throw new ArgumentNullException(nameof(Key));
-            Address = address ?? throw new ArgumentNullException(nameof(Address));
+            Guard.NotNull(socket, nameof(socket));
+            Guard.NotNullOrWhiteSpace(key, nameof(key));
+            Guard.NotNullOrWhiteSpace(address, nameof(address));
+
+            Socket = socket;
+            Key = key;
+            Address = address;
         }
 
         public string Key { get; }
 
         public string Address { get; }
+
+        public ZSocket Socket { get; }
 
         public bool ShouldUseSocket(ZFrame msg)
         {
@@ -27,7 +34,5 @@
                 return Key == providedKey;
             }
         }
-
-        public ZSocket Socket { get; }
     }
 }

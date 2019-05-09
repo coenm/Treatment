@@ -62,8 +62,7 @@
                 }
             }).ConfigureAwait(false);
 
-
-            //Events = Observable.Create<IEvent>(
+            // Events = Observable.Create<IEvent>(
             //  observer =>
             //  {
             //      var d = new CompositeDisposable();

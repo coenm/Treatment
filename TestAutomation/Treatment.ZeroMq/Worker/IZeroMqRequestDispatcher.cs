@@ -1,6 +1,7 @@
 ﻿namespace TreatmentZeroMq.Worker
 {
     using System.Threading.Tasks;
+
     using ZeroMQ;
 
     public interface IZeroMqRequestDispatcher

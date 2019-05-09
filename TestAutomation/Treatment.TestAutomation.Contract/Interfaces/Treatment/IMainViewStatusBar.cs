@@ -10,5 +10,4 @@
 
         ITextBlock StatusDelayProcessCounter { get; }
     }
-
 }

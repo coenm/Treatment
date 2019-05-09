@@ -1,9 +1,10 @@
 ﻿namespace TreatmentZeroMq.Socket
 {
     using System;
-    using ContextService;
+
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
+    using TreatmentZeroMq.ContextService;
     using ZeroMQ;
 
     public class DefaultSocketFactory : IZeroMqSocketFactory

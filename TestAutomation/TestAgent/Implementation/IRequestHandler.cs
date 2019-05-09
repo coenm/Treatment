@@ -1,7 +1,8 @@
 ﻿namespace TestAgent.Implementation
 {
     using System.Threading.Tasks;
-    using Contract.Interface;
+
+    using TestAgent.Contract.Interface;
 
     public interface IRequestHandler
     {

@@ -3,7 +3,7 @@
     using JetBrains.Annotations;
 
     [PublicAPI]
-    public class WindowInitialized: TestElementEventBase
+    public class WindowInitialized : TestElementEventBase
     {
     }
 }

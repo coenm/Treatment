@@ -27,6 +27,12 @@
 
         public Guid Guid { get; }
 
+        public IButton OpenSettingsButton { get; }
+
+        public IProjectListView ProjectList { get; }
+
+        public IMainViewStatusBar StatusBar { get; }
+
         public void Dispose()
         {
         }
@@ -34,11 +40,5 @@
         public void Initialize()
         {
         }
-
-        public IButton OpenSettingsButton { get; }
-
-        public IProjectListView ProjectList { get; }
-
-        public IMainViewStatusBar StatusBar { get; }
     }
 }

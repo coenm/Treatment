@@ -1,9 +1,10 @@
 ﻿namespace TestAgent
 {
     using System.Collections.Generic;
-    using Implementation;
+
     using JetBrains.Annotations;
     using SimpleInjector;
+    using TestAgent.Implementation;
     using TestAgent.ZeroMq.PublishInfrastructure;
     using TestAgent.ZeroMq.RequestReplyInfrastructure;
     using Treatment.Helpers.Guards;
@@ -12,7 +13,8 @@
 
     internal static class Bootstrapper
     {
-        public static void Bootstrap([NotNull] Container container,
+        public static void Bootstrap(
+            [NotNull] Container container,
             [NotNull] string endpointRequestResponse,
             [NotNull] string endpointPublish,
             [NotNull] string sutPublishPort,
@@ -39,32 +41,39 @@
                 endpointRequestResponse,
                 endpointPublish,
                 sutPublishPort,
-                sutReqRspPort
-                );
+                sutReqRspPort);
         }
 
-        private static void BootstrapZeroMq([NotNull] Container container,
+        private static void BootstrapZeroMq(
+            [NotNull] Container container,
             [NotNull] string endpointReqRsp,
             [NotNull] string endpointPubSub,
             [NotNull] string sutPublishPort,
             [NotNull] string sutReqRspPort)
         {
+            Guard.NotNull(container, nameof(container));
+            Guard.NotNullOrWhiteSpace(endpointReqRsp, nameof(endpointReqRsp));
+            Guard.NotNullOrWhiteSpace(endpointPubSub, nameof(endpointPubSub));
+            Guard.NotNullOrWhiteSpace(sutPublishPort, nameof(sutPublishPort));
+            Guard.NotNullOrWhiteSpace(sutReqRspPort, nameof(sutReqRspPort));
+
             // Ensures ZeroMq Context.
             container.RegisterSingleton<IZeroMqContextService, ZeroMqContextService>();
             container.Register<IZeroMqRequestDispatcher, ZeroMqZeroMqRequestDispatcher>(Lifestyle.Transient);
 
             container.Register<ZeroMqPublishProxyConfig>(() => new ZeroMqPublishProxyConfig(
-                new []{ endpointPubSub },
+                new[] { endpointPubSub },
                 new[] { $"tcp://*:{sutPublishPort}", "inproc://publish" }));
 
             container.Register<IZeroMqPublishProxyFactory, ZeroMqPublishProxyFactory>(Lifestyle.Transient);
 
-            container.Register<ZeroMqReqRepProxyConfig>(() => new ZeroMqReqRepProxyConfig(
+            container.Register<ZeroMqReqRepProxyConfig>(
+                () => new ZeroMqReqRepProxyConfig(
                 new[] { endpointReqRsp },
                 new Dictionary<string, string>
                 {
                     { "TESTAGENT", "inproc://reqrsp" },
-                    { "SUT", $"tcp://*:{sutReqRspPort}" }, //todo
+                    { "SUT", $"tcp://*:{sutReqRspPort}" }, // todo
                 }),
                 Lifestyle.Singleton);
 
