@@ -2,17 +2,18 @@
 {
     using System;
 
+    using global::Treatment.TestAutomation.TestRunner.Framework;
     using JetBrains.Annotations;
     using SimpleInjector;
-    using Treatment.TestAutomation.TestRunner.Framework;
     using TreatmentZeroMq.Socket;
 
-    public class StartedTreatmentFixture : ISut, IDisposable
+    [UsedImplicitly]
+    public class TreatmentFixture : ISut, IDisposable
     {
         [NotNull] private readonly Bootstrapper bootstrapper;
         [NotNull] private readonly Container container;
 
-        public StartedTreatmentFixture()
+        public TreatmentFixture()
         {
             bootstrapper = new Bootstrapper();
             container = bootstrapper.RegisterAll();
@@ -20,11 +21,8 @@
             var socketFactory = container.GetInstance<IZeroMqSocketFactory>();
 
             Agent = new TestAgent(new MyExecuteControl(socketFactory, $"tcp://localhost:{Settings.AgentReqRspPort}"));
-            // Agent.StartSutAsync();
-
             Mouse = new ZeroMqRemoteMouse(new MyExecuteInput(socketFactory, $"tcp://localhost:{Settings.AgentReqRspPort}"));
-
-            Keyboard = new ZeroMqRemoteKeyboard();
+            Keyboard = new ZeroMqRemoteKeyboard(new MyExecuteInput(socketFactory, $"tcp://localhost:{Settings.AgentReqRspPort}"));
         }
 
         public IApplication Application { get; }

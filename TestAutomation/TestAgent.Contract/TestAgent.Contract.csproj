@@ -53,8 +53,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\Control\GetFileResponse.cs" />
+    <Compile Include="Interface\Control\GetSutExecutableRequest.cs" />
+    <Compile Include="Interface\Control\GetSutExecutableResponse.cs" />
     <Compile Include="Interface\Control\LocateFilesRequest.cs" />
     <Compile Include="Interface\Control\LocateFilesResponse.cs" />
+    <Compile Include="Interface\Control\GetFileRequest.cs" />
     <Compile Include="Interface\Control\StartSutRequest.cs" />
     <Compile Include="Interface\Control\StartSutResponse.cs" />
     <Compile Include="Interface\ExceptionResponse.cs" />

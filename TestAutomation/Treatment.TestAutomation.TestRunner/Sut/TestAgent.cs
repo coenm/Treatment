@@ -43,6 +43,33 @@
             throw new Exception("something went wrong ;-)");
         }
 
+        public async Task<byte[]> GetFileContentAsync(string filename)
+        {
+            var req = new GetFileRequest
+                      {
+                          Filename = filename,
+                      };
+
+            var rsp = await execute.ExecuteControl(req);
+
+            if (rsp is GetFileResponse x)
+                return x.Data;
+
+            throw new Exception("something went wrong ;-)");
+        }
+
+        public async Task<string> LocateSutExecutableAsync()
+        {
+            var req = new GetSutExecutableRequest();
+
+            var rsp = await execute.ExecuteControl(req);
+
+            if (rsp is GetSutExecutableResponse x)
+                return x.Filename;
+
+            throw new Exception("something went wrong ;-)");
+        }
+
         public void Dispose()
         {
         }

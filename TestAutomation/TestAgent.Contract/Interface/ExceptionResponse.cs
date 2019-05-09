@@ -5,5 +5,6 @@
     [PublicAPI]
     public class ExceptionResponse : IControlResponse
     {
+        public string Message { get; set; }
     }
 }
