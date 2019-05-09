@@ -2,11 +2,11 @@
 {
     using System;
 
-    public class ZeroMqRemoteKeyboard : IKeyboard
+    internal class RemoteKeyboard : IKeyboard
     {
         private readonly IExecuteInput execute;
 
-        public ZeroMqRemoteKeyboard(IExecuteInput execute)
+        public RemoteKeyboard(IExecuteInput execute)
         {
             this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
         }

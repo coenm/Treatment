@@ -14,6 +14,9 @@
 
     using TestAgent.Contract.Interface.Control;
     using TestAgent.Contract.Serializer;
+
+    using Treatment.TestAutomation.TestRunner.Helpers;
+
     using TreatmentZeroMq.ContextService;
     using TreatmentZeroMq.Helpers;
     using TreatmentZeroMq.Socket;
@@ -51,7 +54,7 @@
         [Fact]
         public void StartSutTest()
         {
-            var slnDir = TestHelper.GetSolutionDirectory();
+            var slnDir = FileSystem.GetSolutionDirectory();
             slnDir.Should().NotBeNullOrEmpty();
 
             var (type, payload) = TestAgentRequestResponseSerializer.Serialize(new LocateFilesRequest { Directory = slnDir, Filename = "Treatment.UIStart.exe", });

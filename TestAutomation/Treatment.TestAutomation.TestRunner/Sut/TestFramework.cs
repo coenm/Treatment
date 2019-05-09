@@ -2,8 +2,8 @@
 {
     using Xunit;
 
-    [CollectionDefinition(nameof(Treatment))]
-    public class Treatment : ICollectionFixture<TreatmentFixture>
+    [CollectionDefinition(nameof(TestFramework))]
+    public class TestFramework : ICollectionFixture<TestFrameworkFixture>
     {
         // This class has no code, and is never created.
         // Its purpose is simply to be the place to apply [CollectionDefinition]

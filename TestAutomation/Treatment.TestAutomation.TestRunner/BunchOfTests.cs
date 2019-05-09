@@ -8,23 +8,28 @@
     using Xunit;
     using Xunit.Abstractions;
 
-    [Collection(nameof(Treatment))]
+    [Collection(nameof(TestFramework))]
     public class BunchOfTests
     {
         private readonly ITestOutputHelper output;
 
-        public BunchOfTests(TreatmentFixture fixture, ITestOutputHelper output)
+        public BunchOfTests(TestFrameworkFixture fixture, ITestOutputHelper output)
         {
             this.output = output;
 
             Mouse = fixture.Mouse;
             Keyboard = fixture.Keyboard;
             Agent = fixture.Agent;
+            Application = fixture.Application;
+
+            output.WriteLine("ctor");
         }
 
         private IMouse Mouse { get; }
 
         private IKeyboard Keyboard { get; }
+
+        private IApplication Application { get; }
 
         private ITestAgent Agent { get; }
 

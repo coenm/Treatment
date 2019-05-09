@@ -6,11 +6,11 @@
     using global::TestAutomation.Input.Contract.Interface.Base;
     using global::TestAutomation.Input.Contract.Interface.Input.Mouse;
 
-    public class ZeroMqRemoteMouse : IMouse
+    internal class RemoteMouse : IMouse
     {
         private readonly IExecuteInput execute;
 
-        public ZeroMqRemoteMouse(IExecuteInput execute)
+        public RemoteMouse(IExecuteInput execute)
         {
             this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
         }

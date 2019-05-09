@@ -8,21 +8,23 @@
     using TreatmentZeroMq.Socket;
 
     [UsedImplicitly]
-    public class TreatmentFixture : ISut, IDisposable
+    public class TestFrameworkFixture : ITestFramework, IDisposable
     {
         [NotNull] private readonly Bootstrapper bootstrapper;
         [NotNull] private readonly Container container;
 
-        public TreatmentFixture()
+        public TestFrameworkFixture()
         {
             bootstrapper = new Bootstrapper();
             container = bootstrapper.RegisterAll();
 
             var socketFactory = container.GetInstance<IZeroMqSocketFactory>();
+            var agentEndPoint = $"tcp://localhost:{Settings.AgentReqRspPort}";
 
-            Agent = new TestAgent(new MyExecuteControl(socketFactory, $"tcp://localhost:{Settings.AgentReqRspPort}"));
-            Mouse = new ZeroMqRemoteMouse(new MyExecuteInput(socketFactory, $"tcp://localhost:{Settings.AgentReqRspPort}"));
-            Keyboard = new ZeroMqRemoteKeyboard(new MyExecuteInput(socketFactory, $"tcp://localhost:{Settings.AgentReqRspPort}"));
+            Application = new RemoteApplication();
+            Agent = new RemoteTestAgent(new MyExecuteControl(socketFactory, agentEndPoint));
+            Mouse = new RemoteMouse(new MyExecuteInput(socketFactory, agentEndPoint));
+            Keyboard = new RemoteKeyboard(new MyExecuteInput(socketFactory, agentEndPoint));
         }
 
         public IApplication Application { get; }
@@ -41,3 +43,4 @@
         }
     }
 }
+

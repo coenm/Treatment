@@ -6,11 +6,11 @@
 
     using global::TestAgent.Contract.Interface.Control;
 
-    internal class TestAgent : ITestAgent
+    internal class RemoteTestAgent : ITestAgent
     {
         private readonly IExecuteControl execute;
 
-        public TestAgent(IExecuteControl execute)
+        public RemoteTestAgent(IExecuteControl execute)
         {
             this.execute = execute;
         }

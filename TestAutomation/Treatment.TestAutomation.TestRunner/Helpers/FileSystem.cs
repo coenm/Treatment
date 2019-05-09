@@ -1,11 +1,11 @@
-﻿namespace Treatment.TestAutomation.TestRunner.Framework
+﻿namespace Treatment.TestAutomation.TestRunner.Helpers
 {
     using System.IO;
     using System.Reflection;
 
     using JetBrains.Annotations;
 
-    internal static class TestHelper
+    internal static class FileSystem
     {
         [CanBeNull]
         public static string GetSolutionDirectory()
