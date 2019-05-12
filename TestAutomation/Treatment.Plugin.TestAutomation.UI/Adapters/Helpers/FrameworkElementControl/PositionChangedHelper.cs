@@ -11,6 +11,7 @@
 
     internal class PositionChangedHelper : IUiElement, IInitializable, IDisposable
     {
+        private static readonly Point ZeroPoint = new Point(0d, 0d);
         [NotNull] private readonly FrameworkElement frameworkElement;
         [NotNull] private readonly IEventPublisher eventPublisher;
         [CanBeNull] private Window registeredWindow;
@@ -60,7 +61,10 @@
         {
             try
             {
-                var pos = frameworkElement.PointToScreen(new Point(0d, 0d));
+                if (PresentationSource.FromVisual(frameworkElement) == null)
+                    return false;
+
+                var pos = frameworkElement.PointToScreen(ZeroPoint);
                 if (pos == position)
                     return false;
 
