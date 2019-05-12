@@ -1,7 +1,5 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI
 {
-    using System;
-    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -10,37 +8,24 @@
     using Treatment.Plugin.TestAutomation.UI.Adapters;
     using Treatment.Plugin.TestAutomation.UI.Settings;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
-    using TreatmentZeroMq.ContextService;
-    using ZeroMQ;
 
     internal class TestAutomationAgent : ITestAutomationAgent
     {
-        [NotNull] private readonly List<Task> workers = new List<Task>();
         [NotNull] private readonly ITestAutomationSettings settings;
         [NotNull] private readonly object syncLock = new object();
-        [NotNull] private readonly ZContext context;
-        private MainWindowAdapter instance;
-        [CanBeNull] private Task task;
-        [CanBeNull] private ZSocket socket;
+        [CanBeNull] private Task worker;
+        [CanBeNull] private MainWindowAdapter mainWindow;
+        [CanBeNull] private SettingWindowAdapter settingWindow;
 
-        private CancellationTokenSource cts;
-        private MainWindowAdapter view;
+        [NotNull] private readonly CancellationTokenSource cts = new CancellationTokenSource();
 
-        public TestAutomationAgent([NotNull] IZeroMqContextService contextService, [NotNull] ITestAutomationSettings settings)
+        public TestAutomationAgent([NotNull] ITestAutomationSettings settings)
         {
-            Guard.NotNull(contextService, nameof(contextService));
             Guard.NotNull(settings, nameof(settings));
-
             this.settings = settings;
-            context = contextService.GetContext() ?? throw new NullReferenceException();
         }
 
         public IApplication Application { get; private set; }
-
-        public void AddPopupView(SettingWindowAdapter view)
-        {
-            view.Initialize();
-        }
 
         public void RegisterAndInitializeApplication([NotNull] IApplication application)
         {
@@ -48,11 +33,11 @@
             Application = application;
             Application.Initialize();
 
-            if (view == null)
+            if (mainWindow == null)
                 return;
 
-            Application.RegisterAndInitializeMainView(view);
-            view = null;
+            Application.RegisterAndInitializeMainView(mainWindow);
+            mainWindow = null;
         }
 
         public void RegisterAndInitializeMainView(MainWindowAdapter view)
@@ -63,13 +48,23 @@
             }
             else
             {
-                this.view = view;
+                mainWindow = view;
             }
         }
 
-        public void RegisterWorker(Task worker)
+        public void AddPopupView([NotNull] SettingWindowAdapter settingWindow)
         {
-            workers.Add(worker);
+            // todo: wrong method name. how to deal with this popup window?
+            Guard.NotNull(settingWindow, nameof(settingWindow));
+            this.settingWindow = settingWindow;
+            settingWindow.Initialize();
+        }
+
+        public void RegisterWorker([NotNull] Task task)
+        {
+            Guard.NotNull(task, nameof(task));
+
+            worker = task;
         }
     }
 }

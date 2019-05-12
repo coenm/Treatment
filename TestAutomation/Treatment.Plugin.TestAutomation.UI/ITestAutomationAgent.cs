@@ -10,12 +10,12 @@
     {
         IApplication Application { get; }
 
-        void AddPopupView(SettingWindowAdapter view);
+        void AddPopupView(SettingWindowAdapter settingWindow);
 
         void RegisterAndInitializeApplication([NotNull] IApplication application);
 
         void RegisterAndInitializeMainView(MainWindowAdapter view);
 
-        void RegisterWorker(Task worker);
+        void RegisterWorker(Task workerTask);
     }
 }

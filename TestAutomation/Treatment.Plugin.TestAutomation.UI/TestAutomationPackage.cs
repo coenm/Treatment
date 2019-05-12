@@ -17,6 +17,9 @@
     [UsedImplicitly]
     public class TestAutomationPackage : IPackage
     {
+        private Container testAutomationContainer;
+        private ITestAutomationAgent agent;
+
         public void RegisterServices([CanBeNull] Container container)
         {
             if (container == null)
@@ -30,7 +33,7 @@
             if (settings.TestAutomationEnabled == false)
                 return;
 
-            var testAutomationContainer = new Container();
+            testAutomationContainer = new Container();
 
             testAutomationContainer.RegisterInstance(settings);
 
@@ -48,6 +51,8 @@
             testAutomationContainer.Register<IRequestDispatcher, RequestDispatcher>(Lifestyle.Transient);
 
             RegisterInterceptors(container, testAutomationContainer);
+
+            agent = testAutomationContainer.GetInstance<ITestAutomationAgent>();
         }
 
         private static void RegisterInterceptors(Container container, Container testAutomationContainer)
