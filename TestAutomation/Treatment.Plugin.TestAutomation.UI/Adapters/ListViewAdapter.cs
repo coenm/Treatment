@@ -61,9 +61,11 @@
 
             item.Items.CurrentChanged += Items_CurrentChanged;
 
+            /*
             // view is a gridview but for now, we don't use this info.
-            // var gv = item.View as GridView;
-            //
+            var gv = item.View as GridView;
+            */
+
             if (item.Items is INotifyCollectionChanged notifyCollectionChanged)
             {
                 notifyCollectionChanged.CollectionChanged += OnCollectionChanged;
