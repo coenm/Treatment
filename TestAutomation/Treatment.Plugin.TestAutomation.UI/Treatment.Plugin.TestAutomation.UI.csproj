@@ -118,7 +118,7 @@
     <Compile Include="Adapters\TextBlockAdapter.cs" />
     <Compile Include="UserInput\RequestDispatcher.cs" />
     <Compile Include="UserInput\IRequestDispatcher.cs" />
-    <Compile Include="UserInput\ZeroMqZeroMqRequestDispatcher.cs" />
+    <Compile Include="UserInput\ZeroMqRequestDispatcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -141,7 +141,7 @@
     <Compile Include="Implementation\RequestDispatcher.cs" />
     <Compile Include="RequestHandlers\Control\StartSutRequestHandler.cs" />
     <Compile Include="Implementation\ZeroMqSutEvents.cs" />
-    <Compile Include="Implementation\ZeroMqZeroMqRequestDispatcher.cs" />
+    <Compile Include="Implementation\ZeroMqRequestDispatcher.cs" />
     <Compile Include="IAgentContext.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -35,7 +35,7 @@
 
             container.RegisterSingleton<IEventPublisher, ZeroMqEventPublisher>();
             container.RegisterSingleton<ReqRepWorkerManagement>();
-            container.Register<IZeroMqRequestDispatcher, ZeroMqZeroMqRequestDispatcher>(Lifestyle.Transient);
+            container.Register<IZeroMqRequestDispatcher, ZeroMqRequestDispatcher>(Lifestyle.Transient);
 
             container.RegisterSingleton<ITestAutomationAgent, TestAutomationAgent>();
 

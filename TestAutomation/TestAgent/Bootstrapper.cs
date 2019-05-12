@@ -59,7 +59,7 @@
 
             // Ensures ZeroMq Context.
             container.RegisterSingleton<IZeroMqContextService, ZeroMqContextService>();
-            container.Register<IZeroMqRequestDispatcher, ZeroMqZeroMqRequestDispatcher>(Lifestyle.Transient);
+            container.Register<IZeroMqRequestDispatcher, ZeroMqRequestDispatcher>(Lifestyle.Transient);
 
             container.Register<ZeroMqPublishProxyConfig>(() => new ZeroMqPublishProxyConfig(
                 new[] { endpointPubSub },

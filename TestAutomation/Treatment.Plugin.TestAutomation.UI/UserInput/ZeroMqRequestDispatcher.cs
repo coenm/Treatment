@@ -12,12 +12,12 @@
     using ZeroMQ;
 
     [UsedImplicitly]
-    public class ZeroMqZeroMqRequestDispatcher : IZeroMqRequestDispatcher
+    public class ZeroMqRequestDispatcher : IZeroMqRequestDispatcher
     {
         private static readonly ConcurrentDictionary<string, Type> TypeCache = new ConcurrentDictionary<string, Type>();
         [NotNull] private readonly IRequestDispatcher requestDispatcher;
 
-        public ZeroMqZeroMqRequestDispatcher([NotNull] IRequestDispatcher requestDispatcher)
+        public ZeroMqRequestDispatcher([NotNull] IRequestDispatcher requestDispatcher)
         {
             Guard.NotNull(requestDispatcher, nameof(requestDispatcher));
             this.requestDispatcher = requestDispatcher;
