@@ -12,16 +12,18 @@
 
     internal class MainWindowInterceptor
     {
-        private readonly Container container;
+        private readonly Container testAutomationContainer;
 
-        private MainWindowInterceptor([NotNull] Container container)
+        private MainWindowInterceptor([NotNull] Container container, [NotNull] Container testAutomationContainer)
         {
             Guard.NotNull(container, nameof(container));
-            this.container = container;
+            Guard.NotNull(testAutomationContainer, nameof(testAutomationContainer));
+
+            this.testAutomationContainer = testAutomationContainer;
             container.Options.RegisterResolveInterceptor(CollectResolvedMainWindowInstance, c => c.Producer.ServiceType == typeof(MainWindow));
         }
 
-        public static MainWindowInterceptor Register(Container container) => new MainWindowInterceptor(container);
+        public static MainWindowInterceptor Register([NotNull] Container container, [NotNull] Container testAutomationContainer) => new MainWindowInterceptor(container, testAutomationContainer);
 
         private object CollectResolvedMainWindowInstance(InitializationContext context, Func<object> instanceProducer)
         {
@@ -30,8 +32,8 @@
             if (!(instance is MainWindow mainWindow))
                 return instance;
 
-            var publisher = container.GetInstance<IEventPublisher>();
-            var agent = container.GetInstance<ITestAutomationAgent>();
+            var publisher = testAutomationContainer.GetInstance<IEventPublisher>();
+            var agent = testAutomationContainer.GetInstance<ITestAutomationAgent>();
 
             var view = new MainWindowAdapter(mainWindow, publisher);
             agent.RegisterAndInitializeMainView(view);

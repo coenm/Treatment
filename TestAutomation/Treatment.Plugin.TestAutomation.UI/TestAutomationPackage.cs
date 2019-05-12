@@ -6,6 +6,7 @@
     using JetBrains.Annotations;
     using SimpleInjector;
     using SimpleInjector.Packaging;
+    using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Interceptors;
     using Treatment.Plugin.TestAutomation.UI.Settings;
@@ -29,29 +30,34 @@
             if (settings.TestAutomationEnabled == false)
                 return;
 
-            container.RegisterInstance<ITestAutomationSettings>(settings);
+            var testAutomationContainer = new Container();
 
-            container.RegisterSingleton<IZeroMqContextService, ZeroMqContextService>();
+            testAutomationContainer.RegisterInstance(settings);
 
-            container.RegisterSingleton<IEventPublisher, ZeroMqEventPublisher>();
-            container.RegisterSingleton<ReqRepWorkerManagement>();
-            container.Register<IZeroMqRequestDispatcher, ZeroMqRequestDispatcher>(Lifestyle.Transient);
+            testAutomationContainer.RegisterSingleton<IZeroMqContextService, ZeroMqContextService>();
 
-            container.RegisterSingleton<ITestAutomationAgent, TestAutomationAgent>();
+            testAutomationContainer.RegisterSingleton<IEventPublisher, ZeroMqEventPublisher>();
+            testAutomationContainer.RegisterSingleton<ReqRepWorkerManagement>();
+            testAutomationContainer.Register<IZeroMqRequestDispatcher, ZeroMqRequestDispatcher>(Lifestyle.Transient);
+
+            testAutomationContainer.RegisterSingleton<ITestAutomationAgent, TestAutomationAgent>();
 
             // all possible request handlers
-            container.Collection.Register(typeof(IRequestHandler), typeof(IRequestHandler).Assembly);
+            testAutomationContainer.Collection.Register(typeof(IRequestHandler), typeof(IRequestHandler).Assembly);
 
-            container.Register<IRequestDispatcher, RequestDispatcher>(Lifestyle.Transient);
+            testAutomationContainer.Register<IRequestDispatcher, RequestDispatcher>(Lifestyle.Transient);
 
-            RegisterInterceptors(container);
+            RegisterInterceptors(container, testAutomationContainer);
         }
 
-        private static void RegisterInterceptors(Container container)
+        private static void RegisterInterceptors(Container container, Container testAutomationContainer)
         {
-            ApplicationInterceptor.Register(container);
-            MainWindowInterceptor.Register(container);
-            SettingWindowInterceptor.Register(container);
+            DebugGuard.NotNull(container, nameof(container));
+            DebugGuard.NotNull(testAutomationContainer, nameof(testAutomationContainer));
+
+            ApplicationInterceptor.Register(container, testAutomationContainer);
+            MainWindowInterceptor.Register(container, testAutomationContainer);
+            SettingWindowInterceptor.Register(container, testAutomationContainer);
         }
     }
 }

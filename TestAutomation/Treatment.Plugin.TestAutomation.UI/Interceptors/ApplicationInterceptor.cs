@@ -15,16 +15,18 @@
 
     internal class ApplicationInterceptor
     {
-        private readonly Container container;
+        private readonly Container testAutomationContainer;
 
-        private ApplicationInterceptor([NotNull] Container container)
+        private ApplicationInterceptor([NotNull] Container container, [NotNull] Container testAutomationContainer)
         {
             Guard.NotNull(container, nameof(container));
-            this.container = container;
+            Guard.NotNull(testAutomationContainer, nameof(testAutomationContainer));
+
+            this.testAutomationContainer = testAutomationContainer;
             container.Options.RegisterResolveInterceptor(CollectResolvedApplication, c => c.Producer.ServiceType == typeof(Application));
         }
 
-        public static ApplicationInterceptor Register(Container container) => new ApplicationInterceptor(container);
+        public static ApplicationInterceptor Register([NotNull] Container container, [NotNull] Container testAutomationContainer) => new ApplicationInterceptor(container, testAutomationContainer);
 
         private object CollectResolvedApplication(InitializationContext context, Func<object> instanceProducer)
         {
@@ -33,13 +35,13 @@
             if (!(instance is Application appInstance))
                 return instance;
 
-            var publisher = container.GetInstance<IEventPublisher>();
-            var agent = container.GetInstance<ITestAutomationAgent>();
+            var publisher = testAutomationContainer.GetInstance<IEventPublisher>();
+            var agent = testAutomationContainer.GetInstance<ITestAutomationAgent>();
 
             var application = new ApplicationAdapter(appInstance, publisher);
             agent.RegisterAndInitializeApplication(application);
 
-            var config = container.GetInstance<ITestAutomationSettings>();
+            var config = testAutomationContainer.GetInstance<ITestAutomationSettings>();
 
             if (string.IsNullOrWhiteSpace(config.ZeroMqRequestResponseSocket))
                 return instance;
@@ -51,11 +53,11 @@
 
         private void StartAndRegisterRequestResponseWorker(ITestAutomationSettings config, ITestAutomationAgent agent)
         {
-            var worker = container.GetInstance<ReqRepWorkerManagement>()
-                                  .StartSingleWorker(
-                                                     container.GetInstance<IZeroMqRequestDispatcher>(),
-                                                     config.ZeroMqRequestResponseSocket,
-                                                     CancellationToken.None);
+            var worker = testAutomationContainer.GetInstance<ReqRepWorkerManagement>()
+                .StartSingleWorker(
+                    testAutomationContainer.GetInstance<IZeroMqRequestDispatcher>(),
+                    config.ZeroMqRequestResponseSocket,
+                    CancellationToken.None);
             agent.RegisterWorker(worker);
         }
     }

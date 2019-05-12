@@ -12,17 +12,18 @@
 
     internal class SettingWindowInterceptor
     {
-        private readonly Container container;
+        private readonly Container testAutomationContainer;
 
-        private SettingWindowInterceptor([NotNull] Container container)
+        private SettingWindowInterceptor([NotNull] Container container, [NotNull] Container testAutomationContainer)
         {
             Guard.NotNull(container, nameof(container));
+            Guard.NotNull(testAutomationContainer, nameof(testAutomationContainer));
 
-            this.container = container;
+            this.testAutomationContainer = testAutomationContainer;
             container.Options.RegisterResolveInterceptor(CollectResolvedMainWindowInstanceSecondWindow, c => c.Producer.ServiceType != typeof(MainWindow));
         }
 
-        public static SettingWindowInterceptor Register(Container container) => new SettingWindowInterceptor(container);
+        public static SettingWindowInterceptor Register([NotNull] Container container, [NotNull] Container testAutomationContainer) => new SettingWindowInterceptor(container, testAutomationContainer);
 
         private object CollectResolvedMainWindowInstanceSecondWindow(InitializationContext context, Func<object> instanceProducer)
         {
@@ -34,8 +35,8 @@
             if (!(instance is SettingsWindow sw))
                 return instance;
 
-            var publisher = container.GetInstance<IEventPublisher>();
-            var agent = container.GetInstance<ITestAutomationAgent>();
+            var publisher = testAutomationContainer.GetInstance<IEventPublisher>();
+            var agent = testAutomationContainer.GetInstance<ITestAutomationAgent>();
 
             var view = new SettingWindowAdapter(sw, publisher, agent);
 
