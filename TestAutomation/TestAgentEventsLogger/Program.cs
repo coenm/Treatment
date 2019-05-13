@@ -5,15 +5,15 @@
     using System.Threading.Tasks;
 
     using SimpleInjector;
-    using TreatmentZeroMq.ContextService;
+    using TreatmentZeroMq.Socket;
     using ZeroMQ;
 
     public static class Program
     {
-        private const string AgentReqRspPort = "5555";
         private const string AgentPublishPort = "5556";
 
         private static Container container;
+        private static int received;
 
         public static async Task Main(string[] args)
         {
@@ -23,8 +23,6 @@
 
             container.Verify(VerificationOption.VerifyOnly);
 
-            var context = container.GetInstance<IZeroMqContextService>().GetContext();
-
             var mreListening = new ManualResetEvent(false);
             var cts = new CancellationTokenSource();
 
@@ -32,7 +30,7 @@
 
             var task = Task.Run(() =>
             {
-                using (var subscriber = new ZSocket(context, ZSocketType.SUB))
+                using (var subscriber = container.GetInstance<IZeroMqSocketFactory>().Create(ZSocketType.SUB))
                 using (cts.Token.Register(() => subscriber.Dispose()))
                 {
                     subscriber.Connect($"tcp://localhost:{AgentPublishPort}");
@@ -52,38 +50,19 @@
                                 return;
                             }
 
+                            received++;
+                            Console.Title = $"Logger - # Events received: {received}";
+
                             using (zmsg)
-                            using (var zmsg2 = zmsg.Duplicate())
                             {
                                 Console.WriteLine();
                                 Console.WriteLine(DateTime.Now.ToString("HH:mm:ss:fff"));
                                 Console.WriteLine("+" + new string('-', 100 + 2) + "+");
 
-                                bool subscribeUnsubscribe = false;
-                                if (zmsg2.Count == 1 && zmsg2[0].Length == 1)
+                                foreach (var frame in zmsg)
                                 {
-                                    var b = zmsg2.PopAsByte();
-                                    var m = string.Empty;
-                                    if (b == 0x01)
-                                        m = "SUBSCRIBE  (0x01)";
-                                    if (b == 0x00)
-                                        m = "UNSUBSCRIBE (0x00)";
-
-                                    if (!string.IsNullOrEmpty(m))
-                                    {
-                                        subscribeUnsubscribe = true;
-                                        Console.WriteLine($"| {m,-100} |");
-                                    }
-                                }
-
-                                if (!subscribeUnsubscribe)
-                                {
-                                    // read first frame
-                                    foreach (var frame in zmsg)
-                                    {
-                                        var s = frame.ReadString();
-                                        Console.WriteLine($"| {s,-100} |");
-                                    }
+                                    var s = frame.ReadString();
+                                    Console.WriteLine($"| {s,-100} |");
                                 }
 
                                 Console.WriteLine("+" + new string('-', 100 + 2) + "+");

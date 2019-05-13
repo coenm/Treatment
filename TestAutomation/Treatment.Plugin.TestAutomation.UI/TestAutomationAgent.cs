@@ -37,19 +37,14 @@
                 return;
 
             Application.RegisterAndInitializeMainView(mainWindow);
-            mainWindow = null;
         }
 
-        public void RegisterAndInitializeMainView(MainWindowAdapter view)
+        public void RegisterAndInitializeMainView([NotNull] MainWindowAdapter mainWindowAdapter)
         {
-            if (Application != null)
-            {
-                Application.RegisterAndInitializeMainView(view);
-            }
-            else
-            {
-                mainWindow = view;
-            }
+            Guard.NotNull(mainWindowAdapter, nameof(mainWindowAdapter));
+            Application?.RegisterAndInitializeMainView(mainWindowAdapter);
+
+            mainWindow = mainWindowAdapter;
         }
 
         public void AddPopupView([NotNull] SettingWindowAdapter settingWindow)

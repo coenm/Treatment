@@ -19,13 +19,11 @@
 
         public ZSocket Create(ZSocketType socketType)
         {
-            var result = new ZSocket(contextService.GetContext(), socketType)
+            return new ZSocket(contextService.GetContext(), socketType)
             {
                 Linger = TimeSpan.Zero,
                 TcpKeepAlive = TcpKeepaliveBehaviour.Enable,
             };
-
-            return result;
         }
     }
 }

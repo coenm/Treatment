@@ -4,6 +4,7 @@
     using SimpleInjector;
     using Treatment.Helpers.Guards;
     using TreatmentZeroMq.ContextService;
+    using TreatmentZeroMq.Socket;
 
     internal static class Bootstrapper
     {
@@ -16,8 +17,8 @@
 
         private static void BootstrapZeroMq([NotNull] Container container)
         {
-            // Ensures ZeroMq Context.
-            container.RegisterSingleton<IZeroMqContextService, ZeroMqContextService>();
+            container.Register<IZeroMqContextService, ZeroMqContextService>(Lifestyle.Singleton);
+            container.Register<IZeroMqSocketFactory, DefaultSocketFactory>(Lifestyle.Singleton);
         }
     }
 }

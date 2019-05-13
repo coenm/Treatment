@@ -14,7 +14,7 @@
 
         void RegisterAndInitializeApplication([NotNull] IApplication application);
 
-        void RegisterAndInitializeMainView(MainWindowAdapter view);
+        void RegisterAndInitializeMainView(MainWindowAdapter mainWindowAdapter);
 
         void RegisterWorker(Task workerTask);
     }
