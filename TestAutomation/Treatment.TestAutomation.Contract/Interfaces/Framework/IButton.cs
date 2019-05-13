@@ -1,6 +1,9 @@
 ﻿namespace Treatment.TestAutomation.Contract.Interfaces.Framework
 {
-    public interface IButton : IUiElement
+    using System;
+
+    public interface IButton
     {
+        event EventHandler Clicked;
     }
 }

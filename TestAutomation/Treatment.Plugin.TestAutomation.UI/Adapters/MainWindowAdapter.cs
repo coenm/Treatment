@@ -11,8 +11,8 @@
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.WindowControl;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
+    using Treatment.Plugin.TestAutomation.UI.Interfaces;
     using Treatment.Plugin.TestAutomation.UI.Reflection;
-    using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
     using Treatment.UI.UserControls;
     using Treatment.UI.View;
@@ -52,7 +52,7 @@
             remove => mainWindow.Closing -= value;
         }
 
-        public IButton OpenSettingsButton { get; private set; }
+        public ITestAutomationButton OpenSettingsButton { get; private set; }
 
         public IProjectListView ProjectList { get; private set; }
 

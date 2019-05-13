@@ -31,6 +31,7 @@
             container.Register<IZeroMqSocketFactory, DefaultSocketFactory>(Lifestyle.Singleton);
 
             container.Register<IApplicationEvents, RemoteApplicationEvents>(Lifestyle.Singleton);
+            container.Register<RemoteObjectManager>(Lifestyle.Singleton);
 
             container.Register<IExecuteControl, ZeroMqExecuteControl>(Lifestyle.Transient);
             container.Register<IExecuteInput, ZeroMqExecuteInput>(Lifestyle.Transient);

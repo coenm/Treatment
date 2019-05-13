@@ -15,10 +15,12 @@
     public class BunchOfTests
     {
         private readonly ITestOutputHelper output;
+        private TestFrameworkFixture fixture;
 
         public BunchOfTests(TestFrameworkFixture fixture, ITestOutputHelper output)
         {
             this.output = output;
+            this.fixture = fixture;
 
             Mouse = fixture.Mouse;
             Keyboard = fixture.Keyboard;

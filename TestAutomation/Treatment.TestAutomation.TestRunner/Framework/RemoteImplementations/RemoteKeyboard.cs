@@ -1,7 +1,8 @@
 ﻿namespace Treatment.TestAutomation.TestRunner.Framework.RemoteImplementations
 {
     using System;
-
+    using System.Reactive.Disposables;
+    using Contract.Interfaces.Events.Application;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
     internal class RemoteKeyboard : IKeyboard

@@ -132,8 +132,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\Framework\EventBasedButton.cs" />
-    <Compile Include="Controls\Framework\ObjectStore.cs" />
+    <Compile Include="Controls\Framework\RemoteButton.cs" />
     <Compile Include="Framework\Bootstrapper.cs" />
     <Compile Include="BunchOfTests.cs" />
     <Compile Include="Framework\Interfaces\ApplicationActivationState.cs" />
@@ -147,6 +146,7 @@
     <Compile Include="Framework\Interfaces\ITestFramework.cs" />
     <Compile Include="Framework\Interfaces\ITestAgent.cs" />
     <Compile Include="Framework\Interfaces\MouseExtensions.cs" />
+    <Compile Include="Framework\RemoteImplementations\RemoteObjectManager.cs" />
     <Compile Include="Framework\RemoteImplementations\ZeroMq\ZeroMqExecuteControl.cs" />
     <Compile Include="Framework\RemoteImplementations\ZeroMq\ZeroMqExecuteInput.cs" />
     <Compile Include="Framework\RemoteImplementations\RemoteApplicationEvents.cs" />

@@ -4,7 +4,7 @@
 
     public interface IMainView : ITestAutomationView
     {
-        IButton OpenSettingsButton { get; }
+//        ITestAutomationButton OpenSettingsButton { get; }
 
         IProjectListView ProjectList { get; }
 

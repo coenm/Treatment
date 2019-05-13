@@ -5,18 +5,21 @@
     using JetBrains.Annotations;
     using SimpleInjector;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
+    using Treatment.TestAutomation.TestRunner.Framework.RemoteImplementations;
 
     [UsedImplicitly]
     public class TestFrameworkFixture : ITestFramework, IDisposable
     {
         [NotNull] private readonly Bootstrapper bootstrapper;
         [NotNull] private readonly Container container;
+        [NotNull] private readonly RemoteObjectManager store;
 
         public TestFrameworkFixture()
         {
             bootstrapper = new Bootstrapper();
             container = bootstrapper.RegisterAll();
 
+            store = container.GetInstance<RemoteObjectManager>();
             Application = container.GetInstance<ITreatmentApplication>();
             Agent = container.GetInstance<ITestAgent>();
             Mouse = container.GetInstance<IMouse>();
@@ -36,6 +39,7 @@
             Agent.Dispose();
             container.Dispose();
             bootstrapper.Dispose();
+            store.Dispose();
         }
     }
 }

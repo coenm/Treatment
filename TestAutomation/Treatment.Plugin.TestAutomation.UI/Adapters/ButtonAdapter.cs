@@ -10,9 +10,10 @@
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.Button;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
+    using Treatment.Plugin.TestAutomation.UI.Interfaces;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
-    public class ButtonAdapter : IButton
+    public class ButtonAdapter : ITestAutomationButton
     {
         [NotNull] private readonly Button item;
         [NotNull] private readonly List<IInitializable> helpers;
@@ -26,12 +27,7 @@
 
             Guid = Guid.NewGuid();
 
-            if (item.Name == "OpenSettingsButton")
-            {
-                Guid = Guid.Parse("30A6A1F1-5E47-4F45-B6AF-20A705C29A47");
-            }
-
-            helpers = new List<IInitializable>(6)
+            helpers = new List<IInitializable>
                       {
                           new PositionChangedHelper(item, eventPublisher, Guid),
                           new SizeChangedHelper(item, eventPublisher, Guid),
@@ -46,20 +42,14 @@
 
         public Guid Guid { get; }
 
-        public bool IsEnabled => item.IsEnabled;
-
-        public double Width => item.Width;
-
-        public double Height => item.Height;
+        public void Initialize()
+        {
+            helpers.ForEach(helper => helper.Initialize());
+        }
 
         public void Dispose()
         {
             helpers.ForEach(helper => helper.Dispose());
-        }
-
-        public void Initialize()
-        {
-            helpers.ForEach(helper => helper.Initialize());
         }
     }
 }
