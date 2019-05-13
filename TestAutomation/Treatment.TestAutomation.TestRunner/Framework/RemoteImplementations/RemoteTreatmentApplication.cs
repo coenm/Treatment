@@ -17,6 +17,8 @@
         {
             Guard.NotNull(applicationEvents, nameof(applicationEvents));
 
+            State = ApplicationActivationState.Unknown;
+
             disposable = new CompositeDisposable
             {
                 applicationEvents.Events
@@ -29,11 +31,19 @@
 
                 applicationEvents.Events
                     .Where(x => x is ApplicationActivated)
-                    .Subscribe(ev => Activated?.Invoke(this, EventArgs.Empty)),
+                    .Subscribe(ev =>
+                    {
+                        State = ApplicationActivationState.Activated;
+                        Activated?.Invoke(this, EventArgs.Empty);
+                    }),
 
                 applicationEvents.Events
                     .Where(x => x is ApplicationDeactivated)
-                    .Subscribe(ev => Deactivated?.Invoke(this, EventArgs.Empty)),
+                    .Subscribe(ev =>
+                    {
+                        State = ApplicationActivationState.Deactivated;
+                        Deactivated?.Invoke(this, EventArgs.Empty);
+                    }),
 
                 applicationEvents.Events
                     .Where(x => x is ApplicationExit)
@@ -49,7 +59,9 @@
 
         public event EventHandler Startup;
 
-        public bool Created { get; set; }
+        public bool Created { get; private set; }
+
+        public ApplicationActivationState State { get; private set; }
 
         public void Dispose()
         {

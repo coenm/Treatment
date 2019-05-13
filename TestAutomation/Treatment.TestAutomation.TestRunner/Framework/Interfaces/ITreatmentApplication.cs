@@ -2,6 +2,8 @@
 {
     public interface ITreatmentApplication : Treatment.TestAutomation.Contract.Interfaces.Framework.IApplication
     {
-        bool Created { get; set; }
+        bool Created { get; }
+
+        ApplicationActivationState State { get; }
     }
 }

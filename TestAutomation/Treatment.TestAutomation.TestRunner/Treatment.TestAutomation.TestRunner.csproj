@@ -136,6 +136,7 @@
     <Compile Include="Controls\Framework\ObjectStore.cs" />
     <Compile Include="Framework\Bootstrapper.cs" />
     <Compile Include="BunchOfTests.cs" />
+    <Compile Include="Framework\Interfaces\ApplicationActivationState.cs" />
     <Compile Include="Framework\Interfaces\IAgentSettings.cs" />
     <Compile Include="Framework\Interfaces\ITreatmentApplication.cs" />
     <Compile Include="Framework\Interfaces\IApplicationEvents.cs" />
