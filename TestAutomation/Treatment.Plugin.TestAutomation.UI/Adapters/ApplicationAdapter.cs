@@ -48,18 +48,6 @@
             eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IApplication));
         }
 
-        /// <summary>Occurs when an application becomes the foreground application.</summary>
-        public event EventHandler Activated;
-
-        /// <summary>Occurs when an application stops being the foreground application.</summary>
-        public event EventHandler Deactivated;
-
-        /// <summary>Occurs just before an application shuts down, and cannot be canceled.</summary>
-        public event EventHandler<ApplicationExit> Exit;
-
-        /// <summary>Occurs when the <see cref="M:System.Windows.Application.Run" /> method of the <see cref="T:System.Windows.Application" /> object is called.</summary>
-        public event EventHandler Startup;
-
         public Guid Guid { get; }
 
         public IMainView MainView { get; private set; }
