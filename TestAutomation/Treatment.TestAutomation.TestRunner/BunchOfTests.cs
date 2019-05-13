@@ -1,6 +1,7 @@
 ﻿namespace Treatment.TestAutomation.TestRunner
 {
     using System.IO;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using FluentAssertions;
@@ -55,10 +56,14 @@
         [Fact]
         public async Task StartSutAndCheckApplicationCreatedSetting()
         {
+            var mre = new ManualResetEvent(false);
+            Application.Startup += (_, __) => mre.Set();
+
+            output.WriteLine("Start sut..");
             var started = await Agent.StartSutAsync();
             started.Should().BeTrue();
 
-            await Task.Delay(5000);
+            mre.WaitOne(5000);
             Application.Created.Should().BeTrue();
         }
 

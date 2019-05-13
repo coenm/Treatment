@@ -6,18 +6,18 @@
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Adapters;
+    using Treatment.Plugin.TestAutomation.UI.Interfaces;
     using Treatment.Plugin.TestAutomation.UI.Settings;
-    using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
     internal class TestAutomationAgent : ITestAutomationAgent
     {
         [NotNull] private readonly ITestAutomationSettings settings;
         [NotNull] private readonly object syncLock = new object();
+        [NotNull] private readonly CancellationTokenSource cts = new CancellationTokenSource();
         [CanBeNull] private Task worker;
         [CanBeNull] private MainWindowAdapter mainWindow;
         [CanBeNull] private SettingWindowAdapter settingWindow;
-
-        [NotNull] private readonly CancellationTokenSource cts = new CancellationTokenSource();
+        [CanBeNull] private ITestAutomationApplication application;
 
         public TestAutomationAgent([NotNull] ITestAutomationSettings settings)
         {
@@ -25,24 +25,22 @@
             this.settings = settings;
         }
 
-        public IApplication Application { get; private set; }
-
-        public void RegisterAndInitializeApplication([NotNull] IApplication application)
+        public void RegisterAndInitializeApplication([NotNull] ITestAutomationApplication application)
         {
             Guard.NotNull(application, nameof(application));
-            Application = application;
-            Application.Initialize();
+            this.application = application;
+            this.application.Initialize();
 
             if (mainWindow == null)
                 return;
 
-            Application.RegisterAndInitializeMainView(mainWindow);
+            this.application.RegisterAndInitializeMainView(mainWindow);
         }
 
         public void RegisterAndInitializeMainView([NotNull] MainWindowAdapter mainWindowAdapter)
         {
             Guard.NotNull(mainWindowAdapter, nameof(mainWindowAdapter));
-            Application?.RegisterAndInitializeMainView(mainWindowAdapter);
+            application?.RegisterAndInitializeMainView(mainWindowAdapter);
 
             mainWindow = mainWindowAdapter;
         }

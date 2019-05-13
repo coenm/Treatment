@@ -21,9 +21,33 @@
             {
                 applicationEvents.Events
                     .Where(x => x is ApplicationStarted)
-                    .Subscribe(ev => { Created = true; }),
+                    .Subscribe(ev =>
+                    {
+                        Created = true;
+                        Startup?.Invoke(this, EventArgs.Empty);
+                    }),
+
+                applicationEvents.Events
+                    .Where(x => x is ApplicationActivated)
+                    .Subscribe(ev => Activated?.Invoke(this, EventArgs.Empty)),
+
+                applicationEvents.Events
+                    .Where(x => x is ApplicationDeactivated)
+                    .Subscribe(ev => Deactivated?.Invoke(this, EventArgs.Empty)),
+
+                applicationEvents.Events
+                    .Where(x => x is ApplicationExit)
+                    .Subscribe(ev => Exit?.Invoke(this, (ApplicationExit)ev)),
             };
         }
+
+        public event EventHandler Activated;
+
+        public event EventHandler Deactivated;
+
+        public event EventHandler<ApplicationExit> Exit;
+
+        public event EventHandler Startup;
 
         public bool Created { get; set; }
 

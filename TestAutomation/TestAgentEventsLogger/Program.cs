@@ -18,9 +18,7 @@
         public static async Task Main(string[] args)
         {
             container = new Container();
-
             Bootstrapper.Bootstrap(container);
-
             container.Verify(VerificationOption.VerifyOnly);
 
             var mreListening = new ManualResetEvent(false);

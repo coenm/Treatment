@@ -102,6 +102,7 @@
     <Compile Include="Interceptors\ApplicationInterceptor.cs" />
     <Compile Include="Interceptors\SettingWindowInterceptor.cs" />
     <Compile Include="Interceptors\MainWindowInterceptor.cs" />
+    <Compile Include="Interfaces\ITestAutomationApplication.cs" />
     <Compile Include="ITestAutomationAgent.cs" />
     <Compile Include="Settings\DummySettings.cs" />
     <Compile Include="Infrastructure\IEventPublisher.cs" />

@@ -4,15 +4,13 @@
 
     using JetBrains.Annotations;
     using Treatment.Plugin.TestAutomation.UI.Adapters;
-    using Treatment.TestAutomation.Contract.Interfaces.Framework;
+    using Treatment.Plugin.TestAutomation.UI.Interfaces;
 
     internal interface ITestAutomationAgent
     {
-        IApplication Application { get; }
-
         void AddPopupView(SettingWindowAdapter settingWindow);
 
-        void RegisterAndInitializeApplication([NotNull] IApplication application);
+        void RegisterAndInitializeApplication([NotNull] ITestAutomationApplication application);
 
         void RegisterAndInitializeMainView(MainWindowAdapter mainWindowAdapter);
 

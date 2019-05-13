@@ -9,11 +9,12 @@
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.Application;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
+    using Treatment.Plugin.TestAutomation.UI.Interfaces;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Application;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
 
-    public class ApplicationAdapter : IApplication
+    public class ApplicationAdapter : ITestAutomationApplication
     {
         [NotNull] private readonly Application item;
         [NotNull] private readonly IEventPublisher eventPublisher;
@@ -46,6 +47,18 @@
 
             eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IApplication));
         }
+
+        /// <summary>Occurs when an application becomes the foreground application.</summary>
+        public event EventHandler Activated;
+
+        /// <summary>Occurs when an application stops being the foreground application.</summary>
+        public event EventHandler Deactivated;
+
+        /// <summary>Occurs just before an application shuts down, and cannot be canceled.</summary>
+        public event EventHandler<ApplicationExit> Exit;
+
+        /// <summary>Occurs when the <see cref="M:System.Windows.Application.Run" /> method of the <see cref="T:System.Windows.Application" /> object is called.</summary>
+        public event EventHandler Startup;
 
         public Guid Guid { get; }
 
