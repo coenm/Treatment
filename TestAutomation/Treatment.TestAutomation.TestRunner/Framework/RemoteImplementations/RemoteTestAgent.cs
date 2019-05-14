@@ -56,7 +56,7 @@
             if (rsp is GetFileResponse x)
                 return x.Data;
 
-            throw new Exception("something went wrong ;-)");
+            throw new Exception($"something went wrong. Received: {rsp.GetType().FullName}");
         }
 
         public async Task<string> LocateSutExecutableAsync()

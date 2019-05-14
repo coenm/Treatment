@@ -13,9 +13,9 @@
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
+    using Treatment.Plugin.TestAutomation.UI.Interfaces;
     using Treatment.Plugin.TestAutomation.UI.Reflection;
     using Treatment.TestAutomation.Contract.Interfaces;
-    using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
 
     internal class MainViewStatusBarAdapter : IMainViewStatusBar
@@ -24,9 +24,9 @@
         [NotNull] private readonly IEventPublisher eventPublisher;
         [NotNull] private readonly List<IInitializable> helpers;
 
-        private ITextBlock statusText;
-        private ITextBlock statusConfigFilename;
-        private ITextBlock statusDelayProcessCounter;
+        private ITestAutomationTextBlock statusText;
+        private ITestAutomationTextBlock statusConfigFilename;
+        private ITestAutomationTextBlock statusDelayProcessCounter;
 
         public MainViewStatusBarAdapter([NotNull] StatusBar item, [NotNull] IEventPublisher eventPublisher)
         {
@@ -50,7 +50,7 @@
 
         public Guid Guid { get; }
 
-        public ITextBlock StatusText
+        public ITestAutomationTextBlock StatusText
         {
             get => statusText;
 
@@ -61,7 +61,7 @@
             }
         }
 
-        public ITextBlock StatusConfigFilename
+        public ITestAutomationTextBlock StatusConfigFilename
         {
             get => statusConfigFilename;
 
@@ -72,7 +72,7 @@
             }
         }
 
-        public ITextBlock StatusDelayProcessCounter
+        public ITestAutomationTextBlock StatusDelayProcessCounter
         {
             get => statusDelayProcessCounter;
 

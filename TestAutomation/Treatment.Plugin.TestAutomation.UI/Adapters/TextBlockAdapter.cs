@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Windows;
     using System.Windows.Controls;
 
     using JetBrains.Annotations;
@@ -11,22 +10,17 @@
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.TextBlockControl;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
-    using Treatment.TestAutomation.Contract.Interfaces;
+    using Treatment.Plugin.TestAutomation.UI.Interfaces;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
-    internal class TextBlockAdapter : ITextBlock
+    internal class TextBlockAdapter : ITestAutomationTextBlock
     {
-        [NotNull] private readonly TextBlock item;
-        [NotNull] private readonly IEventPublisher eventPublisher;
         [NotNull] private readonly List<IInitializable> helpers;
 
         public TextBlockAdapter([NotNull] TextBlock item, [NotNull] IEventPublisher eventPublisher)
         {
             Guard.NotNull(item, nameof(item));
             Guard.NotNull(eventPublisher, nameof(eventPublisher));
-
-            this.item = item;
-            this.eventPublisher = eventPublisher;
 
             Guid = Guid.NewGuid();
 

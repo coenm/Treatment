@@ -36,6 +36,10 @@
                         {
                             store.TryAdd(e.Guid, new RemoteButton(e.Guid, applicationEvents));
                         }
+                        else if (e.InterfaceType == typeof(ITextBlock).FullName)
+                        {
+                            store.TryAdd(e.Guid, new RemoteTextBlock(e.Guid, applicationEvents));
+                        }
                         else
                         {
                             store.TryAdd(e.Guid, e.InterfaceType);

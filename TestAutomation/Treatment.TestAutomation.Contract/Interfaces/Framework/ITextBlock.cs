@@ -1,6 +1,17 @@
 ﻿namespace Treatment.TestAutomation.Contract.Interfaces.Framework
 {
-    public interface ITextBlock : IUiElement
+    using System;
+
+    using Contract.Interfaces.Events.Element;
+
+    public interface ITextBlock
     {
+        event EventHandler<PositionUpdated> PositionUpdated;
+
+        event EventHandler<SizeUpdated> SizeUpdated;
+
+        event EventHandler<IsEnabledChanged> IsEnabledChanged;
+
+        event EventHandler<TextValueChanged> TextValueChanged;
     }
 }
