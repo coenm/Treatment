@@ -2,7 +2,7 @@
 {
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
-    internal interface ITestAutomationButton : IUiElement
+    internal interface ITestAutomationButton : IButton, IGuid, IUiElement
     {
     }
 }

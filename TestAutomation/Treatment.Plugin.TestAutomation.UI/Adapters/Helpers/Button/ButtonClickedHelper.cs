@@ -6,23 +6,21 @@
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Events.ButtonBase;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
     internal class ButtonClickedHelper : IUiElement, IInitializable, IDisposable
     {
         [NotNull] private readonly ButtonBase button;
-        [NotNull] private readonly IEventPublisher eventPublisher;
+        [NotNull] private readonly Action<Clicked> callback;
 
-        public ButtonClickedHelper([NotNull] ButtonBase button, [NotNull] IEventPublisher eventPublisher, [NotNull] Guid guid)
+        public ButtonClickedHelper([NotNull] ButtonBase button, [NotNull] Action<Clicked> callback)
         {
             Guard.NotNull(button, nameof(button));
-            Guard.NotNull(eventPublisher, nameof(eventPublisher));
+            Guard.NotNull(callback, nameof(callback));
 
             this.button = button;
-            this.eventPublisher = eventPublisher;
-            Guid = guid;
+            this.callback = callback;
         }
 
         public Guid Guid { get; }
@@ -43,8 +41,7 @@
                       {
                           Guid = Guid,
                       };
-
-            eventPublisher.PublishAsync(evt);
+            callback.Invoke(evt);
         }
     }
 }

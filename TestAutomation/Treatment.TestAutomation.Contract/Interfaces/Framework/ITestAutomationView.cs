@@ -4,8 +4,6 @@
 
     public interface ITestAutomationView : IDisposable
     {
-        Guid Guid { get; }
-
         void Initialize();
     }
 }

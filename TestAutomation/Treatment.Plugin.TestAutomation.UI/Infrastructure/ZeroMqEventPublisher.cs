@@ -30,6 +30,16 @@
             this.settings = settings;
         }
 
+        public Task PublishAsync(Guid guid, IEvent evt)
+        {
+            if (evt == null)
+                return Task.CompletedTask;
+
+            evt.Guid = guid;
+
+            return PublishAsync(evt);
+        }
+
         public Task PublishAsync(IEvent evt)
         {
             if (evt == null)

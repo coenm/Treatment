@@ -1,9 +1,8 @@
 ﻿namespace Treatment.TestAutomation.Contract.Interfaces.Framework
 {
-    using System;
+    using Contract.Interfaces.Framework.SingleEventInterface;
 
-    public interface IButton
+    public interface IButton : IButtonClicked, IControl
     {
-        event EventHandler Clicked;
     }
 }

@@ -11,9 +11,10 @@
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.TextBlockControl;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Interfaces;
+    using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
-    internal class TextBlockAdapter : ITestAutomationTextBlock
+    internal class TextBlockAdapter : ITestAutomationTextBlock, ITextBlock
     {
         [NotNull] private readonly List<IInitializable> helpers;
 
@@ -34,6 +35,14 @@
 
             eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(ITextBlock));
         }
+
+        public event EventHandler<PositionUpdated> PositionUpdated;
+
+        public event EventHandler<SizeUpdated> SizeUpdated;
+
+        public event EventHandler<IsEnabledChanged> IsEnabledChanged;
+
+        public event EventHandler<TextValueChanged> TextValueChanged;
 
         public Guid Guid { get; }
 

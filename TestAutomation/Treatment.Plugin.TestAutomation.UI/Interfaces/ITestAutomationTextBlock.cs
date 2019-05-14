@@ -2,7 +2,7 @@
 {
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
-    public interface ITestAutomationTextBlock : IUiElement
+    internal interface ITestAutomationTextBlock : ITextBlock, IGuid, IUiElement
     {
     }
 }

@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="Adapters\ApplicationAdapter.cs" />
     <Compile Include="Adapters\ButtonAdapter.cs" />
+    <Compile Include="Adapters\ControlEventPublisher.cs" />
     <Compile Include="Adapters\Helpers\Application\ApplicationActivationHelper.cs" />
     <Compile Include="Adapters\Helpers\Application\ApplicationExitHelper.cs" />
     <Compile Include="Adapters\Helpers\Application\ApplicationDispatcherUnhandledExceptionHelper.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Interceptors\ApplicationInterceptor.cs" />
     <Compile Include="Interceptors\SettingWindowInterceptor.cs" />
     <Compile Include="Interceptors\MainWindowInterceptor.cs" />
+    <Compile Include="Interfaces\IGuid.cs" />
     <Compile Include="Interfaces\ITestAutomationButton.cs" />
     <Compile Include="Interfaces\ITestAutomationApplication.cs" />
     <Compile Include="Interfaces\ITestAutomationTextBlock.cs" />
