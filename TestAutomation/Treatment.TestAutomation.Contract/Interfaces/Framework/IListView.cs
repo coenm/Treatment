@@ -5,6 +5,7 @@
     public interface IListView :
         IPositionUpdated,
         ISizeUpdated,
+        ILoaded,
         IUiElement
     {
     }

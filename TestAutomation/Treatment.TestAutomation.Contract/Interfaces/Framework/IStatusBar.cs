@@ -5,6 +5,7 @@
     public interface IStatusBar :
         IPositionUpdated,
         ISizeUpdated,
+        ILoaded,
         IUiElement
     {
     }

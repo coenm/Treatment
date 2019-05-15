@@ -38,7 +38,7 @@
                       {
                           new PositionChangedHelper(item, c => PositionUpdated?.Invoke(this, c)),
                           new SizeChangedHelper(item, c => SizeUpdated?.Invoke(this, c)),
-                          new OnLoadedHelper(item, eventPublisher, Guid),
+                          new OnLoadedHelper(item, c => Loaded?.Invoke(this, c)),
                       };
 
             eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IListView));
@@ -47,6 +47,8 @@
         public event EventHandler<PositionUpdated> PositionUpdated;
 
         public event EventHandler<SizeUpdated> SizeUpdated;
+
+        public event EventHandler<Loaded> Loaded;
 
         public Guid Guid { get; }
 

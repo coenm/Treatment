@@ -5,26 +5,22 @@
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
     internal class OnLoadedHelper : IUiElement, IInitializable, IDisposable
     {
         [NotNull] private readonly FrameworkElement frameworkElement;
-        [NotNull] private readonly IEventPublisher eventPublisher;
+        [NotNull] private readonly Action<Loaded> callback;
 
-        public OnLoadedHelper([NotNull] FrameworkElement frameworkElement, [NotNull] IEventPublisher eventPublisher, [NotNull] Guid guid)
+        public OnLoadedHelper([NotNull] FrameworkElement frameworkElement, [NotNull] Action<Loaded> callback)
         {
             Guard.NotNull(frameworkElement, nameof(frameworkElement));
-            Guard.NotNull(eventPublisher, nameof(eventPublisher));
+            Guard.NotNull(this.callback, nameof(this.callback));
 
             this.frameworkElement = frameworkElement;
-            this.eventPublisher = eventPublisher;
-            Guid = guid;
+            this.callback = callback;
         }
-
-        public Guid Guid { get; }
 
         public void Initialize()
         {
@@ -38,12 +34,7 @@
 
         private void Loaded(object sender, RoutedEventArgs e)
         {
-            var evt = new Loaded
-            {
-                Guid = Guid,
-            };
-
-            eventPublisher.PublishAsync(evt);
+            callback.Invoke(new Loaded());
         }
     }
 }

@@ -31,9 +31,8 @@
 
         // todo not sure is we need this here.
         public event EventHandler<PositionUpdated> PositionUpdated;
-
-        // todo not sure is we need this here.
         public event EventHandler<SizeUpdated> SizeUpdated;
+        public event EventHandler<Loaded> Loaded;
 
         public Guid Guid { get; }
 

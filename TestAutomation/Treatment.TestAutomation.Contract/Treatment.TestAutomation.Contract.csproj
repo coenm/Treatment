@@ -115,6 +115,7 @@
     <Compile Include="Interfaces\Framework\SingleEventInterface\IIsEnabledChanged.cs" />
     <Compile Include="Interfaces\Framework\IListView.cs" />
     <Compile Include="Interfaces\Framework\SingleEventInterface\IKeyboardFocusChanged.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\ILoaded.cs" />
     <Compile Include="Interfaces\Framework\SingleEventInterface\IPositionUpdated.cs" />
     <Compile Include="Interfaces\Framework\SingleEventInterface\ISizeUpdated.cs" />
     <Compile Include="Interfaces\Framework\SingleEventInterface\ITextValueChanged.cs" />
