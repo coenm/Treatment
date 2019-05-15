@@ -111,6 +111,7 @@
     <Compile Include="Interfaces\Framework\SingleEventInterface\IApplicationDeactivated.cs" />
     <Compile Include="Interfaces\Framework\SingleEventInterface\IApplicationExit.cs" />
     <Compile Include="Interfaces\Framework\SingleEventInterface\IApplicationStartup.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IFocusChange.cs" />
     <Compile Include="Interfaces\Framework\SingleEventInterface\IIsEnabledChanged.cs" />
     <Compile Include="Interfaces\Framework\IListView.cs" />
     <Compile Include="Interfaces\Framework\SingleEventInterface\IPositionUpdated.cs" />

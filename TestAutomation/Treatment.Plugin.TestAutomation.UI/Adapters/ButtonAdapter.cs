@@ -37,7 +37,11 @@
                           new SizeChangedHelper(item, c => SizeUpdated?.Invoke(this, c)),
                           new EnabledChangedHelper(item, c => IsEnabledChanged?.Invoke(this, c)),
                           new KeyboardFocusHelper(item, eventPublisher, Guid),
-                          new FocusHelper(item, eventPublisher, Guid),
+                          new FocusHelper(
+                                          item,
+                                          c => FocusableChanged?.Invoke(this, c),
+                                          c => GotFocus?.Invoke(this, c),
+                                          c => LostFocus?.Invoke(this, c)),
                           new ButtonClickedHelper(item, c => Clicked?.Invoke(this, c)),
                       };
 
@@ -51,6 +55,12 @@
         public event EventHandler<IsEnabledChanged> IsEnabledChanged;
 
         public event EventHandler<SizeUpdated> SizeUpdated;
+
+        public event EventHandler<FocusableChanged> FocusableChanged;
+
+        public event EventHandler<GotFocus> GotFocus;
+
+        public event EventHandler<LostFocus> LostFocus;
 
         public Guid Guid { get; }
 

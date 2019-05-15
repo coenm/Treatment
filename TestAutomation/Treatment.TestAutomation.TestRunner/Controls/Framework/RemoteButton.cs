@@ -65,6 +65,18 @@
                 filter
                     .Where(ev => ev is SizeUpdated)
                     .Subscribe(ev => { SizeUpdated?.Invoke(this, (SizeUpdated)ev); }),
+
+                filter
+                    .Where(ev => ev is FocusableChanged)
+                    .Subscribe(ev => { FocusableChanged?.Invoke(this, (FocusableChanged)ev); }),
+
+                filter
+                    .Where(ev => ev is GotFocus)
+                    .Subscribe(ev => { GotFocus?.Invoke(this, (GotFocus)ev); }),
+
+                filter
+                    .Where(ev => ev is LostFocus)
+                    .Subscribe(ev => { LostFocus?.Invoke(this, (LostFocus)ev); }),
             };
         }
 
@@ -75,6 +87,12 @@
         public event EventHandler<IsEnabledChanged> IsEnabledChanged;
 
         public event EventHandler<SizeUpdated> SizeUpdated;
+
+        public event EventHandler<FocusableChanged> FocusableChanged;
+
+        public event EventHandler<GotFocus> GotFocus;
+
+        public event EventHandler<LostFocus> LostFocus;
 
         public void Dispose()
         {

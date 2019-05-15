@@ -7,6 +7,7 @@
         IPositionUpdated,
         IIsEnabledChanged,
         ISizeUpdated,
+        IFocusChange,
         IControl
     {
     }

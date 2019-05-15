@@ -5,26 +5,32 @@
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
     internal class FocusHelper : IUiElement, IInitializable, IDisposable
     {
         [NotNull] private readonly System.Windows.FrameworkElement frameworkElement;
-        [NotNull] private readonly IEventPublisher eventPublisher;
+        [NotNull] private readonly Action<FocusableChanged> focusableChangedCallback;
+        [NotNull] private readonly Action<GotFocus> gotFocusCallback;
+        [NotNull] private readonly Action<LostFocus> lostFocusCallback;
 
-        public FocusHelper([NotNull] System.Windows.FrameworkElement frameworkElement, [NotNull] IEventPublisher eventPublisher, [NotNull] Guid guid)
+        public FocusHelper(
+            [NotNull] System.Windows.FrameworkElement frameworkElement,
+            [NotNull] Action<FocusableChanged> focusableChangedCallback,
+            [NotNull] Action<GotFocus> gotFocusCallback,
+            [NotNull] Action<LostFocus> lostFocusCallback)
         {
             Guard.NotNull(frameworkElement, nameof(frameworkElement));
-            Guard.NotNull(eventPublisher, nameof(eventPublisher));
+            Guard.NotNull(focusableChangedCallback, nameof(focusableChangedCallback));
+            Guard.NotNull(gotFocusCallback, nameof(gotFocusCallback));
+            Guard.NotNull(lostFocusCallback, nameof(lostFocusCallback));
 
             this.frameworkElement = frameworkElement;
-            this.eventPublisher = eventPublisher;
-            Guid = guid;
+            this.focusableChangedCallback = focusableChangedCallback;
+            this.gotFocusCallback = gotFocusCallback;
+            this.lostFocusCallback = lostFocusCallback;
         }
-
-        public Guid Guid { get; }
 
         public void Initialize()
         {
@@ -42,32 +48,17 @@
 
         private void GotFocus(object sender, RoutedEventArgs e)
         {
-            var evt = new GotFocus
-                      {
-                          Guid = Guid,
-                      };
-
-            eventPublisher.PublishAsync(evt);
+            gotFocusCallback.Invoke(new GotFocus());
         }
 
         private void LostFocus(object sender, RoutedEventArgs e)
         {
-            var evt = new LostFocus
-                      {
-                          Guid = Guid,
-                      };
-
-            eventPublisher.PublishAsync(evt);
+            lostFocusCallback.Invoke(new LostFocus());
         }
 
         private void FocusableChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            var evt = new FocusableChanged
-                      {
-                          Guid = Guid,
-                      };
-
-            eventPublisher.PublishAsync(evt);
+            focusableChangedCallback.Invoke(new FocusableChanged());
         }
     }
 }
