@@ -12,7 +12,6 @@
     using Treatment.Plugin.TestAutomation.UI.Interfaces;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Application;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
-    using Treatment.TestAutomation.Contract.Interfaces.Framework.SingleEventInterface;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
 
     public class ApplicationAdapter : ITestAutomationApplication
@@ -20,6 +19,8 @@
         [NotNull] private readonly Application item;
         [NotNull] private readonly IEventPublisher eventPublisher;
         [NotNull] private readonly List<IInitializable> helpers;
+        [NotNull] private ControlEventPublisher publisher;
+        private Guid guid;
 
         public ApplicationAdapter(
             [NotNull] Application item,
@@ -31,7 +32,9 @@
             this.item = item;
             this.eventPublisher = eventPublisher;
 
-            Guid = Guid.NewGuid();
+            guid = Guid.NewGuid();
+
+            publisher = new ControlEventPublisher(this, guid, eventPublisher);
 
             eventPublisher.PublishAsync(new ApplicationStarting
             {
@@ -40,16 +43,22 @@
 
             helpers = new List<IInitializable>
                       {
-                          new ApplicationActivationHelper(item, eventPublisher, Guid),
-                          new ApplicationStartupHelper(item, eventPublisher, Guid),
-                          new ApplicationExitHelper(item, eventPublisher, Guid),
-                          new ApplicationDispatcherUnhandledExceptionHelper(item, eventPublisher, Guid),
+                          new ApplicationActivationHelper(item, eventPublisher, guid),
+                          new ApplicationStartupHelper(item, eventPublisher, guid),
+                          new ApplicationExitHelper(item, eventPublisher, guid),
+                          new ApplicationDispatcherUnhandledExceptionHelper(item, eventPublisher, guid),
                       };
 
-            eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IApplication));
+            eventPublisher.PublishNewControlCreatedAsync(guid, typeof(IApplication));
         }
 
-        public Guid Guid { get; }
+        public event EventHandler Activated;
+
+        public event EventHandler Deactivated;
+
+        public event EventHandler<ApplicationExit> Exit;
+
+        public event EventHandler Startup;
 
         public IMainView MainView { get; private set; }
 

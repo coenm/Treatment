@@ -5,7 +5,6 @@
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
@@ -13,21 +12,18 @@
     {
         private static readonly Point ZeroPoint = new Point(0d, 0d);
         [NotNull] private readonly FrameworkElement frameworkElement;
-        [NotNull] private readonly IEventPublisher eventPublisher;
+        [NotNull] private readonly Action<PositionUpdated> callback;
         [CanBeNull] private Window registeredWindow;
         [CanBeNull] private Point position;
 
-        public PositionChangedHelper([NotNull] FrameworkElement frameworkElement, [NotNull] IEventPublisher eventPublisher, [NotNull] Guid guid)
+        public PositionChangedHelper([NotNull] FrameworkElement frameworkElement, [NotNull] Action<PositionUpdated> callback)
         {
             Guard.NotNull(frameworkElement, nameof(frameworkElement));
-            Guard.NotNull(eventPublisher, nameof(eventPublisher));
+            Guard.NotNull(callback, nameof(callback));
 
             this.frameworkElement = frameworkElement;
-            this.eventPublisher = eventPublisher;
-            Guid = guid;
+            this.callback = callback;
         }
-
-        public Guid Guid { get; }
 
         public void Initialize()
         {
@@ -84,10 +80,9 @@
 
             var evt = new PositionUpdated
                       {
-                          Guid = Guid,
                           Point = position,
                       };
-            eventPublisher.PublishAsync(evt);
+            callback.Invoke(evt);
         }
     }
 }

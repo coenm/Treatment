@@ -2,8 +2,9 @@
 {
     using Contract.Interfaces.Framework.SingleEventInterface;
 
-    public interface IButton : 
-        IButtonClicked, 
+    public interface IButton :
+        IButtonClicked,
+        IPositionUpdated,
         IControl
     {
     }

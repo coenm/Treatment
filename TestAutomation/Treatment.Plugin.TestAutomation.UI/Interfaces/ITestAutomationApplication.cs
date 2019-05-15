@@ -4,7 +4,7 @@
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
 
-    internal interface ITestAutomationApplication : IUiElement
+    internal interface ITestAutomationApplication : IApplication, IUiElement
     {
         IMainView MainView { get; }
 

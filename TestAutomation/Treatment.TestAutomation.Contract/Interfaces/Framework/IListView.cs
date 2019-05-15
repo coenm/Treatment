@@ -1,6 +1,10 @@
 ﻿namespace Treatment.TestAutomation.Contract.Interfaces.Framework
 {
-    public interface IListView : IUiElement
+    using global::Treatment.TestAutomation.Contract.Interfaces.Framework.SingleEventInterface;
+
+    public interface IListView :
+        IPositionUpdated,
+        IUiElement
     {
     }
 }

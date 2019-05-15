@@ -16,6 +16,7 @@
     using Treatment.Plugin.TestAutomation.UI.Interfaces;
     using Treatment.Plugin.TestAutomation.UI.Reflection;
     using Treatment.TestAutomation.Contract.Interfaces;
+    using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
 
     internal class MainViewStatusBarAdapter : IMainViewStatusBar
@@ -42,11 +43,13 @@
 
             helpers = new List<IInitializable>(3)
             {
-                new PositionChangedHelper(item, eventPublisher, Guid),
+                new PositionChangedHelper(item, c => PositionUpdated?.Invoke(this, c)),
                 new SizeChangedHelper(item, eventPublisher, Guid),
                 new OnLoadedHelper(item, eventPublisher, Guid),
             };
         }
+
+        public event EventHandler<PositionUpdated> PositionUpdated;
 
         public Guid Guid { get; }
 

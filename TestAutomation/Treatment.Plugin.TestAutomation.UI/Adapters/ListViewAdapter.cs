@@ -13,6 +13,7 @@
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Collection;
+    using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
     // https://social.msdn.microsoft.com/Forums/vstudio/en-US/29ecc8ee-26ee-4331-8f97-35ff9d3e6886/how-to-access-items-in-a-datatemplate-for-wpf-listview?forum=wpf
@@ -35,13 +36,15 @@
 
             helpers = new List<IInitializable>(3)
                       {
-                          new PositionChangedHelper(item, eventPublisher, Guid),
+                          new PositionChangedHelper(item, c => PositionUpdated?.Invoke(this, c)),
                           new SizeChangedHelper(item, eventPublisher, Guid),
                           new OnLoadedHelper(item, eventPublisher, Guid),
                       };
 
             eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IListView));
         }
+
+        public event EventHandler<PositionUpdated> PositionUpdated;
 
         public Guid Guid { get; }
 

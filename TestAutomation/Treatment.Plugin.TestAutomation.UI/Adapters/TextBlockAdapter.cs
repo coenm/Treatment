@@ -27,7 +27,7 @@
 
             helpers = new List<IInitializable>(4)
                       {
-                          new PositionChangedHelper(item, eventPublisher, Guid),
+                          new PositionChangedHelper(item, c => PositionUpdated?.Invoke(this, c)),
                           new SizeChangedHelper(item, eventPublisher, Guid),
                           new EnabledChangedHelper(item, eventPublisher, Guid),
                           new TextBlockTextValueChangedHelper(item, eventPublisher, Guid),

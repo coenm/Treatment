@@ -7,6 +7,7 @@
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Reflection;
+    using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
     using Treatment.UI.UserControls;
 
@@ -27,6 +28,9 @@
 
             eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IProjectListView));
         }
+
+        // todo not sure is we need this here.
+        public event EventHandler<PositionUpdated> PositionUpdated;
 
         public Guid Guid { get; }
 

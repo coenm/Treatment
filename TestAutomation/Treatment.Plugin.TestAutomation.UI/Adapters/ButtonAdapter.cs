@@ -12,6 +12,7 @@
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Interfaces;
     using Treatment.TestAutomation.Contract.Interfaces.Events.ButtonBase;
+    using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
     public class ButtonAdapter : ITestAutomationButton
@@ -32,7 +33,7 @@
 
             helpers = new List<IInitializable>
                       {
-                          new PositionChangedHelper(item, eventPublisher, Guid),
+                          new PositionChangedHelper(item, c => PositionUpdated?.Invoke(this, c)),
                           new SizeChangedHelper(item, eventPublisher, Guid),
                           new EnabledChangedHelper(item, eventPublisher, Guid),
                           new KeyboardFocusHelper(item, eventPublisher, Guid),
@@ -44,6 +45,8 @@
         }
 
         public event EventHandler<Clicked> Clicked;
+
+        public event EventHandler<PositionUpdated> PositionUpdated;
 
         public Guid Guid { get; }
 

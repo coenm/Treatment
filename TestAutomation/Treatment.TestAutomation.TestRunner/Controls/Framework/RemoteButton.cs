@@ -7,6 +7,7 @@
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.Contract.Interfaces.Events.ButtonBase;
+    using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
@@ -52,10 +53,16 @@
                 filter
                     .Where(ev => ev is Clicked)
                     .Subscribe(ev => { Clicked?.Invoke(this, (Clicked)ev); }),
+
+                filter
+                    .Where(ev => ev is PositionUpdated)
+                    .Subscribe(ev => { PositionUpdated?.Invoke(this, (PositionUpdated)ev); }),
             };
         }
 
         public event EventHandler<Clicked> Clicked;
+
+        public event EventHandler<PositionUpdated> PositionUpdated;
 
         public void Dispose()
         {
