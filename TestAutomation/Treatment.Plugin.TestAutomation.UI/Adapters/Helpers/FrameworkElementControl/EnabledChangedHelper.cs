@@ -5,26 +5,22 @@
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
     internal class EnabledChangedHelper : IUiElement, IInitializable, IDisposable
     {
         [NotNull] private readonly FrameworkElement frameworkElement;
-        [NotNull] private readonly IEventPublisher eventPublisher;
+        [NotNull] private readonly Action<IsEnabledChanged> callback;
 
-        public EnabledChangedHelper([NotNull] FrameworkElement frameworkElement, [NotNull] IEventPublisher eventPublisher, [NotNull] Guid guid)
+        public EnabledChangedHelper([NotNull] FrameworkElement frameworkElement, [NotNull] Action<IsEnabledChanged> callback)
         {
             Guard.NotNull(frameworkElement, nameof(frameworkElement));
-            Guard.NotNull(eventPublisher, nameof(eventPublisher));
+            Guard.NotNull(callback, nameof(callback));
 
             this.frameworkElement = frameworkElement;
-            this.eventPublisher = eventPublisher;
-            Guid = guid;
+            this.callback = callback;
         }
-
-        public Guid Guid { get; }
 
         public void Initialize()
         {
@@ -38,9 +34,8 @@
 
         private void IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            eventPublisher.PublishAsync(new IsEnabledChanged
+            callback.Invoke(new IsEnabledChanged
             {
-                Guid = Guid,
                 Enabled = (bool)e.NewValue,
             });
         }

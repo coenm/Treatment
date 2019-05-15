@@ -5,6 +5,7 @@
     public interface IButton :
         IButtonClicked,
         IPositionUpdated,
+        IIsEnabledChanged,
         IControl
     {
     }

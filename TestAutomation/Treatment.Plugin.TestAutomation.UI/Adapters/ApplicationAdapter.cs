@@ -19,8 +19,7 @@
         [NotNull] private readonly Application item;
         [NotNull] private readonly IEventPublisher eventPublisher;
         [NotNull] private readonly List<IInitializable> helpers;
-        [NotNull] private ControlEventPublisher publisher;
-        private Guid guid;
+        [NotNull] private readonly ControlEventPublisher publisher;
 
         public ApplicationAdapter(
             [NotNull] Application item,
@@ -32,7 +31,7 @@
             this.item = item;
             this.eventPublisher = eventPublisher;
 
-            guid = Guid.NewGuid();
+            var guid = Guid.NewGuid();
 
             publisher = new ControlEventPublisher(this, guid, eventPublisher);
 
@@ -43,9 +42,12 @@
 
             helpers = new List<IInitializable>
                       {
-                          new ApplicationActivationHelper(item, eventPublisher, guid),
-                          new ApplicationStartupHelper(item, eventPublisher, guid),
-                          new ApplicationExitHelper(item, eventPublisher, guid),
+                          new ApplicationActivationHelper(
+                                                          item,
+                                                          c => Activated?.Invoke(this, EventArgs.Empty),
+                                                          c => Deactivated?.Invoke(this, EventArgs.Empty)),
+                          new ApplicationStartupHelper(item, c => Startup?.Invoke(this, EventArgs.Empty)),
+                          new ApplicationExitHelper(item, c => Exit?.Invoke(this, c)),
                           new ApplicationDispatcherUnhandledExceptionHelper(item, eventPublisher, guid),
                       };
 
@@ -77,6 +79,7 @@
         public void Dispose()
         {
             helpers.ForEach(helper => helper.Dispose());
+            publisher.Dispose();
         }
     }
 }

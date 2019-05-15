@@ -29,7 +29,7 @@
                       {
                           new PositionChangedHelper(item, c => PositionUpdated?.Invoke(this, c)),
                           new SizeChangedHelper(item, eventPublisher, Guid),
-                          new EnabledChangedHelper(item, eventPublisher, Guid),
+                          new EnabledChangedHelper(item, c => IsEnabledChanged?.Invoke(this, c)),
                           new TextBlockTextValueChangedHelper(item, eventPublisher, Guid),
                       };
 

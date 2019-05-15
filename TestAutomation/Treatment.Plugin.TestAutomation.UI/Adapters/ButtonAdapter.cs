@@ -35,7 +35,7 @@
                       {
                           new PositionChangedHelper(item, c => PositionUpdated?.Invoke(this, c)),
                           new SizeChangedHelper(item, eventPublisher, Guid),
-                          new EnabledChangedHelper(item, eventPublisher, Guid),
+                          new EnabledChangedHelper(item, c => IsEnabledChanged?.Invoke(this, c)),
                           new KeyboardFocusHelper(item, eventPublisher, Guid),
                           new FocusHelper(item, eventPublisher, Guid),
                           new ButtonClickedHelper(item, c => Clicked?.Invoke(this, c)),
@@ -47,6 +47,8 @@
         public event EventHandler<Clicked> Clicked;
 
         public event EventHandler<PositionUpdated> PositionUpdated;
+
+        public event EventHandler<IsEnabledChanged> IsEnabledChanged;
 
         public Guid Guid { get; }
 

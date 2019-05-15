@@ -5,26 +5,28 @@
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Application;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
     internal class ApplicationActivationHelper : IUiElement, IInitializable, IDisposable
     {
         [NotNull] private readonly Application application;
-        [NotNull] private readonly IEventPublisher eventPublisher;
+        [NotNull] private readonly Action<ApplicationActivated> callbackActivated;
+        [NotNull] private readonly Action<ApplicationDeactivated> callbackDeactivated;
 
-        public ApplicationActivationHelper([NotNull] Application application, [NotNull] IEventPublisher eventPublisher, [NotNull] Guid guid)
+        public ApplicationActivationHelper(
+            [NotNull] Application application,
+            [NotNull] Action<ApplicationActivated> callbackActivated,
+            [NotNull] Action<ApplicationDeactivated> callbackDeactivated)
         {
             Guard.NotNull(application, nameof(application));
-            Guard.NotNull(eventPublisher, nameof(eventPublisher));
+            Guard.NotNull(callbackActivated, nameof(callbackActivated));
+            Guard.NotNull(callbackDeactivated, nameof(callbackDeactivated));
 
             this.application = application;
-            this.eventPublisher = eventPublisher;
-            Guid = guid;
+            this.callbackActivated = callbackActivated;
+            this.callbackDeactivated = callbackDeactivated;
         }
-
-        public Guid Guid { get; }
 
         public void Initialize()
         {
@@ -40,22 +42,14 @@
 
         private void ApplicationOnDeactivated(object sender, EventArgs e)
         {
-            var evt = new ApplicationDeactivated
-                      {
-                          Guid = Guid,
-                      };
-
-            eventPublisher.PublishAsync(evt);
+            var evt = new ApplicationDeactivated();
+            callbackDeactivated.Invoke(evt);
         }
 
         private void ApplicationOnActivated(object sender, EventArgs e)
         {
-            var evt = new ApplicationActivated
-                      {
-                          Guid = Guid,
-                      };
-
-            eventPublisher.PublishAsync(evt);
+            var evt = new ApplicationActivated();
+            callbackActivated.Invoke(evt);
         }
     }
 }

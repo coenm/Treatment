@@ -5,26 +5,22 @@
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Application;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
     internal class ApplicationExitHelper : IUiElement, IInitializable, IDisposable
     {
         [NotNull] private readonly Application application;
-        [NotNull] private readonly IEventPublisher eventPublisher;
+        [NotNull] private readonly Action<ApplicationExit> callback;
 
-        public ApplicationExitHelper([NotNull] Application application, [NotNull] IEventPublisher eventPublisher, [NotNull] Guid guid)
+        public ApplicationExitHelper([NotNull] Application application, [NotNull] Action<ApplicationExit> callback)
         {
             Guard.NotNull(application, nameof(application));
-            Guard.NotNull(eventPublisher, nameof(eventPublisher));
+            Guard.NotNull(callback, nameof(callback));
 
             this.application = application;
-            this.eventPublisher = eventPublisher;
-            Guid = guid;
+            this.callback = callback;
         }
-
-        public Guid Guid { get; }
 
         public void Initialize()
         {
@@ -40,11 +36,10 @@
         {
             var evt = new ApplicationExit
                       {
-                          Guid = Guid,
                           ApplicationExitCode = e.ApplicationExitCode,
                       };
 
-            eventPublisher.PublishAsync(evt);
+            callback.Invoke(evt);
         }
     }
 }

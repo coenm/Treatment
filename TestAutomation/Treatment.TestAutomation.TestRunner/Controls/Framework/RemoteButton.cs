@@ -57,12 +57,18 @@
                 filter
                     .Where(ev => ev is PositionUpdated)
                     .Subscribe(ev => { PositionUpdated?.Invoke(this, (PositionUpdated)ev); }),
+
+                filter
+                    .Where(ev => ev is IsEnabledChanged)
+                    .Subscribe(ev => { IsEnabledChanged?.Invoke(this, (IsEnabledChanged)ev); }),
             };
         }
 
         public event EventHandler<Clicked> Clicked;
 
         public event EventHandler<PositionUpdated> PositionUpdated;
+
+        public event EventHandler<IsEnabledChanged> IsEnabledChanged;
 
         public void Dispose()
         {

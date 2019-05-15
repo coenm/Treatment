@@ -5,26 +5,22 @@
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Application;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
     internal class ApplicationStartupHelper : IUiElement, IInitializable, IDisposable
     {
         [NotNull] private readonly Application application;
-        [NotNull] private readonly IEventPublisher eventPublisher;
+        [NotNull] private readonly Action<ApplicationStarted> callback;
 
-        public ApplicationStartupHelper([NotNull] Application application, [NotNull] IEventPublisher eventPublisher, [NotNull] Guid guid)
+        public ApplicationStartupHelper([NotNull] Application application, [NotNull] Action<ApplicationStarted> callback)
         {
             Guard.NotNull(application, nameof(application));
-            Guard.NotNull(eventPublisher, nameof(eventPublisher));
+            Guard.NotNull(callback, nameof(callback));
 
             this.application = application;
-            this.eventPublisher = eventPublisher;
-            Guid = guid;
+            this.callback = callback;
         }
-
-        public Guid Guid { get; }
 
         public void Initialize()
         {
@@ -38,12 +34,8 @@
 
         private void ApplicationOnStartup(object sender, StartupEventArgs e)
         {
-            var evt = new ApplicationStarted
-                      {
-                          Guid = Guid,
-                      };
-
-            eventPublisher.PublishAsync(evt);
+            var evt = new ApplicationStarted();
+            callback.Invoke(evt);
         }
     }
 }
