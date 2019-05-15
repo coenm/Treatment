@@ -6,30 +6,26 @@
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
     internal class TextBlockTextValueChangedHelper : IUiElement, IInitializable, IDisposable
     {
         [NotNull] private readonly TextBlock frameworkElement;
-        [NotNull] private readonly IEventPublisher eventPublisher;
+        [NotNull] private readonly Action<TextValueChanged> callback;
         [NotNull] private readonly DependencyPropertyDescriptor dpd;
 
-        public TextBlockTextValueChangedHelper([NotNull] TextBlock frameworkElement, [NotNull] IEventPublisher eventPublisher, [NotNull] Guid guid)
+        public TextBlockTextValueChangedHelper([NotNull] TextBlock frameworkElement, [NotNull] Action<TextValueChanged> callback)
         {
             Guard.NotNull(frameworkElement, nameof(frameworkElement));
-            Guard.NotNull(eventPublisher, nameof(eventPublisher));
+            Guard.NotNull(callback, nameof(callback));
 
             this.frameworkElement = frameworkElement;
-            this.eventPublisher = eventPublisher;
-            Guid = guid;
+            this.callback = callback;
 
             // https://stackoverflow.com/questions/703167/how-to-detect-a-change-in-the-text-property-of-a-textblock
             dpd = DependencyPropertyDescriptor.FromProperty(TextBlock.TextProperty, typeof(TextBlock));
         }
-
-        public Guid Guid { get; }
 
         public void Initialize()
         {
@@ -43,10 +39,9 @@
 
         private void Handler(object sender, EventArgs e)
         {
-            eventPublisher.PublishAsync(
+            callback.Invoke(
                 new TextValueChanged
                 {
-                    Guid = Guid,
                     Text = frameworkElement.Text,
                 });
         }

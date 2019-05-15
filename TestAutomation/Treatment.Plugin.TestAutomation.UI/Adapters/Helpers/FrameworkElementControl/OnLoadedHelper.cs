@@ -16,7 +16,7 @@
         public OnLoadedHelper([NotNull] FrameworkElement frameworkElement, [NotNull] Action<Loaded> callback)
         {
             Guard.NotNull(frameworkElement, nameof(frameworkElement));
-            Guard.NotNull(this.callback, nameof(this.callback));
+            Guard.NotNull(callback, nameof(callback));
 
             this.frameworkElement = frameworkElement;
             this.callback = callback;

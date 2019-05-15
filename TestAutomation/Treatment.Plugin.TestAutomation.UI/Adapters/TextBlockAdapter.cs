@@ -17,6 +17,7 @@
     internal class TextBlockAdapter : ITestAutomationTextBlock, ITextBlock
     {
         [NotNull] private readonly List<IInitializable> helpers;
+        [NotNull] private readonly ControlEventPublisher publisher;
 
         public TextBlockAdapter([NotNull] TextBlock item, [NotNull] IEventPublisher eventPublisher)
         {
@@ -25,12 +26,14 @@
 
             Guid = Guid.NewGuid();
 
+            publisher = new ControlEventPublisher(this, Guid, eventPublisher);
+
             helpers = new List<IInitializable>(4)
                       {
                           new PositionChangedHelper(item, c => PositionUpdated?.Invoke(this, c)),
                           new SizeChangedHelper(item, c => SizeUpdated?.Invoke(this, c)),
                           new EnabledChangedHelper(item, c => IsEnabledChanged?.Invoke(this, c)),
-                          new TextBlockTextValueChangedHelper(item, eventPublisher, Guid),
+                          new TextBlockTextValueChangedHelper(item, c => TextValueChanged?.Invoke(this, c)),
                       };
 
             eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(ITextBlock));
@@ -49,6 +52,7 @@
         public void Dispose()
         {
             helpers.ForEach(helper => helper.Dispose());
+            publisher.Dispose();
         }
 
         public void Initialize()
