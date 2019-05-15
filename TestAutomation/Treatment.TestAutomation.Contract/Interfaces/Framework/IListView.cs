@@ -4,6 +4,7 @@
 
     public interface IListView :
         IPositionUpdated,
+        ISizeUpdated,
         IUiElement
     {
     }

@@ -44,12 +44,14 @@
             helpers = new List<IInitializable>(3)
             {
                 new PositionChangedHelper(item, c => PositionUpdated?.Invoke(this, c)),
-                new SizeChangedHelper(item, eventPublisher, Guid),
+                new SizeChangedHelper(item, c => SizeUpdated?.Invoke(this, c)),
                 new OnLoadedHelper(item, eventPublisher, Guid),
             };
         }
 
         public event EventHandler<PositionUpdated> PositionUpdated;
+
+        public event EventHandler<SizeUpdated> SizeUpdated;
 
         public Guid Guid { get; }
 

@@ -6,6 +6,7 @@
         IButtonClicked,
         IPositionUpdated,
         IIsEnabledChanged,
+        ISizeUpdated,
         IControl
     {
     }

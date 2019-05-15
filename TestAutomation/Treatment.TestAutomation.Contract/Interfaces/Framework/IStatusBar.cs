@@ -4,6 +4,7 @@
 
     public interface IStatusBar :
         IPositionUpdated,
+        ISizeUpdated,
         IUiElement
     {
     }

@@ -34,7 +34,7 @@
             helpers = new List<IInitializable>
                       {
                           new PositionChangedHelper(item, c => PositionUpdated?.Invoke(this, c)),
-                          new SizeChangedHelper(item, eventPublisher, Guid),
+                          new SizeChangedHelper(item, c => SizeUpdated?.Invoke(this, c)),
                           new EnabledChangedHelper(item, c => IsEnabledChanged?.Invoke(this, c)),
                           new KeyboardFocusHelper(item, eventPublisher, Guid),
                           new FocusHelper(item, eventPublisher, Guid),
@@ -49,6 +49,8 @@
         public event EventHandler<PositionUpdated> PositionUpdated;
 
         public event EventHandler<IsEnabledChanged> IsEnabledChanged;
+
+        public event EventHandler<SizeUpdated> SizeUpdated;
 
         public Guid Guid { get; }
 

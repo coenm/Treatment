@@ -61,6 +61,10 @@
                 filter
                     .Where(ev => ev is IsEnabledChanged)
                     .Subscribe(ev => { IsEnabledChanged?.Invoke(this, (IsEnabledChanged)ev); }),
+
+                filter
+                    .Where(ev => ev is SizeUpdated)
+                    .Subscribe(ev => { SizeUpdated?.Invoke(this, (SizeUpdated)ev); }),
             };
         }
 
@@ -69,6 +73,8 @@
         public event EventHandler<PositionUpdated> PositionUpdated;
 
         public event EventHandler<IsEnabledChanged> IsEnabledChanged;
+
+        public event EventHandler<SizeUpdated> SizeUpdated;
 
         public void Dispose()
         {

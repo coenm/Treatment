@@ -32,6 +32,9 @@
         // todo not sure is we need this here.
         public event EventHandler<PositionUpdated> PositionUpdated;
 
+        // todo not sure is we need this here.
+        public event EventHandler<SizeUpdated> SizeUpdated;
+
         public Guid Guid { get; }
 
         public ListViewAdapter Listview { get; private set; }
