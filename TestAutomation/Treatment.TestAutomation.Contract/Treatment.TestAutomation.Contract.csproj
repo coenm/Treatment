@@ -106,7 +106,16 @@
     <Compile Include="Interfaces\Events\Window\WindowDeactivated.cs" />
     <Compile Include="Interfaces\Events\Window\WindowInitialized.cs" />
     <Compile Include="Interfaces\Framework\IControl.cs" />
+    <Compile Include="Interfaces\Framework\IApplication.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IApplicationActivated.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IApplicationDeactivated.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IApplicationExit.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IApplicationStartup.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IIsEnabledChanged.cs" />
     <Compile Include="Interfaces\Framework\IListView.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IPositionUpdated.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\ISizeUpdated.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\ITextValueChanged.cs" />
     <Compile Include="Interfaces\Framework\SingleEventInterface\IButtonClicked.cs" />
     <Compile Include="Interfaces\TestAutomationEvent.cs" />
     <Compile Include="Interfaces\Events\Application\ApplicationActivated.cs" />
@@ -132,7 +141,6 @@
     <Compile Include="Interfaces\Events\Element\UiElementUnassigned.cs" />
     <Compile Include="Interfaces\Events\View\UiViewDestroyed.cs" />
     <Compile Include="Interfaces\Events\View\UiViewCreated.cs" />
-    <Compile Include="Interfaces\Framework\IApplication.cs" />
     <Compile Include="Interfaces\Framework\IButton.cs" />
     <Compile Include="Interfaces\Framework\IStatusBar.cs" />
     <Compile Include="Interfaces\Framework\ITestAutomation.cs" />

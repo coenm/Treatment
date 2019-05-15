@@ -1,17 +1,13 @@
 ﻿namespace Treatment.TestAutomation.Contract.Interfaces.Framework
 {
-    using System;
+    using global::Treatment.TestAutomation.Contract.Interfaces.Framework.SingleEventInterface;
 
-    using Contract.Interfaces.Events.Element;
-
-    public interface ITextBlock
+    public interface ITextBlock :
+        IPositionUpdated,
+        ISizeUpdated,
+        IIsEnabledChanged,
+        ITextValueChanged,
+        IControl
     {
-        event EventHandler<PositionUpdated> PositionUpdated;
-
-        event EventHandler<SizeUpdated> SizeUpdated;
-
-        event EventHandler<IsEnabledChanged> IsEnabledChanged;
-
-        event EventHandler<TextValueChanged> TextValueChanged;
     }
 }

@@ -12,6 +12,7 @@
     using Treatment.Plugin.TestAutomation.UI.Interfaces;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Application;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
+    using Treatment.TestAutomation.Contract.Interfaces.Framework.SingleEventInterface;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
 
     public class ApplicationAdapter : ITestAutomationApplication
