@@ -77,6 +77,10 @@
                 filter
                     .Where(ev => ev is LostFocus)
                     .Subscribe(ev => { LostFocus?.Invoke(this, (LostFocus)ev); }),
+
+                filter
+                    .Where(ev => ev is KeyboardFocusChanged)
+                    .Subscribe(ev => { KeyboardFocusChanged?.Invoke(this, (KeyboardFocusChanged)ev); }),
             };
         }
 
@@ -93,6 +97,8 @@
         public event EventHandler<GotFocus> GotFocus;
 
         public event EventHandler<LostFocus> LostFocus;
+
+        public event EventHandler<KeyboardFocusChanged> KeyboardFocusChanged;
 
         public void Dispose()
         {

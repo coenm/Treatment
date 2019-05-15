@@ -6,26 +6,24 @@
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
     internal class KeyboardFocusHelper : IUiElement, IInitializable, IDisposable
     {
         [NotNull] private readonly FrameworkElement frameworkElement;
-        [NotNull] private readonly IEventPublisher eventPublisher;
+        [NotNull] private readonly Action<KeyboardFocusChanged> callback;
 
-        public KeyboardFocusHelper([NotNull] FrameworkElement frameworkElement, [NotNull] IEventPublisher eventPublisher, [NotNull] Guid guid)
+        public KeyboardFocusHelper(
+            [NotNull] FrameworkElement frameworkElement,
+            [NotNull] Action<KeyboardFocusChanged> callback)
         {
             Guard.NotNull(frameworkElement, nameof(frameworkElement));
-            Guard.NotNull(eventPublisher, nameof(eventPublisher));
+            Guard.NotNull(this.callback, nameof(this.callback));
 
             this.frameworkElement = frameworkElement;
-            this.eventPublisher = eventPublisher;
-            Guid = guid;
+            this.callback = callback;
         }
-
-        public Guid Guid { get; }
 
         public void Initialize()
         {
@@ -43,22 +41,20 @@
         {
             var evt = new KeyboardFocusChanged
                       {
-                          Guid = Guid,
                           Focussed = false,
                       };
 
-            eventPublisher.PublishAsync(evt);
+            callback.Invoke(evt);
         }
 
         private void ItemOnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             var evt = new KeyboardFocusChanged
                       {
-                          Guid = Guid,
                           Focussed = true,
                       };
 
-            eventPublisher.PublishAsync(evt);
+            callback.Invoke(evt);
         }
     }
 }

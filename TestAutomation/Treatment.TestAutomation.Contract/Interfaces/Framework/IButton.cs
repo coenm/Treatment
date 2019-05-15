@@ -8,6 +8,7 @@
         IIsEnabledChanged,
         ISizeUpdated,
         IFocusChange,
+        IKeyboardFocusChanged,
         IControl
     {
     }
