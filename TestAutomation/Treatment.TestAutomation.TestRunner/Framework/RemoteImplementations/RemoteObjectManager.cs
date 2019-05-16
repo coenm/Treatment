@@ -4,10 +4,12 @@
     using System.Collections.Concurrent;
     using System.Reactive.Disposables;
     using System.Reactive.Linq;
-    using Contract.Interfaces.Framework;
-    using Controls.Framework;
+
     using JetBrains.Annotations;
     using Treatment.TestAutomation.Contract.Interfaces.Events;
+    using Treatment.TestAutomation.Contract.Interfaces.Framework;
+    using Treatment.TestAutomation.Contract.Interfaces.Treatment;
+    using Treatment.TestAutomation.TestRunner.Controls.Framework;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
     /// <summary>
@@ -39,6 +41,10 @@
                         else if (e.InterfaceType == typeof(ITextBlock).FullName)
                         {
                             store.TryAdd(e.Guid, new RemoteTextBlock(e.Guid, applicationEvents));
+                        }
+                        else if (e.InterfaceType == typeof(IMainViewStatusBar).FullName)
+                        {
+                            store.TryAdd(e.Guid, new RemoteMainViewStatusBar(e.Guid, applicationEvents, this));
                         }
                         else
                         {

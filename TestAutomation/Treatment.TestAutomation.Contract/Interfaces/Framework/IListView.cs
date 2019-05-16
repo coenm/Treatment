@@ -6,7 +6,7 @@
         IPositionUpdated,
         ISizeUpdated,
         ILoaded,
-        IUiElement
+        IControl
     {
     }
 }

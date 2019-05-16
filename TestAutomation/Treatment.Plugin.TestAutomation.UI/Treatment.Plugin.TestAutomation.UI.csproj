@@ -106,6 +106,8 @@
     <Compile Include="Interfaces\IGuid.cs" />
     <Compile Include="Interfaces\ITestAutomationButton.cs" />
     <Compile Include="Interfaces\ITestAutomationApplication.cs" />
+    <Compile Include="Interfaces\ITestAutomationListView.cs" />
+    <Compile Include="Interfaces\ITestAutomationMainViewStatusBar.cs" />
     <Compile Include="Interfaces\ITestAutomationTextBlock.cs" />
     <Compile Include="ITestAutomationAgent.cs" />
     <Compile Include="Settings\DummySettings.cs" />

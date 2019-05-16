@@ -6,12 +6,13 @@
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
+    using Treatment.Plugin.TestAutomation.UI.Interfaces;
     using Treatment.Plugin.TestAutomation.UI.Reflection;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
     using Treatment.UI.UserControls;
 
-    internal class ProjectListViewAdapter : IProjectListView
+    internal class ProjectListViewAdapter : ITestAutomationListView, IProjectListView
     {
         [NotNull] private readonly ProjectListView item;
         [NotNull] private readonly IEventPublisher eventPublisher;

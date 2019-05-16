@@ -35,5 +35,17 @@
                     ChildElement = element,
                 });
         }
+
+        public static Task PublishClearedAsync([NotNull] this IEventPublisher publisher, Guid parent, string propertyName)
+        {
+            Guard.NotNull(publisher, nameof(publisher));
+
+            return publisher.PublishAsync(
+                new UiElementUnassigned
+                {
+                    Guid = parent,
+                    PropertyName = propertyName,
+                });
+        }
     }
 }

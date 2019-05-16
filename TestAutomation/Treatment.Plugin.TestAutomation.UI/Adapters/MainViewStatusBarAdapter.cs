@@ -17,9 +17,10 @@
     using Treatment.Plugin.TestAutomation.UI.Reflection;
     using Treatment.TestAutomation.Contract.Interfaces;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
+    using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
 
-    internal class MainViewStatusBarAdapter : IMainViewStatusBar
+    internal class MainViewStatusBarAdapter : ITestAutomationMainViewStatusBar, IMainViewStatusBar
     {
         [NotNull] private readonly StatusBar item;
         [NotNull] private readonly IEventPublisher eventPublisher;
@@ -57,43 +58,46 @@
 
         public Guid Guid { get; }
 
-        public ITestAutomationTextBlock StatusText
-        {
-            get => statusText;
+        public ITextBlock StatusText => statusText;
 
-            private set
-            {
-                eventPublisher.PublishAssignedAsync(Guid, nameof(StatusText), value.Guid);
-                statusText = value;
-            }
+        private void UpdateStatusText(ITestAutomationTextBlock value)
+        {
+            statusText = value;
+
+            if (statusText != null)
+                eventPublisher.PublishAssignedAsync(Guid, nameof(StatusText), statusText.Guid);
+            else
+                eventPublisher.PublishClearedAsync(Guid, nameof(StatusText));
         }
 
-        public ITestAutomationTextBlock StatusConfigFilename
-        {
-            get => statusConfigFilename;
+        public ITextBlock StatusConfigFilename => statusConfigFilename;
 
-            private set
-            {
-                eventPublisher.PublishAssignedAsync(Guid, nameof(StatusConfigFilename), value.Guid);
-                statusConfigFilename = value;
-            }
+        private void UpdateStatusConfigFilename(ITestAutomationTextBlock value)
+        {
+            statusConfigFilename = value;
+
+            if (statusConfigFilename != null)
+                eventPublisher.PublishAssignedAsync(Guid, nameof(StatusConfigFilename), statusConfigFilename.Guid);
+            else
+                eventPublisher.PublishClearedAsync(Guid, nameof(StatusConfigFilename));
         }
 
-        public ITestAutomationTextBlock StatusDelayProcessCounter
-        {
-            get => statusDelayProcessCounter;
+        public ITextBlock StatusDelayProcessCounter => statusDelayProcessCounter;
 
-            private set
-            {
-                eventPublisher.PublishAssignedAsync(Guid, nameof(StatusDelayProcessCounter), value.Guid);
-                statusDelayProcessCounter = value;
-            }
+        private void UpdateStatusDelayProcessCounter(ITestAutomationTextBlock value)
+        {
+            statusDelayProcessCounter = value;
+
+            if (statusDelayProcessCounter != null)
+                eventPublisher.PublishAssignedAsync(Guid, nameof(StatusDelayProcessCounter), statusDelayProcessCounter.Guid);
+            else
+                eventPublisher.PublishClearedAsync(Guid, nameof(StatusDelayProcessCounter));
         }
 
         public void Dispose()
         {
             helpers.ForEach(helper => helper.Dispose());
-            StatusText.Dispose();
+            ((IDisposable)StatusText)?.Dispose();
         }
 
         public void Initialize()
@@ -103,8 +107,8 @@
             var result = FieldsHelper.FindChild<TextBlock>(item, nameof(StatusText));
             if (result != null)
             {
-                StatusText = new TextBlockAdapter(result, eventPublisher);
-                StatusText.Initialize();
+                UpdateStatusText(new TextBlockAdapter(result, eventPublisher));
+                statusText.Initialize();
             }
             else
             {
@@ -114,8 +118,8 @@
                     if (result1 == null)
                         continue;
 
-                    StatusText = new TextBlockAdapter(result1, eventPublisher);
-                    StatusText.Initialize();
+                    UpdateStatusText(new TextBlockAdapter(result1, eventPublisher));
+                    statusText?.Initialize();
                     break;
                 }
             }
@@ -126,8 +130,8 @@
             result = FieldsHelper.FindChild<TextBlock>(item, nameof(StatusConfigFilename));
             if (result != null)
             {
-                StatusConfigFilename = new TextBlockAdapter(result, eventPublisher);
-                StatusConfigFilename.Initialize();
+                UpdateStatusConfigFilename(new TextBlockAdapter(result, eventPublisher));
+                statusConfigFilename?.Initialize();
             }
             else
             {
@@ -137,8 +141,8 @@
                     if (result1 == null)
                         continue;
 
-                    StatusConfigFilename = new TextBlockAdapter(result1, eventPublisher);
-                    StatusConfigFilename.Initialize();
+                    UpdateStatusConfigFilename(new TextBlockAdapter(result1, eventPublisher));
+                    statusConfigFilename?.Initialize();
                     break;
                 }
             }
@@ -149,8 +153,8 @@
             result = FieldsHelper.FindChild<TextBlock>(item, nameof(StatusDelayProcessCounter));
             if (result != null)
             {
-                StatusDelayProcessCounter = new TextBlockAdapter(result, eventPublisher);
-                StatusDelayProcessCounter.Initialize();
+                UpdateStatusDelayProcessCounter(new TextBlockAdapter(result, eventPublisher));
+                statusDelayProcessCounter?.Initialize();
             }
             else
             {
@@ -160,8 +164,8 @@
                     if (result1 == null)
                         continue;
 
-                    StatusDelayProcessCounter = new TextBlockAdapter(result1, eventPublisher);
-                    StatusDelayProcessCounter.Initialize();
+                    UpdateStatusDelayProcessCounter(new TextBlockAdapter(result1, eventPublisher));
+                    statusDelayProcessCounter?.Initialize();
                     break;
                 }
             }

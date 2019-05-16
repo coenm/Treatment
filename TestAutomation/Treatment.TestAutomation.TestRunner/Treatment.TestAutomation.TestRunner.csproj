@@ -133,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\Framework\RemoteButton.cs" />
+    <Compile Include="Controls\Framework\RemoteMainViewStatusBar.cs" />
     <Compile Include="Controls\Framework\RemoteTextBlock.cs" />
     <Compile Include="Framework\Bootstrapper.cs" />
     <Compile Include="BunchOfTests.cs" />

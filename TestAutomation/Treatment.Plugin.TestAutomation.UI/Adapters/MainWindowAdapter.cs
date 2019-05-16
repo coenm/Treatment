@@ -111,12 +111,12 @@
             StatusBar = new MainViewStatusBarAdapter(
                 FieldsHelper.FindFieldInUiElementByName<StatusBar>(mainWindow, nameof(StatusBar)),
                 eventPublisher);
-            StatusBar.Initialize();
+            ((MainViewStatusBarAdapter)StatusBar).Initialize();
 
             ProjectList = new ProjectListViewAdapter(
                 FieldsHelper.FindFieldInUiElementByName<ProjectListView>(mainWindow, nameof(ProjectList)),
                 eventPublisher);
-            ProjectList.Initialize();
+            ((ProjectListViewAdapter)ProjectList).Initialize();
         }
     }
 }

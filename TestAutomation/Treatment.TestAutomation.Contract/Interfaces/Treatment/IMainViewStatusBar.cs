@@ -4,10 +4,10 @@
 
     public interface IMainViewStatusBar : IStatusBar
     {
-        // ITextBlock StatusText { get; }
-        //
-        // ITextBlock StatusConfigFilename { get; }
-        //
-        // ITextBlock StatusDelayProcessCounter { get; }
+        ITextBlock StatusText { get; }
+
+        ITextBlock StatusConfigFilename { get; }
+
+        ITextBlock StatusDelayProcessCounter { get; }
     }
 }

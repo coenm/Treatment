@@ -8,5 +8,6 @@
     [PublicAPI]
     public class UiElementUnassigned : TestElementEventBase
     {
+        public string PropertyName { get; set; }
     }
 }
