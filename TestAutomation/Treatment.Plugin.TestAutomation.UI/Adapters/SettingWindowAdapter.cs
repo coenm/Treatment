@@ -9,13 +9,14 @@
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.WindowControl;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
+    using Treatment.Plugin.TestAutomation.UI.Interfaces;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Window;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
     using Treatment.UI.View;
 
-    internal class SettingWindowAdapter : ISettingWindow, ITestAutomationView
+    internal class SettingWindowAdapter : ITestAutomationSettingWindow, ISettingWindow
     {
         [NotNull] private readonly ControlEventPublisher publisher;
         [NotNull] private readonly List<IInitializable> helpers;

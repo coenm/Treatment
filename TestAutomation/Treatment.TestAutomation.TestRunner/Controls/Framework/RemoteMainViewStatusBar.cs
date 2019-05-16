@@ -6,7 +6,6 @@
     using System.Windows;
 
     using JetBrains.Annotations;
-
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;

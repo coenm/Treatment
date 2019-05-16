@@ -19,7 +19,7 @@
     using Treatment.UI.UserControls;
     using Treatment.UI.View;
 
-    internal class MainWindowAdapter : IMainView
+    internal class MainWindowAdapter : IMainWindow
     {
         [NotNull] private readonly MainWindow mainWindow;
         [NotNull] private readonly IEventPublisher eventPublisher;
@@ -59,7 +59,7 @@
                                           c => LostFocus?.Invoke(this, c)),
                       };
 
-            eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IMainView));
+            eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IMainWindow));
         }
 
         public event EventHandler<Initialized> Initialized;

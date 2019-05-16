@@ -62,18 +62,18 @@
 
         public event EventHandler<ApplicationStarted> Startup;
 
-        public IMainView MainView { get; private set; }
+        public IMainWindow MainWindow { get; private set; }
 
         public void Initialize()
         {
             helpers.ForEach(helper => helper.Initialize());
         }
 
-        public void RegisterAndInitializeMainView(IMainView mainView)
+        public void RegisterAndInitializeMainView(IMainWindow mainWindow)
         {
-            Guard.NotNull(mainView, nameof(mainView));
-            MainView = mainView;
-            mainView.Initialize();
+            Guard.NotNull(mainWindow, nameof(mainWindow));
+            MainWindow = mainWindow;
+            mainWindow.Initialize();
         }
 
         public void Dispose()

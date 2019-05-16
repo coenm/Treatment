@@ -6,8 +6,8 @@
 
     internal interface ITestAutomationApplication : IApplication, IUiElement
     {
-        IMainView MainView { get; }
+        IMainWindow MainWindow { get; }
 
-        void RegisterAndInitializeMainView([NotNull] IMainView mainView);
+        void RegisterAndInitializeMainView([NotNull] IMainWindow mainWindow);
     }
 }

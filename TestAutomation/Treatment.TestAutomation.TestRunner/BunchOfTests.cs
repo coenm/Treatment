@@ -53,6 +53,7 @@
             var content = await Agent.GetFileContentAsync(Path.Combine(dir, "TreatmentConfig.json"));
 
             content.Should().NotBeNull();
+
         }
 
         [Fact]
@@ -67,6 +68,13 @@
 
             mre.WaitOne(5000);
             Application.Created.Should().BeTrue();
+
+            var xx = fixture.store;
+            output.WriteLine("delay");
+
+            await Task.Delay(10000);
+
+            xx = fixture.store;
         }
 
         [Fact]

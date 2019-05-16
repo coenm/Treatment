@@ -9,17 +9,11 @@
         IWindowClosed,
         IWindowActivated,
         IWindowDeactivated,
-        ITestAutomationView,
         IPositionUpdated,
         IIsEnabledChanged,
         ISizeUpdated,
         IFocusChange,
         IControl
     {
-        IButton OpenSettingsButton { get; }
-
-        IProjectListView ProjectList { get; }
-
-        IMainViewStatusBar StatusBar { get; }
     }
 }

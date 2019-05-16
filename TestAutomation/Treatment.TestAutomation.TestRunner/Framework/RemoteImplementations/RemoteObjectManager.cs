@@ -46,6 +46,10 @@
                         {
                             store.TryAdd(e.Guid, new RemoteMainViewStatusBar(e.Guid, applicationEvents, this));
                         }
+                        else if (e.InterfaceType == typeof(ISettingWindow).FullName)
+                        {
+                            store.TryAdd(e.Guid, new RemoteSettingWindow(e.Guid, applicationEvents, this));
+                        }
                         else
                         {
                             store.TryAdd(e.Guid, e.InterfaceType);

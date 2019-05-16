@@ -158,7 +158,7 @@
     <Compile Include="Interfaces\Framework\IUiElement.cs" />
     <Compile Include="Interfaces\Events\MessageBox\MessageBoxClosed.cs" />
     <Compile Include="Interfaces\Events\MessageBox\MessageBoxPoppedUp.cs" />
-    <Compile Include="Interfaces\Treatment\IMainView.cs" />
+    <Compile Include="Interfaces\Treatment\IMainWindow.cs" />
     <Compile Include="Interfaces\Treatment\IMainViewStatusBar.cs" />
     <Compile Include="Interfaces\Treatment\IProjectListView.cs" />
     <Compile Include="Interfaces\Treatment\ISettingWindow.cs" />

@@ -4,7 +4,7 @@
 
     using global::Treatment.TestAutomation.Contract.Interfaces.Framework.SingleEventInterface;
 
-    public interface IMainView :
+    public interface IMainWindow :
         IInitialized,
         IWindowClosing,
         IWindowClosed,

@@ -12,7 +12,7 @@
     {
         [NotNull] private readonly Bootstrapper bootstrapper;
         [NotNull] private readonly Container container;
-        [NotNull] private readonly RemoteObjectManager store;
+        [NotNull] public readonly RemoteObjectManager store;
 
         public TestFrameworkFixture()
         {
