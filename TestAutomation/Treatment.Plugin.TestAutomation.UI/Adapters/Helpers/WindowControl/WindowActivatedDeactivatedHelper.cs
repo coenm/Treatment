@@ -5,26 +5,28 @@
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Window;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
     internal class WindowActivatedDeactivatedHelper : IUiElement, IInitializable, IDisposable
     {
         [NotNull] private readonly Window window;
-        [NotNull] private readonly IEventPublisher eventPublisher;
+        [NotNull] private readonly Action<WindowActivated> callbackActivated;
+        [NotNull] private Action<WindowDeactivated> callbackDeactivated;
 
-        public WindowActivatedDeactivatedHelper([NotNull] Window window, [NotNull] IEventPublisher eventPublisher, [NotNull] Guid guid)
+        public WindowActivatedDeactivatedHelper(
+            [NotNull] Window window,
+            [NotNull] Action<WindowActivated> callbackActivated,
+            [NotNull] Action<WindowDeactivated> callbackDeactivated)
         {
             Guard.NotNull(window, nameof(window));
-            Guard.NotNull(eventPublisher, nameof(eventPublisher));
+            Guard.NotNull(callbackActivated, nameof(callbackActivated));
+            Guard.NotNull(callbackDeactivated, nameof(callbackDeactivated));
 
             this.window = window;
-            this.eventPublisher = eventPublisher;
-            Guid = guid;
+            this.callbackActivated = callbackActivated;
+            this.callbackDeactivated = callbackDeactivated;
         }
-
-        public Guid Guid { get; }
 
         public void Initialize()
         {
@@ -40,22 +42,12 @@
 
         private void WindowOnDeactivated(object sender, EventArgs e)
         {
-            var evt = new WindowDeactivated
-                      {
-                          Guid = Guid,
-                      };
-
-            eventPublisher.PublishAsync(evt);
+            callbackDeactivated.Invoke(new WindowDeactivated());
         }
 
         private void WindowOnActivated(object sender, EventArgs e)
         {
-            var evt = new WindowActivated
-                      {
-                          Guid = Guid,
-                      };
-
-            eventPublisher.PublishAsync(evt);
+            callbackActivated.Invoke(new WindowActivated());
         }
     }
 }

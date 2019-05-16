@@ -5,10 +5,12 @@
     using global::Treatment.TestAutomation.Contract.Interfaces.Framework.SingleEventInterface;
 
     public interface IMainView :
-        ITestAutomationView,
         IInitialized,
         IWindowClosing,
-        IWindowClosed
+        IWindowClosed,
+        IWindowActivated,
+        IWindowDeactivated,
+        ITestAutomationView
     {
         IButton OpenSettingsButton { get; }
 

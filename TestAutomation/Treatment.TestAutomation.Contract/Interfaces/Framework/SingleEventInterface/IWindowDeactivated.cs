@@ -4,8 +4,8 @@
 
     using global::Treatment.TestAutomation.Contract.Interfaces.Events.Window;
 
-    public interface IWindowClosed
+    public interface IWindowDeactivated
     {
-        event EventHandler<WindowClosed> WindowClosed;
+        event EventHandler<WindowDeactivated> WindowDeactivated;
     }
 }

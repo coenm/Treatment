@@ -45,7 +45,10 @@
                           new InitializedHelper(mainWindow, c => Initialized?.Invoke(this, c)),
                           new WindowClosingHelper(mainWindow, c => WindowClosing?.Invoke(this, c)),
                           new WindowClosedHelper(mainWindow, c => WindowClosed?.Invoke(this, c)),
-                          new WindowActivatedDeactivatedHelper(mainWindow, eventPublisher, Guid),
+                          new WindowActivatedDeactivatedHelper(
+                                                               mainWindow,
+                                                               callback => WindowActivated?.Invoke(this, callback),
+                                                               callback => WindowDeactivated?.Invoke(this, callback)),
                       };
 
             eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IMainView));
@@ -56,6 +59,10 @@
         public event EventHandler<WindowClosing> WindowClosing;
 
         public event EventHandler<WindowClosed> WindowClosed;
+
+        public event EventHandler<WindowActivated> WindowActivated;
+
+        public event EventHandler<WindowDeactivated> WindowDeactivated;
 
         public IButton OpenSettingsButton { get; private set; }
 
