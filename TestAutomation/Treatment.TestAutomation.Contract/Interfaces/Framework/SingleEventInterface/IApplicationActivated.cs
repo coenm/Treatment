@@ -2,9 +2,11 @@
 {
     using System;
 
+    using global::Treatment.TestAutomation.Contract.Interfaces.Events.Application;
+
     public interface IApplicationActivated
     {
          /// <summary>Occurs when an application becomes the foreground application.</summary>
-         event EventHandler Activated;
+         event EventHandler<ApplicationActivated> Activated;
     }
 }

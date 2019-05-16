@@ -26,7 +26,7 @@
                     .Subscribe(ev =>
                     {
                         Created = true;
-                        Startup?.Invoke(this, EventArgs.Empty);
+                        Startup?.Invoke(this, (ApplicationStarted)ev);
                     }),
 
                 applicationEvents.Events
@@ -34,7 +34,7 @@
                     .Subscribe(ev =>
                     {
                         State = ApplicationActivationState.Activated;
-                        Activated?.Invoke(this, EventArgs.Empty);
+                        Activated?.Invoke(this, (ApplicationActivated)ev);
                     }),
 
                 applicationEvents.Events
@@ -42,7 +42,7 @@
                     .Subscribe(ev =>
                     {
                         State = ApplicationActivationState.Deactivated;
-                        Deactivated?.Invoke(this, EventArgs.Empty);
+                        Deactivated?.Invoke(this, (ApplicationDeactivated)ev);
                     }),
 
                 applicationEvents.Events
@@ -51,13 +51,13 @@
             };
         }
 
-        public event EventHandler Activated;
+        public event EventHandler<ApplicationActivated> Activated;
 
-        public event EventHandler Deactivated;
+        public event EventHandler<ApplicationDeactivated> Deactivated;
 
         public event EventHandler<ApplicationExit> Exit;
 
-        public event EventHandler Startup;
+        public event EventHandler<ApplicationStarted> Startup;
 
         public bool Created { get; private set; }
 

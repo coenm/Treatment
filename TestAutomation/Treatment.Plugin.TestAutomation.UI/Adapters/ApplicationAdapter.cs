@@ -44,9 +44,9 @@
                       {
                           new ApplicationActivationHelper(
                                                           item,
-                                                          c => Activated?.Invoke(this, EventArgs.Empty),
-                                                          c => Deactivated?.Invoke(this, EventArgs.Empty)),
-                          new ApplicationStartupHelper(item, c => Startup?.Invoke(this, EventArgs.Empty)),
+                                                          c => Activated?.Invoke(this, c),
+                                                          c => Deactivated?.Invoke(this, c)),
+                          new ApplicationStartupHelper(item, c => Startup?.Invoke(this, c)),
                           new ApplicationExitHelper(item, c => Exit?.Invoke(this, c)),
                           new ApplicationDispatcherUnhandledExceptionHelper(item, eventPublisher, guid),
                       };
@@ -54,13 +54,13 @@
             eventPublisher.PublishNewControlCreatedAsync(guid, typeof(IApplication));
         }
 
-        public event EventHandler Activated;
+        public event EventHandler<ApplicationActivated> Activated;
 
-        public event EventHandler Deactivated;
+        public event EventHandler<ApplicationDeactivated> Deactivated;
 
         public event EventHandler<ApplicationExit> Exit;
 
-        public event EventHandler Startup;
+        public event EventHandler<ApplicationStarted> Startup;
 
         public IMainView MainView { get; private set; }
 
