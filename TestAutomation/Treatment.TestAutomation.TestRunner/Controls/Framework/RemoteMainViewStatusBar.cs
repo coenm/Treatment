@@ -47,15 +47,18 @@
                                  .Subscribe(ev =>
                                             {
                                                 var e = ev as UiElementAssigned;
-
                                                 switch (e.PropertyName)
                                                 {
+                                                    case nameof(StatusText):
+                                                        StatusText = remoteObjectManager.GetByGuid(e.ChildElement) as ITextBlock;
+                                                        break;
                                                     case nameof(StatusConfigFilename):
                                                         StatusConfigFilename = remoteObjectManager.GetByGuid(e.ChildElement) as ITextBlock;
                                                         break;
+                                                    case nameof(StatusDelayProcessCounter):
+                                                        StatusDelayProcessCounter = remoteObjectManager.GetByGuid(e.ChildElement) as ITextBlock;
+                                                        break;
                                                 }
-
-
                                             }),
                          };
         }
