@@ -10,6 +10,10 @@
         IWindowClosed,
         IWindowActivated,
         IWindowDeactivated,
+        IPositionUpdated,
+        IIsEnabledChanged,
+        ISizeUpdated,
+        IFocusChange,
         ITestAutomationView
     {
         IButton OpenSettingsButton { get; }

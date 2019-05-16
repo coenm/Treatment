@@ -8,7 +8,7 @@
 
     internal interface ITestAutomationAgent
     {
-        void AddPopupView(SettingWindowAdapter settingWindow);
+        void AddPopupViewAndInitialize(SettingWindowAdapter settingWindow);
 
         void RegisterAndInitializeApplication([NotNull] ITestAutomationApplication application);
 

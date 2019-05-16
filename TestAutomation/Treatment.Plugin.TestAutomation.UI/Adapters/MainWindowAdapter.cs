@@ -49,6 +49,14 @@
                                                                mainWindow,
                                                                callback => WindowActivated?.Invoke(this, callback),
                                                                callback => WindowDeactivated?.Invoke(this, callback)),
+                          new PositionChangedHelper(mainWindow, c => PositionUpdated?.Invoke(this, c)),
+                          new SizeChangedHelper(mainWindow, c => SizeUpdated?.Invoke(this, c)),
+                          new EnabledChangedHelper(mainWindow, c => IsEnabledChanged?.Invoke(this, c)),
+                          new FocusHelper(
+                                          mainWindow,
+                                          c => FocusableChanged?.Invoke(this, c),
+                                          c => GotFocus?.Invoke(this, c),
+                                          c => LostFocus?.Invoke(this, c)),
                       };
 
             eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IMainView));
@@ -63,6 +71,18 @@
         public event EventHandler<WindowActivated> WindowActivated;
 
         public event EventHandler<WindowDeactivated> WindowDeactivated;
+
+        public event EventHandler<PositionUpdated> PositionUpdated;
+
+        public event EventHandler<IsEnabledChanged> IsEnabledChanged;
+
+        public event EventHandler<SizeUpdated> SizeUpdated;
+
+        public event EventHandler<FocusableChanged> FocusableChanged;
+
+        public event EventHandler<GotFocus> GotFocus;
+
+        public event EventHandler<LostFocus> LostFocus;
 
         public IButton OpenSettingsButton { get; private set; }
 

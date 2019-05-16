@@ -45,7 +45,7 @@
             mainWindow = mainWindowAdapter;
         }
 
-        public void AddPopupView([NotNull] SettingWindowAdapter settingWindow)
+        public void AddPopupViewAndInitialize([NotNull] SettingWindowAdapter settingWindow)
         {
             // todo: wrong method name. how to deal with this popup window?
             Guard.NotNull(settingWindow, nameof(settingWindow));
