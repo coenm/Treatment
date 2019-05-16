@@ -64,7 +64,7 @@
 
         public ApplicationActivationState State { get; private set; }
 
-        public IMainWindow MainWindow { get; } //todo coenm
+        public IMainWindow MainWindow { get; }
 
         public void Dispose()
         {

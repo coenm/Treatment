@@ -17,12 +17,19 @@
     public class RemoteMainWindow : IMainWindow, IDisposable
     {
         [NotNull] private readonly CompositeDisposable disposable;
+        [NotNull] private readonly SingleClassObjectManager propertyManager;
 
-        public RemoteMainWindow(Guid guid, [NotNull] IApplicationEvents applicationEvents, RemoteObjectManager remoteObjectManager)
+        public RemoteMainWindow(
+            Guid guid,
+            [NotNull] IApplicationEvents applicationEvents,
+            [NotNull] RemoteObjectManager remoteObjectManager)
         {
             Guard.NotNull(applicationEvents, nameof(applicationEvents));
+            Guard.NotNull(remoteObjectManager, nameof(remoteObjectManager));
 
             var filter = applicationEvents.Events.Where(ev => ev.Guid == guid);
+
+            propertyManager = new SingleClassObjectManager(remoteObjectManager, filter);
 
             disposable = new CompositeDisposable
                          {
@@ -66,11 +73,11 @@
 
         public event EventHandler<LostFocus> LostFocus;
 
-        public IButton OpenSettingsButton { get; }
+        public IButton OpenSettingsButton => propertyManager.GetObject<IButton>();
 
-        public IProjectListView ProjectList { get; }
+        public IProjectListView ProjectList => propertyManager.GetObject<IProjectListView>();
 
-        public IMainViewStatusBar StatusBar { get; }
+        public IMainViewStatusBar StatusBar => propertyManager.GetObject<IMainViewStatusBar>();
 
         public Point Position { get; private set; }
 
@@ -79,6 +86,7 @@
         public void Dispose()
         {
             disposable.Dispose();
+            propertyManager.Dispose();
         }
     }
 }

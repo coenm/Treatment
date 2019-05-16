@@ -25,6 +25,9 @@
         [NotNull] private readonly IEventPublisher eventPublisher;
         [NotNull] private readonly List<IInitializable> helpers;
         [NotNull] private readonly ControlEventPublisher publisher;
+        [CanBeNull] private ITestAutomationMainViewStatusBar statusBar;
+        [CanBeNull] private ITestAutomationButton openSettingsButton;
+        [CanBeNull] private ITestAutomationProjectListView projectList;
 
         public MainWindowAdapter(
             [NotNull] MainWindow mainWindow,
@@ -84,11 +87,11 @@
 
         public event EventHandler<LostFocus> LostFocus;
 
-        public IButton OpenSettingsButton { get; private set; }
+        public IButton OpenSettingsButton => openSettingsButton;
 
-        public IProjectListView ProjectList { get; private set; }
+        public IProjectListView ProjectList { get; }
 
-        public IMainViewStatusBar StatusBar { get; private set; }
+        public IMainViewStatusBar StatusBar => statusBar;
 
         public Guid Guid { get; }
 
@@ -103,20 +106,53 @@
         {
             helpers.ForEach(helper => helper.Initialize());
 
-            OpenSettingsButton = new ButtonAdapter(
-                FieldsHelper.FindFieldInUiElementByName<Button>(mainWindow, nameof(OpenSettingsButton)),
-                eventPublisher);
-            ((ButtonAdapter)OpenSettingsButton).Initialize();
+            UpdateOpenSettingsButton(
+                new ButtonAdapter(
+                    FieldsHelper.FindFieldInUiElementByName<Button>(mainWindow, nameof(OpenSettingsButton)),
+                    eventPublisher));
+            openSettingsButton?.Initialize();
 
-            StatusBar = new MainViewStatusBarAdapter(
-                FieldsHelper.FindFieldInUiElementByName<StatusBar>(mainWindow, nameof(StatusBar)),
-                eventPublisher);
-            ((MainViewStatusBarAdapter)StatusBar).Initialize();
+            UpdateStatusBar(
+                new MainViewStatusBarAdapter(
+                    FieldsHelper.FindFieldInUiElementByName<StatusBar>(mainWindow, nameof(StatusBar)),
+                    eventPublisher));
+            statusBar?.Initialize();
 
-            ProjectList = new ProjectListViewAdapter(
-                FieldsHelper.FindFieldInUiElementByName<ProjectListView>(mainWindow, nameof(ProjectList)),
-                eventPublisher);
-            ((ProjectListViewAdapter)ProjectList).Initialize();
+            UpdateProjectList(
+                new ProjectListViewAdapter(
+                    FieldsHelper.FindFieldInUiElementByName<ProjectListView>(mainWindow, nameof(ProjectList)),
+                    eventPublisher));
+            projectList?.Initialize();
+        }
+
+        private void UpdateOpenSettingsButton(ITestAutomationButton value)
+        {
+            openSettingsButton = value;
+
+            if (value != null)
+                eventPublisher.PublishAssignedAsync(Guid, nameof(OpenSettingsButton), value.Guid);
+            else
+                eventPublisher.PublishClearedAsync(Guid, nameof(OpenSettingsButton));
+        }
+
+        private void UpdateProjectList(ITestAutomationProjectListView value)
+        {
+            projectList = value;
+
+            if (value != null)
+                eventPublisher.PublishAssignedAsync(Guid, nameof(ProjectList), value.Guid);
+            else
+                eventPublisher.PublishClearedAsync(Guid, nameof(ProjectList));
+        }
+
+        private void UpdateStatusBar(ITestAutomationMainViewStatusBar value)
+        {
+            statusBar = value;
+
+            if (value != null)
+                eventPublisher.PublishAssignedAsync(Guid, nameof(StatusBar), value.Guid);
+            else
+                eventPublisher.PublishClearedAsync(Guid, nameof(StatusBar));
         }
     }
 }

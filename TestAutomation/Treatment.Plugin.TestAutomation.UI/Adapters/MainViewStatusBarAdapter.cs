@@ -60,39 +60,9 @@
 
         public ITextBlock StatusText => statusText;
 
-        private void UpdateStatusText(ITestAutomationTextBlock value)
-        {
-            statusText = value;
-
-            if (statusText != null)
-                eventPublisher.PublishAssignedAsync(Guid, nameof(StatusText), statusText.Guid);
-            else
-                eventPublisher.PublishClearedAsync(Guid, nameof(StatusText));
-        }
-
         public ITextBlock StatusConfigFilename => statusConfigFilename;
 
-        private void UpdateStatusConfigFilename(ITestAutomationTextBlock value)
-        {
-            statusConfigFilename = value;
-
-            if (statusConfigFilename != null)
-                eventPublisher.PublishAssignedAsync(Guid, nameof(StatusConfigFilename), statusConfigFilename.Guid);
-            else
-                eventPublisher.PublishClearedAsync(Guid, nameof(StatusConfigFilename));
-        }
-
         public ITextBlock StatusDelayProcessCounter => statusDelayProcessCounter;
-
-        private void UpdateStatusDelayProcessCounter(ITestAutomationTextBlock value)
-        {
-            statusDelayProcessCounter = value;
-
-            if (statusDelayProcessCounter != null)
-                eventPublisher.PublishAssignedAsync(Guid, nameof(StatusDelayProcessCounter), statusDelayProcessCounter.Guid);
-            else
-                eventPublisher.PublishClearedAsync(Guid, nameof(StatusDelayProcessCounter));
-        }
 
         public void Dispose()
         {
@@ -177,6 +147,36 @@
             item.SourceUpdated += ItemOnSourceUpdated;
 
             ((INotifyCollectionChanged)item.Items).CollectionChanged += OnCollectionChanged;
+        }
+
+        private void UpdateStatusDelayProcessCounter(ITestAutomationTextBlock value)
+        {
+            statusDelayProcessCounter = value;
+
+            if (statusDelayProcessCounter != null)
+                eventPublisher.PublishAssignedAsync(Guid, nameof(StatusDelayProcessCounter), statusDelayProcessCounter.Guid);
+            else
+                eventPublisher.PublishClearedAsync(Guid, nameof(StatusDelayProcessCounter));
+        }
+
+        private void UpdateStatusText(ITestAutomationTextBlock value)
+        {
+            statusText = value;
+
+            if (statusText != null)
+                eventPublisher.PublishAssignedAsync(Guid, nameof(StatusText), statusText.Guid);
+            else
+                eventPublisher.PublishClearedAsync(Guid, nameof(StatusText));
+        }
+
+        private void UpdateStatusConfigFilename(ITestAutomationTextBlock value)
+        {
+            statusConfigFilename = value;
+
+            if (statusConfigFilename != null)
+                eventPublisher.PublishAssignedAsync(Guid, nameof(StatusConfigFilename), statusConfigFilename.Guid);
+            else
+                eventPublisher.PublishClearedAsync(Guid, nameof(StatusConfigFilename));
         }
 
         private void Items_CurrentChanged(object sender, System.EventArgs e)

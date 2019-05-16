@@ -12,7 +12,7 @@
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
     using Treatment.UI.UserControls;
 
-    internal class ProjectListViewAdapter : ITestAutomationListView, IProjectListView
+    internal class ProjectListViewAdapter : ITestAutomationProjectListView, ITestAutomationListView, IProjectListView
     {
         [NotNull] private readonly ProjectListView item;
         [NotNull] private readonly IEventPublisher eventPublisher;
