@@ -17,11 +17,11 @@
 
     internal class SettingWindowAdapter : ISettingWindow, ITestAutomationView
     {
+        [NotNull] private readonly ControlEventPublisher publisher;
+        [NotNull] private readonly List<IInitializable> helpers;
         [NotNull] private SettingsWindow settingsWindow;
         [NotNull] private IEventPublisher eventPublisher;
         [NotNull] private ITestAutomationAgent agent;
-        [NotNull] private ControlEventPublisher publisher;
-        [NotNull] private List<IInitializable> helpers;
 
         public SettingWindowAdapter([NotNull] SettingsWindow settingsWindow, [NotNull] IEventPublisher eventPublisher, [NotNull] ITestAutomationAgent agent)
         {

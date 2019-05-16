@@ -30,9 +30,10 @@
             // expensive..
             frameworkElement.LayoutUpdated += OnLayoutUpdated;
 
-            // todo inject window to subscribe on?!
             if (frameworkElement is Window w)
+            {
                 registeredWindow = w;
+            }
             else
             {
                 // todo

@@ -19,7 +19,6 @@
 
         public ControlEventPublisher([NotNull] IControl control, Guid guid, IEventPublisher eventPublisher)
         {
-
             Guard.NotNull(control, nameof(control));
             Guard.NotNull(eventPublisher, nameof(eventPublisher));
 
