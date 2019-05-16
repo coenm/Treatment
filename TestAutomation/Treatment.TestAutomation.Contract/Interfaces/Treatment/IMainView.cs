@@ -6,7 +6,9 @@
 
     public interface IMainView :
         ITestAutomationView,
-        IInitialized
+        IInitialized,
+        IWindowClosing,
+        IWindowClosed
     {
         IButton OpenSettingsButton { get; }
 

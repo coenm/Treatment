@@ -13,6 +13,7 @@
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Reflection;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
+    using Treatment.TestAutomation.Contract.Interfaces.Events.Window;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
     using Treatment.UI.UserControls;
@@ -42,8 +43,8 @@
             helpers = new List<IInitializable>
                       {
                           new InitializedHelper(mainWindow, c => Initialized?.Invoke(this, c)),
-                          new WindowClosingHelper(mainWindow, eventPublisher, Guid),
-                          new WindowClosedHelper(mainWindow, eventPublisher, Guid),
+                          new WindowClosingHelper(mainWindow, c => WindowClosing?.Invoke(this, c)),
+                          new WindowClosedHelper(mainWindow, c => WindowClosed?.Invoke(this, c)),
                           new WindowActivatedDeactivatedHelper(mainWindow, eventPublisher, Guid),
                       };
 
@@ -51,6 +52,10 @@
         }
 
         public event EventHandler<Initialized> Initialized;
+
+        public event EventHandler<WindowClosing> WindowClosing;
+
+        public event EventHandler<WindowClosed> WindowClosed;
 
         public IButton OpenSettingsButton { get; private set; }
 
