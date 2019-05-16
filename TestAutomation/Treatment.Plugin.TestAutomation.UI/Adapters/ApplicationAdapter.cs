@@ -14,7 +14,7 @@
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
 
-    public class ApplicationAdapter : ITestAutomationApplication
+    internal class ApplicationAdapter : ITestAutomationApplication
     {
         [NotNull] private readonly Application item;
         [NotNull] private readonly IEventPublisher eventPublisher;
@@ -69,7 +69,7 @@
             helpers.ForEach(helper => helper.Initialize());
         }
 
-        public void RegisterAndInitializeMainView(IMainWindow mainWindow)
+        public void RegisterAndInitializeMainView(ITestAutomationMainWindow mainWindow)
         {
             Guard.NotNull(mainWindow, nameof(mainWindow));
             MainWindow = mainWindow;

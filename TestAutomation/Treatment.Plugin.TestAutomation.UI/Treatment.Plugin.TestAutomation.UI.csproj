@@ -108,6 +108,7 @@
     <Compile Include="Interfaces\ITestAutomationApplication.cs" />
     <Compile Include="Interfaces\ITestAutomationListView.cs" />
     <Compile Include="Interfaces\ITestAutomationMainViewStatusBar.cs" />
+    <Compile Include="Interfaces\ITestAutomationMainWindow.cs" />
     <Compile Include="Interfaces\ITestAutomationSettingWindow.cs" />
     <Compile Include="Interfaces\ITestAutomationTextBlock.cs" />
     <Compile Include="ITestAutomationAgent.cs" />

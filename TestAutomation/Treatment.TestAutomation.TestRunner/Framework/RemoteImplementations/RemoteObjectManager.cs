@@ -50,6 +50,10 @@
                         {
                             store.TryAdd(e.Guid, new RemoteSettingWindow(e.Guid, applicationEvents, this));
                         }
+                        else if (e.InterfaceType == typeof(IMainWindow).FullName)
+                        {
+                            store.TryAdd(e.Guid, new RemoteMainWindow(e.Guid, applicationEvents, this));
+                        }
                         else
                         {
                             store.TryAdd(e.Guid, e.InterfaceType);

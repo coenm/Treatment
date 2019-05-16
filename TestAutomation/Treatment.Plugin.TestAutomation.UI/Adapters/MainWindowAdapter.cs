@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
-
+    using Interfaces;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers;
@@ -19,7 +19,7 @@
     using Treatment.UI.UserControls;
     using Treatment.UI.View;
 
-    internal class MainWindowAdapter : IMainWindow
+    internal class MainWindowAdapter : ITestAutomationMainWindow, IMainWindow
     {
         [NotNull] private readonly MainWindow mainWindow;
         [NotNull] private readonly IEventPublisher eventPublisher;

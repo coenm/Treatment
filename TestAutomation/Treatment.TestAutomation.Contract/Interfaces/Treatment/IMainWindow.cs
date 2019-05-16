@@ -14,7 +14,7 @@
         IIsEnabledChanged,
         ISizeUpdated,
         IFocusChange,
-        ITestAutomationView
+        IControl
     {
         IButton OpenSettingsButton { get; }
 

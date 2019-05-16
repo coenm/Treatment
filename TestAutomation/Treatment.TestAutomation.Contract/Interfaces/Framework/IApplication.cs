@@ -1,6 +1,7 @@
 ﻿namespace Treatment.TestAutomation.Contract.Interfaces.Framework
 {
     using global::Treatment.TestAutomation.Contract.Interfaces.Framework.SingleEventInterface;
+    using Treatment;
 
     public interface IApplication :
         IApplicationActivated,
@@ -9,5 +10,6 @@
         IApplicationStartup,
         IControl
     {
+        IMainWindow MainWindow { get; }
     }
 }

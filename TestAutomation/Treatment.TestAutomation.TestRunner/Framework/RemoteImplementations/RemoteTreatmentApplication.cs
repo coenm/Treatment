@@ -4,6 +4,7 @@
     using System.Reactive.Disposables;
     using System.Reactive.Linq;
 
+    using Contract.Interfaces.Treatment;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Application;
@@ -62,6 +63,8 @@
         public bool Created { get; private set; }
 
         public ApplicationActivationState State { get; private set; }
+
+        public IMainWindow MainWindow { get; } //todo coenm
 
         public void Dispose()
         {

@@ -134,6 +134,7 @@
   <ItemGroup>
     <Compile Include="Controls\Framework\RemoteButton.cs" />
     <Compile Include="Controls\Framework\RemoteMainViewStatusBar.cs" />
+    <Compile Include="Controls\Framework\RemoteMainWindow.cs" />
     <Compile Include="Controls\Framework\RemoteSettingWindow.cs" />
     <Compile Include="Controls\Framework\RemoteTextBlock.cs" />
     <Compile Include="Framework\Bootstrapper.cs" />
