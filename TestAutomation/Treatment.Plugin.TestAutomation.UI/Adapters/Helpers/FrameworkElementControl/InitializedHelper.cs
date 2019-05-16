@@ -1,25 +1,26 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.WindowControl
+﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl
 {
     using System;
     using System.Windows;
 
     using JetBrains.Annotations;
+
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Window;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
-    internal class WindowInitializedHelper : IUiElement, IInitializable, IDisposable
+    internal class InitializedHelper : IUiElement, IInitializable, IDisposable
     {
-        [NotNull] private readonly Window window;
+        [NotNull] private readonly FrameworkElement element;
         [NotNull] private readonly IEventPublisher eventPublisher;
 
-        public WindowInitializedHelper([NotNull] Window window, [NotNull] IEventPublisher eventPublisher, [NotNull] Guid guid)
+        public InitializedHelper([NotNull] FrameworkElement element, [NotNull] IEventPublisher eventPublisher, [NotNull] Guid guid)
         {
-            Guard.NotNull(window, nameof(window));
+            Guard.NotNull(element, nameof(element));
             Guard.NotNull(eventPublisher, nameof(eventPublisher));
 
-            this.window = window;
+            this.element = element;
             this.eventPublisher = eventPublisher;
             Guid = guid;
         }
@@ -28,15 +29,15 @@
 
         public void Initialize()
         {
-            window.Initialized += WindowOnInitialized;
+            element.Initialized += ElementOnInitialized;
         }
 
         public void Dispose()
         {
-            window.Initialized -= WindowOnInitialized;
+            element.Initialized -= ElementOnInitialized;
         }
 
-        private void WindowOnInitialized(object sender, EventArgs e)
+        private void ElementOnInitialized(object sender, EventArgs e)
         {
             var evt = new WindowInitialized
                       {

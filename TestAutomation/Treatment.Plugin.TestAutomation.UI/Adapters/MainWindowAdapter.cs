@@ -9,6 +9,7 @@
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers;
+    using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.WindowControl;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Interfaces;
@@ -37,7 +38,7 @@
 
             helpers = new List<IInitializable>
                       {
-                          new WindowInitializedHelper(mainWindow, eventPublisher, Guid),
+                          new InitializedHelper(mainWindow, eventPublisher, Guid),
                           new WindowClosingHelper(mainWindow, eventPublisher, Guid),
                           new WindowClosedHelper(mainWindow, eventPublisher, Guid),
                           new WindowActivatedDeactivatedHelper(mainWindow, eventPublisher, Guid),
