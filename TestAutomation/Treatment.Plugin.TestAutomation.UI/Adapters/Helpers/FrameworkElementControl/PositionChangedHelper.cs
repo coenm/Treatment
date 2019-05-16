@@ -14,7 +14,7 @@
         [NotNull] private readonly FrameworkElement frameworkElement;
         [NotNull] private readonly Action<PositionUpdated> callback;
         [CanBeNull] private Window registeredWindow;
-        [CanBeNull] private Point position;
+        private Point position;
 
         public PositionChangedHelper([NotNull] FrameworkElement frameworkElement, [NotNull] Action<PositionUpdated> callback)
         {
@@ -31,7 +31,13 @@
             frameworkElement.LayoutUpdated += OnLayoutUpdated;
 
             // todo inject window to subscribe on?!
-            registeredWindow = System.Windows.Application.Current.MainWindow;
+            if (frameworkElement is Window w)
+                registeredWindow = w;
+            else
+            {
+                // todo
+                registeredWindow = System.Windows.Application.Current.MainWindow;
+            }
 
             if (registeredWindow == null)
                 return;
