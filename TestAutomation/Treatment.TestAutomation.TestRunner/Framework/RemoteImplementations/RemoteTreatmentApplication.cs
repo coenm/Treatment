@@ -4,10 +4,10 @@
     using System.Reactive.Disposables;
     using System.Reactive.Linq;
 
-    using Contract.Interfaces.Treatment;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Application;
+    using Treatment.TestAutomation.Contract.Interfaces.Treatment;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
     internal class RemoteTreatmentApplication : ITreatmentApplication, IDisposable

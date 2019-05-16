@@ -11,33 +11,6 @@
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
-    internal class ButtonFactory : IComponentFactory
-    {
-        [NotNull] private readonly IApplicationEvents applicationEvents;
-        [NotNull] private readonly string fullname;
-
-        public ButtonFactory([NotNull] IApplicationEvents applicationEvents)
-        {
-            Guard.NotNull(applicationEvents, nameof(applicationEvents));
-
-            fullname = typeof(IButton).FullName ?? throw new InvalidOperationException();
-            this.applicationEvents = applicationEvents;
-        }
-
-        public bool CanCreate(string type) => fullname.Equals(type);
-
-        public object Create(Guid guid) => CreateButton(guid);
-
-        public IButton CreateButton(Guid guid) => new RemoteButton(guid, applicationEvents);
-    }
-
-    internal interface IComponentFactory
-    {
-        bool CanCreate(string type);
-
-        object Create(Guid guid);
-    }
-
     public class RemoteButton : IButton, IDisposable
     {
         [NotNull] private readonly CompositeDisposable disposable;
