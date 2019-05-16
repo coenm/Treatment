@@ -104,7 +104,7 @@
     <Compile Include="Interfaces\Events\Window\WindowClosing.cs" />
     <Compile Include="Interfaces\Events\Window\WindowClosed.cs" />
     <Compile Include="Interfaces\Events\Window\WindowDeactivated.cs" />
-    <Compile Include="Interfaces\Events\Window\WindowInitialized.cs" />
+    <Compile Include="Interfaces\Events\Element\Initialized.cs" />
     <Compile Include="Interfaces\Framework\IControl.cs" />
     <Compile Include="Interfaces\Framework\IApplication.cs" />
     <Compile Include="Interfaces\Framework\SingleEventInterface\IApplicationActivated.cs" />
@@ -120,6 +120,7 @@
     <Compile Include="Interfaces\Framework\SingleEventInterface\ISizeUpdated.cs" />
     <Compile Include="Interfaces\Framework\SingleEventInterface\ITextValueChanged.cs" />
     <Compile Include="Interfaces\Framework\SingleEventInterface\IButtonClicked.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IInitialized.cs" />
     <Compile Include="Interfaces\TestAutomationEvent.cs" />
     <Compile Include="Interfaces\Events\Application\ApplicationActivated.cs" />
     <Compile Include="Interfaces\Events\Application\ApplicationDeactivated.cs" />

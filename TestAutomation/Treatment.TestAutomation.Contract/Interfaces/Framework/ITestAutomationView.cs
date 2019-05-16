@@ -2,7 +2,7 @@
 {
     using System;
 
-    public interface ITestAutomationView : IDisposable
+    public interface ITestAutomationView : IControl, IDisposable
     {
         void Initialize();
     }

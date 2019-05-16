@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
 
@@ -12,8 +11,9 @@
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.WindowControl;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
-    using Treatment.Plugin.TestAutomation.UI.Interfaces;
     using Treatment.Plugin.TestAutomation.UI.Reflection;
+    using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
+    using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
     using Treatment.UI.UserControls;
     using Treatment.UI.View;
@@ -23,6 +23,7 @@
         [NotNull] private readonly MainWindow mainWindow;
         [NotNull] private readonly IEventPublisher eventPublisher;
         [NotNull] private readonly List<IInitializable> helpers;
+        [NotNull] private readonly ControlEventPublisher publisher;
 
         public MainWindowAdapter(
             [NotNull] MainWindow mainWindow,
@@ -36,9 +37,11 @@
             this.mainWindow = mainWindow;
             this.eventPublisher = eventPublisher;
 
+            publisher = new ControlEventPublisher(this, Guid, eventPublisher);
+
             helpers = new List<IInitializable>
                       {
-                          new InitializedHelper(mainWindow, eventPublisher, Guid),
+                          new InitializedHelper(mainWindow, c => Initialized?.Invoke(this, c)),
                           new WindowClosingHelper(mainWindow, eventPublisher, Guid),
                           new WindowClosedHelper(mainWindow, eventPublisher, Guid),
                           new WindowActivatedDeactivatedHelper(mainWindow, eventPublisher, Guid),
@@ -47,13 +50,9 @@
             eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IMainView));
         }
 
-        public event CancelEventHandler Closing
-        {
-            add => mainWindow.Closing += value;
-            remove => mainWindow.Closing -= value;
-        }
+        public event EventHandler<Initialized> Initialized;
 
-        public ITestAutomationButton OpenSettingsButton { get; private set; }
+        public IButton OpenSettingsButton { get; private set; }
 
         public IProjectListView ProjectList { get; private set; }
 
@@ -64,6 +63,8 @@
         public void Dispose()
         {
             helpers.ForEach(helper => helper.Dispose());
+
+            publisher.Dispose();
         }
 
         public void Initialize()
@@ -73,7 +74,7 @@
             OpenSettingsButton = new ButtonAdapter(
                 FieldsHelper.FindFieldInUiElementByName<Button>(mainWindow, nameof(OpenSettingsButton)),
                 eventPublisher);
-            OpenSettingsButton.Initialize();
+            ((ButtonAdapter)OpenSettingsButton).Initialize();
 
             StatusBar = new MainViewStatusBarAdapter(
                 FieldsHelper.FindFieldInUiElementByName<StatusBar>(mainWindow, nameof(StatusBar)),

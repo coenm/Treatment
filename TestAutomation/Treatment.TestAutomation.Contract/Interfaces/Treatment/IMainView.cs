@@ -2,9 +2,13 @@
 {
     using Framework;
 
-    public interface IMainView : ITestAutomationView
+    using global::Treatment.TestAutomation.Contract.Interfaces.Framework.SingleEventInterface;
+
+    public interface IMainView :
+        ITestAutomationView,
+        IInitialized
     {
-//        ITestAutomationButton OpenSettingsButton { get; }
+        IButton OpenSettingsButton { get; }
 
         IProjectListView ProjectList { get; }
 

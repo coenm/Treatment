@@ -4,28 +4,24 @@
     using System.Windows;
 
     using JetBrains.Annotations;
-
     using Treatment.Helpers.Guards;
-    using Treatment.Plugin.TestAutomation.UI.Infrastructure;
+    using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Window;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
     internal class InitializedHelper : IUiElement, IInitializable, IDisposable
     {
         [NotNull] private readonly FrameworkElement element;
-        [NotNull] private readonly IEventPublisher eventPublisher;
+        [NotNull] private readonly Action<Initialized> callback;
 
-        public InitializedHelper([NotNull] FrameworkElement element, [NotNull] IEventPublisher eventPublisher, [NotNull] Guid guid)
+        public InitializedHelper([NotNull] FrameworkElement element, [NotNull] Action<Initialized> callback)
         {
             Guard.NotNull(element, nameof(element));
-            Guard.NotNull(eventPublisher, nameof(eventPublisher));
+            Guard.NotNull(callback, nameof(callback));
 
             this.element = element;
-            this.eventPublisher = eventPublisher;
-            Guid = guid;
+            this.callback = callback;
         }
-
-        public Guid Guid { get; }
 
         public void Initialize()
         {
@@ -39,12 +35,7 @@
 
         private void ElementOnInitialized(object sender, EventArgs e)
         {
-            var evt = new WindowInitialized
-                      {
-                          Guid = Guid,
-                      };
-
-            eventPublisher.PublishAsync(evt);
+            callback.Invoke(new Initialized());
         }
     }
 }
