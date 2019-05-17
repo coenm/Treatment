@@ -107,6 +107,7 @@
     <Compile Include="Interfaces\Events\Element\Initialized.cs" />
     <Compile Include="Interfaces\Framework\IControl.cs" />
     <Compile Include="Interfaces\Framework\IApplication.cs" />
+    <Compile Include="Interfaces\Framework\ITextBox.cs" />
     <Compile Include="Interfaces\Framework\SingleEventInterface\IApplicationActivated.cs" />
     <Compile Include="Interfaces\Framework\SingleEventInterface\IApplicationDeactivated.cs" />
     <Compile Include="Interfaces\Framework\SingleEventInterface\IApplicationExit.cs" />

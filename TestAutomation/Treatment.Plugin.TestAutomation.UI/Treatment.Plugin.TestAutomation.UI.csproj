@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adapters\ApplicationAdapter.cs" />
+    <Compile Include="Adapters\TextBoxAdapter.cs" />
     <Compile Include="Adapters\ButtonAdapter.cs" />
     <Compile Include="Adapters\ControlEventPublisher.cs" />
     <Compile Include="Adapters\Helpers\Application\ApplicationActivationHelper.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Interfaces\ITestAutomationProjectListView.cs" />
     <Compile Include="Interfaces\ITestAutomationSettingWindow.cs" />
     <Compile Include="Interfaces\ITestAutomationTextBlock.cs" />
+    <Compile Include="Interfaces\ITestAutomationTextBox.cs" />
     <Compile Include="ITestAutomationAgent.cs" />
     <Compile Include="Settings\DummySettings.cs" />
     <Compile Include="Infrastructure\IEventPublisher.cs" />

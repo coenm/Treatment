@@ -51,8 +51,8 @@
       </Grid.ColumnDefinitions>
 
       <Label Grid.Row="0" Grid.Column="0" Content="Root directory" />
-      <TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Path=RootDirectory}" />
-      <Button Grid.Row="0" Grid.Column="2" Margin="2" ToolTip="Browse">
+      <TextBox Name="RootDirectory" Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Path=RootDirectory}" />
+      <Button Name="BrowseRootDirectory" Grid.Row="0" Grid.Column="2" Margin="2" ToolTip="Browse">
         <Button.Content>
           <fa:ImageAwesome  MaxWidth="15" MaxHeight="15"
                             Icon="EllipsisH"

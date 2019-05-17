@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Windows.Controls;
 
     using JetBrains.Annotations;
 
@@ -10,6 +11,7 @@
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.WindowControl;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Interfaces;
+    using Treatment.Plugin.TestAutomation.UI.Reflection;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Window;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
@@ -20,9 +22,11 @@
     {
         [NotNull] private readonly ControlEventPublisher publisher;
         [NotNull] private readonly List<IInitializable> helpers;
-        [NotNull] private SettingsWindow settingsWindow;
-        [NotNull] private IEventPublisher eventPublisher;
+        [NotNull] private readonly SettingsWindow settingsWindow;
+        [NotNull] private readonly IEventPublisher eventPublisher;
         [NotNull] private ITestAutomationAgent agent;
+        [CanBeNull] private ITestAutomationButton browseRootDirectory;
+        [CanBeNull] private ITestAutomationTextBox rootDirectory;
 
         public SettingWindowAdapter([NotNull] SettingsWindow settingsWindow, [NotNull] IEventPublisher eventPublisher, [NotNull] ITestAutomationAgent agent)
         {
@@ -80,11 +84,9 @@
 
         public Guid Guid { get; }
 
-        public IButton OpenSettingsButton { get; }
+        public IButton BrowseRootDirectory => browseRootDirectory;
 
-        public IProjectListView ProjectList { get; }
-
-        public IMainViewStatusBar StatusBar { get; }
+        public ITextBox RootDirectory => rootDirectory;
 
         public void Dispose()
         {
@@ -96,6 +98,38 @@
         public void Initialize()
         {
             helpers.ForEach(helper => helper.Initialize());
+
+            UpdateBrowseRootDirectory(
+                new ButtonAdapter(
+                    FieldsHelper.FindFieldInUiElementByName<Button>(settingsWindow, nameof(BrowseRootDirectory)),
+                    eventPublisher));
+            browseRootDirectory?.Initialize();
+
+            UpdateRootDirectory(
+                new TextBoxAdapter(
+                    FieldsHelper.FindFieldInUiElementByName<TextBox>(settingsWindow, nameof(RootDirectory)),
+                    eventPublisher));
+            rootDirectory?.Initialize();
+        }
+
+        private void UpdateBrowseRootDirectory(ITestAutomationButton value)
+        {
+            browseRootDirectory = value;
+
+            if (value != null)
+                eventPublisher.PublishAssignedAsync(Guid, nameof(BrowseRootDirectory), value.Guid);
+            else
+                eventPublisher.PublishClearedAsync(Guid, nameof(BrowseRootDirectory));
+        }
+
+        private void UpdateRootDirectory(ITestAutomationTextBox value)
+        {
+            rootDirectory = value;
+
+            if (value != null)
+                eventPublisher.PublishAssignedAsync(Guid, nameof(RootDirectory), value.Guid);
+            else
+                eventPublisher.PublishClearedAsync(Guid, nameof(RootDirectory));
         }
     }
 }

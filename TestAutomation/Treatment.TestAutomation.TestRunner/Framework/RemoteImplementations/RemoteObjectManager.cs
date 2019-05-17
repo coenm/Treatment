@@ -54,6 +54,10 @@
                         {
                             store.TryAdd(e.Guid, new RemoteMainWindow(e.Guid, applicationEvents, this));
                         }
+                        else if (e.InterfaceType == typeof(ITextBox).FullName)
+                        {
+                            store.TryAdd(e.Guid, new RemoteTextBox(e.Guid, applicationEvents));
+                        }
                         else
                         {
                             store.TryAdd(e.Guid, e.InterfaceType);

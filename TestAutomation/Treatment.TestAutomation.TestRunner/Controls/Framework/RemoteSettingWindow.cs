@@ -9,6 +9,7 @@
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Window;
+    using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
     using Treatment.TestAutomation.TestRunner.Framework.RemoteImplementations;
@@ -16,12 +17,19 @@
     public class RemoteSettingWindow : ISettingWindow, IDisposable
     {
         [NotNull] private readonly CompositeDisposable disposable;
+        [NotNull] private readonly SingleClassObjectManager propertyManager;
 
-        public RemoteSettingWindow(Guid guid, [NotNull] IApplicationEvents applicationEvents, RemoteObjectManager remoteObjectManager)
+        public RemoteSettingWindow(
+            Guid guid,
+            [NotNull] IApplicationEvents applicationEvents,
+            [NotNull] RemoteObjectManager remoteObjectManager)
         {
             Guard.NotNull(applicationEvents, nameof(applicationEvents));
+            Guard.NotNull(remoteObjectManager, nameof(remoteObjectManager));
 
             var filter = applicationEvents.Events.Where(ev => ev.Guid == guid);
+
+            propertyManager = new SingleClassObjectManager(remoteObjectManager, filter);
 
             disposable = new CompositeDisposable
                          {
@@ -65,6 +73,10 @@
 
         public event EventHandler<LostFocus> LostFocus;
 
+        public IButton BrowseRootDirectory => propertyManager.GetObject<IButton>();
+
+        public ITextBox RootDirectory => propertyManager.GetObject<ITextBox>();
+
         public Point Position { get; private set; }
 
         public Size Size { get; private set; }
@@ -72,6 +84,7 @@
         public void Dispose()
         {
             disposable.Dispose();
+            propertyManager.Dispose();
         }
     }
 }

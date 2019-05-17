@@ -15,5 +15,8 @@
         IFocusChange,
         IControl
     {
+        IButton BrowseRootDirectory { get; }
+
+        ITextBox RootDirectory { get; }
     }
 }
