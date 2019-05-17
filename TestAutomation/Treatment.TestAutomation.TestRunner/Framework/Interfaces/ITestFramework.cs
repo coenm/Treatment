@@ -4,7 +4,7 @@
 
     internal interface ITestFramework
     {
-        [NotNull] ITreatmentApplication Application { get; }
+        [CanBeNull] ITreatmentApplication Application { get; }
 
         [NotNull] ITestAgent Agent { get; }
 

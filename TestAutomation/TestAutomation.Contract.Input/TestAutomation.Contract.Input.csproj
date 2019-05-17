@@ -63,6 +63,7 @@
     <Compile Include="Interface\Input\Keyboard\KeyCombinationPressRequest.cs" />
     <Compile Include="Interface\Input\Keyboard\KeyDownRequest.cs" />
     <Compile Include="Interface\Input\Keyboard\KeyPressesRequest.cs" />
+    <Compile Include="Interface\Input\Keyboard\KeyPressesResponse.cs" />
     <Compile Include="Interface\Input\Keyboard\KeyUpRequest.cs" />
     <Compile Include="Interface\Input\Mouse\DoubleClickRequest.cs" />
     <Compile Include="Interface\Input\Mouse\DoubleClickResponse.cs" />

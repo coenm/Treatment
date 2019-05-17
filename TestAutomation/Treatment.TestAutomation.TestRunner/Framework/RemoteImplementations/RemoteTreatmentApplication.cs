@@ -6,17 +6,32 @@
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
+    using Treatment.TestAutomation.Contract.Interfaces.Events;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Application;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
+    using Treatment.TestAutomation.TestRunner.Controls.Framework;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
     internal class RemoteTreatmentApplication : ITreatmentApplication, IDisposable
     {
-        private readonly CompositeDisposable disposable;
+        [NotNull] private readonly IApplicationEvents applicationEvents;
+        [NotNull] private readonly RemoteObjectManager remoteObjectManager;
+        [NotNull] private readonly CompositeDisposable disposable;
+        [NotNull] private SingleClassObjectManager propertyManager;
+        [NotNull] private readonly IObservable<IEvent> filter;
+        private Guid guid = Guid.Empty;
 
-        public RemoteTreatmentApplication([NotNull] IApplicationEvents applicationEvents)
+        public RemoteTreatmentApplication(Guid guid, [NotNull] IApplicationEvents applicationEvents, [NotNull] RemoteObjectManager remoteObjectManager)
         {
             Guard.NotNull(applicationEvents, nameof(applicationEvents));
+            Guard.NotNull(remoteObjectManager, nameof(remoteObjectManager));
+
+            this.applicationEvents = applicationEvents;
+            this.remoteObjectManager = remoteObjectManager;
+
+            filter = applicationEvents.Events.Where(x => x.Guid == guid);
+
+            propertyManager = new SingleClassObjectManager(remoteObjectManager, filter);
 
             State = ApplicationActivationState.Unknown;
 
@@ -64,11 +79,12 @@
 
         public ApplicationActivationState State { get; private set; }
 
-        public IMainWindow MainWindow { get; }
+        public IMainWindow MainWindow => propertyManager.GetObject<IMainWindow>();
 
         public void Dispose()
         {
-            disposable?.Dispose();
+            disposable.Dispose();
+            propertyManager.Dispose();
         }
     }
 }

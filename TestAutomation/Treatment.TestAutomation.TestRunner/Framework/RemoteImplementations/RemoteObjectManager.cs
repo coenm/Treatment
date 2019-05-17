@@ -17,6 +17,7 @@
     /// </summary>
     public class RemoteObjectManager : IDisposable
     {
+        [CanBeNull] private ITreatmentApplication application;
         [NotNull] private readonly CompositeDisposable disposable;
         [NotNull] private readonly ConcurrentDictionary<Guid, object> store;
 
@@ -58,6 +59,11 @@
                         {
                             store.TryAdd(e.Guid, new RemoteTextBox(e.Guid, applicationEvents));
                         }
+                        else if (e.InterfaceType == typeof(IApplication).FullName)
+                        {
+                            application = new RemoteTreatmentApplication(e.Guid, applicationEvents, this);
+                            ApplicationAvailable?.Invoke(this, EventArgs.Empty);
+                        }
                         else
                         {
                             store.TryAdd(e.Guid, e.InterfaceType);
@@ -65,6 +71,8 @@
                     }),
             };
         }
+
+        public event EventHandler ApplicationAvailable;
 
         [CanBeNull] public object GetByGuid(Guid guid)
         {
@@ -76,6 +84,12 @@
         {
             disposable.Dispose();
             store.Clear();
+        }
+
+        [CanBeNull]
+        public IApplication GetApplication()
+        {
+            return application;
         }
     }
 }

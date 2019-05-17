@@ -36,7 +36,7 @@
             container.Register<IExecuteControl, ZeroMqExecuteControl>(Lifestyle.Transient);
             container.Register<IExecuteInput, ZeroMqExecuteInput>(Lifestyle.Transient);
 
-            container.Register<ITreatmentApplication, RemoteTreatmentApplication>(Lifestyle.Transient);
+            // container.Register<ITreatmentApplication, RemoteTreatmentApplication>(Lifestyle.Transient);
             container.Register<ITestAgent, RemoteTestAgent>(Lifestyle.Transient);
             container.Register<IMouse, RemoteMouse>(Lifestyle.Transient);
             container.Register<IKeyboard, RemoteKeyboard>(Lifestyle.Transient);

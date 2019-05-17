@@ -20,6 +20,7 @@
         [NotNull] private readonly IEventPublisher eventPublisher;
         [NotNull] private readonly List<IInitializable> helpers;
         [NotNull] private readonly ControlEventPublisher publisher;
+        [CanBeNull] private IMainWindow mainWindow;
 
         public ApplicationAdapter(
             [NotNull] Application item,
@@ -31,14 +32,17 @@
             this.item = item;
             this.eventPublisher = eventPublisher;
 
-            var guid = Guid.NewGuid();
+            Guid = Guid.NewGuid();
 
-            publisher = new ControlEventPublisher(this, guid, eventPublisher);
+            publisher = new ControlEventPublisher(this, Guid, eventPublisher);
 
             eventPublisher.PublishAsync(new ApplicationStarting
             {
                 CountDown = 0,
+                Guid = Guid,
             });
+
+            eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IApplication));
 
             helpers = new List<IInitializable>
                       {
@@ -48,10 +52,8 @@
                                                           c => Deactivated?.Invoke(this, c)),
                           new ApplicationStartupHelper(item, c => Startup?.Invoke(this, c)),
                           new ApplicationExitHelper(item, c => Exit?.Invoke(this, c)),
-                          new ApplicationDispatcherUnhandledExceptionHelper(item, eventPublisher, guid),
+                          new ApplicationDispatcherUnhandledExceptionHelper(item, eventPublisher, Guid),
                       };
-
-            eventPublisher.PublishNewControlCreatedAsync(guid, typeof(IApplication));
         }
 
         public event EventHandler<ApplicationActivated> Activated;
@@ -62,7 +64,9 @@
 
         public event EventHandler<ApplicationStarted> Startup;
 
-        public IMainWindow MainWindow { get; private set; }
+        public Guid Guid { get; }
+
+        public IMainWindow MainWindow => mainWindow;
 
         public void Initialize()
         {
@@ -72,7 +76,8 @@
         public void RegisterAndInitializeMainView(ITestAutomationMainWindow mainWindow)
         {
             Guard.NotNull(mainWindow, nameof(mainWindow));
-            MainWindow = mainWindow;
+            this.mainWindow = mainWindow;
+            eventPublisher.PublishAssignedAsync(Guid, nameof(MainWindow), mainWindow.Guid);
             mainWindow.Initialize();
         }
 

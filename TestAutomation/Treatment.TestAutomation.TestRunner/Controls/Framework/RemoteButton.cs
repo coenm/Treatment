@@ -3,6 +3,7 @@
     using System;
     using System.Reactive.Disposables;
     using System.Reactive.Linq;
+    using System.Windows;
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
@@ -29,15 +30,27 @@
 
                 filter
                     .Where(ev => ev is PositionUpdated)
-                    .Subscribe(ev => { PositionUpdated?.Invoke(this, (PositionUpdated)ev); }),
-
-                filter
-                    .Where(ev => ev is IsEnabledChanged)
-                    .Subscribe(ev => { IsEnabledChanged?.Invoke(this, (IsEnabledChanged)ev); }),
+                    .Subscribe(ev =>
+                               {
+                                   Position = ((PositionUpdated)ev).Point;
+                                   PositionUpdated?.Invoke(this, (PositionUpdated)ev);
+                               }),
 
                 filter
                     .Where(ev => ev is SizeUpdated)
-                    .Subscribe(ev => { SizeUpdated?.Invoke(this, (SizeUpdated)ev); }),
+                    .Subscribe(ev =>
+                               {
+                                   Size = ((SizeUpdated)ev).Size;
+                                   SizeUpdated?.Invoke(this, (SizeUpdated)ev);
+                               }),
+
+                filter
+                    .Where(ev => ev is IsEnabledChanged)
+                    .Subscribe(ev =>
+                               {
+                                   IsEnabled = ((IsEnabledChanged)ev).Enabled;
+                                   IsEnabledChanged?.Invoke(this, (IsEnabledChanged)ev);
+                               }),
 
                 filter
                     .Where(ev => ev is FocusableChanged)
@@ -84,6 +97,12 @@
         public event EventHandler<KeyboardFocusChanged> KeyboardFocusChanged;
 
         public bool HasFocus { get; private set; }
+
+        public Point Position { get; private set; }
+
+        public Size Size { get; private set; }
+
+        public bool IsEnabled { get; private set; }
 
         public void Dispose()
         {

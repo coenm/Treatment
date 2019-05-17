@@ -30,7 +30,7 @@
 
             KeyboardInputGenerator.KeyPresses(keycodes);
 
-            return Task.FromResult(new OkInputResponse() as IInputResponse);
+            return Task.FromResult(new KeyPressesResponse() as IInputResponse);
         }
     }
 }

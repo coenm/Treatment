@@ -4,6 +4,7 @@
 
     using JetBrains.Annotations;
     using SimpleInjector;
+
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
     using Treatment.TestAutomation.TestRunner.Framework.RemoteImplementations;
 
@@ -13,6 +14,7 @@
         [NotNull] private readonly Bootstrapper bootstrapper;
         [NotNull] private readonly Container container;
         [NotNull] public readonly RemoteObjectManager store;
+        [NotNull] private Guid applicationGuid = Guid.Empty;
 
         public TestFrameworkFixture()
         {
@@ -20,13 +22,19 @@
             container = bootstrapper.RegisterAll();
 
             store = container.GetInstance<RemoteObjectManager>();
-            Application = container.GetInstance<ITreatmentApplication>();
+            // Application = container.GetInstance<ITreatmentApplication>();
             Agent = container.GetInstance<ITestAgent>();
             Mouse = container.GetInstance<IMouse>();
             Keyboard = container.GetInstance<IKeyboard>();
         }
 
-        public ITreatmentApplication Application { get; }
+        public event EventHandler ApplicationAvailable
+        {
+            add => store.ApplicationAvailable += value;
+            remove => store.ApplicationAvailable -= value;
+        }
+
+        public ITreatmentApplication Application => store.GetApplication() as ITreatmentApplication;
 
         public ITestAgent Agent { get; }
 
