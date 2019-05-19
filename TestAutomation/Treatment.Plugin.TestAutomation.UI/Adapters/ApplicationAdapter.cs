@@ -21,6 +21,7 @@
         [NotNull] private readonly List<IInitializable> helpers;
         [NotNull] private readonly ControlEventPublisher publisher;
         [CanBeNull] private IMainWindow mainWindow;
+        [CanBeNull] private ISettingWindow settingsWindow;
 
         public ApplicationAdapter(
             [NotNull] Application item,
@@ -68,6 +69,8 @@
 
         public IMainWindow MainWindow => mainWindow;
 
+        public ISettingWindow SettingsWindow => settingsWindow;
+
         public void Initialize()
         {
             helpers.ForEach(helper => helper.Initialize());
@@ -79,6 +82,14 @@
             this.mainWindow = mainWindow;
             eventPublisher.PublishAssignedAsync(Guid, nameof(MainWindow), mainWindow.Guid);
             mainWindow.Initialize();
+        }
+
+        public void RegisterAndInitializeSettings(ITestAutomationSettingWindow settingsWindow)
+        {
+            Guard.NotNull(settingsWindow, nameof(settingsWindow));
+            this.settingsWindow = settingsWindow;
+            eventPublisher.PublishAssignedAsync(Guid, nameof(SettingsWindow), settingsWindow.Guid);
+            settingsWindow.Initialize();
         }
 
         public void Dispose()

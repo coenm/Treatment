@@ -81,6 +81,8 @@
 
         public IMainWindow MainWindow => propertyManager.GetObject<IMainWindow>();
 
+        public ISettingWindow SettingsWindow => propertyManager.GetObject<ISettingWindow>();
+
         public void Dispose()
         {
             disposable.Dispose();

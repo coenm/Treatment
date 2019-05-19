@@ -64,21 +64,25 @@
       </Button>
 
       <Label Grid.Row="1" Grid.Column="0" Content="Search Provider" />
-      <ComboBox Grid.Row="1" Grid.Column="1" Margin="2"
+      <ComboBox Name="ComboSearchProvider"
+                Grid.Row="1" Grid.Column="1" Margin="2"
                 ItemsSource="{Binding Path=SearchProviderNames}"
                 SelectedItem="{Binding Path=SearchProviderName}"
                 IsEnabled="{Binding Path=GetSearchProvidersTask.IsCompleted}"/>
-      <fa:ImageAwesome Grid.Row="1" Grid.Column="2" MaxWidth="15" MaxHeight="15"
+      <fa:ImageAwesome Name="SpinnerSearchProvider"
+                       Grid.Row="1" Grid.Column="2" MaxWidth="15" MaxHeight="15"
                        Icon="Spinner" Spin="True" SpinDuration="1"
                        VerticalAlignment="Center" HorizontalAlignment="Center"
                        Visibility="{Binding Path=GetSearchProvidersTask.IsNotCompleted, Converter={StaticResource BooleanVisibilityConverter}, ConverterParameter=Hidden}"/>
 
       <Label Grid.Row="2" Grid.Column="0" Content="Version Control Provider" />
-      <ComboBox Grid.Row="2" Grid.Column="1" Margin="2"
+      <ComboBox Name="ComboVersionControlProvider"
+                Grid.Row="2" Grid.Column="1" Margin="2"
                 ItemsSource="{Binding Path=VersionControlProviderNames}"
                 SelectedItem="{Binding Path=VersionControlProviderName}"
                 IsEnabled="{Binding Path=GetVersionControlProvidersTask.IsCompleted}"/>
-      <fa:ImageAwesome Grid.Row="2" Grid.Column="2" MaxWidth="15" MaxHeight="15"
+      <fa:ImageAwesome Name="SpinnerVersionControlProvider"
+                       Grid.Row="2" Grid.Column="2" MaxWidth="15" MaxHeight="15"
                        Icon="Spinner" Spin="True" SpinDuration="1"
                        VerticalAlignment="Center" HorizontalAlignment="Center"
                        Visibility="{Binding Path=GetVersionControlProvidersTask.IsNotCompleted, Converter={StaticResource BooleanVisibilityConverter}, ConverterParameter=Hidden}"/>
@@ -94,8 +98,8 @@
     </Grid>
 
   <StackPanel Grid.Row="1"  Orientation="Horizontal" HorizontalAlignment="Right">
-    <Button Margin="2" Width="75" IsDefault="True" Click="ButtonOk_OnClick" Content="Ok" />
-    <Button Margin="2" Width="75" IsCancel="True" Content="Cancel" />
+    <Button Name="OkButton" Margin="2" Width="75" IsDefault="True" Click="ButtonOk_OnClick" Content="Ok" />
+    <Button Name="CancelButton" Margin="2" Width="75" IsCancel="True" Content="Cancel" />
   </StackPanel>
 
   </Grid>

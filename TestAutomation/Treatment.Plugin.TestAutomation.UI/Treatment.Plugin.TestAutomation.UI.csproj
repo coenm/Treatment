@@ -78,6 +78,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adapters\ApplicationAdapter.cs" />
+    <Compile Include="Adapters\ComboBoxAdapter.cs" />
+    <Compile Include="Adapters\Helpers\FrameworkElementControl\SelectorSelectionChangedHelper.cs" />
+    <Compile Include="Adapters\Helpers\FrameworkElementControl\DropDownOpenClosedHelper.cs" />
     <Compile Include="Adapters\TextBoxAdapter.cs" />
     <Compile Include="Adapters\ButtonAdapter.cs" />
     <Compile Include="Adapters\ControlEventPublisher.cs" />
@@ -107,6 +110,7 @@
     <Compile Include="Interfaces\IGuid.cs" />
     <Compile Include="Interfaces\ITestAutomationButton.cs" />
     <Compile Include="Interfaces\ITestAutomationApplication.cs" />
+    <Compile Include="Interfaces\ITestAutomationComboBox.cs" />
     <Compile Include="Interfaces\ITestAutomationListView.cs" />
     <Compile Include="Interfaces\ITestAutomationMainViewStatusBar.cs" />
     <Compile Include="Interfaces\ITestAutomationMainWindow.cs" />

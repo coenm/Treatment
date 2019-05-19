@@ -59,6 +59,10 @@
                         {
                             store.TryAdd(e.Guid, new RemoteTextBox(e.Guid, applicationEvents));
                         }
+                        else if (e.InterfaceType == typeof(IComboBox).FullName)
+                        {
+                            store.TryAdd(e.Guid, new RemoteComboBox(e.Guid, applicationEvents));
+                        }
                         else if (e.InterfaceType == typeof(IApplication).FullName)
                         {
                             application = new RemoteTreatmentApplication(e.Guid, applicationEvents, this);

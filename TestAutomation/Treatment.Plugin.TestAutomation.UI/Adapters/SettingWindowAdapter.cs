@@ -5,7 +5,6 @@
     using System.Windows.Controls;
 
     using JetBrains.Annotations;
-
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.WindowControl;
@@ -27,6 +26,8 @@
         [NotNull] private ITestAutomationAgent agent;
         [CanBeNull] private ITestAutomationButton browseRootDirectory;
         [CanBeNull] private ITestAutomationTextBox rootDirectory;
+        [CanBeNull] private ITestAutomationComboBox comboSearchProvider;
+        [CanBeNull] private ITestAutomationComboBox comboVersionControlProvider;
 
         public SettingWindowAdapter([NotNull] SettingsWindow settingsWindow, [NotNull] IEventPublisher eventPublisher, [NotNull] ITestAutomationAgent agent)
         {
@@ -88,6 +89,10 @@
 
         public ITextBox RootDirectory => rootDirectory;
 
+        public IComboBox ComboSearchProvider => comboSearchProvider;
+
+        public IComboBox ComboVersionControlProvider => comboVersionControlProvider;
+
         public void Dispose()
         {
             helpers.ForEach(helper => helper.Dispose());
@@ -110,6 +115,18 @@
                     FieldsHelper.FindFieldInUiElementByName<TextBox>(settingsWindow, nameof(RootDirectory)),
                     eventPublisher));
             rootDirectory?.Initialize();
+
+            UpdateComboSearchProvider(
+                new ComboBoxAdapter(
+                    FieldsHelper.FindFieldInUiElementByName<ComboBox>(settingsWindow, nameof(ComboSearchProvider)),
+                    eventPublisher));
+            comboSearchProvider?.Initialize();
+
+            UpdateComboVersionControlProvider(
+                new ComboBoxAdapter(
+                    FieldsHelper.FindFieldInUiElementByName<ComboBox>(settingsWindow, nameof(ComboVersionControlProvider)),
+                    eventPublisher));
+            comboVersionControlProvider?.Initialize();
         }
 
         private void UpdateBrowseRootDirectory(ITestAutomationButton value)
@@ -130,6 +147,26 @@
                 eventPublisher.PublishAssignedAsync(Guid, nameof(RootDirectory), value.Guid);
             else
                 eventPublisher.PublishClearedAsync(Guid, nameof(RootDirectory));
+        }
+
+        private void UpdateComboSearchProvider(ITestAutomationComboBox value)
+        {
+            comboSearchProvider = value;
+
+            if (value != null)
+                eventPublisher.PublishAssignedAsync(Guid, nameof(ComboSearchProvider), value.Guid);
+            else
+                eventPublisher.PublishClearedAsync(Guid, nameof(ComboSearchProvider));
+        }
+
+        private void UpdateComboVersionControlProvider(ITestAutomationComboBox value)
+        {
+            comboVersionControlProvider = value;
+
+            if (value != null)
+                eventPublisher.PublishAssignedAsync(Guid, nameof(ComboVersionControlProvider), value.Guid);
+            else
+                eventPublisher.PublishClearedAsync(Guid, nameof(ComboVersionControlProvider));
         }
     }
 }

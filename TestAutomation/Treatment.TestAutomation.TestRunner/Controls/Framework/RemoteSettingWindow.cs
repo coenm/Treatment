@@ -77,6 +77,10 @@
 
         public ITextBox RootDirectory => propertyManager.GetObject<ITextBox>();
 
+        public IComboBox ComboSearchProvider => propertyManager.GetObject<IComboBox>();
+
+        public IComboBox ComboVersionControlProvider => propertyManager.GetObject<IComboBox>();
+
         public Point Position { get; private set; }
 
         public Size Size { get; private set; }

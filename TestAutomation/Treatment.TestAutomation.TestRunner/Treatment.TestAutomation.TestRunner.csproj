@@ -132,6 +132,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Framework\RemoteComboBox.cs" />
     <Compile Include="Controls\Framework\RemoteButton.cs" />
     <Compile Include="Controls\Framework\RemoteMainViewStatusBar.cs" />
     <Compile Include="Controls\Framework\RemoteMainWindow.cs" />

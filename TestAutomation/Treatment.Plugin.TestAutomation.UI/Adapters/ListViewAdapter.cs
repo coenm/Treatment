@@ -130,7 +130,8 @@
 
         private void ItemOnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            eventPublisher.PublishAsync(new SelectionChanged
+            eventPublisher.PublishAsync(
+                new CollectionSelectionChanged
                 {
                     Guid = Guid,
                     AddedCount = e.AddedItems?.Count,

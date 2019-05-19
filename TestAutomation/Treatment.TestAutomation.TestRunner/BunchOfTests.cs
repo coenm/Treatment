@@ -80,11 +80,13 @@
 
             await Mouse.MoveCursorAsync(x, y);
 
-            await Task.Delay(6000);
+            await Task.Delay(1000);
 
             await Mouse.ClickAsync();
 
             await Task.Delay(6000);
+
+            Application.SettingsWindow.Should().NotBeNull();
 
             await Keyboard.PressAsync(VirtualKeyCode.Escape);
 

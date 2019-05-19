@@ -49,8 +49,10 @@
         {
             // todo: wrong method name. how to deal with this popup window?
             Guard.NotNull(settingWindow, nameof(settingWindow));
+
+            application?.RegisterAndInitializeSettings(settingWindow);
             this.settingWindow = settingWindow;
-            settingWindow.Initialize();
+//            settingWindow.Initialize();
         }
 
         public void RegisterWorker([NotNull] Task task)

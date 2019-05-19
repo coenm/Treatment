@@ -18,5 +18,9 @@
         IButton BrowseRootDirectory { get; }
 
         ITextBox RootDirectory { get; }
+
+        IComboBox ComboSearchProvider { get; }
+
+        IComboBox ComboVersionControlProvider { get; }
     }
 }

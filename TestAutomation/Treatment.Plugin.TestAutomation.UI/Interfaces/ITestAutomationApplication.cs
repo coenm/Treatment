@@ -6,5 +6,7 @@
     internal interface ITestAutomationApplication : IApplication, IGuid, IUiElement
     {
         void RegisterAndInitializeMainView([NotNull] ITestAutomationMainWindow mainWindow);
+
+        void RegisterAndInitializeSettings([NotNull] ITestAutomationSettingWindow settingsWindow);
     }
 }
