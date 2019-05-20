@@ -1,0 +1,26 @@
+environment:
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  github_oauth_token:
+    secure: H1vW5fnfAOt5/c5f1qnaatUjFVAPc2oZnxDBFutJZL58LxAyJNRLtfIBrcHnSg8y
+
+version: 1.0.{build}
+image: Visual Studio 2017
+platform: x64
+
+init:
+- cmd: git config --global core.autocrlf true
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+before_build:
+- cmd: >-
+    dotnet restore
+
+    nuget restore
+build:
+  project: Treatment.sln
+  verbosity: normal
