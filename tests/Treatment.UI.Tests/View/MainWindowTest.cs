@@ -16,7 +16,7 @@
     {
         [Fact]
 //        [UseReporter(typeof(DiffReporter), typeof(ClipboardReporter))]
-        [UseReporter(typeof(DiffReporter))]
+        [UseReporter(typeof(QuietReporter))]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public void MainWindow_ShouldShowProjects_WhenInitializedWithTwo()
         {
