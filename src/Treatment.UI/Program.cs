@@ -2,8 +2,6 @@
 {
     using System;
     using System.IO;
-    using System.Linq;
-    using System.Reflection;
     using System.Windows;
     using System.Windows.Threading;
 
@@ -16,6 +14,7 @@
     using Treatment.Helpers.Guards;
     using Treatment.UI.Core.Configuration;
     using Treatment.UI.Framework;
+    using Treatment.UI.Framework.Application;
     using Treatment.UI.Framework.SynchronizationContext;
     using Treatment.UI.Framework.View;
     using Treatment.UI.Framework.ViewModel;
@@ -45,6 +44,9 @@
             container.Options.AllowOverridingRegistrations = true;
 
             CoreBootstrap.Bootstrap(container);
+
+            container.Register<IGetActivatedWindow, ApplicationActivatedWindow>(Lifestyle.Singleton);
+            // container.Register<ICurrentWindow, PInvokeActivatedWindow>(Lifestyle.Singleton);
 
             // Views
             container.Register<MainWindow>();

@@ -6,6 +6,7 @@
     using JetBrains.Annotations;
     using SimpleInjector;
     using Treatment.Helpers.Guards;
+    using Treatment.UI.Framework.Application;
     using Treatment.UI.Framework.View;
     using Treatment.UI.Framework.ViewModel;
 
@@ -52,6 +53,8 @@
 
             if (!(view is Window window))
                 return null;
+
+            window.Owner = container.GetInstance<IGetActivatedWindow>().Current;
 
             var result = window.ShowDialog();
             if (!result.HasValue || result != true)
