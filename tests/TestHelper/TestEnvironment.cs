@@ -60,6 +60,49 @@
 
         private static string GetRootDirectoryFullPathImpl()
         {
+            try
+            {
+                if (RunsOnAppVeyor)
+                    return GetRootDirectoryAppVeyorFullPathImpl();
+            }
+            catch (Exception)
+            {
+                // swallow
+            }
+
+            return GetRootDirectoryAppVeyorFullPathImpl();
+        }
+
+        private static string GetRootDirectoryAppVeyorFullPathImpl()
+        {
+            var envKey = "APPVEYOR_BUILD_FOLDER";
+
+            var appveyorBuildFolder = Environment.GetEnvironmentVariable(envKey);
+            if (string.IsNullOrWhiteSpace(appveyorBuildFolder))
+                throw new NullReferenceException($"No directory found in env variable {envKey}");
+
+            var directory = new DirectoryInfo(appveyorBuildFolder);
+
+            while (!directory.EnumerateFiles(RepositoryRoot).Any())
+            {
+                try
+                {
+                    directory = directory.Parent;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Unable to find root directory from '{appveyorBuildFolder}' because of {ex.GetType().Name}!", ex);
+                }
+
+                if (directory == null)
+                    throw new Exception($"Unable to find root directory from '{appveyorBuildFolder}'!");
+            }
+
+            return directory.FullName;
+        }
+
+        private static string GetRootDirectoryLocalFullPathImpl()
+        {
             var assemblyLocation = typeof(TestEnvironment).GetTypeInfo().Assembly.Location;
 
             var assemblyFile = new FileInfo(assemblyLocation);

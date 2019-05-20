@@ -4,14 +4,12 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
     using System.Runtime.CompilerServices;
     using System.Threading;
     using System.Threading.Tasks;
-    using Core.Bootstrap.Plugin;
+
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
-
     using Treatment.Console.Console;
     using Treatment.Console.CrossCuttingConcerns;
     using Treatment.Console.Decorators;
@@ -19,6 +17,7 @@
     using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Core.Bootstrap;
+    using Treatment.Core.Bootstrap.Plugin;
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
     using Treatment.Core.Interfaces;
 
