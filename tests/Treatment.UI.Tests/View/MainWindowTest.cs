@@ -7,14 +7,14 @@
     using ApprovalTests.Reporters;
     using ApprovalTests.Wpf;
     using FakeItEasy;
+    using TestHelper;
     using Treatment.Contract;
     using Treatment.UI.View;
     using Treatment.UI.ViewModel;
-    using Xunit;
 
     public class MainWindowTest
     {
-        [Fact]
+        [ConditionalHostFact(TestHostMode.Skip, TestHost.AppVeyor)]
         [UseReporter(typeof(DiffReporter), typeof(ClipboardReporter))]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public void MainWindow_ShouldShowProjects_WhenInitializedWithTwo()
