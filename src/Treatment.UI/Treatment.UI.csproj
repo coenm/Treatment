@@ -303,6 +303,9 @@
     <Compile Include="Behavior\FolderDialogBehavior.cs" />
     <Compile Include="Behavior\InitializeViewModelBehavior.cs" />
     <Compile Include="Core\Configuration\DelayExecutionSettings.cs" />
+    <Compile Include="Framework\Application\ApplicationActivatedWindow.cs" />
+    <Compile Include="Framework\Application\PInvokeActivatedWindow.cs" />
+    <Compile Include="Framework\Application\IGetActivatedWindow.cs" />
     <Compile Include="Implementations\Configuration\CacheConfigurationServiceDecorator.cs" />
     <Compile Include="Implementations\Configuration\ConcurrentConfigurationServiceDecorator.cs" />
     <Compile Include="Implementations\Configuration\FileBasedConfigurationService.cs" />
