@@ -11,6 +11,7 @@
     <PackageReference Include="Enums.NET" Version="2.3.2" />
     <PackageReference Include="FluentValidation" Version="8.3.0" />
     <PackageReference Include="JetBrains.Annotations" Version="2019.1.1" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="NLog" Version="4.6.3" />
     <PackageReference Include="SimpleInjector" Version="4.5.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
@@ -25,12 +26,6 @@
     <ProjectReference Include="..\Treatment.Contract.Plugin\Treatment.Contract.Plugin.csproj" />
     <ProjectReference Include="..\Treatment.Contract\Treatment.Contract.csproj" />
     <ProjectReference Include="..\Treatment.Helpers\Treatment.Helpers.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Microsoft.CSharp">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Microsoft.CSharp.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
