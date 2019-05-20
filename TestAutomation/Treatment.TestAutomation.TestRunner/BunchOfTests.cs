@@ -7,7 +7,7 @@
     using FluentAssertions;
     using global::TestAutomation.Input.Contract.Interface.Input.Enums;
     using JetBrains.Annotations;
-
+    using TestHelper;
     using Treatment.TestAutomation.TestRunner.Controls.Framework;
     using Treatment.TestAutomation.TestRunner.Framework;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
@@ -37,7 +37,7 @@
 
         private ITestAgent Agent => fixture.Agent;
 
-        [Fact]
+        [ConditionalHostFact(TestHostMode.Skip, TestHost.AppVeyor)]
         public async Task ReadTreatmentConfigFile()
         {
             var started = await Agent.StartSutAsync();
@@ -54,7 +54,7 @@
             content.Should().NotBeNull();
         }
 
-        [Fact]
+        [ConditionalHostFact(TestHostMode.Skip, TestHost.AppVeyor)]
         public async Task StartSutAndCheckApplicationCreatedSetting()
         {
             var mre = new ManualResetEvent(false);
@@ -95,7 +95,7 @@
             output.WriteLine("moved mouse");
         }
 
-        [Fact]
+        [ConditionalHostFact(TestHostMode.Skip, TestHost.AppVeyor)]
         public async Task StartSut()
         {
             var started = await Agent.StartSutAsync();

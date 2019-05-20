@@ -2,9 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
-    using System.Reflection;
 
     using FluentAssertions;
     using global::TestAutomation.Input.Contract.Interface.Base;
@@ -13,6 +11,7 @@
     using SimpleInjector;
     using TestAgent.Contract.Interface.Control;
     using TestAgent.Contract.Serializer;
+    using TestHelper;
     using Treatment.TestAutomation.TestRunner.Framework;
     using Treatment.TestAutomation.TestRunner.Helpers;
     using TreatmentZeroMq.ContextService;
@@ -48,7 +47,7 @@
             container?.Dispose();
         }
 
-        [Fact]
+        [ConditionalHostFact(TestHostMode.Skip, TestHost.AppVeyor)]
         public void StartSutTest()
         {
             var slnDir = FileSystem.GetSolutionDirectory();
@@ -134,7 +133,7 @@
             }
         }
 
-        [Fact]
+        [ConditionalHostFact(TestHostMode.Skip, TestHost.AppVeyor)]
         public void ClickMouse()
         {
             int x = 251;
