@@ -50,3 +50,7 @@ before_build:
 build:
   project: Treatment.sln
   verbosity: normal
+
+artifacts:
+- path: src\Treatment.UI\bin\**\*.*
+  name: executable
