@@ -25,7 +25,8 @@ dotnet_csproj:
 
 install:
  #- choco install gitversion.portable -pre -y
-- choco install gitversion.portable --version 5.0.0-beta3-4 --pre -y
+# - choco install gitversion.portable --version 5.0.0-beta3-4 --pre -y
+- choco install gitversion.portable --version 4.0.1-beta1-29 --pre -y
   #
   # install latest codecov (choco is behind of nuget)
 # - nuget install Codecov -OutputDirectory C:\NuGetTools\
