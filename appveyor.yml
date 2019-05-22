@@ -14,7 +14,7 @@ assembly_info:
   assembly_version: '%GitVersion_NuGetVersion%'
   assembly_file_version: '%GitVersion_NuGetVersion%'
   assembly_informational_version: '%GitVersion_InformationalVersion%'
-  git_version_sha: '%GitVersion_Sha%'
+  assembly_git_version_sha: '%GitVersion_Sha%'
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
