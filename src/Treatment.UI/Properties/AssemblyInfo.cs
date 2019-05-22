@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -35,3 +36,11 @@ using System.Windows;
 [assembly: AssemblyVersion("0.0.0.1")] // Buildserver will update this field
 [assembly: AssemblyFileVersion("0.0.0.1")] // Buildserver will update this field
 [assembly: AssemblyInformationalVersion("0.0.0.1")] // Buildserver will update this field
+[assembly: GitVersionSha("")]
+
+public class GitVersionShaAttribute : Attribute
+{
+    public GitVersionShaAttribute(string sha)
+    {
+    }
+}
