@@ -8,19 +8,44 @@ version: 1.0.{build}
 image: Visual Studio 2017
 platform: x64
 
-init:
-- cmd: git config --global core.autocrlf true
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
   assembly_version: '{version}'
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
-before_build:
-- cmd: >-
-    dotnet restore
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  # version: '%GitVersion_FullSemVer%'
+  version: '%GitVersion_NuGetVersion%'
+  # package_version: '%GitVersion_LegacySemVerPadded%'
+  package_version: '%GitVersion_NuGetVersion%'
+  informational_version: '%GitVersion_InformationalVersion%'
 
-    nuget restore
+install:
+ #- choco install gitversion.portable -pre -y
+- choco install gitversion.portable --version 5.0.0-beta3-4 --pre -y
+  #
+  # install latest codecov (choco is behind of nuget)
+# - nuget install Codecov -OutputDirectory C:\NuGetTools\
+- echo APPVEYOR_REPO_BRANCH  %APPVEYOR_REPO_BRANCH%
+- echo APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH %APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH%
+- cmd: IF [%APPVEYOR_PULL_REQUEST_NUMBER%]==[] ( 
+       C:\ProgramData\chocolatey\lib\gitversion.portable\tools\gitversion.exe /output buildserver /b %APPVEYOR_REPO_BRANCH% /c %APPVEYOR_REPO_COMMIT% 
+    ) ELSE (
+       C:\ProgramData\chocolatey\lib\gitversion.portable\tools\gitversion.exe /output buildserver /c %APPVEYOR_REPO_COMMIT%
+    )
+- git submodule update --init --recursive
+
+init:
+- cmd: git config --global core.autocrlf true
+
+  
+before_build:
+- cmd: dotnet restore
+- cmd: nuget restore
+
 build:
   project: Treatment.sln
   verbosity: normal
