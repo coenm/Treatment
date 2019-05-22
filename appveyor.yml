@@ -11,9 +11,9 @@ platform: x64
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
-  assembly_version: '{version}'
-  assembly_file_version: '{version}'
-  assembly_informational_version: '{version}'
+  assembly_version: '%GitVersion_NuGetVersion%'
+  assembly_file_version: '%GitVersion_NuGetVersion%'
+  assembly_informational_version: '%GitVersion_InformationalVersion%'
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
@@ -32,8 +32,8 @@ install:
 # - nuget install Codecov -OutputDirectory C:\NuGetTools\
 - echo APPVEYOR_REPO_BRANCH  %APPVEYOR_REPO_BRANCH%
 - echo APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH %APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH%
-- cmd: IF [%APPVEYOR_PULL_REQUEST_NUMBER%]==[] ( 
-       C:\ProgramData\chocolatey\lib\gitversion.portable\tools\gitversion.exe /output buildserver /b %APPVEYOR_REPO_BRANCH% /c %APPVEYOR_REPO_COMMIT% 
+- cmd: IF [%APPVEYOR_PULL_REQUEST_NUMBER%]==[] (
+       C:\ProgramData\chocolatey\lib\gitversion.portable\tools\gitversion.exe /output buildserver /b %APPVEYOR_REPO_BRANCH% /c %APPVEYOR_REPO_COMMIT%
     ) ELSE (
        C:\ProgramData\chocolatey\lib\gitversion.portable\tools\gitversion.exe /output buildserver /c %APPVEYOR_REPO_COMMIT%
     )
@@ -42,7 +42,6 @@ install:
 init:
 - cmd: git config --global core.autocrlf true
 
-  
 before_build:
 - cmd: dotnet restore
 - cmd: nuget restore
@@ -52,5 +51,5 @@ build:
   verbosity: normal
 
 artifacts:
-- path: src\Treatment.UI\bin\**\*.*
+- path: src\Treatment.UI\bin\**\Treatment*.*
   name: executable

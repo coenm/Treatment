@@ -32,6 +32,6 @@ using System.Windows;
 // where the generic resource dictionary is located (used if a resource is not found in the page, app, or any theme specific resource dictionaries)
 [assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
 
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("0.0.0.1")] // Buildserver will update this field
+[assembly: AssemblyFileVersion("0.0.0.1")] // Buildserver will update this field
+[assembly: AssemblyInformationalVersion("0.0.0.1")] // Buildserver will update this field
