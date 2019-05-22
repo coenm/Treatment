@@ -23,7 +23,6 @@ dotnet_csproj:
   # package_version: '%GitVersion_LegacySemVerPadded%'
   package_version: '%GitVersion_NuGetVersion%'
   informational_version: '%GitVersion_InformationalVersion%'
-  assembly_git_version_sha: '%GitVersion_Sha%'
 
 install:
  #- choco install gitversion.portable -pre -y
