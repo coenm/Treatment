@@ -318,6 +318,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\GitVersionInformation.generated.cs">
+      <Link>GitVersionInformation.generated.cs</Link>
+    </Compile>
     <Compile Include="Behavior\FolderDialogBehavior.cs" />
     <Compile Include="Behavior\InitializeViewModelBehavior.cs" />
     <Compile Include="Core\Configuration\DelayExecutionSettings.cs" />
