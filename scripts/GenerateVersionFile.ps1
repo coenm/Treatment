@@ -70,7 +70,7 @@ function Generate-Version-File-From-Table ($cs_output_filename, $git_version_fil
 namespace Generated
 {
     /// <summary>
-    /// Generated contstants should contain exact same values as the real hsm software does.
+    /// Generated version information (using GitVersion)
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode(`"${ScriptName}`", `"1.0.0.0`")]
     [System.Diagnostics.DebuggerStepThrough]
