@@ -3,16 +3,13 @@
     using System;
     using System.IO;
     using System.Text;
+    using System.Threading.Tasks;
 
     using ApprovalTests;
-
     using FluentAssertions;
-
     using JetBrains.Annotations;
-
     using Treatment.Console.Console;
     using Treatment.Console.Tests.E2ETests.Fakes;
-
     using Xunit;
 
     public class ProgramTests
@@ -43,24 +40,24 @@
         }
 
         [Fact]
-        public void StartWithEmptyParametersDoesNothingTest()
+        public async Task StartWithEmptyParametersDoesNothingTest()
         {
             // arrange
 
             // act
-            var result = Program.Main(string.Empty);
+            var result = await Program.Main(string.Empty);
 
             // assert
             result.Should().Be(-1);
         }
 
         [Fact]
-        public void ListProvidersShouldListFileSystemTest()
+        public async Task ListProvidersShouldListFileSystemTest()
         {
             // arrange
 
             // act
-            var result = Program.Main("list-providers");
+            var result = await Program.Main("list-providers");
 
             // assert
             result.Should().Be(0);
