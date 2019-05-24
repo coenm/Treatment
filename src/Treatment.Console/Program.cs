@@ -5,11 +5,7 @@
     using System.Threading.Tasks;
 
     using CommandLine;
-
-    using Nito.AsyncEx;
-
     using SimpleInjector;
-
     using Treatment.Console.Bootstrap;
     using Treatment.Console.CommandLineOptions;
     using Treatment.Console.Console;
@@ -25,10 +21,7 @@
         // ReSharper disable once MemberCanBePrivate.Global
         internal static Bootstrapper Bootstrapper { get; set; }
 
-        public static int Main(params string[] args)
-        {
-            return AsyncContext.Run(() => MainAsync(args));
-        }
+        public static Task<int> Main(params string[] args) => MainAsync(args);
 
         private static async Task<int> MainAsync(params string[] args)
         {
@@ -38,7 +31,8 @@
             Bootstrapper.Init();
             Bootstrapper.RegisterDefaultOptions();
 
-            var result = Parser.Default.ParseArguments<RemoveNewAppConfigOptions, ListProvidersOptions, FixOptions>(args);
+            var parser = Parser.Default;
+            var result = parser.ParseArguments<RemoveNewAppConfigOptions, ListProvidersOptions, FixOptions, DisplayVersionOption>(args);
             if (result == null)
                 throw new Exception("Something went wrong parsing the arguments..");
 
@@ -54,6 +48,9 @@
 
                     case ListProvidersOptions listProvidersOptions:
                         return await ListProvidersAsync(listProvidersOptions).ConfigureAwait(true);
+
+                    case DisplayVersionOption displayVersionOption:
+                        return await DisplayVersionAsync(displayVersionOption).ConfigureAwait(true);
 
                     default:
                         throw new NotImplementedException();
@@ -188,6 +185,36 @@
             }
 
             return 0;
+        }
+
+        private static Task<int> DisplayVersionAsync(DisplayVersionOption options)
+        {
+            Bootstrapper.Container.Register(
+                                            typeof(IHoldOnExitOption),
+                                            () => new StaticOptions(VerboseLevel.Disabled, false, options.HoldOnExit, string.Empty, string.Empty),
+                                            Lifestyle.Scoped);
+
+            using (Bootstrapper.StartSession())
+            {
+                var console = Bootstrapper.Container.GetInstance<IConsole>();
+
+                console.WriteLine("Version information:");
+                console.WriteLine($"- {Generated.GitVersionInfo.GitVersionFull}");
+                console.WriteLine($"- {Generated.GitVersionInfo.GitVersionBranch}");
+                console.WriteLine($"- {Generated.GitVersionInfo.GitVersionDate}");
+                console.WriteLine($"- {Generated.GitVersionInfo.GitVersionSha}");
+                console.WriteLine($"- {Generated.GitVersionInfo.GitVersionMajor}.{Generated.GitVersionInfo.GitVersionMinor}.{Generated.GitVersionInfo.GitVersionPatch}");
+
+                System.Console.WriteLine();
+
+                if (options.HoldOnExit)
+                {
+                    var holdOnConsole = Bootstrapper.Container.GetInstance<IHoldConsole>();
+                    holdOnConsole.Hold();
+                }
+            }
+
+            return Task.FromResult<int>(0);
         }
     }
 }
