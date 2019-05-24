@@ -45,7 +45,7 @@ init:
 - cmd: git config --global core.autocrlf true
 
 before_build:
-- ps: .\scripts\PreBuild.ps1
+- ps: scripts\PreBuild.ps1
 - cmd: dotnet restore
 - cmd: nuget restore
 
