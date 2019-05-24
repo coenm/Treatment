@@ -321,6 +321,9 @@
     <Compile Include="..\GitVersionInformation.generated.cs">
       <Link>GitVersionInformation.generated.cs</Link>
     </Compile>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Behavior\FolderDialogBehavior.cs" />
     <Compile Include="Behavior\InitializeViewModelBehavior.cs" />
     <Compile Include="Core\Configuration\DelayExecutionSettings.cs" />

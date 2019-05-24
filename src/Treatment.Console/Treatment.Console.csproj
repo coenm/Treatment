@@ -136,6 +136,9 @@
     <Compile Include="..\GitVersionInformation.generated.cs">
       <Link>GitVersionInformation.generated.cs</Link>
     </Compile>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Bootstrap\Bootstrapper.cs" />
     <Compile Include="Bootstrap\DefaultOptions.cs" />
     <Compile Include="Bootstrap\IDryRunOption.cs" />

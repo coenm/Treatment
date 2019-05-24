@@ -8,9 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Treatment.Plugin.Svn")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Treatment.Plugin.Svn")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -21,8 +19,5 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("4ee6347f-2aa4-490d-a178-2b2398eef7b1")]
-
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
 
 [assembly: InternalsVisibleTo("Treatment.Plugin.Svn.Tests")]

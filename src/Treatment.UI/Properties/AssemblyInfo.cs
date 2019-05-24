@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -9,9 +8,7 @@ using System.Windows;
 [assembly: AssemblyTitle("Treatment.UI")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Treatment.UI")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,15 +29,3 @@ using System.Windows;
 // where theme specific resource dictionaries are located (used if a resource is not found in the page, or application resource dictionaries)
 // where the generic resource dictionary is located (used if a resource is not found in the page, app, or any theme specific resource dictionaries)
 [assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
-
-[assembly: AssemblyVersion("0.0.0.1")] // Buildserver will update this field
-[assembly: AssemblyFileVersion("0.0.0.1")] // Buildserver will update this field
-[assembly: AssemblyInformationalVersion("0.0.0.1")] // Buildserver will update this field
-[assembly: GitVersionSha("")]
-
-public class GitVersionShaAttribute : Attribute
-{
-    public GitVersionShaAttribute(string sha)
-    {
-    }
-}

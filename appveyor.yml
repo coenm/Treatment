@@ -12,7 +12,7 @@ configuration: Release
 
 assembly_info:
   patch: true
-  file: '**\AssemblyInfo.*'
+  file: '**\*AssemblyInfo.cs'
   assembly_version: '%GitVersion_NuGetVersion%'
   assembly_file_version: '%GitVersion_NuGetVersion%'
   assembly_informational_version: '%GitVersion_InformationalVersion%'
@@ -57,11 +57,25 @@ build:
 # tests are run automatically using default config
 
 after_test:
-- cmd: 7z a console.zip src\Treatment.Console\bin\x64\Release\*.dll
-- cmd: 7z a console.zip src\Treatment.Console\bin\x64\Release\*.exe
-- cmd: 7z a console.zip src\Treatment.Console\bin\x64\Release\*.config
+- cmd: 7z a TreatmentConsole.zip src\Treatment.Console\bin\x64\Release\*.dll
+- cmd: 7z a TreatmentConsole.zip src\Treatment.Console\bin\x64\Release\*.exe
+- cmd: 7z a TreatmentConsole.zip src\Treatment.Console\bin\x64\Release\*.config
+
+- cmd: 7z a EverythingPlugin.zip src\Treatment.Plugin.Everything\bin\x64\Release\*.dll
+- cmd: 7z a EverythingPlugin.zip src\Treatment.Plugin.Everything\bin\x64\Release\*.exe
+
+- cmd: 7z a SvnPlugin.zip src\Treatment.Plugin.Svn\bin\x64\Release\*.dll
+- cmd: 7z a SvnPlugin.zip src\Treatment.Plugin.Svn\bin\x64\Release\*.exe
+
+- cmd: 7z a TreatmentUI.zip src\Treatment.UI\bin\x64\Release\*.dll
+- cmd: 7z a TreatmentUI.zip src\Treatment.UI\bin\x64\Release\*.exe
+- cmd: 7z a TreatmentUI.zip src\Treatment.UI\bin\x64\Release\*.config
+
 
 artifacts:
 - path: src
 
-- path: console.zip
+- path: TreatmentConsole.zip
+- path: EverythingPlugin.zip
+- path: SvnPlugin.zip
+- path: TreatmentUI.zip
