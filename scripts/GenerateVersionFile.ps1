@@ -90,10 +90,12 @@ namespace Generated
 
 function Generate-Version-File ($output_filename, $git_version_file)
 {
+	Write-Host "Generate version file using gitversion."
     & $git_version $root_dir > $git_version_file | Out-Null
     
     # TODO: Check if GitVersion succeeded?
    
     # Generate the version file.
+	Write-Host "Generate cs version file."
     Generate-Version-File-From-Table $output_filename $git_version_file
 }

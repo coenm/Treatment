@@ -3,6 +3,7 @@ environment:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   github_oauth_token:
     secure: H1vW5fnfAOt5/c5f1qnaatUjFVAPc2oZnxDBFutJZL58LxAyJNRLtfIBrcHnSg8y
+  gitversion_executable:C:\ProgramData\chocolatey\lib\gitversion.portable\tools\gitversion.exe
 
 version: 1.0.{build}
 image: Visual Studio 2017
@@ -34,9 +35,9 @@ install:
 - echo APPVEYOR_REPO_BRANCH  %APPVEYOR_REPO_BRANCH%
 - echo APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH %APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH%
 - cmd: IF [%APPVEYOR_PULL_REQUEST_NUMBER%]==[] (
-       C:\ProgramData\chocolatey\lib\gitversion.portable\tools\gitversion.exe /output buildserver /b %APPVEYOR_REPO_BRANCH% /c %APPVEYOR_REPO_COMMIT%
+       %gitversion_executable% /output buildserver /b %APPVEYOR_REPO_BRANCH% /c %APPVEYOR_REPO_COMMIT%
     ) ELSE (
-       C:\ProgramData\chocolatey\lib\gitversion.portable\tools\gitversion.exe /output buildserver /c %APPVEYOR_REPO_COMMIT%
+       %gitversion_executable% /output buildserver /c %APPVEYOR_REPO_COMMIT%
     )
 - git submodule update --init --recursive
 
@@ -44,6 +45,7 @@ init:
 - cmd: git config --global core.autocrlf true
 
 before_build:
+- ps: .\scripts\PreBuild.ps1
 - cmd: dotnet restore
 - cmd: nuget restore
 
