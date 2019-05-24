@@ -1,7 +1,5 @@
 <h1 align="center">Treatment</h1>
-<div align="center">
-[![Build status](https://ci.appveyor.com/api/projects/status/41u98m32ih1758kq/branch/develop?svg=true)](https://ci.appveyor.com/project/coenm/treatment/branch/develop)
-</div>
+<div align="center">[![Build status](https://ci.appveyor.com/api/projects/status/41u98m32ih1758kq/branch/develop?svg=true)](https://ci.appveyor.com/project/coenm/treatment/branch/develop)</div>
 
 Specific command line tool for updating `*.csproj` files.
 
