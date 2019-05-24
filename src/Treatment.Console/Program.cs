@@ -25,6 +25,8 @@
 
         private static async Task<int> MainAsync(params string[] args)
         {
+            System.Console.Title = $"Treatment ({Generated.GitVersionInfo.FullSemanticVersion}, Branch {Generated.GitVersionInfo.BranchName}, Commit {Generated.GitVersionInfo.Sha}, Date {Generated.GitVersionInfo.GitVersionCommitDate:yyyy-MM-dd})";
+
             if (Bootstrapper == null)
                 Bootstrapper = new Bootstrapper();
 
@@ -199,11 +201,10 @@
                 var console = Bootstrapper.Container.GetInstance<IConsole>();
 
                 console.WriteLine("Version information:");
-                console.WriteLine($"- {Generated.GitVersionInfo.GitVersionFull}");
-                console.WriteLine($"- {Generated.GitVersionInfo.GitVersionBranch}");
-                console.WriteLine($"- {Generated.GitVersionInfo.GitVersionDate}");
-                console.WriteLine($"- {Generated.GitVersionInfo.GitVersionSha}");
-                console.WriteLine($"- {Generated.GitVersionInfo.GitVersionMajor}.{Generated.GitVersionInfo.GitVersionMinor}.{Generated.GitVersionInfo.GitVersionPatch}");
+                console.WriteLine($"- {Generated.GitVersionInfo.FullSemanticVersion}");
+                console.WriteLine($"- {Generated.GitVersionInfo.BranchName}");
+                console.WriteLine($"- {Generated.GitVersionInfo.Sha}");
+                console.WriteLine($"- {Generated.GitVersionInfo.GitVersionCommitDate.ToString("MM/dd/yyyy")}");
 
                 System.Console.WriteLine();
 

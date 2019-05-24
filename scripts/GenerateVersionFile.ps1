@@ -24,27 +24,30 @@ function Generate-Define-Rules ($headerFile, $versionFile)
     $versionInfo = $ser.DeserializeObject($content)
 
     # Sanity check: was the file correctly parsed, and does it contain everything we need?
-    If ($versionInfo -eq $null -or $versionInfo.FullSemVer -eq $null `
-                               -or $versionInfo.BranchName -eq $null `
-                               -or $versionInfo.CommitDate -eq $null `
-                               -or $versionInfo.Sha        -eq $null `
-                               -or $versionInfo.Major      -eq $null `
-                               -or $versionInfo.Minor      -eq $null `
-                               -or $versionInfo.Patch      -eq $null )
+    If ($versionInfo -eq $null -or $versionInfo.FullSemVer                -eq $null `
+                               -or $versionInfo.InformationalVersion      -eq $null `
+                               -or $versionInfo.BranchName                -eq $null `
+                               -or $versionInfo.Sha                       -eq $null `
+                               -or $versionInfo.Major                     -eq $null `
+                               -or $versionInfo.Minor                     -eq $null `
+                               -or $versionInfo.Patch                     -eq $null `
+                               -or $versionInfo.CommitsSinceVersionSource -eq $null `
+                               -or $versionInfo.CommitDate                -eq $null )
     {
         Write-Host "[!] File $versionFile could not be parsed."
         Exit (4);
     }
     # Produce the output.
     Add-Content $headerFile @"
-        public const string GitVersionFull   = "$($versionInfo.FullSemVer)";
-        public const string GitVersionBranch = "$($versionInfo.BranchName)";
-        public const string GitVersionDate   = "$($versionInfo.CommitDate)";
-        public const string GitVersionSha    = "$($versionInfo.Sha)";
-        public const int    GitVersionMajor  = $($versionInfo.Major);
-        public const int    GitVersionMinor  = $($versionInfo.Minor);
-        public const int    GitVersionPatch  = $($versionInfo.Patch);
-        
+        public const string FullSemanticVersion = "$($versionInfo.FullSemVer)";
+        public const string InformationalVersion = "$($versionInfo.InformationalVersion)";
+        public const string BranchName = "$($versionInfo.BranchName)";
+        public const string Sha = "$($versionInfo.Sha)";
+        public const int Major = $($versionInfo.Major);
+        public const int Minor = $($versionInfo.Minor);
+        public const int Patch = $($versionInfo.Patch);
+        public const int CommitsSinceVersionSource = $($versionInfo.CommitsSinceVersionSource);
+		public static System.DateTime GitVersionCommitDate = System.DateTime.Parse("$($versionInfo.CommitDate)");
 "@
 }
 
