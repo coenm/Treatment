@@ -12,7 +12,7 @@
     {
         [NotNull] private readonly Window window;
         [NotNull] private readonly Action<WindowActivated> callbackActivated;
-        [NotNull] private Action<WindowDeactivated> callbackDeactivated;
+        [NotNull] private readonly Action<WindowDeactivated> callbackDeactivated;
 
         public WindowActivatedDeactivatedHelper(
             [NotNull] Window window,
