@@ -57,25 +57,23 @@ build:
 # tests are run automatically using default config
 
 after_test:
-- cmd: 7z a TreatmentConsole.zip src\Treatment.Console\bin\x64\Release\*.dll
-- cmd: 7z a TreatmentConsole.zip src\Treatment.Console\bin\x64\Release\*.exe
-- cmd: 7z a TreatmentConsole.zip src\Treatment.Console\bin\x64\Release\*.config
+- cmd: 7z a TreatmentConsole.%GitVersion_FullSemVer%.zip .\src\Treatment.Console\bin\x64\Release\*.dll
+- cmd: 7z a TreatmentConsole.%GitVersion_FullSemVer%.zip .\src\Treatment.Console\bin\x64\Release\*.exe
+- cmd: 7z a TreatmentConsole.%GitVersion_FullSemVer%.zip .\src\Treatment.Console\bin\x64\Release\*.config
 
-- cmd: 7z a EverythingPlugin.zip src\Treatment.Plugin.Everything\bin\x64\Release\*.dll
-- cmd: 7z a EverythingPlugin.zip src\Treatment.Plugin.Everything\bin\x64\Release\*.exe
+- cmd: 7z a EverythingPlugin.%GitVersion_FullSemVer%.zip .\src\Treatment.Plugin.Everything\bin\x64\Release\*.dll
+- cmd: 7z a EverythingPlugin.%GitVersion_FullSemVer%.zip .\src\Treatment.Plugin.Everything\bin\x64\Release\*.exe
 
-- cmd: 7z a SvnPlugin.zip src\Treatment.Plugin.Svn\bin\x64\Release\*.dll
-- cmd: 7z a SvnPlugin.zip src\Treatment.Plugin.Svn\bin\x64\Release\*.exe
+- cmd: 7z a SvnPlugin.%GitVersion_FullSemVer%.zip .\src\Treatment.Plugin.Svn\bin\x64\Release\*.dll
+- cmd: 7z a SvnPlugin.%GitVersion_FullSemVer%.zip .\src\Treatment.Plugin.Svn\bin\x64\Release\*.exe
 
-- cmd: 7z a TreatmentUI.zip src\Treatment.UI\bin\x64\Release\*.dll
-- cmd: 7z a TreatmentUI.zip src\Treatment.UI\bin\x64\Release\*.exe
-- cmd: 7z a TreatmentUI.zip src\Treatment.UI\bin\x64\Release\*.config
+- cmd: 7z a TreatmentUI.%GitVersion_FullSemVer%.zip .\src\Treatment.UI\bin\x64\Release\*.dll
+- cmd: 7z a TreatmentUI.%GitVersion_FullSemVer%.zip .\src\Treatment.UI\bin\x64\Release\*.exe
+- cmd: 7z a TreatmentUI.%GitVersion_FullSemVer%.zip .\src\Treatment.UI\bin\x64\Release\*.config
 
 
 artifacts:
-- path: src
-
-- path: TreatmentConsole.zip
-- path: EverythingPlugin.zip
-- path: SvnPlugin.zip
-- path: TreatmentUI.zip
+- path: TreatmentConsole.%GitVersion_FullSemVer%.zip
+- path: EverythingPlugin.%GitVersion_FullSemVer%.zip
+- path: SvnPlugin.%GitVersion_FullSemVer%.zip
+- path: TreatmentUI.%GitVersion_FullSemVer%.zip
