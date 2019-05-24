@@ -7,6 +7,7 @@
     using Treatment.Console.CommandLineOptions.Internal;
 
     [Verb("fix-app-config", HelpText = "Remove new app.config files and fix csproj file")]
+    [UsedImplicitly]
     public class RemoveNewAppConfigOptions : OptionsBase,
                                              IOptionsHoldOnExit,
                                              IOptionsRootDirectory,

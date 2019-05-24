@@ -3,24 +3,77 @@ environment:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   github_oauth_token:
     secure: H1vW5fnfAOt5/c5f1qnaatUjFVAPc2oZnxDBFutJZL58LxAyJNRLtfIBrcHnSg8y
+  gitversion_executable: C:\ProgramData\chocolatey\lib\gitversion.portable\tools\gitversion.exe
 
 version: 1.0.{build}
 image: Visual Studio 2017
 platform: x64
+configuration: Release
+
+assembly_info:
+  patch: true
+  file: '**\*AssemblyInfo.cs'
+  assembly_version: '%GitVersion_NuGetVersion%'
+  assembly_file_version: '%GitVersion_NuGetVersion%'
+  assembly_informational_version: '%GitVersion_InformationalVersion%'
+
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  # version: '%GitVersion_FullSemVer%'
+  version: '%GitVersion_NuGetVersion%'
+  # package_version: '%GitVersion_LegacySemVerPadded%'
+  package_version: '%GitVersion_NuGetVersion%'
+  informational_version: '%GitVersion_InformationalVersion%'
+
+install:
+ #- choco install gitversion.portable -pre -y
+# - choco install gitversion.portable --version 5.0.0-beta3-4 --pre -y
+- choco install gitversion.portable --version 4.0.1-beta1-29 --pre -y
+  #
+  # install latest codecov (choco is behind of nuget)
+# - nuget install Codecov -OutputDirectory C:\NuGetTools\
+- echo APPVEYOR_REPO_BRANCH  %APPVEYOR_REPO_BRANCH%
+- echo APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH %APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH%
+- cmd: IF [%APPVEYOR_PULL_REQUEST_NUMBER%]==[] (
+       %gitversion_executable% /output buildserver /b %APPVEYOR_REPO_BRANCH% /c %APPVEYOR_REPO_COMMIT%
+    ) ELSE (
+       %gitversion_executable% /output buildserver /c %APPVEYOR_REPO_COMMIT%
+    )
+- git submodule update --init --recursive
 
 init:
 - cmd: git config --global core.autocrlf true
-assembly_info:
-  patch: true
-  file: '**\AssemblyInfo.*'
-  assembly_version: '{version}'
-  assembly_file_version: '{version}'
-  assembly_informational_version: '{version}'
-before_build:
-- cmd: >-
-    dotnet restore
 
-    nuget restore
+before_build:
+- ps: scripts\PreBuild.ps1
+- cmd: dotnet restore
+- cmd: nuget restore
+
 build:
   project: Treatment.sln
   verbosity: normal
+
+# tests are run automatically using default config
+
+after_test:
+- cmd: 7z a TreatmentConsole.%GitVersion_FullSemVer%.zip .\src\Treatment.Console\bin\x64\Release\*.dll
+- cmd: 7z a TreatmentConsole.%GitVersion_FullSemVer%.zip .\src\Treatment.Console\bin\x64\Release\*.exe
+- cmd: 7z a TreatmentConsole.%GitVersion_FullSemVer%.zip .\src\Treatment.Console\bin\x64\Release\*.config
+
+- cmd: 7z a EverythingPlugin.%GitVersion_FullSemVer%.zip .\src\Treatment.Plugin.Everything\bin\x64\Release\*.dll
+- cmd: 7z a EverythingPlugin.%GitVersion_FullSemVer%.zip .\src\Treatment.Plugin.Everything\bin\x64\Release\*.exe
+
+- cmd: 7z a SvnPlugin.%GitVersion_FullSemVer%.zip .\src\Treatment.Plugin.Svn\bin\x64\Release\*.dll
+- cmd: 7z a SvnPlugin.%GitVersion_FullSemVer%.zip .\src\Treatment.Plugin.Svn\bin\x64\Release\*.exe
+
+- cmd: 7z a TreatmentUI.%GitVersion_FullSemVer%.zip .\src\Treatment.UI\bin\x64\Release\*.dll
+- cmd: 7z a TreatmentUI.%GitVersion_FullSemVer%.zip .\src\Treatment.UI\bin\x64\Release\*.exe
+- cmd: 7z a TreatmentUI.%GitVersion_FullSemVer%.zip .\src\Treatment.UI\bin\x64\Release\*.config
+
+
+artifacts:
+- path: TreatmentConsole.%GitVersion_FullSemVer%.zip
+- path: EverythingPlugin.%GitVersion_FullSemVer%.zip
+- path: SvnPlugin.%GitVersion_FullSemVer%.zip
+- path: TreatmentUI.%GitVersion_FullSemVer%.zip

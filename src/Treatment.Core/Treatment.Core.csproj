@@ -23,6 +23,9 @@
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GitVersionInformation.generated.cs" Link="GitVersionInformation.generated.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Treatment.Contract.Plugin\Treatment.Contract.Plugin.csproj" />
     <ProjectReference Include="..\Treatment.Contract\Treatment.Contract.csproj" />
     <ProjectReference Include="..\Treatment.Helpers\Treatment.Helpers.csproj" />
