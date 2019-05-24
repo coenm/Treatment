@@ -37,6 +37,10 @@ function Generate-Define-Rules ($headerFile, $versionFile)
         Write-Host "[!] File $versionFile could not be parsed."
         Exit (4);
     }
+
+	# todo fix utc
+	$build_timestamp = [DateTime]::Now | get-date -Format "yyyy-MM-ddTHH:mm:ssZ"
+
     # Produce the output.
     Add-Content $headerFile @"
         public const string FullSemanticVersion = "$($versionInfo.FullSemVer)";
@@ -48,6 +52,7 @@ function Generate-Define-Rules ($headerFile, $versionFile)
         public const int Patch = $($versionInfo.Patch);
         public const int CommitsSinceVersionSource = $($versionInfo.CommitsSinceVersionSource);
 		public static System.DateTime GitVersionCommitDate = System.DateTime.Parse("$($versionInfo.CommitDate)");
+		public static System.DateTime BuildDate = System.DateTime.Parse("$($build_timestamp)");
 "@
 }
 
@@ -73,11 +78,11 @@ function Generate-Version-File-From-Table ($cs_output_filename, $git_version_fil
 namespace Generated
 {
     /// <summary>
-    /// Generated version information (using GitVersion)
+    /// Generated build and version information (using GitVersion)
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode(`"${ScriptName}`", `"1.0.0.0`")]
     [System.Diagnostics.DebuggerStepThrough]
-    internal static class GitVersionInfo
+    internal static class BuildAndVersionInfo
     {
 "@
        

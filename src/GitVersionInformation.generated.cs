@@ -11,11 +11,11 @@
 namespace Generated
 {
     /// <summary>
-    /// Generated version information (using GitVersion)
+    /// Generated build and version information (using GitVersion)
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("GenerateVersionFile.ps1", "1.0.0.0")]
     [System.Diagnostics.DebuggerStepThrough]
-    internal static class GitVersionInfo
+    internal static class BuildAndVersionInfo
     {
         public const string FullSemanticVersion = "0.0.0-to-be-generated";
         public const string InformationalVersion = "0.0.0-to-be-generated+Branch.develop.Sha.0000000000000000000000000000000000000000";
@@ -25,6 +25,7 @@ namespace Generated
         public const int Minor = 0;
         public const int Patch = 0;
         public const int CommitsSinceVersionSource = 0;
-		public static System.DateTime GitVersionCommitDate = System.DateTime.Parse("2010-01-01");
+        public static System.DateTime GitVersionCommitDate = System.DateTime.Parse("2010-01-01");
+		public static System.DateTime BuildDate = System.DateTime.Parse("2010-01-01T00:00:00Z");
     }
 }
