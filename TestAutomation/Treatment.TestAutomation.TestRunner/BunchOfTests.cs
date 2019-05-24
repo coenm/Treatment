@@ -1,6 +1,5 @@
 ﻿namespace Treatment.TestAutomation.TestRunner
 {
-    using System.Diagnostics;
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
@@ -16,8 +15,6 @@
     using Treatment.TestAutomation.TestRunner.XUnit;
     using Xunit;
     using Xunit.Abstractions;
-
-    using ZeroMQ.lib;
 
     [Collection(nameof(TestFramework))]
     public class BunchOfTests
@@ -58,7 +55,7 @@
             content.Should().NotBeNull();
         }
 
-        [Fact]
+        [ConditionalHostFact(TestHostMode.Skip, TestHost.AppVeyor)]
         public async Task RepeatTest()
         {
             for (int i = 0; i < 20; i++)

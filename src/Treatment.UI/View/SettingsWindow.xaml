@@ -14,9 +14,7 @@
         Title="Treatment - Settings"
         Height="255" Width="500"
         MinHeight="255" MinWidth="500"
-        d:DataContext="{d:DesignInstance Type=viewModel:ApplicationSettingsViewModel}"
->
-
+        d:DataContext="{d:DesignInstance Type=viewModel:ApplicationSettingsViewModel}">
   <Window.Resources>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <valueConverters:NullVisibilityConverter x:Key="NullVisibilityConverter" />
