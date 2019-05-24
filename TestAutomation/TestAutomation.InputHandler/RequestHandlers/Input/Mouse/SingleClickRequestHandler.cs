@@ -24,7 +24,7 @@
             // MouseInputGenerator.MouseClick(MouseButtons.Left);
             MouseInputGenerator.MouseDown(MouseButtons.Left);
 
-            await Task.Delay(50);
+            await Task.Delay(10);
 
             MouseInputGenerator.MouseUp(MouseButtons.Left);
 

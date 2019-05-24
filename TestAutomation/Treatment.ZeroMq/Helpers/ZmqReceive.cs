@@ -20,7 +20,7 @@
             var receivedMessage = new ZMessage();
             while (receiveCounter < maxRepeatReceive && Equals(internalError, ZError.EAGAIN))
             {
-                if (socket.ReceiveMessage(ref receivedMessage, ZSocketFlags.DontWait, out internalError))
+                if (socket.ReceiveMessage(ref receivedMessage, ZSocketFlags.None, out internalError))
                 {
                     msg = receivedMessage;
                     error = internalError;

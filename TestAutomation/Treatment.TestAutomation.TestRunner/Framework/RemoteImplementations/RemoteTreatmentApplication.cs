@@ -8,6 +8,7 @@
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.Contract.Interfaces.Events;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Application;
+    using Treatment.TestAutomation.Contract.Interfaces.Events.Window;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
     using Treatment.TestAutomation.TestRunner.Controls.Framework;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
@@ -64,8 +65,14 @@
                 applicationEvents.Events
                     .Where(x => x is ApplicationExit)
                     .Subscribe(ev => Exit?.Invoke(this, (ApplicationExit)ev)),
+
+                applicationEvents.Events
+                    .Where(x => x is WindowActivated) // dont care which one.
+                    .Subscribe(ev => WindowActivated?.Invoke(this, (WindowActivated)ev)),
             };
         }
+
+        public event EventHandler<WindowActivated> WindowActivated;
 
         public event EventHandler<ApplicationActivated> Activated;
 

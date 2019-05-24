@@ -1,5 +1,6 @@
 ﻿namespace Treatment.TestAutomation.TestRunner
 {
+    using System.Diagnostics;
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
@@ -11,9 +12,12 @@
     using Treatment.TestAutomation.TestRunner.Controls.Framework;
     using Treatment.TestAutomation.TestRunner.Framework;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
+    using Treatment.TestAutomation.TestRunner.Framework.RemoteImplementations;
     using Treatment.TestAutomation.TestRunner.XUnit;
     using Xunit;
     using Xunit.Abstractions;
+
+    using ZeroMQ.lib;
 
     [Collection(nameof(TestFramework))]
     public class BunchOfTests
@@ -54,45 +58,84 @@
             content.Should().NotBeNull();
         }
 
+        [Fact]
+        public async Task RepeatTest()
+        {
+            for (int i = 0; i < 20; i++)
+            {
+                await StartSutAndCheckApplicationCreatedSetting();
+                await Task.Delay(50);
+            }
+        }
+
         [ConditionalHostFact(TestHostMode.Skip, TestHost.AppVeyor)]
         public async Task StartSutAndCheckApplicationCreatedSetting()
         {
             var mre = new ManualResetEvent(false);
+            var mre2 = new AutoResetEvent(false);
+
             fixture.ApplicationAvailable += (_, __) => mre.Set();
 
             output.WriteLine("Start sut..");
             var started = await Agent.StartSutAsync();
             started.Should().BeTrue();
 
-            mre.WaitOne(15000);
-//            Application.Created.Should().BeTrue();
+            mre.WaitOne(15000).Should().BeTrue("Application not started in time");
+            // Application.Created.Should().BeTrue();
 
-            await Task.Delay(10000);
+            ((RemoteTreatmentApplication)Application).WindowActivated += (_, __) => mre2.Set();
+            mre2.WaitOne(10000).Should().BeTrue("No Window activated in time");
 
-            // var status = Application.MainWindow.StatusBar.StatusConfigFilename as RemoteTextBlock;
-            var status = Application.MainWindow.OpenSettingsButton as RemoteButton;
+            for (var j = 0; j < 5; j++)
+            {
+                // var status = Application.MainWindow.StatusBar.StatusConfigFilename as RemoteTextBlock;
+                var openSettingsButton = Application.MainWindow.OpenSettingsButton as RemoteButton;
+                output.WriteLine($"x {openSettingsButton.Position.X}  y {openSettingsButton.Position.Y}");
+                output.WriteLine($"x {openSettingsButton.Size.Width}  y {openSettingsButton.Size.Height}");
+                var x = (int)(openSettingsButton.Position.X + (openSettingsButton.Size.Width / 2));
+                var y = (int)(openSettingsButton.Position.Y + (openSettingsButton.Size.Height / 2));
+                output.WriteLine($"x {x}  y {y}");
 
-            output.WriteLine($"x {status.Position.X}  y {status.Position.Y}");
-            output.WriteLine($"x {status.Size.Width}  y {status.Size.Height}");
-            var x = (int)(status.Position.X + (status.Size.Width / 2));
-            var y = (int)(status.Position.Y + (status.Size.Height / 2));
-            output.WriteLine($"x {x}  y {y}");
+                await Mouse.MoveCursorAsync(x, y);
+                await Mouse.ClickAsync();
+                mre2.WaitOne(1000);
+                Application.SettingsWindow.Should().NotBeNull("Application window should not be null");
 
-            await Mouse.MoveCursorAsync(x, y);
+                await Task.Delay(50);
+                var combo = Application.SettingsWindow.ComboSearchProvider as RemoteComboBox;
+                combo.Should().NotBeNull();
+                output.WriteLine($"x {combo.Position.X}  y {combo.Position.Y}");
+                output.WriteLine($"x {combo.Size.Width}  y {combo.Size.Height}");
+                x = (int)(combo.Position.X + (combo.Size.Width / 2));
+                y = (int)(combo.Position.Y + (combo.Size.Height / 2));
+                output.WriteLine($"x {x}  y {y}");
 
-            await Task.Delay(1000);
+                for (int i = 0; i < 3; i++)
+                {
+                    await Mouse.MoveCursorAsync(x, y);
+                    await Mouse.ClickAsync();
+                    await Keyboard.PressAsync(VirtualKeyCode.Down);
+                    await Keyboard.PressAsync(VirtualKeyCode.Up);
+                    await Keyboard.PressAsync(VirtualKeyCode.Escape);
+                }
+
+                await Keyboard.PressAsync(VirtualKeyCode.Escape);
+                mre2.WaitOne(200);
+                // await Task.Delay(200);
+
+                var window = Application.MainWindow as RemoteMainWindow;
+                window.Should().NotBeNull();
+                output.WriteLine($"x {window.Position.X}  y {window.Position.Y}");
+                output.WriteLine($"x {window.Size.Width}  y {window.Size.Height}");
+
+                x = (int)(window.Position.X + window.Size.Width - 50);
+                y = (int)(window.Position.Y - 10);
+                output.WriteLine($"x {x}  y {y}");
+                await Mouse.MoveCursorAsync(x, y);
+
+            }
 
             await Mouse.ClickAsync();
-
-            await Task.Delay(6000);
-
-            Application.SettingsWindow.Should().NotBeNull();
-
-            await Keyboard.PressAsync(VirtualKeyCode.Escape);
-
-            await Task.Delay(6000);
-
-            output.WriteLine("moved mouse");
         }
 
         [ConditionalHostFact(TestHostMode.Skip, TestHost.AppVeyor)]
