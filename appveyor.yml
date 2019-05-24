@@ -53,7 +53,14 @@ build:
   project: Treatment.sln
   verbosity: normal
 
+# tests are run automatically using default config
+
+after_test:
+- cmd: 7z a myapp.zip %APPVEYOR_BUILD_FOLDER%\src\Treatment.Console\bin\**\*.dll
+- cmd: 7z a myapp.zip %APPVEYOR_BUILD_FOLDER%\src\Treatment.Console\bin\**\*.exe
+- cmd: 7z a myapp.zip %APPVEYOR_BUILD_FOLDER%\src\Treatment.Console\bin\**\*.config
+
 artifacts:
-- path: src\Treatment.UI\bin\**\Treatment*.*
-  name: executable
-  type: zip
+- path: src
+
+- path: myapp.zip
