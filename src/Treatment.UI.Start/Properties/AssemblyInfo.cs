@@ -8,9 +8,7 @@ using System.Windows;
 [assembly: AssemblyTitle("Treatment.UIStart")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Treatment.UIStart")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,7 +29,3 @@ using System.Windows;
 // where theme specific resource dictionaries are located (used if a resource is not found in the page, or application resource dictionaries)
 // where the generic resource dictionary is located (used if a resource is not found in the page, app, or any theme specific resource dictionaries)
 [assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
-
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]

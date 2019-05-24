@@ -289,3 +289,4 @@ __pycache__/
 /*.patch
 *.received.png
 *.received.txt
+version.json

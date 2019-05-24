@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
@@ -20,5 +19,7 @@
   <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Compile Include="..\GitVersionInformation.generated.cs" Link="GitVersionInformation.generated.cs" />
+  </ItemGroup>
 </Project>

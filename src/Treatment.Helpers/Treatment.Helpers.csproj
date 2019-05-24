@@ -19,4 +19,8 @@
   <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\GitVersionInformation.generated.cs" Link="GitVersionInformation.generated.cs" />
+  </ItemGroup>
+
 </Project>
