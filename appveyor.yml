@@ -3,7 +3,7 @@ environment:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   github_oauth_token:
     secure: H1vW5fnfAOt5/c5f1qnaatUjFVAPc2oZnxDBFutJZL58LxAyJNRLtfIBrcHnSg8y
-  gitversion_executable:C:\ProgramData\chocolatey\lib\gitversion.portable\tools\gitversion.exe
+  gitversion_executable: C:\ProgramData\chocolatey\lib\gitversion.portable\tools\gitversion.exe
 
 version: 1.0.{build}
 image: Visual Studio 2017
