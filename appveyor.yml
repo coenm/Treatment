@@ -8,6 +8,7 @@ environment:
 version: 1.0.{build}
 image: Visual Studio 2017
 platform: x64
+configuration: Release
 
 assembly_info:
   patch: true
@@ -56,11 +57,11 @@ build:
 # tests are run automatically using default config
 
 after_test:
-- cmd: 7z a myapp.zip %APPVEYOR_BUILD_FOLDER%\src\Treatment.Console\bin\**\*.dll
-- cmd: 7z a myapp.zip %APPVEYOR_BUILD_FOLDER%\src\Treatment.Console\bin\**\*.exe
-- cmd: 7z a myapp.zip %APPVEYOR_BUILD_FOLDER%\src\Treatment.Console\bin\**\*.config
+- cmd: 7z a console.zip src\Treatment.Console\bin\x64\Release\*.dll
+- cmd: 7z a console.zip src\Treatment.Console\bin\x64\Release\*.exe
+- cmd: 7z a console.zip src\Treatment.Console\bin\x64\Release\*.config
 
 artifacts:
 - path: src
 
-- path: myapp.zip
+- path: console.zip
