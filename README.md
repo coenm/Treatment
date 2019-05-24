@@ -1,4 +1,7 @@
-# Treatment
+<h1 align="center">Treatment</h1>
+<div align="center">
+[![Build status](https://ci.appveyor.com/api/projects/status/41u98m32ih1758kq/branch/develop?svg=true)](https://ci.appveyor.com/project/coenm/treatment/branch/develop)
+</div>
 
 Specific command line tool for updating `*.csproj` files.
 
@@ -109,14 +112,14 @@ These (superficial) validations are done using the [FluentValidation](https://ww
 
 ## TODO
 
-- [Appveyor](https://www.appveyor.com/);
-- [GitVersion](https://gitversion.readthedocs.io/en/latest/);
-- Input directory validation improvement;
-- ~~Core without Console.WriteLine;~~
-- ~~Console.WriteLine abstraction?;~~
-- ~~Experiment with [Pose](https://www.nuget.org/packages/Pose) to shim `Console`.~~
-- Improve tests;
-- Improve performance by processing multiple csproj files in parallel;
-- Improve functionality by other fixes in the csproj files (app.config settings).
-- ~~Replace `ListSearchProvidersCommand` command with a query and let the `Treatment.Console` project decide how to display the result.~~
-- ~~Experiment with [ApprovalTests](https://github.com/approvals/ApprovalTests.Net) to test WPF views.~~
+- [x] [GitFlow](http://nvie.com/posts/a-successful-git-branching-model/);
+- [x] [Appveyor](https://www.appveyor.com/);
+- [x] [GitVersion](https://gitversion.readthedocs.io/en/latest/) for automatic versioning; 
+- [ ] Input directory validation improvement;
+- [x] Core without Console.WriteLine;
+- [x] Console.WriteLine abstraction?;
+- [x] Experiment with [Pose](https://www.nuget.org/packages/Pose) to shim `Console`.
+- [ ] Improve functionality by other fixes in the csproj files (app.config settings).
+- [x] Experiment with [ApprovalTests](https://github.com/approvals/ApprovalTests.Net) to test WPF views.
+- [ ] TestAutomation
+- [ ] CodeCoverage
