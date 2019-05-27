@@ -57,7 +57,7 @@
             content.Should().NotBeNull();
         }
 
-        [Fact]
+        [ConditionalHostFact(TestHostMode.Skip, TestHost.AppVeyor)]
         public async Task RepeatTest()
         {
             for (int i = 0; i < 30; i++)
