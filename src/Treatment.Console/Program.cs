@@ -201,12 +201,13 @@
                 var console = Bootstrapper.Container.GetInstance<IConsole>();
 
                 console.WriteLine("Version information:");
-                console.WriteLine($"- {Generated.BuildAndVersionInfo.FullSemanticVersion}");
-                console.WriteLine($"- {Generated.BuildAndVersionInfo.BranchName}");
-                console.WriteLine($"- {Generated.BuildAndVersionInfo.Sha}");
-                console.WriteLine($"- {Generated.BuildAndVersionInfo.GitVersionCommitDate:yyyy-MM-dd}");
+                console.WriteLine($"- Full version: {Generated.BuildAndVersionInfo.FullSemanticVersion}");
+                console.WriteLine($"- Git Branch: {Generated.BuildAndVersionInfo.BranchName}");
+                console.WriteLine($"- Git commit hash: {Generated.BuildAndVersionInfo.Sha}");
+                console.WriteLine($"- Git commit timestamp: {Generated.BuildAndVersionInfo.GitVersionCommitDate:yyyy-MM-dd}");
+                console.WriteLine($"- Build timestamp: {Generated.BuildAndVersionInfo.BuildDate:yyyy-MM-dd HH:mm:ss}");
 
-                System.Console.WriteLine();
+                console.WriteLine();
 
                 if (options.HoldOnExit)
                 {
@@ -215,7 +216,7 @@
                 }
             }
 
-            return Task.FromResult<int>(0);
+            return Task.FromResult(0);
         }
     }
 }
