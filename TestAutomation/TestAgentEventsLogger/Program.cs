@@ -26,7 +26,8 @@
 
             Console.WriteLine("Start listening for events");
 
-            var task = Task.Run(() =>
+            var task = Task.Run(
+            () =>
             {
                 using (var subscriber = container.GetInstance<IZeroMqSocketFactory>().Create(ZSocketType.SUB))
                 using (cts.Token.Register(() => subscriber.Dispose()))
@@ -39,10 +40,9 @@
                         while (true)
                         {
                             var zmsg = new ZMessage();
-                            ZError error;
                             mreListening.Set();
 
-                            if (!subscriber.ReceiveMessage(ref zmsg, ZSocketFlags.None, out error))
+                            if (!subscriber.ReceiveMessage(ref zmsg, ZSocketFlags.None, out var error))
                             {
                                 Console.WriteLine($" Oops, could not receive a request: {error}");
                                 return;
@@ -74,7 +74,8 @@
                             Console.WriteLine(e.Message);
                     }
                 }
-            }).ConfigureAwait(false);
+            },
+            CancellationToken.None).ConfigureAwait(false);
 
             mreListening.WaitOne();
 

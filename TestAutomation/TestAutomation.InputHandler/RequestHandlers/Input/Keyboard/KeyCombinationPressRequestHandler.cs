@@ -24,7 +24,7 @@
 
             KeyboardInputGenerator.KeyCombinationPress(keycodes);
 
-            return Task.FromResult(new OkInputResponse() as IInputResponse);
+            return Task.FromResult(new KeyCombinationPressResponse() as IInputResponse);
         }
     }
 }

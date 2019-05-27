@@ -7,5 +7,11 @@
     public interface IKeyboard : IDisposable
     {
         Task<bool> PressAsync(params VirtualKeyCode[] keys);
+
+        Task<bool> KeyDownAsync(params VirtualKeyCode[] keys);
+
+        Task<bool> KeyUpAsync(params VirtualKeyCode[] keys);
+
+        Task<bool> KeyCombinationPressAsync(params VirtualKeyCode[] keys);
     }
 }

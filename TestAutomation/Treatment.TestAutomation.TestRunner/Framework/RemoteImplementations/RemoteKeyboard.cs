@@ -1,12 +1,11 @@
 ﻿namespace Treatment.TestAutomation.TestRunner.Framework.RemoteImplementations
 {
     using System;
-    using System.Reactive.Disposables;
     using System.Threading.Tasks;
-    using Contract.Interfaces.Events.Application;
+
     using global::TestAutomation.Input.Contract.Interface.Input.Enums;
     using global::TestAutomation.Input.Contract.Interface.Input.Keyboard;
-    using global::TestAutomation.Input.Contract.Interface.Input.Mouse;
+
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
     internal class RemoteKeyboard : IKeyboard
@@ -28,6 +27,42 @@
             var result = await execute.ExecuteInput(req);
 
             return result is KeyPressesResponse;
+        }
+
+        public async Task<bool> KeyDownAsync(params VirtualKeyCode[] keys)
+        {
+            var req = new KeyDownRequest
+                      {
+                          KeyCodes = keys,
+                      };
+
+            var result = await execute.ExecuteInput(req);
+
+            return result is KeyDownResponse;
+        }
+
+        public async Task<bool> KeyUpAsync(params VirtualKeyCode[] keys)
+        {
+            var req = new KeyUpRequest
+                      {
+                          KeyCodes = keys,
+                      };
+
+            var result = await execute.ExecuteInput(req);
+
+            return result is KeyUpResponse;
+        }
+
+        public async Task<bool> KeyCombinationPressAsync(params VirtualKeyCode[] keys)
+        {
+            var req = new KeyCombinationPressRequest
+                      {
+                          KeyCodes = keys,
+                      };
+
+            var result = await execute.ExecuteInput(req);
+
+            return result is KeyCombinationPressResponse;
         }
 
         public void Dispose()

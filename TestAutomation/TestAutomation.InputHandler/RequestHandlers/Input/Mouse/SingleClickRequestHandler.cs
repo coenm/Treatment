@@ -28,28 +28,6 @@
 
             MouseInputGenerator.MouseUp(MouseButtons.Left);
 
-            // MouseInputGenerator.MoveMouse(new NativePoint(0, 0));
-            // await Task.Delay(1000);
-            // // MouseInputGenerator.MouseDown(MouseButtons.Left, new NativePoint(0, 0));
-            //
-            // await Task.Delay(5000);
-            //
-            // MouseInputGenerator.MoveMouse(new NativePoint(1000, 1000));
-            // await Task.Delay(1000);
-            // // await Task.Delay(5000);
-            //
-            // // MouseInputGenerator.MouseUp(MouseButtons.Left, new NativePoint(1000, 1000));
-            // await Task.Delay(5000);
-            //
-            // MouseInputGenerator.MoveMouse(new NativePoint(1900, 1100));
-            // await Task.Delay(1000);
-            //
-            // MouseInputGenerator.MouseDown(MouseButtons.Left, new NativePoint(1900, 1100));
-            // await Task.Delay(1000);
-            //
-            // MouseInputGenerator.MouseUp(MouseButtons.Left, new NativePoint(1900, 1100));
-
-            await Task.CompletedTask;
             return new SingleClickResponse();
         }
     }

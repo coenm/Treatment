@@ -1,6 +1,5 @@
 ﻿namespace Treatment.TestAutomation.TestRunner
 {
-    using System.Diagnostics;
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
@@ -9,6 +8,8 @@
     using global::TestAutomation.Input.Contract.Interface.Input.Enums;
     using JetBrains.Annotations;
     using TestHelper;
+
+    using Treatment.TestAutomation.Contract.Interfaces.Events.Application;
     using Treatment.TestAutomation.TestRunner.Controls.Framework;
     using Treatment.TestAutomation.TestRunner.Framework;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
@@ -16,8 +17,6 @@
     using Treatment.TestAutomation.TestRunner.XUnit;
     using Xunit;
     using Xunit.Abstractions;
-
-    using ZeroMQ.lib;
 
     [Collection(nameof(TestFramework))]
     public class BunchOfTests
@@ -61,7 +60,7 @@
         [Fact]
         public async Task RepeatTest()
         {
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 30; i++)
             {
                 await StartSutAndCheckApplicationCreatedSetting();
                 await Task.Delay(50);
@@ -120,7 +119,7 @@
                 }
 
                 await Keyboard.PressAsync(VirtualKeyCode.Escape);
-                mre2.WaitOne(200);
+                mre2.WaitOne(1000);
                 // await Task.Delay(200);
 
                 var window = Application.MainWindow as RemoteMainWindow;
@@ -132,10 +131,85 @@
                 y = (int)(window.Position.Y - 10);
                 output.WriteLine($"x {x}  y {y}");
                 await Mouse.MoveCursorAsync(x, y);
-
             }
 
+            var window1 = Application.MainWindow as RemoteMainWindow;
+            window1.Should().NotBeNull();
+            var x1 = (int)(window1.Position.X + window1.Size.Width - 250);
+            var y1 = (int)(window1.Position.Y - 10);
+            await Mouse.MoveCursorAsync(x1, y1);
+            await Mouse.MouseDownAsync();
+
+            for (int i = 0; i < 250; i++)
+            {
+                x1++;
+                y1++;
+                await Mouse.MoveCursorAsync(x1, y1);
+            }
+
+            for (int i = 0; i < 250; i+=2)
+            {
+                x1 = x1 - 2;
+                y1 = y1 - 2;
+                await Mouse.MoveCursorAsync(x1, y1);
+            }
+
+            for (int i = 0; i < 250; i += 3)
+            {
+                x1 += 3;
+                y1 += 3;
+                await Mouse.MoveCursorAsync(x1, y1);
+            }
+
+            for (int i = 0; i < 250; i += 4)
+            {
+                x1 = x1 - 4;
+                y1 = y1 - 4;
+                await Mouse.MoveCursorAsync(x1, y1);
+            }
+
+            for (int i = 0; i < 250; i += 5)
+            {
+                x1 += 5;
+                y1 += 5;
+                await Mouse.MoveCursorAsync(x1, y1);
+            }
+
+            for (int i = 0; i < 250; i += 6)
+            {
+                x1 -= 6;
+                y1 -= 6;
+                await Mouse.MoveCursorAsync(x1, y1);
+            }
+
+            await Mouse.MouseUpAsync();
+
+            x1 = (int)(window1.Position.X + window1.Size.Width - 50);
+            y1 = (int)(window1.Position.Y - 10);
+            await Mouse.MoveCursorAsync(x1, y1);
+
+            var mre3 = new ManualResetEvent(false);
+            void ApplicationOnExit(object sender, ApplicationExit e)
+            {
+                mre3.Set();
+            }
+
+            Application.Exit += ApplicationOnExit;
             await Mouse.ClickAsync();
+            if (!mre3.WaitOne(1000))
+            {
+                output.WriteLine("Try to close the application with the alt f4 keys.");
+                await Keyboard.KeyCombinationPressAsync(VirtualKeyCode.Alt, VirtualKeyCode.F4);
+            }
+
+            if (!mre3.WaitOne(1000))
+            {
+                output.WriteLine("Try to close the application with the alt f4 keys.");
+                await Keyboard.KeyCombinationPressAsync(VirtualKeyCode.Alt, VirtualKeyCode.F4);
+            }
+
+            mre3.WaitOne(1000).Should().BeTrue();
+            Application.Exit -= ApplicationOnExit;
         }
 
         [ConditionalHostFact(TestHostMode.Skip, TestHost.AppVeyor)]

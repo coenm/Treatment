@@ -30,7 +30,7 @@
 
             KeyboardInputGenerator.KeyUp(keycodes);
 
-            return Task.FromResult(new OkInputResponse() as IInputResponse);
+            return Task.FromResult(new KeyUpResponse() as IInputResponse);
         }
     }
 }

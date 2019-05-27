@@ -4,9 +4,9 @@
 
     using Dapplo.Windows.Input.Keyboard;
     using JetBrains.Annotations;
-    using TestAutomation.InputHandler.RequestHandlers.Input.Keyboard.Mapper;
     using TestAutomation.Input.Contract.Interface;
     using TestAutomation.Input.Contract.Interface.Input.Keyboard;
+    using TestAutomation.InputHandler.RequestHandlers.Input.Keyboard.Mapper;
     using Treatment.Helpers.Guards;
 
     [UsedImplicitly]
@@ -30,7 +30,7 @@
 
             KeyboardInputGenerator.KeyDown(keycodes);
 
-            return Task.FromResult(new OkInputResponse() as IInputResponse);
+            return Task.FromResult(new KeyDownResponse() as IInputResponse);
         }
     }
 }

@@ -881,5 +881,10 @@
         ///     Clear key
         /// </summary>
         OemClear = 0xFE,
+
+        /// <summary>
+        ///  Alt = Menu key
+        /// </summary>
+        Alt = Menu,
     }
 }
