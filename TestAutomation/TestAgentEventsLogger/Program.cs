@@ -4,6 +4,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
+    using NLog;
     using SimpleInjector;
     using TreatmentZeroMq.Socket;
     using ZeroMQ;
@@ -11,7 +12,7 @@
     public static class Program
     {
         private const string AgentPublishPort = "5556";
-
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static Container container;
         private static int received;
 
@@ -32,7 +33,9 @@
                 using (var subscriber = container.GetInstance<IZeroMqSocketFactory>().Create(ZSocketType.SUB))
                 using (cts.Token.Register(() => subscriber.Dispose()))
                 {
-                    subscriber.Connect($"tcp://localhost:{AgentPublishPort}");
+                    var endpoint = $"tcp://localhost:{AgentPublishPort}";
+                    Logger.Info($"Connect to {endpoint}");
+                    subscriber.Connect(endpoint);
                     subscriber.SubscribeAll();
 
                     try
@@ -44,7 +47,7 @@
 
                             if (!subscriber.ReceiveMessage(ref zmsg, ZSocketFlags.None, out var error))
                             {
-                                Console.WriteLine($" Oops, could not receive a request: {error}");
+                                Logger.Error($" Oops, could not receive a request: {error}");
                                 return;
                             }
 
@@ -53,25 +56,24 @@
 
                             using (zmsg)
                             {
-                                Console.WriteLine();
-                                Console.WriteLine(DateTime.Now.ToString("HH:mm:ss:fff"));
-                                Console.WriteLine("+" + new string('-', 100 + 2) + "+");
+                                Logger.Info(string.Empty);
+                                Logger.Info("+" + new string('-', 100 + 2) + "+");
 
                                 foreach (var frame in zmsg)
                                 {
                                     var s = frame.ReadString();
-                                    Console.WriteLine($"| {s,-100} |");
+                                    Logger.Info($"| {s,-100} |");
                                 }
 
-                                Console.WriteLine("+" + new string('-', 100 + 2) + "+");
-                                Console.WriteLine(" ");
+                                Logger.Info("+" + new string('-', 100 + 2) + "+");
+                                Logger.Info(" ");
                             }
                         }
                     }
                     catch (Exception e)
                     {
                         if (!cts.IsCancellationRequested)
-                            Console.WriteLine(e.Message);
+                            Logger.Error(e.Message);
                     }
                 }
             },
