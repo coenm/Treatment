@@ -15,7 +15,7 @@
         Height="450"
         Width="800"
         MinWidth="800"
-        Title="{Binding Source={x:Static generated:GitVersionInfo.GitVersionFull}, StringFormat={}Treatment ({0})}"
+        Title="{Binding Source={x:Static generated:BuildAndVersionInfo.FullSemanticVersion}, StringFormat={}Treatment ({0})}"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel}">
 
     <Window.Resources>

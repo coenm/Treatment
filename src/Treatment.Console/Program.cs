@@ -25,6 +25,8 @@
 
         private static async Task<int> MainAsync(params string[] args)
         {
+            System.Console.Title = $"Treatment ({Generated.BuildAndVersionInfo.FullSemanticVersion}, Branch {Generated.BuildAndVersionInfo.BranchName}, Commit {Generated.BuildAndVersionInfo.Sha}, Date {Generated.BuildAndVersionInfo.GitVersionCommitDate:yyyy-MM-dd})";
+
             if (Bootstrapper == null)
                 Bootstrapper = new Bootstrapper();
 
@@ -199,13 +201,13 @@
                 var console = Bootstrapper.Container.GetInstance<IConsole>();
 
                 console.WriteLine("Version information:");
-                console.WriteLine($"- {Generated.GitVersionInfo.GitVersionFull}");
-                console.WriteLine($"- {Generated.GitVersionInfo.GitVersionBranch}");
-                console.WriteLine($"- {Generated.GitVersionInfo.GitVersionDate}");
-                console.WriteLine($"- {Generated.GitVersionInfo.GitVersionSha}");
-                console.WriteLine($"- {Generated.GitVersionInfo.GitVersionMajor}.{Generated.GitVersionInfo.GitVersionMinor}.{Generated.GitVersionInfo.GitVersionPatch}");
+                console.WriteLine($"- Full version: {Generated.BuildAndVersionInfo.FullSemanticVersion}");
+                console.WriteLine($"- Git Branch: {Generated.BuildAndVersionInfo.BranchName}");
+                console.WriteLine($"- Git commit hash: {Generated.BuildAndVersionInfo.Sha}");
+                console.WriteLine($"- Git commit timestamp: {Generated.BuildAndVersionInfo.GitVersionCommitDate:yyyy-MM-dd}");
+                console.WriteLine($"- Build timestamp: {Generated.BuildAndVersionInfo.BuildDate:yyyy-MM-dd HH:mm:ss}");
 
-                System.Console.WriteLine();
+                console.WriteLine();
 
                 if (options.HoldOnExit)
                 {
@@ -214,7 +216,7 @@
                 }
             }
 
-            return Task.FromResult<int>(0);
+            return Task.FromResult(0);
         }
     }
 }
