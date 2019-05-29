@@ -2,6 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
+
     using global::TestAutomation.Input.Contract.Interface.Input.Enums;
 
     public interface IKeyboard : IDisposable

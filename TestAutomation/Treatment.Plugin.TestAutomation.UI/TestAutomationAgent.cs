@@ -52,7 +52,7 @@
 
             application?.RegisterAndInitializeSettings(settingWindow);
             this.settingWindow = settingWindow;
-//            settingWindow.Initialize();
+            // settingWindow.Initialize();
         }
 
         public void RegisterWorker([NotNull] Task task)

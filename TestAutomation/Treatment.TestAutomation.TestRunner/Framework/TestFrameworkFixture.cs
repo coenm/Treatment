@@ -13,7 +13,7 @@
     {
         [NotNull] private readonly Bootstrapper bootstrapper;
         [NotNull] private readonly Container container;
-        [NotNull] public readonly RemoteObjectManager store;
+        [NotNull] private readonly RemoteObjectManager store;
         [NotNull] private Guid applicationGuid = Guid.Empty;
 
         public TestFrameworkFixture()

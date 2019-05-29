@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
+
     using Interfaces;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;

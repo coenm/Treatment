@@ -17,9 +17,9 @@
     /// </summary>
     public class RemoteObjectManager : IDisposable
     {
-        [CanBeNull] private ITreatmentApplication application;
         [NotNull] private readonly CompositeDisposable disposable;
         [NotNull] private readonly ConcurrentDictionary<Guid, object> store;
+        [CanBeNull] private ITreatmentApplication application;
 
         public RemoteObjectManager([NotNull] IApplicationEvents applicationEvents)
         {

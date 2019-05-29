@@ -140,42 +140,42 @@
             await Mouse.MoveCursorAsync(x1, y1);
             await Mouse.MouseDownAsync();
 
-            for (int i = 0; i < 250; i++)
+            for (var i = 0; i < 250; i++)
             {
                 x1++;
                 y1++;
                 await Mouse.MoveCursorAsync(x1, y1);
             }
 
-            for (int i = 0; i < 250; i+=2)
+            for (var i = 0; i < 250; i += 2)
             {
-                x1 = x1 - 2;
-                y1 = y1 - 2;
+                x1 -= 2;
+                y1 -= 2;
                 await Mouse.MoveCursorAsync(x1, y1);
             }
 
-            for (int i = 0; i < 250; i += 3)
+            for (var i = 0; i < 250; i += 3)
             {
                 x1 += 3;
                 y1 += 3;
                 await Mouse.MoveCursorAsync(x1, y1);
             }
 
-            for (int i = 0; i < 250; i += 4)
+            for (var i = 0; i < 250; i += 4)
             {
-                x1 = x1 - 4;
-                y1 = y1 - 4;
+                x1 -= 4;
+                y1 -= 4;
                 await Mouse.MoveCursorAsync(x1, y1);
             }
 
-            for (int i = 0; i < 250; i += 5)
+            for (var i = 0; i < 250; i += 5)
             {
                 x1 += 5;
                 y1 += 5;
                 await Mouse.MoveCursorAsync(x1, y1);
             }
 
-            for (int i = 0; i < 250; i += 6)
+            for (var i = 0; i < 250; i += 6)
             {
                 x1 -= 6;
                 y1 -= 6;

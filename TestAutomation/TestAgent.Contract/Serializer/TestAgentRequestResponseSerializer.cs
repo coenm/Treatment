@@ -4,9 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using TestAgent.Contract.Interface;
     using JetBrains.Annotations;
     using Newtonsoft.Json;
+    using TestAgent.Contract.Interface;
 
     public static class TestAgentRequestResponseSerializer
     {
