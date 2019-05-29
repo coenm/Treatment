@@ -3,6 +3,8 @@
     using System;
     using System.Threading;
 
+    using NLog;
+    using NLog.Config;
     using SimpleInjector;
     using TestAgent.ZeroMq.PublishInfrastructure;
     using TestAgent.ZeroMq.RequestReplyInfrastructure;

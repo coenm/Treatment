@@ -9,6 +9,7 @@
     using TestAgent.ZeroMq.RequestReplyInfrastructure;
     using Treatment.Helpers.Guards;
     using TreatmentZeroMq.ContextService;
+    using TreatmentZeroMq.Socket;
     using TreatmentZeroMq.Worker;
 
     internal static class Bootstrapper
@@ -58,7 +59,9 @@
             Guard.NotNullOrWhiteSpace(sutReqRspPort, nameof(sutReqRspPort));
 
             // Ensures ZeroMq Context.
-            container.RegisterSingleton<IZeroMqContextService, ZeroMqContextService>();
+            container.Register<IZeroMqContextService, ZeroMqContextService>(Lifestyle.Singleton);
+            container.Register<IZeroMqSocketFactory, DefaultSocketFactory>(Lifestyle.Singleton);
+
             container.Register<IZeroMqRequestDispatcher, ZeroMqRequestDispatcher>(Lifestyle.Transient);
 
             container.Register<ZeroMqPublishProxyConfig>(() => new ZeroMqPublishProxyConfig(
