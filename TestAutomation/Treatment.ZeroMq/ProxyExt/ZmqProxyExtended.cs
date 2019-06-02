@@ -24,10 +24,8 @@
 
         private ZmqProxyExtended(ZContext context, string controlChannel)
         {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
-            if (string.IsNullOrWhiteSpace(controlChannel))
-                throw new ArgumentNullException(nameof(controlChannel));
+            Guard.NotNull(context, nameof(context));
+            Guard.NotNullOrWhiteSpace(controlChannel, nameof(controlChannel));
 
             proxyStartedSignal = new ManualResetEvent(false);
 

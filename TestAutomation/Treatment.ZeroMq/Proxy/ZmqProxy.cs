@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
+    using NLog;
     using Treatment.Helpers.Guards;
     using TreatmentZeroMq.Helpers;
     using ZeroMQ;
@@ -12,7 +13,7 @@
     public class ZmqProxy
     {
         private static readonly Random Random = new Random(DateTime.Now.Millisecond);
-
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly object syncLock = new object();
         private readonly ManualResetEvent proxyStartedSignal;
         private readonly ZSocket controlSocketSub;
@@ -32,13 +33,13 @@
 
             if (!controlSocketSub.TryBind(controlChannel))
             {
-                // this.logger.Error($"Could not bind to control channel '{controlChannel}'");
+                Logger.Error($"Could not bind to control channel '{controlChannel}'");
                 throw new ApplicationException();
             }
 
             if (!controlSocketPub.TryConnect(controlChannel))
             {
-                // this.logger.Error($"Could not connect to control channel '{controlChannel}'");
+                Logger.Error($"Could not connect to control channel '{controlChannel}'");
                 throw new ApplicationException();
             }
 
@@ -77,11 +78,11 @@
 
                 if (proxyResult && (error == null || ZError.None.Equals(error)))
                 {
-                    // logger.Debug("ZmqProxy closed");
+                    Logger.Debug("ZmqProxy closed");
                     return;
                 }
 
-                // logger.Warn($"The ZmqProxy could not be closed normally. {error.Text}");
+                Logger.Warn($"The ZmqProxy could not be closed normally. {error.Text}");
             }
 
             runningProxyTask = Task.Run(() => StartProxying());
