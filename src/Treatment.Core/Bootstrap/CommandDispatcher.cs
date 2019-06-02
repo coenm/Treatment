@@ -22,7 +22,7 @@
             this.container = container;
         }
 
-        public async Task ExecuteAsync<TCommand>(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
+        public async Task ExecuteAsync<TCommand>(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)
             where TCommand : class, ICommand
         {
             Guard.NotNull(command, nameof(command));

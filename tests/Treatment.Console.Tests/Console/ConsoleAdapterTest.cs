@@ -7,11 +7,8 @@
     using System.Threading.Tasks;
 
     using FluentAssertions;
-
     using Pose;
-
     using Treatment.Console.Console;
-
     using Xunit;
 
     /// <summary>

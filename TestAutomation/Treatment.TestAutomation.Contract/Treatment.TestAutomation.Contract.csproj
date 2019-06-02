@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0E179745-C4B4-41A0-8EF4-08A5F18FB8CD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Treatment.TestAutomation.Contract</RootNamespace>
+    <AssemblyName>Treatment.TestAutomation.Contract</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>..\..\Treatment.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\stylecop.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="CustomMarshalers" />
+    <Reference Include="JetBrains.Annotations, Version=2019.1.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JetBrains.Annotations.2019.1.1\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.AppContext" />
+    <Reference Include="System.Console" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO" />
+    <Reference Include="System.IO.FileSystem" />
+    <Reference Include="System.IO.FileSystem.Primitives" />
+    <Reference Include="System.Linq" />
+    <Reference Include="System.Linq.Expressions" />
+    <Reference Include="System.Reflection" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Extensions" />
+    <Reference Include="System.Runtime.InteropServices" />
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System.Security.Cryptography.Encoding" />
+    <Reference Include="System.Security.Cryptography.Primitives" />
+    <Reference Include="System.Security.Cryptography.X509Certificates" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.ReaderWriter" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CouldNotFindFieldException.cs" />
+    <Compile Include="Interfaces\Events\ButtonBase\Clicked.cs" />
+    <Compile Include="Interfaces\Events\Collection\CollectionChanged.cs" />
+    <Compile Include="Interfaces\Events\Collection\CurrentChanged.cs" />
+    <Compile Include="Interfaces\Events\Collection\DataContextChanged.cs" />
+    <Compile Include="Interfaces\Events\Collection\CollectionSelectionChanged.cs" />
+    <Compile Include="Interfaces\Events\Element\DropDownClosed.cs" />
+    <Compile Include="Interfaces\Events\Element\DropDownOpened.cs" />
+    <Compile Include="Interfaces\Events\Element\Loaded.cs" />
+    <Compile Include="Interfaces\Events\Element\SelectionChanged.cs" />
+    <Compile Include="Interfaces\Events\NewControlCreated.cs" />
+    <Compile Include="Interfaces\Events\Window\WindowActivated.cs" />
+    <Compile Include="Interfaces\Events\Window\WindowClosing.cs" />
+    <Compile Include="Interfaces\Events\Window\WindowClosed.cs" />
+    <Compile Include="Interfaces\Events\Window\WindowDeactivated.cs" />
+    <Compile Include="Interfaces\Events\Element\Initialized.cs" />
+    <Compile Include="Interfaces\Framework\IComboBox.cs" />
+    <Compile Include="Interfaces\Framework\IControl.cs" />
+    <Compile Include="Interfaces\Framework\IApplication.cs" />
+    <Compile Include="Interfaces\Framework\ITextBox.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IApplicationActivated.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IApplicationDeactivated.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IApplicationExit.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IApplicationStartup.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IDropDownClosed.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IDropDownOpened.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IFocusChange.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IIsEnabledChanged.cs" />
+    <Compile Include="Interfaces\Framework\IListView.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IKeyboardFocusChanged.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\ILoaded.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IPositionUpdated.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\ISelectionChanged.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\ISizeUpdated.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\ITextValueChanged.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IButtonClicked.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IInitialized.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IWindowActivated.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IWindowClosed.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IWindowClosing.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\IWindowDeactivated.cs" />
+    <Compile Include="Interfaces\TestAutomationEvent.cs" />
+    <Compile Include="Interfaces\Events\Application\ApplicationActivated.cs" />
+    <Compile Include="Interfaces\Events\Application\ApplicationDeactivated.cs" />
+    <Compile Include="Interfaces\Events\Application\ApplicationDispatcherUnhandledException.cs" />
+    <Compile Include="Interfaces\Events\Application\ApplicationExit.cs" />
+    <Compile Include="Interfaces\Events\Application\ApplicationStarted.cs" />
+    <Compile Include="Interfaces\Events\Application\ApplicationStarting.cs" />
+    <Compile Include="Interfaces\Events\Application\ApplicationStopped.cs" />
+    <Compile Include="Interfaces\Events\Element\FocusableChanged.cs" />
+    <Compile Include="Interfaces\Events\Element\GotFocus.cs" />
+    <Compile Include="Interfaces\Events\Element\IsEnabledChanged.cs" />
+    <Compile Include="Interfaces\Events\Element\KeyboardFocusChanged.cs" />
+    <Compile Include="Interfaces\Events\Element\LostFocus.cs" />
+    <Compile Include="Interfaces\Events\Element\PositionUpdated.cs" />
+    <Compile Include="Interfaces\Events\Element\SizeUpdated.cs" />
+    <Compile Include="Interfaces\Events\Element\TextValueChanged.cs" />
+    <Compile Include="Interfaces\Events\IEvent.cs" />
+    <Compile Include="Interfaces\Events\TestElementEventBase.cs" />
+    <Compile Include="Interfaces\Events\Element\UiElementAssigned.cs" />
+    <Compile Include="Interfaces\Events\Element\UiElementCreated.cs" />
+    <Compile Include="Interfaces\Events\Element\UiElementDestroyed.cs" />
+    <Compile Include="Interfaces\Events\Element\UiElementUnassigned.cs" />
+    <Compile Include="Interfaces\Events\View\UiViewDestroyed.cs" />
+    <Compile Include="Interfaces\Events\View\UiViewCreated.cs" />
+    <Compile Include="Interfaces\Framework\IButton.cs" />
+    <Compile Include="Interfaces\Framework\IStatusBar.cs" />
+    <Compile Include="Interfaces\Framework\ITestAutomation.cs" />
+    <Compile Include="Interfaces\Framework\ITestAutomationApplicationContext.cs" />
+    <Compile Include="Interfaces\Framework\ITestAutomationView.cs" />
+    <Compile Include="Interfaces\Framework\ITextBlock.cs" />
+    <Compile Include="Interfaces\Framework\IUiElement.cs" />
+    <Compile Include="Interfaces\Events\MessageBox\MessageBoxClosed.cs" />
+    <Compile Include="Interfaces\Events\MessageBox\MessageBoxPoppedUp.cs" />
+    <Compile Include="Interfaces\Treatment\IMainWindow.cs" />
+    <Compile Include="Interfaces\Treatment\IMainViewStatusBar.cs" />
+    <Compile Include="Interfaces\Treatment\IProjectListView.cs" />
+    <Compile Include="Interfaces\Treatment\ISettingWindow.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serializer\EventSerializer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Treatment.Helpers\Treatment.Helpers.csproj">
+      <Project>{0d6db733-febe-4f4d-9d99-3808517a9f7f}</Project>
+      <Name>Treatment.Helpers</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

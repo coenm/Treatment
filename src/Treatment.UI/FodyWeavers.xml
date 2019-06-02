@@ -4,6 +4,7 @@
     <ExcludeAssemblies>
       Treatment.Plugin.Svn
       Treatment.Plugin.Everything
+      Treatment.Plugin.TestAutomation.UI
     </ExcludeAssemblies>
   </Costura>
 </Weavers>

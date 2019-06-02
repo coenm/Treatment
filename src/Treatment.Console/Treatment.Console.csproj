@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Treatment.Console</RootNamespace>
     <AssemblyName>Treatment</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -202,9 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="FodyWeavers.xsd">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="FodyWeavers.xsd" />
     <None Include="packages.config" />
     <None Include="..\..\Treatment.ruleset" />
   </ItemGroup>

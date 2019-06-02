@@ -23,7 +23,7 @@
             this.statusModel = statusModel;
         }
 
-        public async Task DelayAsync(CancellationToken ct = default(CancellationToken))
+        public async Task DelayAsync(CancellationToken ct = default)
         {
             using (statusModel.NotifyDelay())
             {

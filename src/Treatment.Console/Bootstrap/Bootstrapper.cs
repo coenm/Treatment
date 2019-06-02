@@ -35,7 +35,7 @@
 
         public object GetQueryHandler(Type queryType) => Container.GetInstance(CreateQueryHandlerType(queryType));
 
-        public Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query, CancellationToken ct = default(CancellationToken))
+        public Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query, CancellationToken ct = default)
         {
             return Container.GetInstance<IQueryProcessor>().ExecuteQueryAsync(query, ct);
         }

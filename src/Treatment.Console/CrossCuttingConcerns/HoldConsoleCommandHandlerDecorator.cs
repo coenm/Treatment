@@ -5,7 +5,6 @@
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
-
     using Treatment.Contract;
 
     /// <summary>After successfully executing the command, the console will stay open (ie. Console.ReadKey()).</summary>
@@ -24,7 +23,7 @@
             this.holdConsole = holdConsole;
         }
 
-        public async Task ExecuteAsync(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default(CancellationToken))
+        public async Task ExecuteAsync(TCommand command, IProgress<ProgressData> progress = null, CancellationToken ct = default)
         {
             await decorated.ExecuteAsync(command, progress, ct).ConfigureAwait(false);
             holdConsole.Hold();

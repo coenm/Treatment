@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\Costura.Fody.3.2.0\build\Costura.Fody.props" Condition="Exists('..\..\packages\Costura.Fody.3.2.0\build\Costura.Fody.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2C76194B-5B5E-4153-A3A2-EEA9BA669EF3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Treatment.Plugin.TestAutomation.UI</RootNamespace>
+    <AssemblyName>Treatment.Plugin.TestAutomation.UI</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <LangVersion>7.2</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <LangVersion>7.2</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>..\..\Treatment.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\stylecop.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Costura, Version=3.2.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Costura.Fody.3.2.0\lib\net46\Costura.dll</HintPath>
+    </Reference>
+    <Reference Include="Enums.NET, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7ea1c1650d506225, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Enums.NET.2.3.2\lib\net45\Enums.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.Annotations, Version=2019.1.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JetBrains.Annotations.2019.1.1\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NLog.4.6.3\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="SimpleInjector, Version=4.5.1.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SimpleInjector.4.5.1\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector.Packaging, Version=4.5.1.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SimpleInjector.Packaging.4.5.1\lib\net40\SimpleInjector.Packaging.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="ZeroMQ, Version=4.1.0.31, Culture=neutral, PublicKeyToken=4a9630883fd6c563, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ZeroMQ.4.1.0.31\lib\net40\ZeroMQ.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\src\GitVersionInformation.generated.cs">
+      <Link>Properties\GitVersionInformation.generated.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Adapters\ApplicationAdapter.cs" />
+    <Compile Include="Adapters\ComboBoxAdapter.cs" />
+    <Compile Include="Adapters\Helpers\FrameworkElementControl\SelectorSelectionChangedHelper.cs" />
+    <Compile Include="Adapters\Helpers\FrameworkElementControl\DropDownOpenClosedHelper.cs" />
+    <Compile Include="Adapters\TextBoxAdapter.cs" />
+    <Compile Include="Adapters\ButtonAdapter.cs" />
+    <Compile Include="Adapters\ControlEventPublisher.cs" />
+    <Compile Include="Adapters\Helpers\Application\ApplicationActivationHelper.cs" />
+    <Compile Include="Adapters\Helpers\Application\ApplicationExitHelper.cs" />
+    <Compile Include="Adapters\Helpers\Application\ApplicationDispatcherUnhandledExceptionHelper.cs" />
+    <Compile Include="Adapters\Helpers\Application\ApplicationStartupHelper.cs" />
+    <Compile Include="Adapters\Helpers\FrameworkElementControl\FocusHelper.cs" />
+    <Compile Include="Adapters\Helpers\FrameworkElementControl\KeyboardFocusHelper.cs" />
+    <Compile Include="Adapters\Helpers\FrameworkElementControl\OnLoadedHelper.cs" />
+    <Compile Include="Adapters\Helpers\FrameworkElementControl\PositionChangedHelper.cs" />
+    <Compile Include="Adapters\Helpers\FrameworkElementControl\SizeChangedHelper.cs" />
+    <Compile Include="Adapters\Helpers\IInitializable.cs" />
+    <Compile Include="Adapters\Helpers\Button\ButtonClickedHelper.cs" />
+    <Compile Include="Adapters\Helpers\FrameworkElementControl\EnabledChangedHelper.cs" />
+    <Compile Include="Adapters\Helpers\TextBlockControl\TextBlockTextValueChangedHelper.cs" />
+    <Compile Include="Adapters\Helpers\WindowControl\WindowActivatedDeactivatedHelper.cs" />
+    <Compile Include="Adapters\Helpers\WindowControl\WindowClosingHelper.cs" />
+    <Compile Include="Adapters\Helpers\WindowControl\WindowClosedHelper.cs" />
+    <Compile Include="Adapters\Helpers\FrameworkElementControl\InitializedHelper.cs" />
+    <Compile Include="Adapters\ListViewAdapter.cs" />
+    <Compile Include="Adapters\MainWindowAdapter.cs" />
+    <Compile Include="Infrastructure\EventPublisherExtension.cs" />
+    <Compile Include="Interceptors\ApplicationInterceptor.cs" />
+    <Compile Include="Interceptors\SettingWindowInterceptor.cs" />
+    <Compile Include="Interceptors\MainWindowInterceptor.cs" />
+    <Compile Include="Interfaces\IGuid.cs" />
+    <Compile Include="Interfaces\ITestAutomationButton.cs" />
+    <Compile Include="Interfaces\ITestAutomationApplication.cs" />
+    <Compile Include="Interfaces\ITestAutomationComboBox.cs" />
+    <Compile Include="Interfaces\ITestAutomationListView.cs" />
+    <Compile Include="Interfaces\ITestAutomationMainViewStatusBar.cs" />
+    <Compile Include="Interfaces\ITestAutomationMainWindow.cs" />
+    <Compile Include="Interfaces\ITestAutomationProjectListView.cs" />
+    <Compile Include="Interfaces\ITestAutomationSettingWindow.cs" />
+    <Compile Include="Interfaces\ITestAutomationTextBlock.cs" />
+    <Compile Include="Interfaces\ITestAutomationTextBox.cs" />
+    <Compile Include="ITestAutomationAgent.cs" />
+    <Compile Include="Settings\DummySettings.cs" />
+    <Compile Include="Infrastructure\IEventPublisher.cs" />
+    <Compile Include="Infrastructure\ZeroMqEventPublisher.cs" />
+    <Compile Include="Adapters\ProjectListViewAdapter.cs" />
+    <Compile Include="Reflection\FieldsHelper.cs" />
+    <Compile Include="Settings\EnvironmentVariableSettings.cs" />
+    <Compile Include="Settings\ITestAutomationSettings.cs" />
+    <Compile Include="Adapters\MainViewStatusBarAdapter.cs" />
+    <Compile Include="Adapters\SettingWindowAdapter.cs" />
+    <Compile Include="TestAutomationAgent.cs" />
+    <Compile Include="TestAutomationPackage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Adapters\TextBlockAdapter.cs" />
+    <Compile Include="UserInput\RequestDispatcher.cs" />
+    <Compile Include="UserInput\IRequestDispatcher.cs" />
+    <Compile Include="UserInput\ZeroMqRequestDispatcher.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="FodyWeavers.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Treatment.Contract.Plugin\Treatment.Contract.Plugin.csproj">
+      <Project>{7E082598-0C9C-4F15-B1B8-BDF6F2B1660C}</Project>
+      <Name>Treatment.Contract.Plugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Treatment.Core\Treatment.Core.csproj">
+      <Project>{852975DA-CBF2-4659-8DA4-3AA6A1B5AA25}</Project>
+      <Name>Treatment.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Treatment.Helpers\Treatment.Helpers.csproj">
+      <Project>{0D6DB733-FEBE-4F4D-9D99-3808517A9F7F}</Project>
+      <Name>Treatment.Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Treatment.UI\Treatment.UI.csproj">
+      <Project>{3C621AFB-C34D-40A6-8EC9-C61F3B3C96FD}</Project>
+      <Name>Treatment.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestAutomation.Contract.Input\TestAutomation.Contract.Input.csproj">
+      <Project>{6aab1c15-076e-4e4b-a0a9-d99210fcaddb}</Project>
+      <Name>TestAutomation.Contract.Input</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestAutomation.InputHandler\TestAutomation.InputHandler.csproj">
+      <Project>{b1308572-4927-44b9-b5e2-53a648f82a38}</Project>
+      <Name>TestAutomation.InputHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Treatment.TestAutomation.Contract\Treatment.TestAutomation.Contract.csproj">
+      <Project>{0e179745-c4b4-41a0-8ef4-08a5f18fb8cd}</Project>
+      <Name>Treatment.TestAutomation.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Treatment.ZeroMq\Treatment.ZeroMq.csproj">
+      <Project>{3D1F845A-A217-4EE4-9C56-C97EF7EC8F9C}</Project>
+      <Name>Treatment.ZeroMq</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Adapters\Helpers\ListViewControl\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FodyWeavers.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <Error Condition="!Exists('..\..\packages\ZeroMQ.4.1.0.31\build\net40\ZeroMQ.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\ZeroMQ.4.1.0.31\build\net40\ZeroMQ.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Fody.3.3.5\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Fody.3.3.5\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Costura.Fody.3.2.0\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Costura.Fody.3.2.0\build\Costura.Fody.props'))" />
+  </Target>
+  <Import Project="..\..\packages\ZeroMQ.4.1.0.31\build\net40\ZeroMQ.targets" Condition="Exists('..\..\packages\ZeroMQ.4.1.0.31\build\net40\ZeroMQ.targets')" />
+  <Import Project="..\..\packages\Fody.3.3.5\build\Fody.targets" Condition="Exists('..\..\packages\Fody.3.3.5\build\Fody.targets')" />
+</Project>

@@ -5,13 +5,10 @@
     using System.Threading.Tasks;
 
     using FluentAssertions;
-
     using SimpleInjector;
-
     using Treatment.Console.Bootstrap;
     using Treatment.Contract.DTOs;
     using Treatment.Contract.Queries;
-
     using Xunit;
 
     public class BootstrapperTest

@@ -37,7 +37,6 @@
 
         private static Container Bootstrap()
         {
-            // Create the container as usual.
             var container = new Container();
 
             container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();

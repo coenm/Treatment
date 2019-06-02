@@ -61,19 +61,20 @@ after_test:
 - cmd: 7z a TreatmentConsole.%GitVersion_FullSemVer%.zip .\src\Treatment.Console\bin\x64\Release\*.exe
 - cmd: 7z a TreatmentConsole.%GitVersion_FullSemVer%.zip .\src\Treatment.Console\bin\x64\Release\*.config
 
-- cmd: 7z a EverythingPlugin.%GitVersion_FullSemVer%.zip .\src\Treatment.Plugin.Everything\bin\x64\Release\*.dll
-- cmd: 7z a EverythingPlugin.%GitVersion_FullSemVer%.zip .\src\Treatment.Plugin.Everything\bin\x64\Release\*.exe
-
-- cmd: 7z a SvnPlugin.%GitVersion_FullSemVer%.zip .\src\Treatment.Plugin.Svn\bin\x64\Release\*.dll
-- cmd: 7z a SvnPlugin.%GitVersion_FullSemVer%.zip .\src\Treatment.Plugin.Svn\bin\x64\Release\*.exe
-
 - cmd: 7z a TreatmentUI.%GitVersion_FullSemVer%.zip .\src\Treatment.UI\bin\x64\Release\*.dll
 - cmd: 7z a TreatmentUI.%GitVersion_FullSemVer%.zip .\src\Treatment.UI\bin\x64\Release\*.exe
 - cmd: 7z a TreatmentUI.%GitVersion_FullSemVer%.zip .\src\Treatment.UI\bin\x64\Release\*.config
 
+- cmd: 7z a EverythingPlugin.%GitVersion_FullSemVer%.zip .\src\Treatment.Plugin.Everything\bin\x64\Release\*.dll
+
+- cmd: 7z a SvnPlugin.%GitVersion_FullSemVer%.zip .\src\Treatment.Plugin.Svn\bin\x64\Release\*.dll
+
+- cmd: 7z a TestAutomationPlugin.%GitVersion_FullSemVer%.zip .\TestAutomation\Treatment.Plugin.TestAutomation.UI\bin\x64\Release\*.dll
+- cmd: 7z a TestAutomationPlugin.%GitVersion_FullSemVer%.zip .\TestAutomation\Treatment.Plugin.TestAutomation.UI\bin\x64\Release\**\*.*
 
 artifacts:
 - path: TreatmentConsole.%GitVersion_FullSemVer%.zip
+- path: TreatmentUI.%GitVersion_FullSemVer%.zip
 - path: EverythingPlugin.%GitVersion_FullSemVer%.zip
 - path: SvnPlugin.%GitVersion_FullSemVer%.zip
-- path: TreatmentUI.%GitVersion_FullSemVer%.zip
+- path: TestAutomationPlugin.%GitVersion_FullSemVer%.zip

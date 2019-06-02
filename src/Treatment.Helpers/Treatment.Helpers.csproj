@@ -1,8 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Treatment.ruleset</CodeAnalysisRuleSet>
@@ -18,15 +17,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <AdditionalFiles Include="..\..\stylecop.json" /> 
+    <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\GitVersionInformation.generated.cs" Link="GitVersionInformation.generated.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="JetBrains.Annotations">
-      <HintPath>..\..\..\..\..\Users\coen\.nuget\packages\jetbrains.annotations\2018.2.1\lib\netstandard2.0\JetBrains.Annotations.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

@@ -17,19 +17,19 @@
     <valueConverters:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
   </UserControl.Resources>
 
-  <ListView SelectionMode="Extended" ItemsSource="{Binding Path=Projects}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+  <ListView Name="Listview" SelectionMode="Extended" ItemsSource="{Binding Path=Projects}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
     <ListView.View>
-      <GridView >
-        <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Path=Name}" />
-        <GridViewColumn Header="Path" Width="200" DisplayMemberBinding="{Binding Path=Path}" />
-        <GridViewColumn Header="Actions" Width="300">
+      <GridView>
+        <GridViewColumn x:Name="HeaderName" Header="Name" Width="200" DisplayMemberBinding="{Binding Path=Name}" />
+        <GridViewColumn x:Name="HeaderPath" Header="Path" Width="200" DisplayMemberBinding="{Binding Path=Path}" />
+        <GridViewColumn x:Name="HeaderActions" Header="Actions" Width="300">
           <GridViewColumn.CellTemplate>
             <DataTemplate DataType="{x:Type vm:ProjectViewModel}">
               <StackPanel Orientation="Horizontal">
-                <Button Margin="0,0,0,0" Command="{Binding Path=FixCsProjectFiles}" Content="Fix $(..)" FontSize="10" Width="80" />
-                <Button Margin="10,0,0,0" Command="{Binding Path=RemoveNewAppConfig}" Content="Delete App.config" FontSize="10" Width="100" />
+                <Button Margin="0,0,0,0" Command="{Binding Path=FixCsProjectFiles}" Content="Fix $(..)" FontSize="10" Width="80" Name="BtnFixCsProjectFiles"/>
+                <Button Margin="10,0,0,0" Command="{Binding Path=RemoveNewAppConfig}" Content="Delete App.config" FontSize="10" Width="100" Name="BtnRemoveNewAppConfig"/>
                 <fa:ImageAwesome Margin="10,0,0,0" Height ="10"  Icon="Spinner" Spin="True" SpinDuration="2"
-                                 Visibility="{Binding TaskRunning, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                 Visibility="{Binding TaskRunning, Converter={StaticResource BooleanToVisibilityConverter}}" Name="ProjectSpinner"/>
               </StackPanel>
             </DataTemplate>
           </GridViewColumn.CellTemplate>
