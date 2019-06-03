@@ -2,18 +2,16 @@
 {
     using System;
     using System.Threading;
+    using System.Windows;
+    using System.Windows.Threading;
 
-    using NLog;
-    using NLog.Config;
+    using JetBrains.Annotations;
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
-    using TestAgent.ZeroMq.PublishInfrastructure;
-    using TestAgent.ZeroMq.RequestReplyInfrastructure;
-    using TreatmentZeroMq.ContextService;
-    using TreatmentZeroMq.Worker;
-    using View;
-    using ViewModel;
-    using ZeroMQ;
+    using TestAgent.View;
+    using TestAgent.ViewModel;
+    using Treatment.Helpers.Guards;
+    using Wpf.Framework.SynchronizationContext;
 
     public static class Program
     {
@@ -25,68 +23,73 @@
 
         private static Container container;
 
+        [STAThread]
         public static void Main(string[] args)
         {
-            container = new Container();
-
-            container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
-            container.Options.AllowOverridingRegistrations = true;
-
-            Bootstrapper.Bootstrap(
-                container,
-                $"tcp://*:{FixedSettings.AgentReqRspPort}",
-                $"tcp://*:{FixedSettings.AgentPublishPort}",
-                FixedSettings.SutPublishPort,
-                FixedSettings.SutReqRspPort);
-
-            // Views
-            container.Register<MainWindow>();
-
-            // View models
-            container.Register<IMainWindowViewModel, MainWindowViewModel>(Lifestyle.Scoped);
-
-            container.Verify(VerificationOption.VerifyOnly);
-
-            var context = container.GetInstance<IZeroMqContextService>().GetContext();
-
-            var cts = new CancellationTokenSource();
-
-            var zeroMqReqRepProxyFactory = container.GetInstance<IZeroMqReqRepProxyFactory>();
-            var reqRspProxy = zeroMqReqRepProxyFactory.Create();
-            reqRspProxy.Start();
-
-            var zeroMqPublishProxyFactory = container.GetInstance<IZeroMqPublishProxyFactory>();
-            var publishProxy = zeroMqPublishProxyFactory.Create();
-            publishProxy.Start();
-
-            var workerManager = container.GetInstance<ReqRepWorkerManagement>();
-
-            var workerTask = workerManager.StartSingleWorker(
-                                container.GetInstance<IZeroMqRequestDispatcher>(),
-                                "inproc://reqrsp",
-                                cts.Token);
-
-            // let listeners know agent has started.
-            using (var agentPublishSocket = new ZSocket(context, ZSocketType.PUB))
+            using (container = new Container())
             {
-                agentPublishSocket.Connect("inproc://publish");
-                agentPublishSocket.Send(new ZMessage(new[]
+                container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+                container.Options.AllowOverridingRegistrations = true;
+
+                Bootstrapper.Bootstrap(
+                    container,
+                    $"tcp://*:{FixedSettings.AgentReqRspPort}",
+                    $"tcp://*:{FixedSettings.AgentPublishPort}",
+                    FixedSettings.SutPublishPort,
+                    FixedSettings.SutReqRspPort);
+
+                // Views
+                container.Register<MainWindow>();
+
+                // View models
+                container.Register<ITestAgentMainWindowViewModel, TestAgentMainWindowViewModel>(Lifestyle.Transient);
+
+                container
+                    .Register<IUserInterfaceSynchronizationContextProvider, UserInterfaceSynchronizationContextProvider
+                    >(Lifestyle.Singleton);
+                container.RegisterSingleton<DispatcherObject, App>();
+                container.RegisterSingleton<Application, App>();
+
+//                container.Verify(VerificationOption.VerifyOnly);
+
+                RunApplication(container);
+            }
+        }
+
+        private static void RunApplication([NotNull] Container container)
+        {
+            DebugGuard.NotNull(container, nameof(container));
+
+            try
+            {
+//                using (AsyncScopedLifestyle.BeginScope(container))
                 {
-                    new ZFrame("AGENT"),
-                    new ZFrame("Started"),
-                }));
+                    ManualResetEvent mre = new ManualResetEvent(false);
+                    var app = container.GetInstance<Application>();
+                    var mainWindow = container.GetInstance<MainWindow>();
+
+                    void MainWindowOnClosed(object sender, EventArgs e)
+                    {
+                        mainWindow.Closed -= MainWindowOnClosed;
+                        app.Shutdown(0);
+                    }
+
+                    // not sure if this is the way to do this.
+                    mainWindow.Closed += MainWindowOnClosed;
+
+                    var result = app.Run(mainWindow);
+                }
             }
 
-            Console.WriteLine("Done. Press enter to exit.");
-//            Console.ReadKey();
-
-            var agent = container.GetInstance<IAgentContext>();
-            agent.Stop();
-
-            Thread.Sleep(5000);
-
-            publishProxy.Dispose();
-            reqRspProxy.Dispose();
+            // ReSharper disable once RedundantCatchClause
+            catch
+            {
+                // Log the exception and exit
+#if DEBUG
+                throw;
+#endif
+            }
         }
+
     }
 }

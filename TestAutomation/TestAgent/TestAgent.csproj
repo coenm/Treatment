@@ -147,6 +147,15 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\src\GitVersionInformation.generated.cs">
+      <Link>Properties\GitVersionInformation.generated.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="ISutExecutable.cs" />
     <Compile Include="LocateSutExecutable.cs" />
@@ -169,8 +178,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AgentContext.cs" />
     <Compile Include="FixedSettings.cs" />
-    <Compile Include="ViewModel\IMainWindowViewModel.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\ITestAgentMainWindowViewModel.cs" />
+    <Compile Include="ViewModel\TestAgentMainWindowViewModel.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -196,14 +205,6 @@
       <Project>{0d6db733-febe-4f4d-9d99-3808517a9f7f}</Project>
       <Name>Treatment.Helpers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Treatment.UI.Start\Treatment.UI.Start.csproj">
-      <Project>{a0406998-8a76-47ab-b8c1-c139461a4433}</Project>
-      <Name>Treatment.UI.Start</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Treatment.UI\Treatment.UI.csproj">
-      <Project>{3C621AFB-C34D-40A6-8EC9-C61F3B3C96FD}</Project>
-      <Name>Treatment.UI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Wpf.Framework\Wpf.Framework.csproj">
       <Project>{4404027B-3E9B-4DDC-82A0-BBEC0EEB7D54}</Project>
       <Name>Wpf.Framework</Name>
@@ -223,6 +224,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Page Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

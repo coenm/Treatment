@@ -8,7 +8,6 @@
     using global::TestAutomation.Input.Contract.Interface.Input.Enums;
     using JetBrains.Annotations;
     using TestHelper;
-
     using Treatment.TestAutomation.Contract.Interfaces.Events.Application;
     using Treatment.TestAutomation.TestRunner.Controls.Framework;
     using Treatment.TestAutomation.TestRunner.Framework;
@@ -184,6 +183,8 @@
 
             await Mouse.MouseUpAsync();
 
+            // give events time to pass. Sometimes, the window has been blown to full screen.
+            await Task.Delay(1000);
             x1 = (int)(window1.Position.X + window1.Size.Width - 50);
             y1 = (int)(window1.Position.Y - 10);
             await Mouse.MoveCursorAsync(x1, y1);
