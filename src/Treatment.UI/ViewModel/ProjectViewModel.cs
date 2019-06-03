@@ -3,11 +3,11 @@
     using System;
 
     using JetBrains.Annotations;
+    using Nito.Mvvm;
     using Treatment.Contract;
     using Treatment.Contract.Commands;
     using Treatment.Helpers.Guards;
     using Wpf.Framework.Commands;
-    using Wpf.Framework.Commands.Nito;
     using Wpf.Framework.ViewModel;
 
     public class ProjectViewModel : ViewModelBase, IDisposable

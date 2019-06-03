@@ -4,13 +4,14 @@
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
+    using Nito.Mvvm;
     using NLog;
     using Treatment.Contract;
     using Treatment.Helpers.Guards;
     using Treatment.UI.Core.Configuration;
     using Treatment.UI.Framework;
-    using Wpf.Framework.Commands.Nito;
     using Wpf.Framework.ViewModel;
+
     using ICommand = System.Windows.Input.ICommand;
 
     public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel, IInitializableViewModel

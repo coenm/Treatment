@@ -2,6 +2,7 @@
 {
     using System.Threading;
     using System.Windows.Threading;
+
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
 

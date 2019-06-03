@@ -6,9 +6,9 @@
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
+    using Nito.Mvvm;
     using Treatment.Helpers.Guards;
     using Treatment.UI.Model;
-    using Wpf.Framework.Commands.Nito;
     using Wpf.Framework.SynchronizationContext;
     using Wpf.Framework.ViewModel;
 

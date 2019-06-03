@@ -1,6 +1,7 @@
 ﻿namespace Wpf.Framework.ViewModel
 {
     using System.ComponentModel;
+
     using JetBrains.Annotations;
     using Nito.Mvvm.CalculatedProperties;
 

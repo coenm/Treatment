@@ -4,8 +4,9 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
+
     using JetBrains.Annotations;
-    using Nito;
+    using Nito.Mvvm;
 
     public class ExecutingAsyncCommandsComposition : IDisposable
     {
