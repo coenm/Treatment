@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Treatment.UI.UserControls"
              xmlns:vm="clr-namespace:Treatment.UI.ViewModel"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
-             xmlns:valueConverters="clr-namespace:Treatment.UI.ValueConverters"
+             xmlns:valueConverters="clr-namespace:Wpf.Framework.ValueConverters;assembly=Wpf.Framework"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance vm:ProjectCollectionViewModel}">

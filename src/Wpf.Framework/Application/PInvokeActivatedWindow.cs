@@ -1,20 +1,23 @@
-﻿namespace Treatment.UI.Framework.Application
+﻿namespace Wpf.Framework.Application
 {
     using System;
     using System.Linq;
+    using System.Runtime.InteropServices;
     using System.Windows;
+    using System.Windows.Interop;
 
-    internal class ApplicationActivatedWindow : IGetActivatedWindow
+    public class PInvokeActivatedWindow : IGetActivatedWindow
     {
         public Window Current
         {
-            // https://stackoverflow.com/questions/2038879/refer-to-active-window-in-wpf
             get
             {
                 try
                 {
+                    var active = GetActiveWindow();
+
                     return Application.Current.Windows.OfType<Window>()
-                                      .SingleOrDefault(x => x.IsActive);
+                                      .SingleOrDefault(window => new WindowInteropHelper(window).Handle == active);
                 }
                 catch (Exception e)
                 {
@@ -23,5 +26,8 @@
                 }
             }
         }
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetActiveWindow();
     }
 }

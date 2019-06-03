@@ -1,10 +1,9 @@
-﻿namespace Treatment.UI.Framework.Application
+﻿namespace Wpf.Framework.Application
 {
     using System.Windows;
-
     using JetBrains.Annotations;
 
-    internal interface IGetActivatedWindow
+    public interface IGetActivatedWindow
     {
         [CanBeNull]
         Window Current { get; }

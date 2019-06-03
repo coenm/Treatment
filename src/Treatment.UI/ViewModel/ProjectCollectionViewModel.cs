@@ -11,14 +11,14 @@
 
     using CoenM.Encoding;
     using JetBrains.Annotations;
-    using Nito.Mvvm;
     using NLog;
     using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Helpers.Guards;
     using Treatment.UI.Core.Configuration;
-    using Treatment.UI.Framework.ViewModel;
     using Treatment.UI.Implementations.Delay;
     using Treatment.UI.Model;
+    using Wpf.Framework.Commands.Nito;
+    using Wpf.Framework.ViewModel;
 
     public class ProjectCollectionViewModel : ViewModelBase, IProjectCollectionViewModel, IInitializableViewModel, IDisposable
     {

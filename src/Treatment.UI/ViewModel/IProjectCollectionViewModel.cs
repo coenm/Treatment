@@ -2,7 +2,7 @@
 {
     using System.Collections.ObjectModel;
 
-    using Nito.Mvvm;
+    using Wpf.Framework.Commands.Nito;
 
     public interface IProjectCollectionViewModel
     {

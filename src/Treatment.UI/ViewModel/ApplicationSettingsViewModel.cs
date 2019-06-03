@@ -11,6 +11,8 @@
     using Treatment.UI.Core.Configuration;
     using Treatment.UI.Framework.ViewModel;
     using Treatment.UI.Implementations.Delay;
+    using Wpf.Framework.Commands.Nito;
+    using Wpf.Framework.ViewModel;
 
     public class ApplicationSettingsViewModel : ViewModelBase, IEntityEditorViewModel<ApplicationSettings>
     {

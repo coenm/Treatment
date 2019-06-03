@@ -1,4 +1,4 @@
-﻿namespace Treatment.UI.Framework.ViewModel
+﻿namespace Wpf.Framework.ViewModel
 {
     using System.Windows.Input;
 

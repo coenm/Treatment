@@ -2,12 +2,13 @@
 // https://github.com/StephenCleary/Mvvm.Async/issues/6#issuecomment-249306870
 
 // ReSharper disable once CheckNamespace
-namespace Nito.Mvvm
+namespace Wpf.Framework.Commands.Nito
 {
     using System;
     using System.ComponentModel;
     using System.Threading.Tasks;
     using System.Windows.Input;
+    using global::Nito.Mvvm;
 
     /// <summary>
     /// A basic asynchronous command, which (by default) is disabled while the command is executing.
@@ -15,19 +16,19 @@ namespace Nito.Mvvm
     public sealed class CapturingExceptionAsyncCommand : AsyncCommandBase, INotifyPropertyChanged
     {
         /// <summary>
-        /// The implementation of <see cref="IAsyncCommand.ExecuteAsync(object)"/>.
+        /// The implementation of <see cref="Nito.Mvvm.IAsyncCommand.ExecuteAsync(object)"/>.
         /// </summary>
         private readonly Func<object, Task> executeAsync;
 
         /// <summary>
-        /// The implementation of <see cref="ICommand.CanExecute(object)"/>.
+        /// The implementation of <see cref="ICommand.CanExecute"/>.
         /// </summary>
         private readonly Func<object, bool> canExecute;
 
         /// <summary>
         /// Creates a new asynchronous command, with the specified asynchronous delegate as its implementation.
         /// </summary>
-        /// <param name="executeAsync">The implementation of <see cref="IAsyncCommand.ExecuteAsync(object)"/>.</param>
+        /// <param name="executeAsync">The implementation of <see cref="Nito.Mvvm.IAsyncCommand.ExecuteAsync(object)"/>.</param>
         /// <param name="canExecute">The implementation of <see cref="ICommand.CanExecute(object)"/>.</param>
         /// <param name="canExecuteChangedFactory">The factory for the implementation of <see cref="ICommand.CanExecuteChanged"/>.</param>
         public CapturingExceptionAsyncCommand(Func<object, Task> executeAsync, Func<object, bool> canExecute, Func<object, ICanExecuteChanged> canExecuteChangedFactory)
@@ -40,7 +41,7 @@ namespace Nito.Mvvm
         /// <summary>
         /// Creates a new asynchronous command, with the specified asynchronous delegate as its implementation.
         /// </summary>
-        /// <param name="executeAsync">The implementation of <see cref="IAsyncCommand.ExecuteAsync(object)"/>.</param>
+        /// <param name="executeAsync">The implementation of <see cref="Nito.Mvvm.IAsyncCommand.ExecuteAsync(object)"/>.</param>
         public CapturingExceptionAsyncCommand(Func<object, Task> executeAsync)
             : this(executeAsync, _ => true, CanExecuteChangedFactories.DefaultCanExecuteChangedFactory)
         {
@@ -49,7 +50,7 @@ namespace Nito.Mvvm
         /// <summary>
         /// Creates a new asynchronous command, with the specified asynchronous delegate as its implementation.
         /// </summary>
-        /// <param name="executeAsync">The implementation of <see cref="IAsyncCommand.ExecuteAsync(object)"/>.</param>
+        /// <param name="executeAsync">The implementation of <see cref="Nito.Mvvm.IAsyncCommand.ExecuteAsync(object)"/>.</param>
         public CapturingExceptionAsyncCommand(Func<Task> executeAsync)
             : this(_ => executeAsync(), _ => true, CanExecuteChangedFactories.DefaultCanExecuteChangedFactory)
         {
@@ -58,7 +59,7 @@ namespace Nito.Mvvm
         /// <summary>
         /// Creates a new asynchronous command, with the specified asynchronous delegate as its implementation.
         /// </summary>
-        /// <param name="executeAsync">The implementation of <see cref="IAsyncCommand.ExecuteAsync(object)"/>.</param>
+        /// <param name="executeAsync">The implementation of <see cref="Nito.Mvvm.IAsyncCommand.ExecuteAsync(object)"/>.</param>
         /// <param name="canExecute">The implementation of <see cref="ICommand.CanExecute(object)"/>.</param>
         public CapturingExceptionAsyncCommand(Func<object, Task> executeAsync, Func<object, bool> canExecute)
             : this(executeAsync, canExecute, CanExecuteChangedFactories.DefaultCanExecuteChangedFactory)
@@ -68,7 +69,7 @@ namespace Nito.Mvvm
         /// <summary>
         /// Creates a new asynchronous command, with the specified asynchronous delegate as its implementation.
         /// </summary>
-        /// <param name="executeAsync">The implementation of <see cref="IAsyncCommand.ExecuteAsync(object)"/>.</param>
+        /// <param name="executeAsync">The implementation of <see cref="Nito.Mvvm.IAsyncCommand.ExecuteAsync(object)"/>.</param>
         /// <param name="canExecute">The implementation of <see cref="ICommand.CanExecute(object)"/>.</param>
         /// <param name="canExecuteChangedFactory">The factory for the implementation of <see cref="ICommand.CanExecuteChanged"/>.</param>
         public CapturingExceptionAsyncCommand(Func<Task> executeAsync, Func<bool> canExecute, Func<object, ICanExecuteChanged> canExecuteChangedFactory)
@@ -79,7 +80,7 @@ namespace Nito.Mvvm
         /// <summary>
         /// Creates a new asynchronous command, with the specified asynchronous delegate as its implementation.
         /// </summary>
-        /// <param name="executeAsync">The implementation of <see cref="IAsyncCommand.ExecuteAsync(object)"/>.</param>
+        /// <param name="executeAsync">The implementation of <see cref="Nito.Mvvm.IAsyncCommand.ExecuteAsync(object)"/>.</param>
         /// <param name="canExecute">The implementation of <see cref="ICommand.CanExecute(object)"/>.</param>
         public CapturingExceptionAsyncCommand(Func<Task> executeAsync, Func<bool> canExecute)
             : this(_ => executeAsync(), _ => canExecute(), CanExecuteChangedFactories.DefaultCanExecuteChangedFactory)

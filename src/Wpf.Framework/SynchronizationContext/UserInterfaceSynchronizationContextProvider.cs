@@ -1,8 +1,7 @@
-﻿namespace Treatment.UI.Framework.SynchronizationContext
+﻿namespace Wpf.Framework.SynchronizationContext
 {
     using System.Threading;
     using System.Windows.Threading;
-
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
 

@@ -1,6 +1,6 @@
 ﻿namespace Treatment.UI.ViewModel
 {
-    using Nito.Mvvm;
+    using Wpf.Framework.Commands.Nito;
 
     public interface IStatusViewModel
     {

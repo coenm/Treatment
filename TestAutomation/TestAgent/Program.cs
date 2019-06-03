@@ -6,10 +6,13 @@
     using NLog;
     using NLog.Config;
     using SimpleInjector;
+    using SimpleInjector.Lifestyles;
     using TestAgent.ZeroMq.PublishInfrastructure;
     using TestAgent.ZeroMq.RequestReplyInfrastructure;
     using TreatmentZeroMq.ContextService;
     using TreatmentZeroMq.Worker;
+    using View;
+    using ViewModel;
     using ZeroMQ;
 
     public static class Program
@@ -26,12 +29,21 @@
         {
             container = new Container();
 
+            container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+            container.Options.AllowOverridingRegistrations = true;
+
             Bootstrapper.Bootstrap(
                 container,
                 $"tcp://*:{FixedSettings.AgentReqRspPort}",
                 $"tcp://*:{FixedSettings.AgentPublishPort}",
                 FixedSettings.SutPublishPort,
                 FixedSettings.SutReqRspPort);
+
+            // Views
+            container.Register<MainWindow>();
+
+            // View models
+            container.Register<IMainWindowViewModel, MainWindowViewModel>(Lifestyle.Scoped);
 
             container.Verify(VerificationOption.VerifyOnly);
 
@@ -66,7 +78,7 @@
             }
 
             Console.WriteLine("Done. Press enter to exit.");
-            Console.ReadKey();
+//            Console.ReadKey();
 
             var agent = container.GetInstance<IAgentContext>();
             agent.Stop();

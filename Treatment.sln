@@ -64,6 +64,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAutomation.Contract.Inp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAutomation.InputHandler", "TestAutomation\TestAutomation.InputHandler\TestAutomation.InputHandler.csproj", "{B1308572-4927-44B9-B5E2-53A648F82A38}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wpf.Framework", "src\Wpf.Framework\Wpf.Framework.csproj", "{4404027B-3E9B-4DDC-82A0-BBEC0EEB7D54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -166,6 +168,10 @@ Global
 		{B1308572-4927-44B9-B5E2-53A648F82A38}.Debug|x64.Build.0 = Debug|x64
 		{B1308572-4927-44B9-B5E2-53A648F82A38}.Release|x64.ActiveCfg = Release|x64
 		{B1308572-4927-44B9-B5E2-53A648F82A38}.Release|x64.Build.0 = Release|x64
+		{4404027B-3E9B-4DDC-82A0-BBEC0EEB7D54}.Debug|x64.ActiveCfg = Debug|x64
+		{4404027B-3E9B-4DDC-82A0-BBEC0EEB7D54}.Debug|x64.Build.0 = Debug|x64
+		{4404027B-3E9B-4DDC-82A0-BBEC0EEB7D54}.Release|x64.ActiveCfg = Release|x64
+		{4404027B-3E9B-4DDC-82A0-BBEC0EEB7D54}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

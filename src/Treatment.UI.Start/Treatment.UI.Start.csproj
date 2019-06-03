@@ -366,6 +366,10 @@
       <Project>{3c621afb-c34d-40a6-8ec9-c61f3b3c96fd}</Project>
       <Name>Treatment.UI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Wpf.Framework\Wpf.Framework.csproj">
+      <Project>{4404027b-3e9b-4ddc-82a0-bbec0eeb7d54}</Project>
+      <Name>Wpf.Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />

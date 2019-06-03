@@ -1,14 +1,13 @@
-﻿namespace Treatment.UI.Framework
+﻿namespace Wpf.Framework.Commands
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
-
     using JetBrains.Annotations;
-    using Nito.Mvvm;
+    using Nito;
 
-    internal class ExecutingAsyncCommandsComposition : IDisposable
+    public class ExecutingAsyncCommandsComposition : IDisposable
     {
         [NotNull] private readonly List<CapturingExceptionAsyncCommand> commands;
         [NotNull] private readonly List<Action<bool>> actions;
