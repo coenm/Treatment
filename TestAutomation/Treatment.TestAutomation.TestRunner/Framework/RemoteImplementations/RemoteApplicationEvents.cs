@@ -50,7 +50,11 @@
                                 var @type = zmsg.Pop().ReadString();
                                 var payload = zmsg.Pop().ReadString();
                                 var value = EventSerializer.DeserializeEvent(@type, payload);
-                                subject.OnNext(value);
+
+                                if (value != null)
+                                    subject.OnNext(value);
+
+                                //todo handle null?
                             }
                         }
                         catch (Exception e)

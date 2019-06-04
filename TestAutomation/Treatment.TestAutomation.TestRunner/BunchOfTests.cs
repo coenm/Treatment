@@ -59,7 +59,7 @@
         [ConditionalHostFact(TestHostMode.Skip, TestHost.AppVeyor)]
         public async Task RepeatTest()
         {
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 3; i++)
             {
                 await StartSutAndCheckApplicationCreatedSetting();
                 await Task.Delay(50);
