@@ -6,10 +6,19 @@
         xmlns:viewModel="clr-namespace:TestAgent.ViewModel"
         xmlns:generated="clr-namespace:Generated"
         mc:Ignorable="d"
-        Height="200" Width="400"
+        Height="200" MinHeight="200" MaxHeight="200"
+        Width="400" MinWidth="400" MaxWidth="400"
         Title="{Binding Source={x:Static generated:BuildAndVersionInfo.FullSemanticVersion}, StringFormat={}TestAgent ({0})}"
         d:DataContext="{d:DesignInstance viewModel:TestAgentMainWindowViewModel}">
-    <Grid>
-        <Label>Running..</Label>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0"
+               HorizontalAlignment="Center" VerticalAlignment="Center"
+               Content="{Binding Path=EventsCounter, Mode=OneWay}"
+               FontSize="40"
+               FontFamily="Arial"/>
     </Grid>
 </Window>

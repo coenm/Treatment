@@ -2,5 +2,6 @@
 {
     public interface ITestAgentMainWindowViewModel
     {
+        int EventsCounter { get; }
     }
 }

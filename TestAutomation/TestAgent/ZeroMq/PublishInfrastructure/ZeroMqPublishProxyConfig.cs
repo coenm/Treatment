@@ -1,17 +1,36 @@
 ﻿namespace TestAgent.ZeroMq.PublishInfrastructure
 {
+    using System.Linq;
+
+    using JetBrains.Annotations;
+    using Treatment.Helpers.Guards;
+
     public class ZeroMqPublishProxyConfig
     {
-        public ZeroMqPublishProxyConfig(string[] frontendAddress, string[] backendAddress)
+        public ZeroMqPublishProxyConfig(
+            [NotNull] [ItemNotNull] string[] frontendAddress,
+            [NotNull] [ItemNotNull] string[] backendAddress,
+            [CanBeNull] string captureAddress = null)
         {
-            FrontendAddress = frontendAddress;
-            BackendAddress = backendAddress;
+            Guard.NotNull(frontendAddress, nameof(frontendAddress));
+            Guard.NotNull(backendAddress, nameof(backendAddress));
+            Guard.NotNullOrEmpty(frontendAddress.Where(x => x != null).ToArray(), nameof(frontendAddress));
+            Guard.NotNullOrEmpty(backendAddress.Where(x => x != null).ToArray(), nameof(backendAddress));
+
+            FrontendAddress = frontendAddress.Where(x => x != null).ToArray();
+            BackendAddress = backendAddress.Where(x => x != null).ToArray();
+            CaptureAddress = captureAddress;
         }
 
-        public string[] FrontendAddress { get; set; } // = Settings.Default.PublishEventsEndpoint;
+        [NotNull]
+        [ItemNotNull]
+        public string[] FrontendAddress { get; }
 
-        public string CaptureAddress { get; set; } // = Settings.Default.PublishCaptureEndpoint;
+        [CanBeNull]
+        public string CaptureAddress { get; }
 
-        public string[] BackendAddress { get; set; }
+        [NotNull]
+        [ItemNotNull]
+        public string[] BackendAddress { get; }
     }
 }

@@ -59,10 +59,10 @@
         [ConditionalHostFact(TestHostMode.Skip, TestHost.AppVeyor)]
         public async Task RepeatTest()
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 50; i++)
             {
                 await StartSutAndCheckApplicationCreatedSetting();
-                await Task.Delay(50);
+                await Task.Delay(40);
             }
         }
 
@@ -184,7 +184,8 @@
             await Mouse.MouseUpAsync();
 
             // give events time to pass. Sometimes, the window has been blown to full screen.
-            await Task.Delay(1000);
+            await Task.Delay(500);
+
             x1 = (int)(window1.Position.X + window1.Size.Width - 50);
             y1 = (int)(window1.Position.Y - 10);
             await Mouse.MoveCursorAsync(x1, y1);

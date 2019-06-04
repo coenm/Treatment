@@ -16,7 +16,9 @@
     {
         [NotNull] private readonly Subject<IEvent> subject;
 
-        public RemoteApplicationEvents([NotNull]IZeroMqSocketFactory socketFactory, [NotNull] IAgentSettings agentSettings)
+        public RemoteApplicationEvents(
+            [NotNull]IZeroMqSocketFactory socketFactory,
+            [NotNull] IAgentSettings agentSettings)
         {
             Guard.NotNull(socketFactory, nameof(socketFactory));
             Guard.NotNull(agentSettings, nameof(agentSettings));

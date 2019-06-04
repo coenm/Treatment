@@ -66,7 +66,8 @@
 
             container.Register<ZeroMqPublishProxyConfig>(() => new ZeroMqPublishProxyConfig(
                 new[] { endpointPubSub },
-                new[] { $"tcp://*:{sutPublishPort}", "inproc://publish" }));
+                new[] { $"tcp://*:{sutPublishPort}", "inproc://publish" },
+                "inproc://capturePubSub"));
 
             container.Register<IZeroMqPublishProxyFactory, ZeroMqPublishProxyFactory>(Lifestyle.Transient);
 

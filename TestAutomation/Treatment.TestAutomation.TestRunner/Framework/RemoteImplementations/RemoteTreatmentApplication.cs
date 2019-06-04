@@ -22,7 +22,10 @@
         [NotNull] private readonly IObservable<IEvent> filter;
         private Guid guid = Guid.Empty;
 
-        public RemoteTreatmentApplication(Guid guid, [NotNull] IApplicationEvents applicationEvents, [NotNull] RemoteObjectManager remoteObjectManager)
+        public RemoteTreatmentApplication(
+            Guid guid,
+            [NotNull] IApplicationEvents applicationEvents,
+            [NotNull] RemoteObjectManager remoteObjectManager)
         {
             Guard.NotNull(applicationEvents, nameof(applicationEvents));
             Guard.NotNull(remoteObjectManager, nameof(remoteObjectManager));

@@ -7,6 +7,7 @@
     using System.Runtime.CompilerServices;
 
     using JetBrains.Annotations;
+    using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.Contract.Interfaces.Events;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.TestRunner.Framework.RemoteImplementations;
@@ -17,8 +18,13 @@
         [NotNull] private readonly CompositeDisposable disposable;
         [NotNull] private readonly Dictionary<string, Guid> propertyGuids;
 
-        public SingleClassObjectManager([NotNull] RemoteObjectManager remoteObjectManager, [NotNull] IObservable<IEvent> observer)
+        public SingleClassObjectManager(
+            [NotNull] RemoteObjectManager remoteObjectManager,
+            [NotNull] IObservable<IEvent> observer)
         {
+            Guard.NotNull(remoteObjectManager, nameof(remoteObjectManager));
+            Guard.NotNull(observer, nameof(observer));
+
             this.remoteObjectManager = remoteObjectManager;
             propertyGuids = new Dictionary<string, Guid>();
 
