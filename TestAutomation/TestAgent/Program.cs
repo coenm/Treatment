@@ -6,6 +6,7 @@
     using System.Windows.Threading;
 
     using JetBrains.Annotations;
+    using NLog;
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
     using TestAgent.View;
@@ -22,6 +23,7 @@
 #endif
 
         private static Container container;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         [STAThread]
         public static void Main(string[] args)
@@ -82,12 +84,16 @@
             }
 
             // ReSharper disable once RedundantCatchClause
-            catch
+            catch (Exception ex)
             {
                 // Log the exception and exit
+                Logger.Fatal(() => "Exception occurred.");
+                Logger.Fatal(() => ex.Message);
+                Logger.Fatal(() => ex.StackTrace);
 #if DEBUG
                 throw;
 #endif
+
             }
         }
 
