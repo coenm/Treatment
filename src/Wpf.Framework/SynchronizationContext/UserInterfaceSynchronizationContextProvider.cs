@@ -1,4 +1,4 @@
-﻿namespace Treatment.UI.Framework.SynchronizationContext
+﻿namespace Wpf.Framework.SynchronizationContext
 {
     using System.Threading;
     using System.Windows.Threading;

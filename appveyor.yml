@@ -72,9 +72,15 @@ after_test:
 - cmd: 7z a TestAutomationPlugin.%GitVersion_FullSemVer%.zip .\TestAutomation\Treatment.Plugin.TestAutomation.UI\bin\x64\Release\*.dll
 - cmd: 7z a TestAutomationPlugin.%GitVersion_FullSemVer%.zip .\TestAutomation\Treatment.Plugin.TestAutomation.UI\bin\x64\Release\**\*.*
 
+- cmd: 7z a TestAgent.%GitVersion_FullSemVer%.zip .\TestAutomation\TestAgent\bin\x64\Release\*.dll
+- cmd: 7z a TestAgent.%GitVersion_FullSemVer%.zip .\TestAutomation\TestAgent\bin\x64\Release\**\*.*
+- cmd: 7z a TestAgent.%GitVersion_FullSemVer%.zip .\TestAutomation\TestAgent\bin\x64\Release\*.exe
+- cmd: 7z a TestAgent.%GitVersion_FullSemVer%.zip .\TestAutomation\TestAgent\bin\x64\Release\*.config
+
 artifacts:
 - path: TreatmentConsole.%GitVersion_FullSemVer%.zip
 - path: TreatmentUI.%GitVersion_FullSemVer%.zip
 - path: EverythingPlugin.%GitVersion_FullSemVer%.zip
 - path: SvnPlugin.%GitVersion_FullSemVer%.zip
 - path: TestAutomationPlugin.%GitVersion_FullSemVer%.zip
+- path: TestAgent.%GitVersion_FullSemVer%.zip

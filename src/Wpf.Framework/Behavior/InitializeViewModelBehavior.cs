@@ -1,11 +1,11 @@
-﻿namespace Treatment.UI.Behavior
+﻿namespace Wpf.Framework.Behavior
 {
     using System;
     using System.Windows;
     using System.Windows.Interactivity;
 
     using JetBrains.Annotations;
-    using Treatment.UI.Framework.ViewModel;
+    using Wpf.Framework.ViewModel;
 
     public class InitializeViewModelBehavior : Behavior<Window>
     {

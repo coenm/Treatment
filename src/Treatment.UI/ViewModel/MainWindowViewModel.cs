@@ -10,7 +10,7 @@
     using Treatment.Helpers.Guards;
     using Treatment.UI.Core.Configuration;
     using Treatment.UI.Framework;
-    using Treatment.UI.Framework.ViewModel;
+    using Wpf.Framework.ViewModel;
 
     using ICommand = System.Windows.Input.ICommand;
 

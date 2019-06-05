@@ -16,7 +16,9 @@
     {
         [NotNull] private readonly Subject<IEvent> subject;
 
-        public RemoteApplicationEvents([NotNull]IZeroMqSocketFactory socketFactory, [NotNull] IAgentSettings agentSettings)
+        public RemoteApplicationEvents(
+            [NotNull]IZeroMqSocketFactory socketFactory,
+            [NotNull] IAgentSettings agentSettings)
         {
             Guard.NotNull(socketFactory, nameof(socketFactory));
             Guard.NotNull(agentSettings, nameof(agentSettings));
@@ -50,7 +52,11 @@
                                 var @type = zmsg.Pop().ReadString();
                                 var payload = zmsg.Pop().ReadString();
                                 var value = EventSerializer.DeserializeEvent(@type, payload);
-                                subject.OnNext(value);
+
+                                if (value != null)
+                                    subject.OnNext(value);
+
+                                //todo handle null?
                             }
                         }
                         catch (Exception e)

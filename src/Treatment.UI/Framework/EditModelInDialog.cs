@@ -6,9 +6,9 @@
     using JetBrains.Annotations;
     using SimpleInjector;
     using Treatment.Helpers.Guards;
-    using Treatment.UI.Framework.Application;
     using Treatment.UI.Framework.View;
     using Treatment.UI.Framework.ViewModel;
+    using Wpf.Framework.Application;
 
     public class EditModelInDialog : IModelEditor
     {

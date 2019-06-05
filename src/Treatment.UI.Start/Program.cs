@@ -15,8 +15,6 @@
     using Treatment.UI;
     using Treatment.UI.Core.Configuration;
     using Treatment.UI.Framework;
-    using Treatment.UI.Framework.Application;
-    using Treatment.UI.Framework.SynchronizationContext;
     using Treatment.UI.Framework.View;
     using Treatment.UI.Framework.ViewModel;
     using Treatment.UI.Implementations.Configuration;
@@ -24,6 +22,8 @@
     using Treatment.UI.Model;
     using Treatment.UI.View;
     using Treatment.UI.ViewModel;
+    using Wpf.Framework.Application;
+    using Wpf.Framework.SynchronizationContext;
 
     public static class Program
     {

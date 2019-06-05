@@ -7,8 +7,8 @@
     using Treatment.Contract;
     using Treatment.Contract.Commands;
     using Treatment.Helpers.Guards;
-    using Treatment.UI.Framework;
-    using Treatment.UI.Framework.ViewModel;
+    using Wpf.Framework.Commands;
+    using Wpf.Framework.ViewModel;
 
     public class ProjectViewModel : ViewModelBase, IDisposable
     {

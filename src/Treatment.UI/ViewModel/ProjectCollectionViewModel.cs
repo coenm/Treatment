@@ -16,9 +16,9 @@
     using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Helpers.Guards;
     using Treatment.UI.Core.Configuration;
-    using Treatment.UI.Framework.ViewModel;
     using Treatment.UI.Implementations.Delay;
     using Treatment.UI.Model;
+    using Wpf.Framework.ViewModel;
 
     public class ProjectCollectionViewModel : ViewModelBase, IProjectCollectionViewModel, IInitializableViewModel, IDisposable
     {

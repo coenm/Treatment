@@ -1,4 +1,4 @@
-﻿namespace Treatment.UI.ValueConverters
+﻿namespace Wpf.Framework.ValueConverters
 {
     using System;
     using System.Globalization;

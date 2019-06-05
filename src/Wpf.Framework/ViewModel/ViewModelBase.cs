@@ -1,9 +1,8 @@
-﻿namespace Treatment.UI.Framework.ViewModel
+﻿namespace Wpf.Framework.ViewModel
 {
     using System.ComponentModel;
 
     using JetBrains.Annotations;
-
     using Nito.Mvvm.CalculatedProperties;
 
     public abstract class ViewModelBase : INotifyPropertyChanged

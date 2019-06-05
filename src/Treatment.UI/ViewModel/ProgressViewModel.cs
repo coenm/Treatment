@@ -2,7 +2,7 @@
 {
     using NLog;
     using Treatment.Contract;
-    using Treatment.UI.Framework.ViewModel;
+    using Wpf.Framework.ViewModel;
 
     public class ProgressViewModel : ViewModelBase, IProgressViewModel
     {

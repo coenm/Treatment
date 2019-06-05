@@ -58,11 +58,30 @@
                             {
                                 Logger.Info(string.Empty);
                                 Logger.Info("+" + new string('-', 100 + 2) + "+");
-
-                                foreach (var frame in zmsg)
+                                bool subscribeUnsubscribe = false;
+                                if (zmsg.Count == 1 && zmsg[0].Length == 1)
                                 {
-                                    var s = frame.ReadString();
-                                    Logger.Info($"| {s,-100} |");
+                                    var b = zmsg.PopAsByte();
+                                    var m = string.Empty;
+                                    if (b == 0x01)
+                                        m = "SUBSCRIBE  (0x01)";
+                                    if (b == 0x00)
+                                        m = "UNSUBSCRIBE (0x00)";
+
+                                    if (!string.IsNullOrEmpty(m))
+                                    {
+                                        subscribeUnsubscribe = true;
+                                        Logger.Info($"| {m,-100} |");
+                                    }
+                                }
+
+                                if (subscribeUnsubscribe == false)
+                                {
+                                    foreach (var frame in zmsg)
+                                    {
+                                        var s = frame.ReadString();
+                                        Logger.Info($"| {s,-100} |");
+                                    }
                                 }
 
                                 Logger.Info("+" + new string('-', 100 + 2) + "+");

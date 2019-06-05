@@ -20,7 +20,7 @@ namespace Nito.Mvvm
         private readonly Func<object, Task> executeAsync;
 
         /// <summary>
-        /// The implementation of <see cref="ICommand.CanExecute(object)"/>.
+        /// The implementation of <see cref="ICommand.CanExecute"/>.
         /// </summary>
         private readonly Func<object, bool> canExecute;
 
@@ -49,7 +49,7 @@ namespace Nito.Mvvm
         /// <summary>
         /// Creates a new asynchronous command, with the specified asynchronous delegate as its implementation.
         /// </summary>
-        /// <param name="executeAsync">The implementation of <see cref="IAsyncCommand.ExecuteAsync(object)"/>.</param>
+        /// <param name="executeAsync">The implementation of <see cref="Nito.Mvvm.IAsyncCommand.ExecuteAsync(object)"/>.</param>
         public CapturingExceptionAsyncCommand(Func<Task> executeAsync)
             : this(_ => executeAsync(), _ => true, CanExecuteChangedFactories.DefaultCanExecuteChangedFactory)
         {

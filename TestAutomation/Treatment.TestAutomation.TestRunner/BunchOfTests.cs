@@ -8,7 +8,6 @@
     using global::TestAutomation.Input.Contract.Interface.Input.Enums;
     using JetBrains.Annotations;
     using TestHelper;
-
     using Treatment.TestAutomation.Contract.Interfaces.Events.Application;
     using Treatment.TestAutomation.TestRunner.Controls.Framework;
     using Treatment.TestAutomation.TestRunner.Framework;
@@ -60,10 +59,10 @@
         [ConditionalHostFact(TestHostMode.Skip, TestHost.AppVeyor)]
         public async Task RepeatTest()
         {
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 50; i++)
             {
                 await StartSutAndCheckApplicationCreatedSetting();
-                await Task.Delay(50);
+                await Task.Delay(40);
             }
         }
 
@@ -183,6 +182,9 @@
             }
 
             await Mouse.MouseUpAsync();
+
+            // give events time to pass. Sometimes, the window has been blown to full screen.
+            await Task.Delay(500);
 
             x1 = (int)(window1.Position.X + window1.Size.Width - 50);
             y1 = (int)(window1.Position.Y - 10);

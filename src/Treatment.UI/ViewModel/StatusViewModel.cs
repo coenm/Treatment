@@ -7,11 +7,10 @@
 
     using JetBrains.Annotations;
     using Nito.Mvvm;
-
     using Treatment.Helpers.Guards;
-    using Treatment.UI.Framework.SynchronizationContext;
-    using Treatment.UI.Framework.ViewModel;
     using Treatment.UI.Model;
+    using Wpf.Framework.SynchronizationContext;
+    using Wpf.Framework.ViewModel;
 
     public class StatusViewModel : ViewModelBase, IStatusViewModel, IInitializableViewModel, IDisposable
     {
