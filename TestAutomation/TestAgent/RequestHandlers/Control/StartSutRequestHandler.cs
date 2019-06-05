@@ -34,7 +34,9 @@
         {
             Guard.NotNull(request, nameof(request));
 
-            var executable = sutExecutable.Executable;
+            var executable = request.Executable;
+            if (string.IsNullOrWhiteSpace(executable) || File.Exists(executable))
+                executable = sutExecutable.Executable;
 
             IControlResponse response;
 

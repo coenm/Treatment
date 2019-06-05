@@ -21,6 +21,8 @@
             bootstrapper = new Bootstrapper();
             container = bootstrapper.RegisterAll();
 
+            var sutsettings = container.GetInstance<ISutSettings>();
+
             store = container.GetInstance<RemoteObjectManager>();
             // Application = container.GetInstance<ITreatmentApplication>();
             Agent = container.GetInstance<ITestAgent>();

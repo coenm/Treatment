@@ -26,6 +26,7 @@
                 $"tcp://localhost:{FixedSettings.AgentReqRspPort}");
 
             container.RegisterInstance<IAgentSettings>(settings);
+            container.RegisterSingleton<ISutSettings, AppConfigSutSettings>();
 
             container.Register<IZeroMqContextService, ZeroMqContextService>(Lifestyle.Singleton);
             container.Register<IZeroMqSocketFactory, DefaultSocketFactory>(Lifestyle.Singleton);
