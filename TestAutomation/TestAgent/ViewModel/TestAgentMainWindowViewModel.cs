@@ -4,8 +4,10 @@
     using System.Reactive.Disposables;
     using System.Reactive.Linq;
     using System.Threading;
+    using System.Windows.Input;
 
     using JetBrains.Annotations;
+    using TestAgent.ZeroMq;
     using TestAgent.ZeroMq.PublishInfrastructure;
     using TestAgent.ZeroMq.RequestReplyInfrastructure;
     using Treatment.Helpers.Guards;
@@ -14,7 +16,6 @@
     using TreatmentZeroMq.Worker;
     using Wpf.Framework.SynchronizationContext;
     using Wpf.Framework.ViewModel;
-    using ZeroMq;
     using ZeroMQ;
 
     public class TestAgentMainWindowViewModel : ViewModelBase, ITestAgentMainWindowViewModel, IDisposable
@@ -83,6 +84,9 @@
             get => Properties.Get(0);
             private set => Properties.Set(value);
         }
+
+        [NotNull]
+        public ICommand OpenSettingsCommand { get; }
 
         public void Dispose()
         {

@@ -9,7 +9,7 @@
     using Treatment.Contract;
     using Treatment.Helpers.Guards;
     using Treatment.UI.Core.Configuration;
-    using Treatment.UI.Framework;
+    using Wpf.Framework.EntityEditor;
     using Wpf.Framework.ViewModel;
 
     using ICommand = System.Windows.Input.ICommand;

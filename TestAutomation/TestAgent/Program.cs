@@ -52,7 +52,7 @@
                 container.RegisterSingleton<DispatcherObject, App>();
                 container.RegisterSingleton<Application, App>();
 
-//                container.Verify(VerificationOption.VerifyOnly);
+                container.Verify(VerificationOption.VerifyOnly);
 
                 RunApplication(container);
             }

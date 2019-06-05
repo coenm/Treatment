@@ -1,6 +1,6 @@
-﻿namespace Treatment.UI.Framework.View
+﻿namespace Wpf.Framework.EntityEditor.View
 {
-    using Treatment.UI.Framework.ViewModel;
+    using ViewModel;
 
     public interface IEntityEditorView<T>
         where T : class

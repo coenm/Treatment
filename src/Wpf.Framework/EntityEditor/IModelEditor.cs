@@ -1,4 +1,4 @@
-﻿namespace Treatment.UI.Framework
+﻿namespace Wpf.Framework.EntityEditor
 {
     public interface IModelEditor
     {

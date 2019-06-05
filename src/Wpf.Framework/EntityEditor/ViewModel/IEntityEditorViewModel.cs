@@ -1,4 +1,4 @@
-﻿namespace Treatment.UI.Framework.ViewModel
+﻿namespace Wpf.Framework.EntityEditor.ViewModel
 {
     public interface IEntityEditorViewModel<TEntity>
         where TEntity : class

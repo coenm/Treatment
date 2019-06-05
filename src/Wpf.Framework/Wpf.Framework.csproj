@@ -117,6 +117,11 @@
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Commands\ExecutingAsyncCommandsComposition.cs" />
     <Compile Include="Commands\Nito\CapturingExceptionAsyncCommand.cs" />
+    <Compile Include="EntityEditor\EditModelInDialog.cs" />
+    <Compile Include="EntityEditor\IEditorByTypeFactory.cs" />
+    <Compile Include="EntityEditor\IModelEditor.cs" />
+    <Compile Include="EntityEditor\ViewModel\IEntityEditorViewModel.cs" />
+    <Compile Include="EntityEditor\View\IEntityEditorView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SynchronizationContext\IUserInterfaceSynchronizationContextProvider.cs" />
     <Compile Include="SynchronizationContext\UserInterfaceSynchronizationContextProvider.cs" />

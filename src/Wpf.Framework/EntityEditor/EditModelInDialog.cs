@@ -1,23 +1,28 @@
-﻿namespace Treatment.UI.Framework
+﻿namespace Wpf.Framework.EntityEditor
 {
     using System;
     using System.Windows;
 
     using JetBrains.Annotations;
-    using SimpleInjector;
     using Treatment.Helpers.Guards;
-    using Treatment.UI.Framework.View;
-    using Treatment.UI.Framework.ViewModel;
     using Wpf.Framework.Application;
+    using Wpf.Framework.EntityEditor.View;
+    using Wpf.Framework.EntityEditor.ViewModel;
 
     public class EditModelInDialog : IModelEditor
     {
-        private readonly Container container;
+        [NotNull] private readonly IGetActivatedWindow getActivatedWindow;
+        [NotNull] private readonly IEditorByTypeFactory editorFactoryByType;
 
-        public EditModelInDialog([NotNull] Container container)
+        public EditModelInDialog(
+            [NotNull] IEditorByTypeFactory editorFactoryByType,
+            [NotNull] IGetActivatedWindow getActivatedWindow)
         {
-            Guard.NotNull(container, nameof(container));
-            this.container = container;
+            Guard.NotNull(editorFactoryByType, nameof(editorFactoryByType));
+            Guard.NotNull(getActivatedWindow, nameof(getActivatedWindow));
+
+            this.editorFactoryByType = editorFactoryByType;
+            this.getActivatedWindow = getActivatedWindow;
         }
 
         /// <summary>Edit the <paramref name="entity"/> using a popup dialog.</summary>
@@ -39,14 +44,13 @@
 
             // Ask SimpleInjector for the corresponding ViewModel,
             // which is responsible for editing this type of entity
-            var editEntityViewModel =
-                (IEntityEditorViewModel<TEntity>)container.GetInstance(editEntityViewModelType);
+            var editEntityViewModel = editorFactoryByType.GetEditorViewModel<TEntity>(editEntityViewModelType);
 
             // give the viewmodel the entity to be edited
             editEntityViewModel.Initialize(entity);
 
             var editEntityViewType = typeof(IEntityEditorView<>).MakeGenericType(entityType);
-            var view = (IEntityEditorView<TEntity>)container.GetInstance(editEntityViewType);
+            var view = editorFactoryByType.GetEditorView<TEntity>(editEntityViewType);
 
             // give the view the viewmodel
             view.Set(editEntityViewModel);
@@ -54,7 +58,7 @@
             if (!(view is Window window))
                 return null;
 
-            window.Owner = container.GetInstance<IGetActivatedWindow>().Current;
+            window.Owner = getActivatedWindow.Current;
 
             var result = window.ShowDialog();
             if (!result.HasValue || result != true)

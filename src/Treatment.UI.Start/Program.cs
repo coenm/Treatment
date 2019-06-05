@@ -14,15 +14,15 @@
     using Treatment.Helpers.Guards;
     using Treatment.UI;
     using Treatment.UI.Core.Configuration;
-    using Treatment.UI.Framework;
-    using Treatment.UI.Framework.View;
-    using Treatment.UI.Framework.ViewModel;
     using Treatment.UI.Implementations.Configuration;
     using Treatment.UI.Implementations.Delay;
     using Treatment.UI.Model;
     using Treatment.UI.View;
     using Treatment.UI.ViewModel;
     using Wpf.Framework.Application;
+    using Wpf.Framework.EntityEditor;
+    using Wpf.Framework.EntityEditor.View;
+    using Wpf.Framework.EntityEditor.ViewModel;
     using Wpf.Framework.SynchronizationContext;
 
     public static class Program
@@ -63,6 +63,7 @@
             container.Register<IStatusFullModel, StatusModel>(Lifestyle.Singleton);
             container.RegisterDecorator<IStatusFullModel, StatusModelLogDecorator>(Lifestyle.Singleton);
 
+            container.RegisterSingleton<IEditorByTypeFactory, SimpleInjectorEditorByTypeFactory>();
             container.RegisterSingleton<IModelEditor, EditModelInDialog>();
 
             container.RegisterSingleton<IReadOnlyConfigurationService, FileBasedConfigurationService>();

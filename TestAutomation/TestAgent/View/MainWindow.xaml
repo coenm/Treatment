@@ -10,12 +10,19 @@
         Width="400" MinWidth="400" MaxWidth="400"
         Title="{Binding Source={x:Static generated:BuildAndVersionInfo.FullSemanticVersion}, StringFormat={}TestAgent ({0})}"
         d:DataContext="{d:DesignInstance viewModel:TestAgentMainWindowViewModel}">
-    <Grid Margin="10">
+    <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0"
+        <Menu Grid.Row="0" IsMainMenu="True">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Settings..." Command="{Binding OpenSettingsCommand}" />
+            </MenuItem>
+        </Menu>
+
+        <Label Margin="10" Grid.Row="1"
                HorizontalAlignment="Center" VerticalAlignment="Center"
                Content="{Binding Path=EventsCounter, Mode=OneWay}"
                FontSize="40"

@@ -9,8 +9,8 @@
     using Treatment.Contract.Queries;
     using Treatment.Helpers.Guards;
     using Treatment.UI.Core.Configuration;
-    using Treatment.UI.Framework.ViewModel;
     using Treatment.UI.Implementations.Delay;
+    using Wpf.Framework.EntityEditor.ViewModel;
     using Wpf.Framework.ViewModel;
 
     public class ApplicationSettingsViewModel : ViewModelBase, IEntityEditorViewModel<ApplicationSettings>
