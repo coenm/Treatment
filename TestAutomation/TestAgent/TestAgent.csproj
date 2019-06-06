@@ -171,8 +171,8 @@
     </Compile>
     <Compile Include="Behavior\OpenFileDialogBehavior.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="ISutExecutable.cs" />
-    <Compile Include="LocateSutExecutable.cs" />
+    <Compile Include="IResolveSutExecutable.cs" />
+    <Compile Include="ConventionBasedResolveSutExecutable.cs" />
     <Compile Include="Model\SimpleInjectorEditorByTypeFactory.cs" />
     <Compile Include="Model\Configuration\FileBasedConfigurationService.cs" />
     <Compile Include="Model\Configuration\IConfigurationService.cs" />

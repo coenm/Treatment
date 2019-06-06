@@ -2,7 +2,7 @@
 {
     using JetBrains.Annotations;
 
-    public interface ISutExecutable
+    public interface IResolveSutExecutable
     {
         [CanBeNull]
         string Executable { get; }

@@ -2,7 +2,6 @@
 {
     using System;
     using System.IO;
-    using System.Reflection;
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
@@ -14,16 +13,20 @@
     internal class FileBasedConfigurationService : IConfigurationService
     {
         [NotNull] private readonly IConfigFilenameProvider filenameProvider;
+        [NotNull] private readonly IResolveSutExecutable resolveSutExecutable;
         [NotNull] private readonly IFileSystem fileSystem;
 
         public FileBasedConfigurationService(
             [NotNull] IFileSystem fileSystem,
-            [NotNull] IConfigFilenameProvider filenameProvider)
+            [NotNull] IConfigFilenameProvider filenameProvider,
+            [NotNull] IResolveSutExecutable resolveSutExecutable)
         {
             Guard.NotNull(fileSystem, nameof(fileSystem));
             Guard.NotNull(filenameProvider, nameof(filenameProvider));
+            Guard.NotNull(resolveSutExecutable, nameof(resolveSutExecutable));
 
             this.filenameProvider = filenameProvider;
+            this.resolveSutExecutable = resolveSutExecutable;
             this.fileSystem = fileSystem;
         }
 
@@ -84,14 +87,6 @@
             }
         }
 
-        private static TestAgentApplicationSettings CreateDefaultSettings()
-        {
-            return new TestAgentApplicationSettings
-            {
-                Executable = Assembly.GetExecutingAssembly().Location,
-            };
-        }
-
         private static ApplicationSettingsDto Map([NotNull] TestAgentApplicationSettings settings)
         {
             DebugGuard.NotNull(settings, nameof(settings));
@@ -107,6 +102,14 @@
             return new TestAgentApplicationSettings
             {
                 Executable = settings.Executable,
+            };
+        }
+
+        private TestAgentApplicationSettings CreateDefaultSettings()
+        {
+            return new TestAgentApplicationSettings
+            {
+                Executable = resolveSutExecutable.Executable ?? string.Empty,
             };
         }
 

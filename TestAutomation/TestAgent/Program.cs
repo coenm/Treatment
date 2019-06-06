@@ -59,6 +59,7 @@
 
                 container.Register<IModelEditor, EditModelInDialog>(Lifestyle.Singleton);
                 container.Register<IConfigurationService, FileBasedConfigurationService>(Lifestyle.Singleton);
+                container.Register<IReadOnlyConfigurationService, FileBasedConfigurationService>(Lifestyle.Singleton);
                 container.RegisterInstance<IFileSystem>(OsFileSystem.Instance);
                 container.Register<IConfigFilenameProvider, AssemblyBasedFilenameProvider>(Lifestyle.Singleton);
                 container.Register<IEditorByTypeFactory, SimpleInjectorEditorByTypeFactory>(Lifestyle.Singleton);

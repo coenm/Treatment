@@ -9,45 +9,43 @@
     using TestAgent.Contract.Interface;
     using TestAgent.Contract.Interface.Control;
     using TestAgent.Implementation;
+    using TestAgent.Model.Configuration;
     using Treatment.Helpers.Guards;
 
     [UsedImplicitly]
     public class StartSutRequestHandler : IRequestHandler
     {
         [NotNull] private readonly IAgentContext context;
-        [NotNull] private readonly ISutExecutable sutExecutable;
+        [NotNull] private readonly IReadOnlyConfigurationService resolveSutExecutable;
 
-        public StartSutRequestHandler([NotNull] IAgentContext context, [NotNull] ISutExecutable sutExecutable)
+        public StartSutRequestHandler([NotNull] IAgentContext context, [NotNull] IReadOnlyConfigurationService resolveSutExecutable)
         {
             Guard.NotNull(context, nameof(context));
-            Guard.NotNull(sutExecutable, nameof(sutExecutable));
+            Guard.NotNull(resolveSutExecutable, nameof(resolveSutExecutable));
 
             this.context = context;
-            this.sutExecutable = sutExecutable;
+            this.resolveSutExecutable = resolveSutExecutable;
         }
 
         public bool CanHandle(IControlRequest request) => request is StartSutRequest;
 
         public Task<IControlResponse> ExecuteAsync(IControlRequest request) => ExecuteAsync(request as StartSutRequest);
 
-        private Task<IControlResponse> ExecuteAsync(StartSutRequest request)
+        private async Task<IControlResponse> ExecuteAsync(StartSutRequest request)
         {
             Guard.NotNull(request, nameof(request));
 
             var executable = request.Executable;
             if (string.IsNullOrWhiteSpace(executable) || File.Exists(executable))
-                executable = sutExecutable.Executable;
-
-            IControlResponse response;
+                executable = (await resolveSutExecutable.GetAsync().ConfigureAwait(false)).Executable;
 
             if (string.IsNullOrWhiteSpace(executable) || !File.Exists(executable))
             {
-                response = new StartSutResponse
+                return new StartSutResponse
                     {
                         Executable = executable,
                         Success = false,
                     };
-                return Task.FromResult(response);
             }
 
             var workingDirectory = request.WorkingDirectory;
@@ -72,12 +70,10 @@
 
             context.SetSutProcess(command);
 
-            response = new StartSutResponse
-                {
-                    Executable = executable,
-                    Success = true,
-                };
-            return Task.FromResult(response);
+            return new StartSutResponse
+            {
+                Executable = executable, Success = true,
+            };
 
             // var result = await command.Task.ConfigureAwait(true);
             // Console.WriteLine(result.StandardOutput);

@@ -39,8 +39,7 @@
             [NotNull] IUserInterfaceSynchronizationContextProvider uiContextProvider,
             [NotNull] IAgentContext agent,
             [NotNull] IModelEditor modelEditor,
-            [NotNull] IConfigurationService configurationService
-            )
+            [NotNull] IConfigurationService configurationService)
         {
             Guard.NotNull(contextService, nameof(contextService));
             Guard.NotNull(zeroMqReqRepProxyFactory, nameof(zeroMqReqRepProxyFactory));

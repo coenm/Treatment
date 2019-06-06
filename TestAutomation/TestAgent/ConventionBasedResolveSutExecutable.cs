@@ -6,7 +6,7 @@
 
     using JetBrains.Annotations;
 
-    public class LocateSutExecutable : ISutExecutable
+    internal class ConventionBasedResolveSutExecutable : IResolveSutExecutable
     {
         private string executable;
 
