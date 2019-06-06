@@ -22,12 +22,14 @@
         private const string Config = "Release";
 #endif
 
+        [NotNull] private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static Container container;
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         [STAThread]
         public static void Main(string[] args)
         {
+            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+
             using (container = new Container())
             {
                 container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
@@ -46,16 +48,22 @@
                 // View models
                 container.Register<ITestAgentMainWindowViewModel, TestAgentMainWindowViewModel>(Lifestyle.Transient);
 
-                container
-                    .Register<IUserInterfaceSynchronizationContextProvider, UserInterfaceSynchronizationContextProvider
-                    >(Lifestyle.Singleton);
-                container.RegisterSingleton<DispatcherObject, App>();
-                container.RegisterSingleton<Application, App>();
+                container.Register<IUserInterfaceSynchronizationContextProvider, UserInterfaceSynchronizationContextProvider>(Lifestyle.Singleton);
+                container.Register<DispatcherObject, App>(Lifestyle.Singleton);
+                container.Register<Application, App>(Lifestyle.Singleton);
 
                 container.Verify(VerificationOption.VerifyOnly);
 
                 RunApplication(container);
             }
+
+            AppDomain.CurrentDomain.UnhandledException -= OnUnhandledException;
+        }
+
+        private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Logger.Error("UnhandledException!!!");
+            Logger.Error(e);
         }
 
         private static void RunApplication([NotNull] Container container)
