@@ -1,9 +1,7 @@
-﻿namespace Treatment.Core.FileSystem
+﻿namespace Treatment.Helpers.FileSystem
 {
     using System.IO;
     using System.Threading.Tasks;
-
-    using Treatment.Core.Interfaces;
 
     public class OsFileSystem : IFileSystem
     {

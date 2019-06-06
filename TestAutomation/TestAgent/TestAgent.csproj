@@ -173,7 +173,13 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="ISutExecutable.cs" />
     <Compile Include="LocateSutExecutable.cs" />
+    <Compile Include="Model\SimpleInjectorEditorByTypeFactory.cs" />
+    <Compile Include="Model\Configuration\FileBasedConfigurationService.cs" />
+    <Compile Include="Model\Configuration\IConfigurationService.cs" />
+    <Compile Include="Model\Configuration\IReadOnlyConfigurationService.cs" />
     <Compile Include="Model\Configuration\TestAgentApplicationSettings.cs" />
+    <Compile Include="Model\Configuration\AssemblyBasedFilenameProvider.cs" />
+    <Compile Include="Model\IConfigFilenameProvider.cs" />
     <Compile Include="RequestHandlers\Control\GetFileRequestHandler.cs" />
     <Compile Include="RequestHandlers\Control\GetSutExecutableRequestHandler.cs" />
     <Compile Include="RequestHandlers\Control\LocateFilesRequestHandler.cs" />

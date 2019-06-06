@@ -7,6 +7,8 @@
     using System.Windows.Input;
 
     using JetBrains.Annotations;
+    using Nito.Mvvm;
+    using TestAgent.Model.Configuration;
     using TestAgent.ZeroMq;
     using TestAgent.ZeroMq.PublishInfrastructure;
     using TestAgent.ZeroMq.RequestReplyInfrastructure;
@@ -14,6 +16,7 @@
     using TreatmentZeroMq.ContextService;
     using TreatmentZeroMq.Socket;
     using TreatmentZeroMq.Worker;
+    using Wpf.Framework.EntityEditor;
     using Wpf.Framework.SynchronizationContext;
     using Wpf.Framework.ViewModel;
     using ZeroMQ;
@@ -34,7 +37,10 @@
             [NotNull] IZeroMqRequestDispatcher zmqDispatcher,
             [NotNull] IZeroMqSocketFactory socketFactory,
             [NotNull] IUserInterfaceSynchronizationContextProvider uiContextProvider,
-            [NotNull] IAgentContext agent)
+            [NotNull] IAgentContext agent,
+            [NotNull] IModelEditor modelEditor,
+            [NotNull] IConfigurationService configurationService
+            )
         {
             Guard.NotNull(contextService, nameof(contextService));
             Guard.NotNull(zeroMqReqRepProxyFactory, nameof(zeroMqReqRepProxyFactory));
@@ -71,6 +77,17 @@
                     .Subscribe(ev => { EventsCounter += ev.Count; }),
             };
 
+            OpenSettingsCommand = new CapturingExceptionAsyncCommand(async () =>
+            {
+                var applicationSettings = await configurationService.GetAsync();
+
+                var result = modelEditor.Edit(applicationSettings);
+                if (result.HasValue && result.Value)
+                {
+                    await configurationService.UpdateAsync(applicationSettings);
+                }
+            });
+
             // let listeners know agent has started.
             using (var agentPublishSocket = new ZSocket(context, ZSocketType.PUB))
             {
@@ -85,7 +102,6 @@
             private set => Properties.Set(value);
         }
 
-        [NotNull]
         public ICommand OpenSettingsCommand { get; }
 
         public void Dispose()
@@ -96,5 +112,7 @@
             publishProxy.Dispose();
             reqRspProxy.Dispose();
         }
+
+
     }
 }

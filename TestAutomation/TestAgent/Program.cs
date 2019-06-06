@@ -9,9 +9,16 @@
     using NLog;
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
+    using TestAgent.Model;
+    using TestAgent.Model.Configuration;
     using TestAgent.View;
     using TestAgent.ViewModel;
+    using Treatment.Helpers.FileSystem;
     using Treatment.Helpers.Guards;
+    using Wpf.Framework.Application;
+    using Wpf.Framework.EntityEditor;
+    using Wpf.Framework.EntityEditor.View;
+    using Wpf.Framework.EntityEditor.ViewModel;
     using Wpf.Framework.SynchronizationContext;
 
     public static class Program
@@ -44,9 +51,19 @@
 
                 // Views
                 container.Register<MainWindow>();
+                container.Register<IEntityEditorView<TestAgentApplicationSettings>, SettingsWindow>();
 
                 // View models
                 container.Register<ITestAgentMainWindowViewModel, TestAgentMainWindowViewModel>(Lifestyle.Transient);
+                container.Register<IEntityEditorViewModel<TestAgentApplicationSettings>, ApplicationSettingsViewModel>(Lifestyle.Transient);
+
+                container.Register<IModelEditor, EditModelInDialog>(Lifestyle.Singleton);
+                container.Register<IConfigurationService, FileBasedConfigurationService>(Lifestyle.Singleton);
+                container.RegisterInstance<IFileSystem>(OsFileSystem.Instance);
+                container.Register<IConfigFilenameProvider, AssemblyBasedFilenameProvider>(Lifestyle.Singleton);
+                container.Register<IEditorByTypeFactory, SimpleInjectorEditorByTypeFactory>(Lifestyle.Singleton);
+                container.Register<IGetActivatedWindow, ApplicationActivatedWindow>(Lifestyle.Singleton);
+                // container.Register<ICurrentWindow, PInvokeActivatedWindow>(Lifestyle.Singleton);
 
                 container.Register<IUserInterfaceSynchronizationContextProvider, UserInterfaceSynchronizationContextProvider>(Lifestyle.Singleton);
                 container.Register<DispatcherObject, App>(Lifestyle.Singleton);
@@ -101,9 +118,7 @@
 #if DEBUG
                 throw;
 #endif
-
             }
         }
-
     }
 }

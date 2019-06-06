@@ -1,4 +1,4 @@
-﻿namespace Treatment.Core.Interfaces
+﻿namespace Treatment.Helpers.FileSystem
 {
     using System.IO;
     using System.Threading.Tasks;

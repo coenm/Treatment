@@ -4,9 +4,8 @@
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
-
     using Treatment.Console.Console;
-    using Treatment.Core.Interfaces;
+    using Treatment.Helpers.FileSystem;
 
     [UsedImplicitly]
     public class VerboseFileSystemDecorator : IFileSystem

@@ -40,7 +40,7 @@
             {
                 Title = @"Select file.",
                 FileName = filename,
-                Filter = "*.exe",
+                Filter = "(*.exe)|*.exe",
                 Multiselect = false,
             };
 

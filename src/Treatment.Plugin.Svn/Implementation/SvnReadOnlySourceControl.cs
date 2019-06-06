@@ -6,11 +6,9 @@
     using System.Text;
 
     using JetBrains.Annotations;
-
     using SharpSvn;
-
     using Treatment.Contract.Plugin.SourceControl;
-    using Treatment.Core.Interfaces;
+    using Treatment.Helpers.FileSystem;
     using Treatment.Helpers.Guards;
 
     internal class SvnReadOnlySourceControl : IReadOnlySourceControl

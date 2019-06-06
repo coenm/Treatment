@@ -6,7 +6,6 @@
     using System.Reflection;
 
     using JetBrains.Annotations;
-
     using Treatment.Helpers.File;
     using Treatment.Helpers.Guards;
 
@@ -33,7 +32,7 @@
                     return filename;
                 }
 
-                string assemblyFullFilename = GetAssemblyLocation();
+                var assemblyFullFilename = GetAssemblyLocation();
 
                 var basePath = assemblyFullFilename;
                 if (string.IsNullOrEmpty(assemblyFullFilename))

@@ -42,7 +42,7 @@
             // Compose type
             var editEntityViewModelType = typeof(IEntityEditorViewModel<>).MakeGenericType(entityType);
 
-            // Ask SimpleInjector for the corresponding ViewModel,
+            // Ask factory for the corresponding ViewModel,
             // which is responsible for editing this type of entity
             var editEntityViewModel = editorFactoryByType.GetEditorViewModel<TEntity>(editEntityViewModelType);
 

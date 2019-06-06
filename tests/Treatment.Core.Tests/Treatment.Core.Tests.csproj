@@ -170,6 +170,10 @@
       <Project>{852975da-cbf2-4659-8da4-3aa6a1b5aa25}</Project>
       <Name>Treatment.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Treatment.Helpers\Treatment.Helpers.csproj">
+      <Project>{0D6DB733-FEBE-4F4D-9D99-3808517A9F7F}</Project>
+      <Name>Treatment.Helpers</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

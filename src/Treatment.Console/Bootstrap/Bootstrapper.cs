@@ -19,7 +19,7 @@
     using Treatment.Core.Bootstrap;
     using Treatment.Core.Bootstrap.Plugin;
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
-    using Treatment.Core.Interfaces;
+    using Treatment.Helpers.FileSystem;
 
     // ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
     public class Bootstrapper

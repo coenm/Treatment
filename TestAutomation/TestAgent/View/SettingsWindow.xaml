@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
-        Title="Treatment - Settings"
+        Title="TestAgent - Settings"
         Height="255" Width="500"
         MinHeight="255" MinWidth="500"
         d:DataContext="{d:DesignInstance Type=viewModel:ApplicationSettingsViewModel}">
@@ -19,7 +19,6 @@
     <valueConverters:NullVisibilityConverter x:Key="NullVisibilityConverter" />
     <valueConverters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
     <valueConverters:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
-
   </Window.Resources>
 
   <Grid Margin="10">
@@ -32,11 +31,7 @@
     </Grid.ColumnDefinitions>
 
     <Grid Grid.Row="0" Grid.Column="0">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="{StaticResource SettingRowHeight}" />
-      </Grid.RowDefinitions>
-
-        <Grid.ColumnDefinitions>
+      <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="*" MinWidth="250" />
         <ColumnDefinition Width="30" />
@@ -53,7 +48,7 @@
     </Grid>
 
     <StackPanel Grid.Row="1"  Orientation="Horizontal" HorizontalAlignment="Right">
-      <Button Name="OkButton" Margin="2" Width="75" IsDefault="True" Content="Ok" />
+      <Button Name="OkButton" Margin="2" Width="75" IsDefault="True" Content="Ok" Click="ButtonOk_OnClick" />
       <Button Name="CancelButton" Margin="2" Width="75" IsCancel="True" Content="Cancel" />
     </StackPanel>
   </Grid>
