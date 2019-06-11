@@ -11,8 +11,8 @@
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
         Title="TestAgent - Settings"
-        Height="255" Width="500"
-        MinHeight="255" MinWidth="500"
+        Height="155" Width="500"
+        MinHeight="100" MinWidth="500"
         d:DataContext="{d:DesignInstance Type=viewModel:ApplicationSettingsViewModel}">
   <Window.Resources>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -23,7 +23,7 @@
 
   <Grid Margin="10">
     <Grid.RowDefinitions>
-      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
