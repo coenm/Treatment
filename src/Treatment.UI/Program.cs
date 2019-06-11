@@ -31,16 +31,17 @@
             container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
             container.Options.AllowOverridingRegistrations = true;
 
-            RegisterPlugins(container);
-
             UiBootstrapper.Bootstrap(container);
+
+            RegisterPlugins(container);
 
             container.RegisterSingleton<DispatcherObject, App>();
             container.RegisterSingleton<Application, App>();
 
+#if DEBUG
             if (Environment.GetEnvironmentVariable("ENABLE_TEST_AUTOMATION") == null)
                 container.Verify(VerificationOption.VerifyAndDiagnose);
-
+#endif
             return container;
         }
 
