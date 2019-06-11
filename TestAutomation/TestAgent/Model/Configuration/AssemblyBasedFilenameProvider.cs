@@ -27,8 +27,7 @@
 
         protected virtual string GetAssemblyLocation()
         {
-            var assembly = Assembly.GetEntryAssembly() ?? typeof(AssemblyBasedFilenameProvider).Assembly;
-            return assembly.Location;
+            return Assembly.GetExecutingAssembly().Location;
         }
     }
 }

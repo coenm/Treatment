@@ -1,12 +1,13 @@
 ﻿namespace TestAgent
 {
+    using System;
     using System.IO;
     using System.Linq;
     using System.Reflection;
 
     using JetBrains.Annotations;
 
-    internal class ConventionBasedResolveSutExecutable : IResolveSutExecutable
+    internal class LocateSolutionConventionBasedResolveSutExecutable : IResolveSutExecutable
     {
         private string executable;
 
@@ -38,18 +39,25 @@
         [CanBeNull]
         private static string GetSolutionDirectory()
         {
-            var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var slnDir = currentDir;
-
-            if (slnDir == null)
-                return null;
-
-            while (!File.Exists(Path.Combine(slnDir, "Treatment.sln")) && slnDir.Length > 4)
+            try
             {
-                slnDir = Path.GetFullPath(Path.Combine(slnDir, ".."));
-            }
+                var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                var slnDir = currentDir;
 
-            return slnDir;
+                if (slnDir == null)
+                    return null;
+
+                while (!File.Exists(Path.Combine(slnDir, "Treatment.sln")) && slnDir.Length > 4)
+                {
+                    slnDir = Path.GetFullPath(Path.Combine(slnDir, ".."));
+                }
+
+                return slnDir;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
     }
 }
