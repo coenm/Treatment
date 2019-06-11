@@ -1,13 +1,17 @@
 ﻿namespace Treatment.UI
 {
     using System;
+    using System.IO;
     using System.Windows;
+    using System.Windows.Threading;
 
     using JetBrains.Annotations;
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
+    using Treatment.Core.Bootstrap.Plugin;
     using Treatment.Helpers.Guards;
-    using Treatment.UI.View;
+    using Treatment.UI.Core;
+    using Treatment.UI.Core.View;
 
     public static class Program
     {
@@ -23,10 +27,29 @@
         private static Container Bootstrap()
         {
             var container = new Container();
+
+            container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+            container.Options.AllowOverridingRegistrations = true;
+
+            RegisterPlugins(container);
+
             UiBootstrapper.Bootstrap(container);
 
-            container.Verify(VerificationOption.VerifyAndDiagnose);
+            container.RegisterSingleton<DispatcherObject, App>();
+            container.RegisterSingleton<Application, App>();
+
+            if (Environment.GetEnvironmentVariable("ENABLE_TEST_AUTOMATION") == null)
+                container.Verify(VerificationOption.VerifyAndDiagnose);
+
             return container;
+        }
+
+        private static void RegisterPlugins([NotNull] Container container)
+        {
+            DebugGuard.NotNull(container, nameof(container));
+
+            var pluginAssemblies = PluginFinder.FindPluginAssemblies(Path.Combine(AppDomain.CurrentDomain.BaseDirectory));
+            container.RegisterPackages(pluginAssemblies);
         }
 
         private static void RunApplication([NotNull] Container container)
@@ -54,11 +77,12 @@
             }
 
             // ReSharper disable once RedundantCatchClause
-            catch
+            catch (Exception ex)
             {
                 // Log the exception and exit
+                Console.WriteLine(ex.Message);
 #if DEBUG
-                throw;
+                // throw;
 #endif
             }
         }
