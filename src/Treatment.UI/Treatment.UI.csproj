@@ -305,7 +305,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Behavior\FolderDialogBehavior.cs" />
-    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="UiBootstrapper.cs" />
     <Compile Include="Core\Configuration\DelayExecutionSettings.cs" />
     <Compile Include="Implementations\Configuration\CacheConfigurationServiceDecorator.cs" />
     <Compile Include="Implementations\Configuration\ConcurrentConfigurationServiceDecorator.cs" />

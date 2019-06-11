@@ -23,7 +23,7 @@
         private static Container Bootstrap()
         {
             var container = new Container();
-            Bootstrapper.Bootstrap(container);
+            UiBootstrapper.Bootstrap(container);
 
             container.Verify(VerificationOption.VerifyAndDiagnose);
             return container;

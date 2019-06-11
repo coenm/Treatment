@@ -25,7 +25,7 @@
     using Wpf.Framework.SynchronizationContext;
 
     [PublicAPI]
-    public static class Bootstrapper
+    public static class UiBootstrapper
     {
         [PublicAPI]
         public static void Bootstrap([NotNull] Container container)
