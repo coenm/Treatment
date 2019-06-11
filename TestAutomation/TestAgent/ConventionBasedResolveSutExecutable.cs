@@ -23,10 +23,10 @@
 
                 var foundFiles = Directory.GetFiles(
                     slnDir,
-                    "Treatment.UIStart.exe",
+                    "Treatment.exe",
                     SearchOption.AllDirectories);
 
-                executable = foundFiles.FirstOrDefault(x => x.EndsWith("Treatment.UI.Start\\bin\\x64\\Debug\\Treatment.UIStart.exe"));
+                executable = foundFiles.FirstOrDefault(x => x.EndsWith("Treatment.UI\\bin\\x64\\Debug\\Treatment.UI.exe"));
 
                 if (executable == null)
                     executable = foundFiles.FirstOrDefault();
