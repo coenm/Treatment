@@ -6,33 +6,46 @@
     using System.Reflection;
 
     using JetBrains.Annotations;
+    using NLog;
 
     internal class LocateSolutionConventionBasedResolveSutExecutable : IResolveSutExecutable
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private string executable;
 
         public string Executable
         {
             get
             {
-                if (executable != null)
+                try
+                {
+                    Logger.Debug("Try to find Executable");
+
+                    if (executable != null)
+                        return executable;
+
+                    var slnDir = GetSolutionDirectory();
+                    if (slnDir == null)
+                        return null;
+
+                    var foundFiles = Directory.GetFiles(
+                        slnDir,
+                        "Treatment.UI.exe",
+                        SearchOption.AllDirectories);
+
+                    executable = foundFiles.FirstOrDefault(x =>
+                        x.EndsWith("Treatment.UI\\bin\\x64\\Debug\\Treatment.UI.exe"));
+
+                    if (executable == null)
+                        executable = foundFiles.FirstOrDefault();
+
                     return executable;
-
-                var slnDir = GetSolutionDirectory();
-                if (slnDir == null)
+                }
+                catch (Exception e)
+                {
+                    Logger.Error(e, "Something went wrong getting the executable.");
                     return null;
-
-                var foundFiles = Directory.GetFiles(
-                    slnDir,
-                    "Treatment.exe",
-                    SearchOption.AllDirectories);
-
-                executable = foundFiles.FirstOrDefault(x => x.EndsWith("Treatment.UI\\bin\\x64\\Debug\\Treatment.UI.exe"));
-
-                if (executable == null)
-                    executable = foundFiles.FirstOrDefault();
-
-                return executable;
+                }
             }
         }
 
@@ -56,6 +69,7 @@
             }
             catch (Exception e)
             {
+                Logger.Error(e, "Could not determine soludion directory");
                 return null;
             }
         }

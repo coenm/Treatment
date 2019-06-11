@@ -84,17 +84,21 @@
             {
                 try
                 {
+                    Logger.Debug("Try get application settings.");
                     var applicationSettings = await configurationService.GetAsync();
 
+                    Logger.Debug("get modeleditor for application settings.");
                     var result = modelEditor.Edit(applicationSettings);
                     if (result.HasValue && result.Value)
                     {
+                        Logger.Debug("Try to update the settings.");
                         await configurationService.UpdateAsync(applicationSettings);
                     }
+                    Logger.Debug("Done");
                 }
                 catch (Exception e)
                 {
-                    Logger.Error(e.Message);
+                    Logger.Error(e, e.Message);
                 }
             });
 

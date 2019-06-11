@@ -5,7 +5,7 @@
     using System.Reactive.Subjects;
     using System.Reflection;
     using System.Threading.Tasks;
-    using Core.Configuration;
+    using Treatment.UI.Core.Core.Configuration;
     using Helpers.FileSystem;
     using Helpers.Guards;
     using JetBrains.Annotations;

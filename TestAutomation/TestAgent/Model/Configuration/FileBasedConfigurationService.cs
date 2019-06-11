@@ -7,11 +7,13 @@
     using JetBrains.Annotations;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
+    using NLog;
     using Treatment.Helpers.FileSystem;
     using Treatment.Helpers.Guards;
 
     internal class FileBasedConfigurationService : IConfigurationService
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         [NotNull] private readonly IConfigFilenameProvider filenameProvider;
         [NotNull] private readonly IResolveSutExecutable resolveSutExecutable;
         [NotNull] private readonly IFileSystem fileSystem;
@@ -32,12 +34,13 @@
 
         public async Task<TestAgentApplicationSettings> GetAsync()
         {
-            if (!fileSystem.FileExists(filenameProvider.Filename))
+            var filename = filenameProvider.Filename;
+            if (!fileSystem.FileExists(filename))
                 return CreateDefaultSettings();
 
             try
             {
-                using (var fileStream = fileSystem.OpenRead(filenameProvider.Filename, true))
+                using (var fileStream = fileSystem.OpenRead(filename, true))
                 using (var streamReader = new StreamReader(fileStream))
                 using (var jsonTextReader = new JsonTextReader(streamReader))
                 {
@@ -46,8 +49,9 @@
                     return Map(result);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Logger.Error(e, $"Could not get or read file {filename}. Work with default settings.");
                 return CreateDefaultSettings();
             }
         }
@@ -81,8 +85,9 @@
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Logger.Error(e, "");
                 return false;
             }
         }
