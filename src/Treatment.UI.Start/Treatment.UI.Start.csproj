@@ -362,6 +362,10 @@
       <Project>{4ee6347f-2aa4-490d-a178-2b2398eef7b1}</Project>
       <Name>Treatment.Plugin.Svn</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Treatment.UI.Core\Treatment.UI.Core.csproj">
+      <Project>{046a5e90-0ffd-46ab-875c-f3a4f2a4a8c3}</Project>
+      <Name>Treatment.UI.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Treatment.UI\Treatment.UI.csproj">
       <Project>{3c621afb-c34d-40a6-8ec9-c61f3b3c96fd}</Project>
       <Name>Treatment.UI</Name>

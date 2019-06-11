@@ -68,6 +68,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wpf.Framework", "src\Wpf.Fr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{C223A096-B6F4-473A-B28E-DB10FD213CEB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treatment.UI.Core", "src\Treatment.UI.Core\Treatment.UI.Core.csproj", "{046A5E90-0FFD-46AB-875C-F3A4F2A4A8C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -174,6 +176,10 @@ Global
 		{4404027B-3E9B-4DDC-82A0-BBEC0EEB7D54}.Debug|x64.Build.0 = Debug|x64
 		{4404027B-3E9B-4DDC-82A0-BBEC0EEB7D54}.Release|x64.ActiveCfg = Release|x64
 		{4404027B-3E9B-4DDC-82A0-BBEC0EEB7D54}.Release|x64.Build.0 = Release|x64
+		{046A5E90-0FFD-46AB-875C-F3A4F2A4A8C3}.Debug|x64.ActiveCfg = Debug|x64
+		{046A5E90-0FFD-46AB-875C-F3A4F2A4A8C3}.Debug|x64.Build.0 = Debug|x64
+		{046A5E90-0FFD-46AB-875C-F3A4F2A4A8C3}.Release|x64.ActiveCfg = Release|x64
+		{046A5E90-0FFD-46AB-875C-F3A4F2A4A8C3}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

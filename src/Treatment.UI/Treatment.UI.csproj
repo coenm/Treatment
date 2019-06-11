@@ -417,6 +417,10 @@
       <Project>{0d6db733-febe-4f4d-9d99-3808517a9f7f}</Project>
       <Name>Treatment.Helpers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Treatment.UI.Core\Treatment.UI.Core.csproj">
+      <Project>{046a5e90-0ffd-46ab-875c-f3a4f2a4a8c3}</Project>
+      <Name>Treatment.UI.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Wpf.Framework\Wpf.Framework.csproj">
       <Project>{4404027B-3E9B-4DDC-82A0-BBEC0EEB7D54}</Project>
       <Name>Wpf.Framework</Name>
