@@ -4,6 +4,7 @@
 
     using global::TestAutomation.InputHandler.RequestHandlers;
     using JetBrains.Annotations;
+    using NLog;
     using SimpleInjector;
     using SimpleInjector.Packaging;
     using Treatment.Helpers.Guards;
@@ -17,6 +18,7 @@
     [UsedImplicitly]
     public class TestAutomationPackage : IPackage
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private Container testAutomationContainer;
         private ITestAutomationAgent agent;
 
@@ -25,6 +27,19 @@
             if (container == null)
                 return;
 
+            try
+            {
+                RegisterServicesImpl(container);
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, $"Could not register TestAutomation module: {e.Message}");
+                Logger.Debug(e.StackTrace);
+            }
+        }
+
+        private void RegisterServicesImpl([NotNull] Container container)
+        {
             ITestAutomationSettings settings = new EnvironmentVariableSettings();
 
             if (settings.TestAutomationEnabled == false && Environment.UserInteractive)

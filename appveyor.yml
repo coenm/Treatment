@@ -70,6 +70,7 @@ after_test:
 - cmd: 7z a SvnPlugin.%GitVersion_FullSemVer%.zip .\src\Treatment.Plugin.Svn\bin\x64\Release\*.dll
 
 - cmd: 7z a TestAutomationPlugin.%GitVersion_FullSemVer%.zip .\TestAutomation\Treatment.Plugin.TestAutomation.UI\bin\x64\Release\*.dll
+- cmd: 7z a TestAutomationPlugin.%GitVersion_FullSemVer%.zip .\TestAutomation\Treatment.Plugin.TestAutomation.UI\bin\x64\Release\*.config
 - cmd: 7z a TestAutomationPlugin.%GitVersion_FullSemVer%.zip .\TestAutomation\Treatment.Plugin.TestAutomation.UI\bin\x64\Release\**\*.*
 
 - cmd: 7z a TestAgent.%GitVersion_FullSemVer%.zip .\TestAutomation\TestAgent\bin\x64\Release\*.dll
