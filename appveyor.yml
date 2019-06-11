@@ -85,6 +85,7 @@ after_test:
 artifacts:
 - path: TreatmentConsole.%GitVersion_FullSemVer%.zip
 - path: TreatmentUI.%GitVersion_FullSemVer%.zip
+- path: TreatmentUI.Startup.%GitVersion_FullSemVer%.zip
 - path: EverythingPlugin.%GitVersion_FullSemVer%.zip
 - path: SvnPlugin.%GitVersion_FullSemVer%.zip
 - path: TestAutomationPlugin.%GitVersion_FullSemVer%.zip
