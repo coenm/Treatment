@@ -48,6 +48,8 @@
             if (settings.TestAutomationEnabled == false)
                 return;
 
+            Logger.Info("Test Automation module is loading..");
+
             testAutomationContainer = new Container();
 
             testAutomationContainer.RegisterInstance(settings);

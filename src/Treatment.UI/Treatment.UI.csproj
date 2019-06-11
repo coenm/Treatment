@@ -343,6 +343,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\TestAutomation\Treatment.Plugin.TestAutomation.UI\Treatment.Plugin.TestAutomation.UI.csproj">
+      <Project>{2c76194b-5b5e-4153-a3a2-eea9ba669ef3}</Project>
+      <Name>Treatment.Plugin.TestAutomation.UI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Treatment.Contract.Plugin\Treatment.Contract.Plugin.csproj">
       <Project>{7e082598-0c9c-4f15-b1b8-bdf6f2b1660c}</Project>
       <Name>Treatment.Contract.Plugin</Name>
