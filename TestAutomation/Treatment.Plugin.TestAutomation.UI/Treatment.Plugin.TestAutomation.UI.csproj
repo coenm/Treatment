@@ -170,10 +170,6 @@
       <Project>{046a5e90-0ffd-46ab-875c-f3a4f2a4a8c3}</Project>
       <Name>Treatment.UI.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Treatment.UI\Treatment.UI.csproj">
-      <Project>{3C621AFB-C34D-40A6-8EC9-C61F3B3C96FD}</Project>
-      <Name>Treatment.UI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TestAutomation.Contract.Input\TestAutomation.Contract.Input.csproj">
       <Project>{6aab1c15-076e-4e4b-a0a9-d99210fcaddb}</Project>
       <Name>TestAutomation.Contract.Input</Name>

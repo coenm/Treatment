@@ -1,17 +1,16 @@
 ﻿namespace Treatment.UI.Core
 {
-    using Core.Configuration;
-    using Helpers.Guards;
-    using Implementations.Configuration;
-    using Implementations.Delay;
     using JetBrains.Annotations;
-    using Model;
     using SimpleInjector;
-    using SimpleInjector.Lifestyles;
     using Treatment.Core.Bootstrap;
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
-    using View;
-    using ViewModel;
+    using Treatment.Helpers.Guards;
+    using Treatment.UI.Core.Core.Configuration;
+    using Treatment.UI.Core.Implementations.Configuration;
+    using Treatment.UI.Core.Implementations.Delay;
+    using Treatment.UI.Core.Model;
+    using Treatment.UI.Core.View;
+    using Treatment.UI.Core.ViewModel;
     using Wpf.Framework.Application;
     using Wpf.Framework.EntityEditor;
     using Wpf.Framework.EntityEditor.View;
@@ -65,8 +64,6 @@
             RegisterUserInterfaceDependencies(container);
 
             RegisterDelay(container);
-
-
         }
 
         private static void RegisterUserInterfaceDependencies([NotNull] Container container)
@@ -80,7 +77,5 @@
             DebugGuard.NotNull(container, nameof(container));
             DelayCommandExecution.Register(container);
         }
-
-
     }
 }
