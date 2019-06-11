@@ -65,6 +65,11 @@ after_test:
 - cmd: 7z a TreatmentUI.%GitVersion_FullSemVer%.zip .\src\Treatment.UI\bin\x64\Release\*.exe
 - cmd: 7z a TreatmentUI.%GitVersion_FullSemVer%.zip .\src\Treatment.UI\bin\x64\Release\*.config
 
+- cmd: 7z a TreatmentUI.Startup.%GitVersion_FullSemVer%.zip .\src\Treatment.UI.Start\bin\x64\Release\*.dll
+- cmd: 7z a TreatmentUI.Startup.%GitVersion_FullSemVer%.zip .\src\Treatment.UI.Start\bin\x64\Release\*.exe
+- cmd: 7z a TreatmentUI.Startup.%GitVersion_FullSemVer%.zip .\src\Treatment.UI.Start\bin\x64\Release\*.config
+- cmd: 7z a TreatmentUI.Startup.%GitVersion_FullSemVer%.zip .\src\Treatment.UI.Start\bin\x64\Release\**\*.*
+
 - cmd: 7z a EverythingPlugin.%GitVersion_FullSemVer%.zip .\src\Treatment.Plugin.Everything\bin\x64\Release\*.dll
 
 - cmd: 7z a SvnPlugin.%GitVersion_FullSemVer%.zip .\src\Treatment.Plugin.Svn\bin\x64\Release\*.dll
