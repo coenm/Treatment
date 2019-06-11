@@ -304,14 +304,10 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Behavior\FolderDialogBehavior.cs" />
     <Compile Include="UiBootstrapper.cs" />
-    <Compile Include="Core\Configuration\DelayExecutionSettings.cs" />
     <Compile Include="Implementations\Configuration\CacheConfigurationServiceDecorator.cs" />
     <Compile Include="Implementations\Configuration\ConcurrentConfigurationServiceDecorator.cs" />
     <Compile Include="Implementations\Configuration\FileBasedConfigurationService.cs" />
-    <Compile Include="Core\Configuration\IConfigurationService.cs" />
-    <Compile Include="Core\Configuration\IReadOnlyConfigurationService.cs" />
     <Compile Include="Implementations\Configuration\IConfigFilenameProvider.cs" />
     <Compile Include="Implementations\Configuration\AppConfigFilenameProvider.cs" />
     <Compile Include="Implementations\Configuration\UpdateStatusModelDecorator.cs" />
@@ -333,7 +329,6 @@
     <Compile Include="ViewModel\IStatusViewModel.cs" />
     <Compile Include="ViewModel\ProgressViewModel.cs" />
     <Compile Include="ViewModel\ProjectCollectionViewModel.cs" />
-    <Compile Include="Core\Configuration\ApplicationSettings.cs" />
     <Compile Include="ViewModel\ProjectViewModelFactory.cs" />
     <Compile Include="ViewModel\ApplicationSettingsViewModel.cs" />
     <Compile Include="Model\StatusModel.cs" />
@@ -353,7 +348,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Core\Configuration\AppConfigConfiguration.cs" />
     <Compile Include="Implementations\Delay\DelayCommandExecution.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\IMainWindowViewModel.cs" />
@@ -433,11 +427,7 @@
     <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Framework\ViewModel\" />
-    <Folder Include="Framework\View\" />
-    <Folder Include="ValueConverters\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -5,13 +5,13 @@
     using System.Reactive.Subjects;
     using System.Reflection;
     using System.Threading.Tasks;
+    using Core.Core.Configuration;
     using Helpers.FileSystem;
     using JetBrains.Annotations;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using Treatment.Core.Interfaces;
     using Treatment.Helpers.Guards;
-    using Treatment.UI.Core.Configuration;
 
     internal class FileBasedConfigurationService : IConfigurationService
     {

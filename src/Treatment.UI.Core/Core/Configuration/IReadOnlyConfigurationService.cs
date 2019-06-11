@@ -1,4 +1,4 @@
-﻿namespace Treatment.UI.Core.Configuration
+﻿namespace Treatment.UI.Core.Core.Configuration
 {
     using System;
     using System.Threading.Tasks;

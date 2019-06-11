@@ -4,7 +4,7 @@
     using System.IO;
     using System.Windows;
     using System.Windows.Threading;
-
+    using Core.Core.Configuration;
     using JetBrains.Annotations;
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
@@ -12,7 +12,6 @@
     using Treatment.Core.Bootstrap.Plugin;
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
     using Treatment.Helpers.Guards;
-    using Treatment.UI.Core.Configuration;
     using Treatment.UI.Implementations.Configuration;
     using Treatment.UI.Implementations.Delay;
     using Treatment.UI.Model;

@@ -10,12 +10,12 @@
     using System.Threading.Tasks;
 
     using CoenM.Encoding;
+    using Core.Core.Configuration;
     using JetBrains.Annotations;
     using Nito.Mvvm;
     using NLog;
     using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Helpers.Guards;
-    using Treatment.UI.Core.Configuration;
     using Treatment.UI.Implementations.Delay;
     using Treatment.UI.Model;
     using Wpf.Framework.ViewModel;

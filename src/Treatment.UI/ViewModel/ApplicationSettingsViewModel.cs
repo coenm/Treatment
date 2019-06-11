@@ -2,13 +2,12 @@
 {
     using System.Collections.ObjectModel;
     using System.Linq;
-
+    using Core.Core.Configuration;
     using JetBrains.Annotations;
     using Nito.Mvvm;
     using Treatment.Contract;
     using Treatment.Contract.Queries;
     using Treatment.Helpers.Guards;
-    using Treatment.UI.Core.Configuration;
     using Treatment.UI.Implementations.Delay;
     using Wpf.Framework.EntityEditor.ViewModel;
     using Wpf.Framework.ViewModel;

@@ -7,7 +7,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:userControls="clr-namespace:Treatment.UI.UserControls"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:behavior="clr-namespace:Treatment.UI.Behavior"
         xmlns:nlogViewer="clr-namespace:NlogViewer;assembly=NlogViewer"
         xmlns:generated="clr-namespace:Generated"
         xmlns:behavior1="clr-namespace:Wpf.Framework.Behavior;assembly=Wpf.Framework"

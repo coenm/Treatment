@@ -1,9 +1,8 @@
 ﻿namespace Treatment.UI.View
 {
     using System.Windows;
-
+    using Core.Core.Configuration;
     using Treatment.Helpers.Guards;
-    using Treatment.UI.Core.Configuration;
     using Wpf.Framework.EntityEditor.View;
     using Wpf.Framework.EntityEditor.ViewModel;
 

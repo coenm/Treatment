@@ -1,9 +1,8 @@
-﻿namespace Treatment.UI.Behavior
+﻿namespace Treatment.UI.Core.Behavior
 {
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Interactivity;
-
     using Ookii.Dialogs.Wpf;
 
     public class FolderDialogBehavior : Behavior<Button>

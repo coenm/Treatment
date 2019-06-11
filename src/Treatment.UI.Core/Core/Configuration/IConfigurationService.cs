@@ -1,7 +1,6 @@
-﻿namespace Treatment.UI.Core.Configuration
+﻿namespace Treatment.UI.Core.Core.Configuration
 {
     using System.Threading.Tasks;
-
     using JetBrains.Annotations;
 
     public interface IConfigurationService : IReadOnlyConfigurationService

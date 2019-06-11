@@ -2,10 +2,9 @@
 {
     using System;
     using System.Threading.Tasks;
-
+    using Core.Core.Configuration;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using Treatment.UI.Core.Configuration;
 
     [UsedImplicitly]
     public class CacheConfigurationServiceDecorator : IConfigurationService
