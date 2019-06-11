@@ -37,8 +37,8 @@
 
             CoreBootstrap.Bootstrap(container);
 
+            // container.Register<IGetActivatedWindow, PInvokeActivatedWindow>(Lifestyle.Singleton);
             container.Register<IGetActivatedWindow, ApplicationActivatedWindow>(Lifestyle.Singleton);
-            // container.Register<ICurrentWindow, PInvokeActivatedWindow>(Lifestyle.Singleton);
 
             // Views
             container.Register<MainWindow>();

@@ -1,17 +1,13 @@
 ﻿namespace Treatment.UIStart
 {
     using System;
-    using System.IO;
     using System.Windows;
+
     using JetBrains.Annotations;
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
-    using Treatment.Core.Bootstrap.Plugin;
-    using Treatment.Core.DefaultPluginImplementation.FileSearch;
     using Treatment.Helpers.Guards;
     using Treatment.UI;
-    using Treatment.UI.Core.Configuration;
-    using Treatment.UI.Implementations.Delay;
     using Treatment.UI.View;
 
     public static class Program
@@ -35,26 +31,6 @@
                 container.Verify(VerificationOption.VerifyAndDiagnose);
 
             return container;
-        }
-
-        private static void RegisterUserInterfaceDependencies([NotNull] Container container)
-        {
-            DebugGuard.NotNull(container, nameof(container));
-            container.RegisterSingleton<ISearchProviderNameOption, AppConfigConfiguration>();
-        }
-
-        private static void RegisterDelay([NotNull] Container container)
-        {
-            DebugGuard.NotNull(container, nameof(container));
-            DelayCommandExecution.Register(container);
-        }
-
-        private static void RegisterPlugins([NotNull] Container container)
-        {
-            DebugGuard.NotNull(container, nameof(container));
-
-            var pluginAssemblies = PluginFinder.FindPluginAssemblies(Path.Combine(AppDomain.CurrentDomain.BaseDirectory));
-            container.RegisterPackages(pluginAssemblies);
         }
 
         private static void RunApplication([NotNull] Container container)
