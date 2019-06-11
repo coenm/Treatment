@@ -8,6 +8,9 @@
 
     using JetBrains.Annotations;
     using Nito.Mvvm;
+
+    using NLog;
+
     using TestAgent.Model.Configuration;
     using TestAgent.ZeroMq;
     using TestAgent.ZeroMq.PublishInfrastructure;
@@ -23,6 +26,7 @@
 
     public class TestAgentMainWindowViewModel : ViewModelBase, ITestAgentMainWindowViewModel, IDisposable
     {
+        [NotNull] private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         [NotNull] private readonly IAgentContext agent;
         [NotNull] private readonly CancellationTokenSource cts;
         [NotNull] private readonly ZeroMqReqRepProxyService reqRspProxy;
@@ -78,12 +82,19 @@
 
             OpenSettingsCommand = new CapturingExceptionAsyncCommand(async () =>
             {
-                var applicationSettings = await configurationService.GetAsync();
-
-                var result = modelEditor.Edit(applicationSettings);
-                if (result.HasValue && result.Value)
+                try
                 {
-                    await configurationService.UpdateAsync(applicationSettings);
+                    var applicationSettings = await configurationService.GetAsync();
+
+                    var result = modelEditor.Edit(applicationSettings);
+                    if (result.HasValue && result.Value)
+                    {
+                        await configurationService.UpdateAsync(applicationSettings);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Error(e.Message);
                 }
             });
 
