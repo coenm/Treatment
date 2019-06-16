@@ -26,7 +26,13 @@
                     "Treatment.UIStart.exe",
                     SearchOption.AllDirectories);
 
-                executable = foundFiles.FirstOrDefault(x => x.EndsWith("Treatment.UI.Start\\bin\\x64\\Debug\\Treatment.UIStart.exe"));
+                executable = foundFiles.FirstOrDefault(x => x.EndsWith("Treatment.UI.Start\\bin\\x64\\Release\\Treatment.UIStart.exe"));
+
+                if (executable == null)
+                    executable = foundFiles.FirstOrDefault(x => x.EndsWith("Treatment.UI.Start\\bin\\x64\\Debug\\Treatment.UIStart.exe"));
+
+                if (executable == null)
+                    executable = foundFiles.FirstOrDefault(x => x.EndsWith("Treatment.UIStart.exe"));
 
                 return executable;
             }

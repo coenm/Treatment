@@ -1,23 +1,20 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI.UserInput
+﻿namespace TestAgent.UserInput
 {
-    using System;
-    using System.Collections.Concurrent;
     using System.Threading.Tasks;
 
-    using global::TestAutomation.Input.Contract.Interface;
-    using global::TestAutomation.Input.Contract.Serializer;
     using JetBrains.Annotations;
+    using TestAutomation.Input.Contract.Interface;
+    using TestAutomation.Input.Contract.Serializer;
     using Treatment.Helpers.Guards;
     using TreatmentZeroMq.Worker;
     using ZeroMQ;
 
     [UsedImplicitly]
-    public class ZeroMqRequestDispatcher : IZeroMqRequestDispatcher
+    public class UserInputZeroMqRequestDispatcher : IZeroMqRequestDispatcher
     {
-        private static readonly ConcurrentDictionary<string, Type> TypeCache = new ConcurrentDictionary<string, Type>();
         [NotNull] private readonly IRequestDispatcher requestDispatcher;
 
-        public ZeroMqRequestDispatcher([NotNull] IRequestDispatcher requestDispatcher)
+        public UserInputZeroMqRequestDispatcher([NotNull] IRequestDispatcher requestDispatcher)
         {
             Guard.NotNull(requestDispatcher, nameof(requestDispatcher));
             this.requestDispatcher = requestDispatcher;
