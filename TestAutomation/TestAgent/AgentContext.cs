@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
+    using NLog;
     using Treatment.Helpers.Guards;
     using TreatmentZeroMq.Helpers;
     using TreatmentZeroMq.Socket;
@@ -11,6 +12,7 @@
 
     public class AgentContext : IAgentContext
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IZeroMqSocketFactory socketFactory;
         private readonly CancellationTokenSource cancellationTokenSource;
         private Medallion.Shell.Command command;
@@ -40,7 +42,14 @@
 
         private async Task StartMonitoring(Medallion.Shell.Command command)
         {
+            Logger.Info("Monitoring task..");
             var result = await command.Task;
+
+            Logger.Info("Task finished..");
+            Logger.Info(result.StandardOutput);
+            Logger.Info(result.StandardError);
+            Logger.Info($"ExitCode: {result.ExitCode}");
+            Logger.Info(result.Success ? "success" : "error");
 
             using (var socket = socketFactory.Create(ZSocketType.PUB))
             {

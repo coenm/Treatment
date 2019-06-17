@@ -1,7 +1,6 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI
 {
     using System.Threading;
-    using System.Threading.Tasks;
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
@@ -14,7 +13,6 @@
         [NotNull] private readonly ITestAutomationSettings settings;
         [NotNull] private readonly object syncLock = new object();
         [NotNull] private readonly CancellationTokenSource cts = new CancellationTokenSource();
-        [CanBeNull] private Task worker;
         [CanBeNull] private MainWindowAdapter mainWindow;
         [CanBeNull] private SettingWindowAdapter settingWindow;
         [CanBeNull] private ITestAutomationApplication application;
@@ -53,13 +51,6 @@
             application?.RegisterAndInitializeSettings(settingWindow);
             this.settingWindow = settingWindow;
             // settingWindow.Initialize();
-        }
-
-        public void RegisterWorker([NotNull] Task task)
-        {
-            Guard.NotNull(task, nameof(task));
-
-            worker = task;
         }
     }
 }

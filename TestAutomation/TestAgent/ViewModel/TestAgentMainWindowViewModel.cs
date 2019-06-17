@@ -4,21 +4,30 @@
     using System.Reactive.Disposables;
     using System.Reactive.Linq;
     using System.Threading;
+    using System.Windows.Input;
 
     using JetBrains.Annotations;
+    using Nito.Mvvm;
+
+    using NLog;
+
+    using TestAgent.Model.Configuration;
+    using TestAgent.ZeroMq;
     using TestAgent.ZeroMq.PublishInfrastructure;
     using TestAgent.ZeroMq.RequestReplyInfrastructure;
     using Treatment.Helpers.Guards;
     using TreatmentZeroMq.ContextService;
     using TreatmentZeroMq.Socket;
     using TreatmentZeroMq.Worker;
+    using UserInput;
+    using Wpf.Framework.EntityEditor;
     using Wpf.Framework.SynchronizationContext;
     using Wpf.Framework.ViewModel;
-    using ZeroMq;
     using ZeroMQ;
 
     public class TestAgentMainWindowViewModel : ViewModelBase, ITestAgentMainWindowViewModel, IDisposable
     {
+        [NotNull] private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         [NotNull] private readonly IAgentContext agent;
         [NotNull] private readonly CancellationTokenSource cts;
         [NotNull] private readonly ZeroMqReqRepProxyService reqRspProxy;
@@ -31,15 +40,19 @@
             [NotNull] IZeroMqPublishProxyFactory zeroMqPublishProxyFactory,
             [NotNull] ReqRepWorkerManagement workerManager,
             [NotNull] IZeroMqRequestDispatcher zmqDispatcher,
+            [NotNull] UserInputZeroMqRequestDispatcher dispatcher,
             [NotNull] IZeroMqSocketFactory socketFactory,
             [NotNull] IUserInterfaceSynchronizationContextProvider uiContextProvider,
-            [NotNull] IAgentContext agent)
+            [NotNull] IAgentContext agent,
+            [NotNull] IModelEditor modelEditor,
+            [NotNull] IConfigurationService configurationService)
         {
             Guard.NotNull(contextService, nameof(contextService));
             Guard.NotNull(zeroMqReqRepProxyFactory, nameof(zeroMqReqRepProxyFactory));
             Guard.NotNull(zeroMqPublishProxyFactory, nameof(zeroMqPublishProxyFactory));
             Guard.NotNull(workerManager, nameof(workerManager));
             Guard.NotNull(zmqDispatcher, nameof(zmqDispatcher));
+            Guard.NotNull(dispatcher, nameof(dispatcher));
             Guard.NotNull(socketFactory, nameof(socketFactory));
             Guard.NotNull(uiContextProvider, nameof(uiContextProvider));
             Guard.NotNull(agent, nameof(agent));
@@ -55,9 +68,14 @@
             publishProxy = zeroMqPublishProxyFactory.Create();
             publishProxy.Start();
 
-            var workerTask = workerManager.StartSingleWorker(
+            var workerTask1 = workerManager.StartSingleWorker(
                 zmqDispatcher,
                 "inproc://reqrsp",
+                cts.Token);
+
+            var workerTask2 = workerManager.StartSingleWorker(
+                dispatcher,
+                "inproc://reqrsp2",
                 cts.Token);
 
             var eventsProcessor = new EventsRx(socketFactory, "inproc://capturePubSub");
@@ -69,6 +87,28 @@
                     .ObserveOn(uiContextProvider.UiSynchronizationContext)
                     .Subscribe(ev => { EventsCounter += ev.Count; }),
             };
+
+            OpenSettingsCommand = new CapturingExceptionAsyncCommand(async () =>
+            {
+                try
+                {
+                    Logger.Debug("Try get application settings.");
+                    var applicationSettings = await configurationService.GetAsync();
+
+                    Logger.Debug("get modeleditor for application settings.");
+                    var result = modelEditor.Edit(applicationSettings);
+                    if (result.HasValue && result.Value)
+                    {
+                        Logger.Debug("Try to update the settings.");
+                        await configurationService.UpdateAsync(applicationSettings);
+                    }
+                    Logger.Debug("Done");
+                }
+                catch (Exception e)
+                {
+                    Logger.Error(e, e.Message);
+                }
+            });
 
             // let listeners know agent has started.
             using (var agentPublishSocket = new ZSocket(context, ZSocketType.PUB))
@@ -84,6 +124,8 @@
             private set => Properties.Set(value);
         }
 
+        public ICommand OpenSettingsCommand { get; }
+
         public void Dispose()
         {
             disposable.Dispose();
@@ -92,5 +134,7 @@
             publishProxy.Dispose();
             reqRspProxy.Dispose();
         }
+
+
     }
 }

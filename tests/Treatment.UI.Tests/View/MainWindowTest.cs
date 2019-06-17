@@ -9,8 +9,8 @@
     using FakeItEasy;
     using TestHelper;
     using Treatment.Contract;
-    using Treatment.UI.View;
-    using Treatment.UI.ViewModel;
+    using Treatment.UI.Core.View;
+    using Treatment.UI.Core.ViewModel;
 
     public class MainWindowTest
     {

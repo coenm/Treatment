@@ -1,17 +1,14 @@
 ﻿ namespace Treatment.Core.Tests.FileSystem
  {
-     using FakeItEasy;
+    using FakeItEasy;
+    using FluentAssertions;
+    using Treatment.Console;
+    using Treatment.Console.Console;
+    using Treatment.Console.Decorators;
+    using Treatment.Helpers.FileSystem;
+    using Xunit;
 
-     using FluentAssertions;
-
-     using Treatment.Console;
-     using Treatment.Console.Console;
-     using Treatment.Console.Decorators;
-     using Treatment.Core.Interfaces;
-
-     using Xunit;
-
-     public class DryRunFileSystemDecoratorTest
+    public class DryRunFileSystemDecoratorTest
      {
          private readonly DryRunFileSystemDecorator sut;
          private readonly IFileSystem decoratee;

@@ -72,7 +72,6 @@
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
       <Private>True</Private>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -305,70 +304,10 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Behavior\FolderDialogBehavior.cs" />
-    <Compile Include="Core\Configuration\DelayExecutionSettings.cs" />
-    <Compile Include="Implementations\Configuration\CacheConfigurationServiceDecorator.cs" />
-    <Compile Include="Implementations\Configuration\ConcurrentConfigurationServiceDecorator.cs" />
-    <Compile Include="Implementations\Configuration\FileBasedConfigurationService.cs" />
-    <Compile Include="Core\Configuration\IConfigurationService.cs" />
-    <Compile Include="Core\Configuration\IReadOnlyConfigurationService.cs" />
-    <Compile Include="Framework\IModelEditor.cs" />
-    <Compile Include="Framework\EditModelInDialog.cs" />
-    <Compile Include="Implementations\Configuration\IConfigFilenameProvider.cs" />
-    <Compile Include="Implementations\Configuration\AppConfigFilenameProvider.cs" />
-    <Compile Include="Implementations\Configuration\UpdateStatusModelDecorator.cs" />
-    <Compile Include="Implementations\Configuration\VerifyAndFixFilenameDecorator.cs" />
-    <Compile Include="Implementations\Delay\CommandHandlerDelayDecorator.cs" />
-    <Compile Include="Implementations\Delay\IDelayService.cs" />
-    <Compile Include="Implementations\Delay\RandomConfigurableDelayService.cs" />
-    <Compile Include="Implementations\Delay\UpdateDelayStatusModelDecorator.cs" />
-    <Compile Include="Model\IStatusFullModel.cs" />
-    <Compile Include="Model\StatusModelLogDecorator.cs" />
-    <Compile Include="UserControls\ProjectListView.xaml.cs">
-      <DependentUpon>ProjectListView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModel\IProgressViewModel.cs" />
-    <Compile Include="ViewModel\IProjectCollectionViewModel.cs" />
-    <Compile Include="ViewModel\IProjectViewModelFactory.cs" />
-    <Compile Include="Model\IStatusReadModel.cs" />
-    <Compile Include="ViewModel\IStatusViewModel.cs" />
-    <Compile Include="ViewModel\ProgressViewModel.cs" />
-    <Compile Include="ViewModel\ProjectCollectionViewModel.cs" />
-    <Compile Include="Core\Configuration\ApplicationSettings.cs" />
-    <Compile Include="ViewModel\ProjectViewModelFactory.cs" />
-    <Compile Include="ViewModel\ApplicationSettingsViewModel.cs" />
-    <Compile Include="Framework\ViewModel\IEntityEditorViewModel.cs" />
-    <Compile Include="Model\StatusModel.cs" />
-    <Compile Include="ViewModel\StatusViewModel.cs" />
-    <Compile Include="Framework\View\IEntityEditorView.cs" />
-    <Compile Include="View\SettingsWindow.xaml.cs">
-      <DependentUpon>SettingsWindow.xaml</DependentUpon>
-    </Compile>
-    <Page Include="UserControls\ProjectListView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Core\Configuration\AppConfigConfiguration.cs" />
-    <Compile Include="Implementations\Delay\DelayCommandExecution.cs" />
-    <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\IMainWindowViewModel.cs" />
-    <Compile Include="ViewModel\ProjectViewModel.cs" />
-    <Compile Include="View\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="View\SettingsWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -404,10 +343,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\TestAutomation\Treatment.ZeroMq\Treatment.ZeroMq.csproj">
-      <Project>{3d1f845a-a217-4ee4-9c56-c97ef7ec8f9c}</Project>
-      <Name>Treatment.ZeroMq</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Treatment.Contract.Plugin\Treatment.Contract.Plugin.csproj">
       <Project>{7e082598-0c9c-4f15-b1b8-bdf6f2b1660c}</Project>
       <Name>Treatment.Contract.Plugin</Name>
@@ -424,13 +359,9 @@
       <Project>{0d6db733-febe-4f4d-9d99-3808517a9f7f}</Project>
       <Name>Treatment.Helpers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Treatment.Plugin.Everything\Treatment.Plugin.Everything.csproj" Condition="'$(IncludePlugins)'=='true'">
-      <Project>{8315a778-6a3d-4881-8889-9e08a292afc0}</Project>
-      <Name>Treatment.Plugin.Everything</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Treatment.Plugin.Svn\Treatment.Plugin.Svn.csproj" Condition="'$(IncludePlugins)'=='true'">
-      <Project>{4ee6347f-2aa4-490d-a178-2b2398eef7b1}</Project>
-      <Name>Treatment.Plugin.Svn</Name>
+    <ProjectReference Include="..\Treatment.UI.Core\Treatment.UI.Core.csproj">
+      <Project>{046a5e90-0ffd-46ab-875c-f3a4f2a4a8c3}</Project>
+      <Name>Treatment.UI.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Wpf.Framework\Wpf.Framework.csproj">
       <Project>{4404027B-3E9B-4DDC-82A0-BBEC0EEB7D54}</Project>
@@ -444,9 +375,7 @@
     <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ValueConverters\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

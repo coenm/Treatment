@@ -12,13 +12,13 @@
     [UsedImplicitly]
     public class GetSutExecutableRequestHandler : IRequestHandler
     {
-        [NotNull] private readonly ISutExecutable sutExecutable;
+        [NotNull] private readonly IResolveSutExecutable resolveSutExecutable;
 
-        public GetSutExecutableRequestHandler([NotNull] ISutExecutable sutExecutable)
+        public GetSutExecutableRequestHandler([NotNull] IResolveSutExecutable resolveSutExecutable)
         {
-            Guard.NotNull(sutExecutable, nameof(sutExecutable));
+            Guard.NotNull(resolveSutExecutable, nameof(resolveSutExecutable));
 
-            this.sutExecutable = sutExecutable;
+            this.resolveSutExecutable = resolveSutExecutable;
         }
 
         public bool CanHandle(IControlRequest request) => request is GetSutExecutableRequest;
@@ -34,7 +34,7 @@
             {
                 response = new GetSutExecutableResponse
                            {
-                               Filename = sutExecutable.Executable,
+                               Filename = resolveSutExecutable.Executable,
                            };
             }
             catch (Exception e)

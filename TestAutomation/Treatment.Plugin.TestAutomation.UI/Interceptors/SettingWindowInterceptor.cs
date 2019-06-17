@@ -8,7 +8,7 @@
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Adapters;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
-    using Treatment.UI.View;
+    using Treatment.UI.Core.View;
 
     internal class SettingWindowInterceptor
     {

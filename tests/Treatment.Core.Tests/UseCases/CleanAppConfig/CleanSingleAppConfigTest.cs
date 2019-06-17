@@ -4,13 +4,10 @@
     using System.Threading.Tasks;
 
     using ApprovalTests;
-
     using FakeItEasy;
-
-    using Treatment.Core.Interfaces;
     using Treatment.Core.Tests.Resources;
     using Treatment.Core.UseCases.CleanAppConfig;
-
+    using Treatment.Helpers.FileSystem;
     using Xunit;
 
     public class CleanSingleAppConfigTest

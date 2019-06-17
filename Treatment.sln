@@ -42,8 +42,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Treatment.Helpers", "src\Tr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treatment.Plugin.TestAutomation.UI", "TestAutomation\Treatment.Plugin.TestAutomation.UI\Treatment.Plugin.TestAutomation.UI.csproj", "{2C76194B-5B5E-4153-A3A2-EEA9BA669EF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treatment.UI.Start", "src\Treatment.UI.Start\Treatment.UI.Start.csproj", "{A0406998-8A76-47AB-B8C1-C139461A4433}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestAutomation", "TestAutomation", "{969A961E-A168-468C-877B-056684B444B5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treatment.TestAutomation.TestRunner", "TestAutomation\Treatment.TestAutomation.TestRunner\Treatment.TestAutomation.TestRunner.csproj", "{6AD8EA5D-EEC6-4AB3-8EC2-D3FFE5EBC4F7}"
@@ -67,6 +65,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wpf.Framework", "src\Wpf.Framework\Wpf.Framework.csproj", "{4404027B-3E9B-4DDC-82A0-BBEC0EEB7D54}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{C223A096-B6F4-473A-B28E-DB10FD213CEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treatment.UI.Core", "src\Treatment.UI.Core\Treatment.UI.Core.csproj", "{046A5E90-0FFD-46AB-875C-F3A4F2A4A8C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -130,10 +130,6 @@ Global
 		{2C76194B-5B5E-4153-A3A2-EEA9BA669EF3}.Debug|x64.Build.0 = Debug|x64
 		{2C76194B-5B5E-4153-A3A2-EEA9BA669EF3}.Release|x64.ActiveCfg = Release|x64
 		{2C76194B-5B5E-4153-A3A2-EEA9BA669EF3}.Release|x64.Build.0 = Release|x64
-		{A0406998-8A76-47AB-B8C1-C139461A4433}.Debug|x64.ActiveCfg = Debug|x64
-		{A0406998-8A76-47AB-B8C1-C139461A4433}.Debug|x64.Build.0 = Debug|x64
-		{A0406998-8A76-47AB-B8C1-C139461A4433}.Release|x64.ActiveCfg = Release|x64
-		{A0406998-8A76-47AB-B8C1-C139461A4433}.Release|x64.Build.0 = Release|x64
 		{6AD8EA5D-EEC6-4AB3-8EC2-D3FFE5EBC4F7}.Debug|x64.ActiveCfg = Debug|x64
 		{6AD8EA5D-EEC6-4AB3-8EC2-D3FFE5EBC4F7}.Debug|x64.Build.0 = Debug|x64
 		{6AD8EA5D-EEC6-4AB3-8EC2-D3FFE5EBC4F7}.Release|x64.ActiveCfg = Release|x64
@@ -174,6 +170,10 @@ Global
 		{4404027B-3E9B-4DDC-82A0-BBEC0EEB7D54}.Debug|x64.Build.0 = Debug|x64
 		{4404027B-3E9B-4DDC-82A0-BBEC0EEB7D54}.Release|x64.ActiveCfg = Release|x64
 		{4404027B-3E9B-4DDC-82A0-BBEC0EEB7D54}.Release|x64.Build.0 = Release|x64
+		{046A5E90-0FFD-46AB-875C-F3A4F2A4A8C3}.Debug|x64.ActiveCfg = Debug|x64
+		{046A5E90-0FFD-46AB-875C-F3A4F2A4A8C3}.Debug|x64.Build.0 = Debug|x64
+		{046A5E90-0FFD-46AB-875C-F3A4F2A4A8C3}.Release|x64.ActiveCfg = Release|x64
+		{046A5E90-0FFD-46AB-875C-F3A4F2A4A8C3}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

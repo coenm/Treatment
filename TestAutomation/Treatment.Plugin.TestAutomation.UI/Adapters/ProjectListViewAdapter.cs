@@ -10,7 +10,7 @@
     using Treatment.Plugin.TestAutomation.UI.Reflection;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
-    using Treatment.UI.UserControls;
+    using Treatment.UI.Core.UserControls;
 
     internal class ProjectListViewAdapter : ITestAutomationProjectListView, ITestAutomationListView, IProjectListView
     {
