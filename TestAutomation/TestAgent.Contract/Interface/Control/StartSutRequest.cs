@@ -7,5 +7,8 @@
     {
         [CanBeNull]
         public string WorkingDirectory { get; set; }
+
+        [CanBeNull]
+        public string Executable { get; set; }
     }
 }

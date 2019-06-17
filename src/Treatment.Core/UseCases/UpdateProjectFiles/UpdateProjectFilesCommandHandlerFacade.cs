@@ -4,7 +4,7 @@
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
-
+    using Helpers.FileSystem;
     using JetBrains.Annotations;
 
     using Treatment.Contract;

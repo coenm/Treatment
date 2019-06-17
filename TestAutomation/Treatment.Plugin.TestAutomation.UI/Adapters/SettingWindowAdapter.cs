@@ -15,7 +15,7 @@
     using Treatment.TestAutomation.Contract.Interfaces.Events.Window;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
-    using Treatment.UI.View;
+    using Treatment.UI.Core.View;
 
     internal class SettingWindowAdapter : ITestAutomationSettingWindow, ISettingWindow
     {

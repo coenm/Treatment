@@ -7,7 +7,7 @@
     using FluentAssertions;
     using TestHelper;
     using Treatment.Contract.Plugin.SourceControl;
-    using Treatment.Core.FileSystem;
+    using Treatment.Helpers.FileSystem;
     using Treatment.Plugin.Svn.Implementation;
     using Xunit;
 

@@ -4,16 +4,27 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using JetBrains.Annotations;
+
     using TestAgent.Contract.Interface.Control;
+
+    using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
     internal class RemoteTestAgent : ITestAgent
     {
         private readonly IExecuteControl execute;
+        private readonly ISutSettings sutSettings;
 
-        public RemoteTestAgent(IExecuteControl execute)
+        public RemoteTestAgent(
+            [NotNull] IExecuteControl execute,
+            [NotNull] ISutSettings sutSettings)
         {
+            Guard.NotNull(execute, nameof(execute));
+            Guard.NotNull(sutSettings, nameof(sutSettings));
+
             this.execute = execute;
+            this.sutSettings = sutSettings;
         }
 
         public async Task<List<string>> LocateFilesAsync(string directory, string filename)
@@ -34,7 +45,11 @@
 
         public async Task<bool> StartSutAsync()
         {
-            var req = new StartSutRequest();
+            var req = new StartSutRequest
+                      {
+                          Executable = sutSettings.SutExecutable,
+                          WorkingDirectory = sutSettings.WorkingDirectory,
+                      };
 
             var rsp = await execute.ExecuteControl(req);
 

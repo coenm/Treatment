@@ -2,36 +2,77 @@
 {
     using System;
     using System.IO;
+    using System.Reflection;
     using System.Windows;
     using System.Windows.Threading;
 
     using JetBrains.Annotations;
+    using NLog;
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
-    using Treatment.Core.Bootstrap;
     using Treatment.Core.Bootstrap.Plugin;
-    using Treatment.Core.DefaultPluginImplementation.FileSearch;
     using Treatment.Helpers.Guards;
-    using Treatment.UI.Core.Configuration;
-    using Treatment.UI.Framework;
-    using Treatment.UI.Framework.View;
-    using Treatment.UI.Framework.ViewModel;
-    using Treatment.UI.Implementations.Configuration;
-    using Treatment.UI.Implementations.Delay;
-    using Treatment.UI.Model;
-    using Treatment.UI.View;
-    using Treatment.UI.ViewModel;
-    using Wpf.Framework.Application;
-    using Wpf.Framework.SynchronizationContext;
+    using Treatment.UI.Core;
+    using Treatment.UI.Core.View;
 
     public static class Program
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         [STAThread]
         public static void Main()
         {
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
+            AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += CurrentDomainOnReflectionOnlyAssemblyResolve;
+            AppDomain.CurrentDomain.ResourceResolve += CurrentDomainOnResourceResolve;
+            AppDomain.CurrentDomain.TypeResolve += CurrentDomainOnTypeResolve;
+
             using (var container = Bootstrap())
             {
                 RunApplication(container);
+            }
+
+            AppDomain.CurrentDomain.TypeResolve -= CurrentDomainOnTypeResolve;
+            AppDomain.CurrentDomain.ResourceResolve -= CurrentDomainOnResourceResolve;
+            AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve -= CurrentDomainOnReflectionOnlyAssemblyResolve;
+            AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomainOnAssemblyResolve;
+            AppDomain.CurrentDomain.UnhandledException -= CurrentDomainOnUnhandledException;
+        }
+
+        private static Assembly CurrentDomainOnTypeResolve(object sender, ResolveEventArgs args)
+        {
+            Logger.Error(() => $"CurrentDomainOnTypeResolve. {args.Name}, {args.RequestingAssembly?.FullName ?? "unknown requesting assembly"}");
+            return null;
+        }
+
+        private static Assembly CurrentDomainOnResourceResolve(object sender, ResolveEventArgs args)
+        {
+            Logger.Error(() => $"CurrentDomainOnResourceResolve. {args.Name}, {args.RequestingAssembly?.FullName ?? "unknown requesting assembly"}");
+            return null;
+        }
+
+        private static Assembly CurrentDomainOnReflectionOnlyAssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            Logger.Error(() => $"CurrentDomainOnReflectionOnlyAssemblyResolve. {args.Name}, {args.RequestingAssembly?.FullName ?? "unknown requesting assembly"}");
+            return null;
+        }
+
+        private static Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            Logger.Error(() => $"CurrentDomainOnAssemblyResolve. {args.Name}, {args.RequestingAssembly?.FullName ?? "unknown requesting assembly"}");
+            return null;
+        }
+
+        private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            if (e.ExceptionObject is Exception ex)
+            {
+                Logger.Error(ex, () => $"Unhandled exception in app domain. {ex.Message}");
+            }
+            else
+            {
+                Logger.Error("Unhandled exception in app domain.");
             }
         }
 
@@ -42,65 +83,18 @@
             container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
             container.Options.AllowOverridingRegistrations = true;
 
-            CoreBootstrap.Bootstrap(container);
-
-            container.Register<IGetActivatedWindow, ApplicationActivatedWindow>(Lifestyle.Singleton);
-            // container.Register<ICurrentWindow, PInvokeActivatedWindow>(Lifestyle.Singleton);
-
-            // Views
-            container.Register<MainWindow>();
-            container.Register<IEntityEditorView<ApplicationSettings>, SettingsWindow>();
-
-            // View models
-            container.Register<IMainWindowViewModel, MainWindowViewModel>(Lifestyle.Scoped);
-            container.Register<IProjectCollectionViewModel, ProjectCollectionViewModel>(Lifestyle.Scoped);
-            container.Register<IStatusViewModel, StatusViewModel>(Lifestyle.Scoped);
-            container.Register<IEntityEditorViewModel<ApplicationSettings>, ApplicationSettingsViewModel>(Lifestyle.Scoped);
-
-            // not sure if both are the same instance.
-            container.Register<IStatusReadModel, StatusModel>(Lifestyle.Singleton);
-            container.Register<IStatusFullModel, StatusModel>(Lifestyle.Singleton);
-            container.RegisterDecorator<IStatusFullModel, StatusModelLogDecorator>(Lifestyle.Singleton);
-
-            container.RegisterSingleton<IModelEditor, EditModelInDialog>();
-
-            container.RegisterSingleton<IReadOnlyConfigurationService, FileBasedConfigurationService>();
-            container.RegisterSingleton<IConfigurationService, FileBasedConfigurationService>();
-            container.RegisterDecorator<IConfigurationService, CacheConfigurationServiceDecorator>(Lifestyle.Singleton);
-            container.RegisterDecorator<IConfigurationService, ConcurrentConfigurationServiceDecorator>(Lifestyle.Singleton);
-
-            container.Register<IConfigFilenameProvider, AppConfigFilenameProvider>(Lifestyle.Singleton);
-            container.RegisterDecorator<IConfigFilenameProvider, VerifyAndFixFilenameDecorator>(Lifestyle.Singleton);
-            container.RegisterDecorator<IConfigFilenameProvider, UpdateStatusModelDecorator>(Lifestyle.Singleton);
-
-            container.Register<IProjectViewModelFactory, ProjectViewModelFactory>(Lifestyle.Scoped);
-
-            container.Register<IUserInterfaceSynchronizationContextProvider, UserInterfaceSynchronizationContextProvider>(Lifestyle.Singleton);
+            UiBootstrapper.Bootstrap(container);
 
             RegisterPlugins(container);
-
-            RegisterUserInterfaceDependencies(container);
-
-            RegisterDelay(container);
 
             container.RegisterSingleton<DispatcherObject, App>();
             container.RegisterSingleton<Application, App>();
 
-            container.Verify(VerificationOption.VerifyAndDiagnose);
-
+#if DEBUG
+            if (Environment.GetEnvironmentVariable("ENABLE_TEST_AUTOMATION") == null)
+                container.Verify(VerificationOption.VerifyAndDiagnose);
+#endif
             return container;
-        }
-
-        private static void RegisterUserInterfaceDependencies([NotNull] Container container)
-        {
-            DebugGuard.NotNull(container, nameof(container));
-            container.RegisterSingleton<ISearchProviderNameOption, AppConfigConfiguration>();
-        }
-
-        private static void RegisterDelay([NotNull] Container container)
-        {
-            DebugGuard.NotNull(container, nameof(container));
-            DelayCommandExecution.Register(container);
         }
 
         private static void RegisterPlugins([NotNull] Container container)
@@ -108,7 +102,19 @@
             DebugGuard.NotNull(container, nameof(container));
 
             var pluginAssemblies = PluginFinder.FindPluginAssemblies(Path.Combine(AppDomain.CurrentDomain.BaseDirectory));
-            container.RegisterPackages(pluginAssemblies);
+
+            foreach (var assembly in pluginAssemblies)
+            {
+                try
+                {
+                    Logger.Info($"Register packages in {assembly.FullName}");
+                    container.RegisterPackages(new Assembly[1] { assembly });
+                }
+                catch (Exception e)
+                {
+                    Logger.Error(e, () => $"Could not load assembly {assembly.FullName}. {e.Message}");
+                }
+            }
         }
 
         private static void RunApplication([NotNull] Container container)
@@ -136,11 +142,12 @@
             }
 
             // ReSharper disable once RedundantCatchClause
-            catch
+            catch (Exception ex)
             {
                 // Log the exception and exit
+                Console.WriteLine(ex.Message);
 #if DEBUG
-                throw;
+                // throw;
 #endif
             }
         }

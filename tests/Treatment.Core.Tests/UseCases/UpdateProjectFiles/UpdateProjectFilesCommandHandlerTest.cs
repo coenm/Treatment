@@ -1,12 +1,10 @@
 ﻿namespace Treatment.Core.Tests.UseCases.UpdateProjectFiles
 {
     using FakeItEasy;
-
     using Treatment.Contract.Plugin.FileSearch;
-    using Treatment.Core.Interfaces;
     using Treatment.Core.Tests.Resources;
     using Treatment.Core.UseCases.UpdateProjectFiles;
-
+    using Treatment.Helpers.FileSystem;
     using Xunit;
 
     public class UpdateProjectFilesCommandHandlerTest

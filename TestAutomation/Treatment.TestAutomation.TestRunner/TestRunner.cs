@@ -17,7 +17,6 @@
     using TreatmentZeroMq.ContextService;
     using TreatmentZeroMq.Helpers;
     using TreatmentZeroMq.Socket;
-    using Xunit;
     using Xunit.Abstractions;
     using ZeroMQ;
 
@@ -53,7 +52,7 @@
             var slnDir = FileSystem.GetSolutionDirectory();
             slnDir.Should().NotBeNullOrEmpty();
 
-            var (type, payload) = TestAgentRequestResponseSerializer.Serialize(new LocateFilesRequest { Directory = slnDir, Filename = "Treatment.UIStart.exe", });
+            var (type, payload) = TestAgentRequestResponseSerializer.Serialize(new LocateFilesRequest { Directory = slnDir, Filename = "Treatment.UI.exe", });
 
             var foundExecutable = string.Empty;
 
@@ -74,7 +73,7 @@
                                 output.WriteLine($"| {e,-100} |");
                             }
 
-                            foundExecutable = locateFilesRsp.Executable.FirstOrDefault(x => x.EndsWith("Treatment.UI.Start\\bin\\x64\\Debug\\Treatment.UIStart.exe"));
+                            foundExecutable = locateFilesRsp.Executable.FirstOrDefault(x => x.EndsWith("Treatment.UI\\bin\\x64\\Debug\\Treatment.UI.exe"));
                             if (string.IsNullOrWhiteSpace(foundExecutable))
                             {
                                 foundExecutable = locateFilesRsp.Executable.FirstOrDefault();

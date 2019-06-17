@@ -1,5 +1,6 @@
 ﻿namespace Treatment.Plugin.Svn.Implementation
 {
+    using Helpers.FileSystem;
     using JetBrains.Annotations;
     using Treatment.Contract.Plugin.SourceControl;
     using Treatment.Core.Interfaces;
