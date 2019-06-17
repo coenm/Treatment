@@ -56,7 +56,7 @@
                                 if (value != null)
                                     subject.OnNext(value);
 
-                                //todo handle null?
+                                // todo handle null?
                             }
                         }
                         catch (Exception e)

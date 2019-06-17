@@ -102,6 +102,7 @@
                         Logger.Debug("Try to update the settings.");
                         await configurationService.UpdateAsync(applicationSettings);
                     }
+
                     Logger.Debug("Done");
                 }
                 catch (Exception e)
@@ -134,7 +135,5 @@
             publishProxy.Dispose();
             reqRspProxy.Dispose();
         }
-
-
     }
 }
