@@ -10,10 +10,8 @@
     using FluentValidation;
     using Helpers.FileSystem;
     using JetBrains.Annotations;
-
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
-
     using Treatment.Contract;
     using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Contract.Plugin.SourceControl;

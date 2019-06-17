@@ -8,15 +8,16 @@
     using System.Security.Cryptography;
     using System.Text;
     using System.Threading.Tasks;
+
     using CoenM.Encoding;
-    using Contract.Plugin.FileSearch;
-    using Core.Configuration;
-    using Helpers.Guards;
-    using Implementations.Delay;
     using JetBrains.Annotations;
-    using Model;
     using Nito.Mvvm;
     using NLog;
+    using Treatment.Contract.Plugin.FileSearch;
+    using Treatment.Helpers.Guards;
+    using Treatment.UI.Core.Core.Configuration;
+    using Treatment.UI.Core.Implementations.Delay;
+    using Treatment.UI.Core.Model;
     using Wpf.Framework.ViewModel;
 
     public class ProjectCollectionViewModel : ViewModelBase, IProjectCollectionViewModel, IInitializableViewModel, IDisposable
