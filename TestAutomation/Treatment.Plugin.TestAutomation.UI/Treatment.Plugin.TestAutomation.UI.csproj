@@ -41,6 +41,9 @@
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="AsyncIO, Version=0.1.69.0, Culture=neutral, PublicKeyToken=44a94435bd6f33f8, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AsyncIO.0.1.69\lib\net40\AsyncIO.dll</HintPath>
+    </Reference>
     <Reference Include="Costura, Version=3.3.2.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Costura.Fody.3.3.2\lib\net40\Costura.dll</HintPath>
     </Reference>
@@ -49,6 +52,9 @@
     </Reference>
     <Reference Include="JetBrains.Annotations, Version=2019.1.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\..\packages\JetBrains.Annotations.2019.1.1\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="NetMQ, Version=4.0.0.1, Culture=neutral, PublicKeyToken=a6decef4ddc58b3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NetMQ.4.0.0.1\lib\net40\NetMQ.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.4.6.3\lib\net45\NLog.dll</HintPath>
@@ -76,9 +82,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase" />
-    <Reference Include="ZeroMQ, Version=4.1.0.31, Culture=neutral, PublicKeyToken=4a9630883fd6c563, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ZeroMQ.4.1.0.31\lib\net40\ZeroMQ.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\src\GitVersionInformation.generated.cs">
@@ -160,7 +163,7 @@
       <Name>Treatment.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Treatment.Helpers\Treatment.Helpers.csproj">
-      <Project>{0D6DB733-FEBE-4F4D-9D99-3808517A9F7F}</Project>
+      <Project>{0d6db733-febe-4f4d-9d99-3808517a9f7f}</Project>
       <Name>Treatment.Helpers</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Treatment.UI\Treatment.UI.csproj">
@@ -170,10 +173,6 @@
     <ProjectReference Include="..\Treatment.TestAutomation.Contract\Treatment.TestAutomation.Contract.csproj">
       <Project>{0e179745-c4b4-41a0-8ef4-08a5f18fb8cd}</Project>
       <Name>Treatment.TestAutomation.Contract</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Treatment.ZeroMq\Treatment.ZeroMq.csproj">
-      <Project>{3D1F845A-A217-4EE4-9C56-C97EF7EC8F9C}</Project>
-      <Name>Treatment.ZeroMq</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -188,10 +187,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <Error Condition="!Exists('..\..\packages\ZeroMQ.4.1.0.31\build\net40\ZeroMQ.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\ZeroMQ.4.1.0.31\build\net40\ZeroMQ.targets'))" />
     <Error Condition="!Exists('..\..\packages\Fody.3.3.5\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Fody.3.3.5\build\Fody.targets'))" />
     <Error Condition="!Exists('..\..\packages\Costura.Fody.3.3.2\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Costura.Fody.3.3.2\build\Costura.Fody.props'))" />
   </Target>
-  <Import Project="..\..\packages\ZeroMQ.4.1.0.31\build\net40\ZeroMQ.targets" Condition="Exists('..\..\packages\ZeroMQ.4.1.0.31\build\net40\ZeroMQ.targets')" />
   <Import Project="..\..\packages\Fody.3.3.5\build\Fody.targets" Condition="Exists('..\..\packages\Fody.3.3.5\build\Fody.targets')" />
 </Project>

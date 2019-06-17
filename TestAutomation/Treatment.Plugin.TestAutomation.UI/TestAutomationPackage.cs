@@ -9,7 +9,6 @@
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Interceptors;
     using Treatment.Plugin.TestAutomation.UI.Settings;
-    using TreatmentZeroMq.ContextService;
 
     [UsedImplicitly]
     public class TestAutomationPackage : IPackage
@@ -33,8 +32,6 @@
             testAutomationContainer = new Container();
 
             testAutomationContainer.RegisterInstance(settings);
-
-            testAutomationContainer.RegisterSingleton<IZeroMqContextService, ZeroMqContextService>();
 
             testAutomationContainer.RegisterSingleton<IEventPublisher, ZeroMqEventPublisher>();
 
