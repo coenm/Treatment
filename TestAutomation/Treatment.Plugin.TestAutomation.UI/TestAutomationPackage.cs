@@ -2,7 +2,6 @@
 {
     using System;
 
-    using global::TestAutomation.InputHandler.RequestHandlers;
     using JetBrains.Annotations;
     using NLog;
     using SimpleInjector;
@@ -11,9 +10,6 @@
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Interceptors;
     using Treatment.Plugin.TestAutomation.UI.Settings;
-    using Treatment.Plugin.TestAutomation.UI.UserInput;
-    using TreatmentZeroMq.ContextService;
-    using TreatmentZeroMq.Worker;
 
     [UsedImplicitly]
     public class TestAutomationPackage : IPackage
@@ -54,18 +50,9 @@
 
             testAutomationContainer.RegisterInstance(settings);
 
-            testAutomationContainer.RegisterSingleton<IZeroMqContextService, ZeroMqContextService>();
-
             testAutomationContainer.RegisterSingleton<IEventPublisher, ZeroMqEventPublisher>();
-            testAutomationContainer.RegisterSingleton<ReqRepWorkerManagement>();
-            testAutomationContainer.Register<IZeroMqRequestDispatcher, ZeroMqRequestDispatcher>(Lifestyle.Transient);
 
             testAutomationContainer.RegisterSingleton<ITestAutomationAgent, TestAutomationAgent>();
-
-            // all possible request handlers
-            testAutomationContainer.Collection.Register(typeof(IRequestHandler), typeof(IRequestHandler).Assembly);
-
-            testAutomationContainer.Register<IRequestDispatcher, RequestDispatcher>(Lifestyle.Transient);
 
             RegisterInterceptors(container, testAutomationContainer);
 

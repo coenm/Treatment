@@ -1,7 +1,6 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI.Interceptors
 {
     using System;
-    using System.Threading;
     using System.Windows;
 
     using JetBrains.Annotations;
@@ -10,8 +9,6 @@
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Adapters;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
-    using Treatment.Plugin.TestAutomation.UI.Settings;
-    using TreatmentZeroMq.Worker;
 
     internal class ApplicationInterceptor
     {
@@ -41,24 +38,7 @@
             var application = new ApplicationAdapter(appInstance, publisher);
             agent.RegisterAndInitializeApplication(application);
 
-            var config = testAutomationContainer.GetInstance<ITestAutomationSettings>();
-
-            if (string.IsNullOrWhiteSpace(config.ZeroMqRequestResponseSocket))
-                return instance;
-
-            StartAndRegisterRequestResponseWorker(config, agent);
-
             return instance;
-        }
-
-        private void StartAndRegisterRequestResponseWorker(ITestAutomationSettings config, ITestAutomationAgent agent)
-        {
-            var worker = testAutomationContainer.GetInstance<ReqRepWorkerManagement>()
-                .StartSingleWorker(
-                    testAutomationContainer.GetInstance<IZeroMqRequestDispatcher>(),
-                    config.ZeroMqRequestResponseSocket,
-                    CancellationToken.None);
-            agent.RegisterWorker(worker);
         }
     }
 }
