@@ -42,9 +42,12 @@
                 settings = new DummySettings();
 
             if (settings.TestAutomationEnabled == false)
+            {
+                Logger.Info("Test Automation module not activated.");
                 return;
+            }
 
-            Logger.Info("Test Automation module is loading..");
+            Logger.Info("Test Automation module is loading.");
 
             testAutomationContainer = new Container();
 
