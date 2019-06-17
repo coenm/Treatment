@@ -4,35 +4,36 @@
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
+    using NetMQ;
+    using NetMQ.Sockets;
+
+    using NLog;
+
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Settings;
     using Treatment.TestAutomation.Contract.Interfaces.Events;
     using Treatment.TestAutomation.Contract.Serializer;
-    using TreatmentZeroMq.ContextService;
-    using TreatmentZeroMq.Helpers;
-    using ZeroMQ;
 
     internal class ZeroMqEventPublisher : IEventPublisher, IDisposable
     {
+        [NotNull] private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         [NotNull] private readonly object syncLock = new object();
-        [NotNull] private readonly IZeroMqContextService contextService;
         [NotNull] private readonly ITestAutomationSettings settings;
-        [CanBeNull] private ZSocket socket;
+        [NotNull] private readonly PublisherSocket socket;
+        private bool initialized = false;
 
-        public ZeroMqEventPublisher(
-            [NotNull] IZeroMqContextService contextService,
-            [NotNull] ITestAutomationSettings settings)
+        public ZeroMqEventPublisher([NotNull] ITestAutomationSettings settings)
         {
-            Guard.NotNull(contextService, nameof(contextService));
             Guard.NotNull(settings, nameof(settings));
-
-            this.contextService = contextService;
             this.settings = settings;
+            socket = new PublisherSocket();
         }
 
         public Task PublishAsync(Guid guid, IEvent evt)
         {
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if (evt == null)
+                // ReSharper disable once HeuristicUnreachableCode
                 return Task.CompletedTask;
 
             evt.Guid = guid;
@@ -42,37 +43,26 @@
 
         public Task PublishAsync(IEvent evt)
         {
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if (evt == null)
+                // ReSharper disable once HeuristicUnreachableCode
                 return Task.CompletedTask;
 
             Initialize();
 
-            var type = string.Empty;
-            var payload = string.Empty;
-            var frames = new ZFrame[0];
-
             try
             {
-                (type, payload) = EventSerializer.Serialize(evt);
+                var (type, payload) = EventSerializer.Serialize(evt);
 
-                frames = new[]
-                {
-                    new ZFrame(type),
-                    new ZFrame(payload),
-                };
+                socket
+                    .SendMoreFrame(type)
+                    .SendFrame(payload);
             }
             catch (Exception e)
             {
-                frames = new[]
-                {
-                    new ZFrame(e.GetType().FullName),
-                    new ZFrame(e.Message),
-                };
-            }
-
-            if (!socket.Send(new ZMessage(frames), ZSocketFlags.DontWait, out _))
-            {
-                return Task.FromResult(false);
+                socket
+                    .SendMoreFrame(e.GetType().FullName)
+                    .SendFrame(e.Message);
             }
 
             return Task.FromResult(true);
@@ -80,29 +70,48 @@
 
         public void Dispose()
         {
-            socket?.Dispose();
-            socket = null;
-        }
-
-        private void Initialize()
-        {
-            if (socket != null)
+            if (initialized == false)
                 return;
 
             lock (syncLock)
             {
-                if (socket != null)
+                if (initialized == false)
                     return;
 
-                var ctx = contextService.GetContext();
-                socket = new ZSocket(ctx, ZSocketType.PUB)
+                socket.Dispose();
+
+                initialized = false;
+            }
+        }
+
+        private void Initialize()
+        {
+            if (initialized)
+                return;
+
+            lock (syncLock)
+            {
+                if (initialized)
+                    return;
+
+                socket.Options.Linger = TimeSpan.Zero;
+                socket.Options.TcpKeepalive = true;
+                socket.Options.SendHighWatermark = 10_000;
+
+                try
                 {
-                    Linger = TimeSpan.Zero,
-                };
+                    socket.Connect(settings.ZeroMqEventPublishSocket);
+                }
+                catch (NetMQ.EndpointNotFoundException e)
+                {
+                    Logger.Error(e, () => $"Could not connect. Endpoint ({settings.ZeroMqEventPublishSocket}) not found.");
+                }
+                catch (Exception e)
+                {
+                    Logger.Error(e, "Could not connect");
+                }
 
-                socket.Connect(settings.ZeroMqEventPublishSocket);
-
-                ZmqConnection.GiveZeroMqTimeToFinishConnectOrBind();
+                initialized = true;
             }
         }
     }

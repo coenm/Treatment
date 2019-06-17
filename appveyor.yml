@@ -65,6 +65,11 @@ after_test:
 - cmd: 7z a TreatmentUI.%GitVersion_FullSemVer%.zip .\src\Treatment.UI\bin\x64\Release\*.exe
 - cmd: 7z a TreatmentUI.%GitVersion_FullSemVer%.zip .\src\Treatment.UI\bin\x64\Release\*.config
 
+- cmd: 7z a TreatmentUI.Start.%GitVersion_FullSemVer%.zip .\src\Treatment.UI.Start\bin\x64\Release\*.dll
+- cmd: 7z a TreatmentUI.Start.%GitVersion_FullSemVer%.zip .\src\Treatment.UI.Start\bin\x64\Release\*.exe
+- cmd: 7z a TreatmentUI.Start.%GitVersion_FullSemVer%.zip .\src\Treatment.UI.Start\bin\x64\Release\*.config
+- cmd: 7z a TreatmentUI.Start.%GitVersion_FullSemVer%.zip .\src\Treatment.UI.Start\bin\x64\Release\**\*.*
+
 - cmd: 7z a TreatmentUI.Startup.%GitVersion_FullSemVer%.zip .\src\Treatment.UI.Start\bin\x64\Release\*.dll
 - cmd: 7z a TreatmentUI.Startup.%GitVersion_FullSemVer%.zip .\src\Treatment.UI.Start\bin\x64\Release\*.exe
 - cmd: 7z a TreatmentUI.Startup.%GitVersion_FullSemVer%.zip .\src\Treatment.UI.Start\bin\x64\Release\*.config
@@ -85,6 +90,7 @@ after_test:
 artifacts:
 - path: TreatmentConsole.%GitVersion_FullSemVer%.zip
 - path: TreatmentUI.%GitVersion_FullSemVer%.zip
+- path: TreatmentUI.Start.%GitVersion_FullSemVer%.zip
 - path: TreatmentUI.Startup.%GitVersion_FullSemVer%.zip
 - path: EverythingPlugin.%GitVersion_FullSemVer%.zip
 - path: SvnPlugin.%GitVersion_FullSemVer%.zip
