@@ -42,25 +42,25 @@
 
         private static Assembly CurrentDomainOnTypeResolve(object sender, ResolveEventArgs args)
         {
-            Logger.Error(() => $"CurrentDomainOnTypeResolve. {args.Name}, {args.RequestingAssembly.FullName}");
+            Logger.Error(() => $"CurrentDomainOnTypeResolve. {args.Name}, {args.RequestingAssembly?.FullName ?? "unknown requesting assembly"}");
             return null;
         }
 
         private static Assembly CurrentDomainOnResourceResolve(object sender, ResolveEventArgs args)
         {
-            Logger.Error(() => $"CurrentDomainOnResourceResolve. {args.Name}, {args.RequestingAssembly.FullName}");
+            Logger.Error(() => $"CurrentDomainOnResourceResolve. {args.Name}, {args.RequestingAssembly?.FullName ?? "unknown requesting assembly"}");
             return null;
         }
 
         private static Assembly CurrentDomainOnReflectionOnlyAssemblyResolve(object sender, ResolveEventArgs args)
         {
-            Logger.Error(() => $"CurrentDomainOnReflectionOnlyAssemblyResolve. {args.Name}, {args.RequestingAssembly.FullName}");
+            Logger.Error(() => $"CurrentDomainOnReflectionOnlyAssemblyResolve. {args.Name}, {args.RequestingAssembly?.FullName ?? "unknown requesting assembly"}");
             return null;
         }
 
         private static Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args)
         {
-            Logger.Error(() => $"CurrentDomainOnAssemblyResolve. {args.Name}, {args.RequestingAssembly.FullName}");
+            Logger.Error(() => $"CurrentDomainOnAssemblyResolve. {args.Name}, {args.RequestingAssembly?.FullName ?? "unknown requesting assembly"}");
             return null;
         }
 
