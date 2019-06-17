@@ -1,6 +1,6 @@
 ﻿namespace Treatment.UI.Core.View
 {
-    using ViewModel;
+    using Treatment.UI.Core.ViewModel;
 
     public partial class MainWindow
     {

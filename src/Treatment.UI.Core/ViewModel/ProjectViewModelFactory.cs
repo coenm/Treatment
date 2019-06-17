@@ -1,8 +1,8 @@
 ﻿namespace Treatment.UI.Core.ViewModel
 {
-    using Contract;
-    using Helpers.Guards;
     using JetBrains.Annotations;
+    using Treatment.Contract;
+    using Treatment.Helpers.Guards;
 
     public class ProjectViewModelFactory : IProjectViewModelFactory
     {

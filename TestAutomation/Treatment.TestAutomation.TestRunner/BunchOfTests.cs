@@ -119,7 +119,6 @@
 
                 await Keyboard.PressAsync(VirtualKeyCode.Escape);
                 mre2.WaitOne(1000);
-                // await Task.Delay(200);
 
                 var window = Application.MainWindow as RemoteMainWindow;
                 window.Should().NotBeNull();
