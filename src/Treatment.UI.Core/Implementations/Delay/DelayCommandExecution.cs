@@ -1,7 +1,7 @@
 ﻿namespace Treatment.UI.Core.Implementations.Delay
 {
     using Contract;
-    using Helpers.Guards;
+    using Treatment.Helpers.Guards;
     using JetBrains.Annotations;
     using SimpleInjector;
 

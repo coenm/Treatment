@@ -4,7 +4,7 @@
     using System.Reactive.Disposables;
     using System.Reactive.Linq;
     using System.Threading.Tasks;
-    using Helpers.Guards;
+    using Treatment.Helpers.Guards;
     using JetBrains.Annotations;
     using Model;
     using Nito.Mvvm;

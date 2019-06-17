@@ -5,7 +5,7 @@
     using Contract;
     using Contract.Queries;
     using Core.Configuration;
-    using Helpers.Guards;
+    using Treatment.Helpers.Guards;
     using Implementations.Delay;
     using JetBrains.Annotations;
     using Nito.Mvvm;

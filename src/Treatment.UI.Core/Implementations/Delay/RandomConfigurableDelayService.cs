@@ -5,7 +5,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Core.Configuration;
-    using Helpers.Guards;
+    using Treatment.Helpers.Guards;
     using JetBrains.Annotations;
 
     internal class RandomConfigurableDelayService : IDisposable, IDelayService

@@ -1,6 +1,6 @@
 ﻿namespace Treatment.UI.Core.Implementations.Configuration
 {
-    using Helpers.Guards;
+    using Treatment.Helpers.Guards;
     using JetBrains.Annotations;
     using Model;
 

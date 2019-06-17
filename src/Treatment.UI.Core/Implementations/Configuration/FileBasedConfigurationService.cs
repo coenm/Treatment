@@ -5,12 +5,13 @@
     using System.Reactive.Subjects;
     using System.Reflection;
     using System.Threading.Tasks;
-    using Treatment.UI.Core.Core.Configuration;
-    using Helpers.FileSystem;
-    using Helpers.Guards;
+
     using JetBrains.Annotations;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
+    using Treatment.Helpers.FileSystem;
+    using Treatment.Helpers.Guards;
+    using Treatment.UI.Core.Core.Configuration;
 
     internal class FileBasedConfigurationService : IConfigurationService
     {
@@ -67,7 +68,7 @@
             catch (Exception e)
             {
                 // todo
-                throw e;
+                throw;
             }
 
             try

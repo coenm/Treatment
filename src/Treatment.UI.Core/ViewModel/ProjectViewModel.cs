@@ -1,11 +1,12 @@
 ﻿namespace Treatment.UI.Core.ViewModel
 {
     using System;
-    using Contract;
-    using Contract.Commands;
-    using Helpers.Guards;
+
     using JetBrains.Annotations;
     using Nito.Mvvm;
+    using Treatment.Contract;
+    using Treatment.Contract.Commands;
+    using Treatment.Helpers.Guards;
     using Wpf.Framework.Commands;
     using Wpf.Framework.ViewModel;
 

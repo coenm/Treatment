@@ -1,7 +1,7 @@
 ﻿namespace Treatment.UI.Core.Model
 {
     using System;
-    using Helpers.Guards;
+    using Treatment.Helpers.Guards;
     using JetBrains.Annotations;
     using NLog;
 

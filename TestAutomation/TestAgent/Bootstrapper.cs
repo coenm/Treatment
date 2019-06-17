@@ -5,15 +5,16 @@
     using JetBrains.Annotations;
     using SimpleInjector;
     using TestAgent.Implementation;
+    using TestAgent.UserInput;
     using TestAgent.ZeroMq.PublishInfrastructure;
     using TestAgent.ZeroMq.RequestReplyInfrastructure;
     using Treatment.Helpers.Guards;
     using TreatmentZeroMq.ContextService;
     using TreatmentZeroMq.Socket;
     using TreatmentZeroMq.Worker;
-    using UserInput;
-    using IRequestDispatcher = Implementation.IRequestDispatcher;
-    using RequestDispatcher = Implementation.RequestDispatcher;
+
+    using IRequestDispatcher = TestAgent.Implementation.IRequestDispatcher;
+    using RequestDispatcher = TestAgent.Implementation.RequestDispatcher;
 
     internal static class Bootstrapper
     {

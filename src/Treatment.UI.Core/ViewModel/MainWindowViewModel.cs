@@ -4,7 +4,7 @@
     using System.Threading.Tasks;
     using Contract;
     using Core.Configuration;
-    using Helpers.Guards;
+    using Treatment.Helpers.Guards;
     using JetBrains.Annotations;
     using Nito.Mvvm;
     using NLog;
