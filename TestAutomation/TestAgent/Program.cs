@@ -46,9 +46,7 @@
                 // View models
                 container.Register<ITestAgentMainWindowViewModel, TestAgentMainWindowViewModel>(Lifestyle.Transient);
 
-                container
-                    .Register<IUserInterfaceSynchronizationContextProvider, UserInterfaceSynchronizationContextProvider
-                    >(Lifestyle.Singleton);
+                container.Register<IUserInterfaceSynchronizationContextProvider, UserInterfaceSynchronizationContextProvider>(Lifestyle.Singleton);
                 container.RegisterSingleton<DispatcherObject, App>();
                 container.RegisterSingleton<Application, App>();
 

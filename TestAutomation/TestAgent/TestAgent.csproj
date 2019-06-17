@@ -185,6 +185,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AgentContext.cs" />
     <Compile Include="FixedSettings.cs" />
+    <Compile Include="UserInput\IRequestDispatcher.cs" />
+    <Compile Include="UserInput\RequestDispatcher.cs" />
+    <Compile Include="UserInput\UserInputZeroMqRequestDispatcher.cs" />
     <Compile Include="ViewModel\ITestAgentMainWindowViewModel.cs" />
     <Compile Include="ViewModel\TestAgentMainWindowViewModel.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
@@ -226,6 +229,14 @@
     <ProjectReference Include="..\TestAgent.Contract\TestAgent.Contract.csproj">
       <Project>{f3973336-d09c-40f2-b8f4-0e6238fcea13}</Project>
       <Name>TestAgent.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestAutomation.Contract.Input\TestAutomation.Contract.Input.csproj">
+      <Project>{6aab1c15-076e-4e4b-a0a9-d99210fcaddb}</Project>
+      <Name>TestAutomation.Contract.Input</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestAutomation.InputHandler\TestAutomation.InputHandler.csproj">
+      <Project>{b1308572-4927-44b9-b5e2-53a648f82a38}</Project>
+      <Name>TestAutomation.InputHandler</Name>
     </ProjectReference>
     <ProjectReference Include="..\Treatment.TestAutomation.Contract\Treatment.TestAutomation.Contract.csproj">
       <Project>{0E179745-C4B4-41A0-8EF4-08A5F18FB8CD}</Project>

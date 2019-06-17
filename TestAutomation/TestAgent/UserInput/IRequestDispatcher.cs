@@ -1,8 +1,8 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI.UserInput
+﻿namespace TestAgent.UserInput
 {
     using System.Threading.Tasks;
 
-    using global::TestAutomation.Input.Contract.Interface;
+    using TestAutomation.Input.Contract.Interface;
 
     public interface IRequestDispatcher
     {

@@ -12,6 +12,7 @@
     using TreatmentZeroMq.ContextService;
     using TreatmentZeroMq.Socket;
     using TreatmentZeroMq.Worker;
+    using UserInput;
     using Wpf.Framework.SynchronizationContext;
     using Wpf.Framework.ViewModel;
     using ZeroMq;
@@ -31,6 +32,7 @@
             [NotNull] IZeroMqPublishProxyFactory zeroMqPublishProxyFactory,
             [NotNull] ReqRepWorkerManagement workerManager,
             [NotNull] IZeroMqRequestDispatcher zmqDispatcher,
+            [NotNull] UserInputZeroMqRequestDispatcher dispatcher,
             [NotNull] IZeroMqSocketFactory socketFactory,
             [NotNull] IUserInterfaceSynchronizationContextProvider uiContextProvider,
             [NotNull] IAgentContext agent)
@@ -40,6 +42,7 @@
             Guard.NotNull(zeroMqPublishProxyFactory, nameof(zeroMqPublishProxyFactory));
             Guard.NotNull(workerManager, nameof(workerManager));
             Guard.NotNull(zmqDispatcher, nameof(zmqDispatcher));
+            Guard.NotNull(dispatcher, nameof(dispatcher));
             Guard.NotNull(socketFactory, nameof(socketFactory));
             Guard.NotNull(uiContextProvider, nameof(uiContextProvider));
             Guard.NotNull(agent, nameof(agent));
@@ -55,9 +58,14 @@
             publishProxy = zeroMqPublishProxyFactory.Create();
             publishProxy.Start();
 
-            var workerTask = workerManager.StartSingleWorker(
+            var workerTask1 = workerManager.StartSingleWorker(
                 zmqDispatcher,
                 "inproc://reqrsp",
+                cts.Token);
+
+            var workerTask2 = workerManager.StartSingleWorker(
+                dispatcher,
+                "inproc://reqrsp2",
                 cts.Token);
 
             var eventsProcessor = new EventsRx(socketFactory, "inproc://capturePubSub");

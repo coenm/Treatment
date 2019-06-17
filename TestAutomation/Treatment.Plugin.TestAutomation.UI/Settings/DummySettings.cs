@@ -6,8 +6,6 @@
 
         public string ZeroMqEventPublishSocket => "inproc://a";
 
-        public string ZeroMqRequestResponseSocket => "inproc://b";
-
         public string ZeroMqKey => "abc";
     }
 }
