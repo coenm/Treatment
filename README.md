@@ -86,7 +86,22 @@ Treatment.exe help list-providers
   --version     Display version information.
 ```
 
-## What is 'Everything'?
+## Applications
+
+There are two applications; a console application and a GUI application.
+
+## Plugins
+
+Plugins can be 'installed' by extracting the dll's to the root directory of the Treatment application or by extracting them to `<Treatment root directory>\Plugins\<Name of Plugin>\`.
+
+Currently, there are 3 plugins (which can be downloaded separately)
+### Svn
+Enables SVN as a Source Control provider.
+
+### Everything
+Enables `Everything` as a File Search provider. Requires Everything to be installed, but when used as search provider it increases performance.
+
+#### What is 'Everything'?
 
 Found at voidtools.com [FAQ](https://www.voidtools.com/faq/#what_is_everything)
 
@@ -96,21 +111,16 @@ Found at voidtools.com [FAQ](https://www.voidtools.com/faq/#what_is_everything)
 >
 > You type in a search filter to limit what files and folders are displayed.
 
-Requires Everything to be installed, but when used as search provider it increases performance.
+### TestAutomation
+
+Enables TestAutomation for the GUI application only.
+TODO : Explain.
+
+
 
 ## Why 'so much code' for such a simple application?
 
 Yes. The application has little functionality which probably can be coded in a single class with a few methods that is still pretty clean. This project is also about experimenting with common patterns, principles, frameworks etc. etc.
-
-## Decisions
-
-- Based on the commandline arguments, a command is constructed.
-- Dependency injection (only constructor injection) using [SimpleInjector](https://www.nuget.org/packages/SimpleInjector/) library. This framework also supports a plugin to register it's implementations.
-- Use commands and command handlers for the two commands the application supports. Command handlers can be decorated to enable crosscuttingconcerns (i.e. Execution time measurement, Logging and (superficial) Command validation).
-These (superficial) validations are done using the [FluentValidation](https://www.nuget.org/packages/FluentValidation/) library.
-- Suffix methods returning Tasks with `Async`.
-- Test projects are named with suffix `.Tests`
-- No abstractions for logging.
 
 ## TODO
 
@@ -123,5 +133,5 @@ These (superficial) validations are done using the [FluentValidation](https://ww
 - [x] Experiment with [Pose](https://www.nuget.org/packages/Pose) to shim `Console`.
 - [ ] Improve functionality by other fixes in the csproj files (app.config settings).
 - [x] Experiment with [ApprovalTests](https://github.com/approvals/ApprovalTests.Net) to test WPF views.
-- [ ] TestAutomation
+- [x] TestAutomation
 - [ ] CodeCoverage
