@@ -404,10 +404,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\TestAutomation\Treatment.ZeroMq\Treatment.ZeroMq.csproj">
-      <Project>{3d1f845a-a217-4ee4-9c56-c97ef7ec8f9c}</Project>
-      <Name>Treatment.ZeroMq</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Treatment.Contract.Plugin\Treatment.Contract.Plugin.csproj">
       <Project>{7e082598-0c9c-4f15-b1b8-bdf6f2b1660c}</Project>
       <Name>Treatment.Contract.Plugin</Name>
