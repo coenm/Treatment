@@ -4,9 +4,10 @@
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Reflection;
-    using Helpers.File;
-    using Helpers.Guards;
+
     using JetBrains.Annotations;
+    using Treatment.Helpers.File;
+    using Treatment.Helpers.Guards;
 
     [SuppressMessage("ReSharper", "ClassWithVirtualMembersNeverInherited.Global", Justification = "Unittest purposes")]
     internal class VerifyAndFixFilenameDecorator : IConfigFilenameProvider

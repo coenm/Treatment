@@ -34,8 +34,19 @@
             }
         }
 
+        private static void RegisterInterceptors(Container container, Container testAutomationContainer)
+        {
+            DebugGuard.NotNull(container, nameof(container));
+            DebugGuard.NotNull(testAutomationContainer, nameof(testAutomationContainer));
+
+            ApplicationInterceptor.Register(container, testAutomationContainer);
+            MainWindowInterceptor.Register(container, testAutomationContainer);
+            SettingWindowInterceptor.Register(container, testAutomationContainer);
+        }
+
         private void RegisterServicesImpl([NotNull] Container container)
         {
+            DebugGuard.NotNull(container, nameof(container));
             ITestAutomationSettings settings = new EnvironmentVariableSettings();
 
             if (settings.TestAutomationEnabled == false && Environment.UserInteractive)
@@ -60,16 +71,6 @@
             RegisterInterceptors(container, testAutomationContainer);
 
             agent = testAutomationContainer.GetInstance<ITestAutomationAgent>();
-        }
-
-        private static void RegisterInterceptors(Container container, Container testAutomationContainer)
-        {
-            DebugGuard.NotNull(container, nameof(container));
-            DebugGuard.NotNull(testAutomationContainer, nameof(testAutomationContainer));
-
-            ApplicationInterceptor.Register(container, testAutomationContainer);
-            MainWindowInterceptor.Register(container, testAutomationContainer);
-            SettingWindowInterceptor.Register(container, testAutomationContainer);
         }
     }
 }

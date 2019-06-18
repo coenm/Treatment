@@ -87,7 +87,7 @@
             }
             catch (Exception e)
             {
-                Logger.Error(e, "");
+                Logger.Error(e, "Something wrong happened.");
                 return false;
             }
         }

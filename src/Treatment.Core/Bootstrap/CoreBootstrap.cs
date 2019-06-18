@@ -8,21 +8,17 @@
     using System.Runtime.CompilerServices;
 
     using FluentValidation;
-    using Helpers.FileSystem;
     using JetBrains.Annotations;
-
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
-
     using Treatment.Contract;
     using Treatment.Contract.Plugin.FileSearch;
     using Treatment.Contract.Plugin.SourceControl;
     using Treatment.Core.DefaultPluginImplementation.FileSearch;
     using Treatment.Core.DefaultPluginImplementation.SourceControl;
-    using Treatment.Core.FileSystem;
-    using Treatment.Core.Interfaces;
     using Treatment.Core.UseCases.CleanAppConfig;
     using Treatment.Core.UseCases.CrossCuttingConcerns;
+    using Treatment.Helpers.FileSystem;
     using Treatment.Helpers.Guards;
 
     // This class allows registering all types that are defined in the business layer, and are shared across

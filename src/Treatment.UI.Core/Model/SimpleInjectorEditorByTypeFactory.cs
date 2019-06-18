@@ -1,9 +1,10 @@
 ﻿namespace Treatment.UI.Core.Model
 {
     using System;
-    using Helpers.Guards;
+
     using JetBrains.Annotations;
     using SimpleInjector;
+    using Treatment.Helpers.Guards;
     using Wpf.Framework.EntityEditor;
     using Wpf.Framework.EntityEditor.View;
     using Wpf.Framework.EntityEditor.ViewModel;

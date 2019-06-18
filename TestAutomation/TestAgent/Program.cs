@@ -90,7 +90,7 @@
 
             try
             {
-//                using (AsyncScopedLifestyle.BeginScope(container))
+                // using (AsyncScopedLifestyle.BeginScope(container))
                 {
                     ManualResetEvent mre = new ManualResetEvent(false);
                     var app = container.GetInstance<Application>();

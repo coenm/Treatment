@@ -2,10 +2,11 @@
 {
     using System;
     using System.Threading.Tasks;
-    using Core.Configuration;
-    using Helpers.Guards;
+
     using JetBrains.Annotations;
     using Nito.AsyncEx;
+    using Treatment.Helpers.Guards;
+    using Treatment.UI.Core.Core.Configuration;
 
     [UsedImplicitly]
     public class ConcurrentConfigurationServiceDecorator : IConfigurationService

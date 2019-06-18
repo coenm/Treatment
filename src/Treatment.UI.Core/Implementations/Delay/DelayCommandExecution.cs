@@ -1,9 +1,9 @@
 ﻿namespace Treatment.UI.Core.Implementations.Delay
 {
-    using Contract;
-    using Helpers.Guards;
     using JetBrains.Annotations;
     using SimpleInjector;
+    using Treatment.Contract;
+    using Treatment.Helpers.Guards;
 
     /// <summary>
     /// Adding delays is only to see if the UI is responsive etc. etc.
@@ -16,11 +16,7 @@
 
             container.Register<IDelayService, RandomConfigurableDelayService>(Lifestyle.Singleton);
             container.RegisterDecorator<IDelayService, UpdateDelayStatusModelDecorator>(Lifestyle.Singleton);
-
-            container.RegisterDecorator(
-                                        typeof(ICommandHandler<>),
-                                        typeof(CommandHandlerDelayDecorator<>),
-                                        Lifestyle.Scoped);
+            container.RegisterDecorator(typeof(ICommandHandler<>), typeof(CommandHandlerDelayDecorator<>), Lifestyle.Scoped);
         }
     }
 }

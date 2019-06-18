@@ -32,7 +32,31 @@
             State = ProxyState.Initialized;
         }
 
+        [PublicAPI]
         public ProxyState State { get; private set; }
+
+        /// <summary>Create and run the proxy.</summary>
+        /// <param name="context">Current context.</param>
+        /// <param name="frontend">Frontend socket, already setup and connected/bound.</param>
+        /// <param name="backends">Multiple backend sockets, already setup and connected/bound.</param>
+        /// <exception cref="ApplicationException">Thrown when the proxy could not start.</exception>
+        /// <returns>The proxy.</returns>
+        public static ZmqProxyExtended CreateAndRun([NotNull] ZContext context, ZSocket frontend, ZKeySocket[] backends)
+        {
+            Guard.NotNull(context, nameof(context));
+            Guard.NotNull(frontend, nameof(frontend));
+            Guard.NotNull(backends, nameof(backends));
+
+            const int startingTimeoutSec = 10;
+            var result = new ZmqProxyExtended(context, GenerateChannelName());
+            result.StartProxy(frontend, backends);
+            var signaled = result.proxyStartedSignal.WaitOne(startingTimeoutSec * 1000);
+            if (signaled)
+                return result;
+
+            result.Dispose();
+            throw new ApplicationException($"Could not create and start a proxy within {startingTimeoutSec} seconds.");
+        }
 
         private static string GenerateChannelName()
         {
@@ -110,29 +134,6 @@
             }
 
             runningProxyTask = Task.Run(() => StartProxying());
-        }
-
-        /// <summary>Create and run the proxy.</summary>
-        /// <param name="context">Current context.</param>
-        /// <param name="frontend">Frontend socket, already setup and connected/bound.</param>
-        /// <param name="backends">Multiple backend sockets, already setup and connected/bound.</param>
-        /// <exception cref="ApplicationException">Thrown when the proxy could not start.</exception>
-        /// <returns>The proxy.</returns>
-        public static ZmqProxyExtended CreateAndRun([NotNull] ZContext context, ZSocket frontend, ZKeySocket[] backends)
-        {
-            Guard.NotNull(context, nameof(context));
-            Guard.NotNull(frontend, nameof(frontend));
-            Guard.NotNull(backends, nameof(backends));
-
-            const int startingTimeoutSec = 10;
-            var result = new ZmqProxyExtended(context, GenerateChannelName());
-            result.StartProxy(frontend, backends);
-            var signaled = result.proxyStartedSignal.WaitOne(startingTimeoutSec * 1000);
-            if (signaled)
-                return result;
-
-            result.Dispose();
-            throw new ApplicationException($"Could not create and start a proxy within {startingTimeoutSec} seconds.");
         }
 
         public void Dispose()

@@ -1,9 +1,10 @@
 ﻿namespace Wpf.Framework.EntityEditor
 {
     using System;
+
     using JetBrains.Annotations;
-    using View;
-    using ViewModel;
+    using Wpf.Framework.EntityEditor.View;
+    using Wpf.Framework.EntityEditor.ViewModel;
 
     public interface IEditorByTypeFactory
     {

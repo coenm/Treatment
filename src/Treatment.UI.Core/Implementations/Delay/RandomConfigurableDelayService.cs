@@ -4,9 +4,10 @@
     using System.Reactive.Disposables;
     using System.Threading;
     using System.Threading.Tasks;
-    using Core.Configuration;
-    using Helpers.Guards;
+
     using JetBrains.Annotations;
+    using Treatment.Helpers.Guards;
+    using Treatment.UI.Core.Core.Configuration;
 
     internal class RandomConfigurableDelayService : IDisposable, IDelayService
     {

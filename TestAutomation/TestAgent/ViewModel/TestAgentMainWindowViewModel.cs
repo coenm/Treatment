@@ -8,10 +8,9 @@
 
     using JetBrains.Annotations;
     using Nito.Mvvm;
-
     using NLog;
-
     using TestAgent.Model.Configuration;
+    using TestAgent.UserInput;
     using TestAgent.ZeroMq;
     using TestAgent.ZeroMq.PublishInfrastructure;
     using TestAgent.ZeroMq.RequestReplyInfrastructure;
@@ -19,7 +18,6 @@
     using TreatmentZeroMq.ContextService;
     using TreatmentZeroMq.Socket;
     using TreatmentZeroMq.Worker;
-    using UserInput;
     using Wpf.Framework.EntityEditor;
     using Wpf.Framework.SynchronizationContext;
     using Wpf.Framework.ViewModel;
@@ -102,6 +100,7 @@
                         Logger.Debug("Try to update the settings.");
                         await configurationService.UpdateAsync(applicationSettings);
                     }
+
                     Logger.Debug("Done");
                 }
                 catch (Exception e)
@@ -134,7 +133,5 @@
             publishProxy.Dispose();
             reqRspProxy.Dispose();
         }
-
-
     }
 }

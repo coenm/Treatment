@@ -5,13 +5,13 @@
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
 
-    using Interfaces;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.WindowControl;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
+    using Treatment.Plugin.TestAutomation.UI.Interfaces;
     using Treatment.Plugin.TestAutomation.UI.Reflection;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Window;

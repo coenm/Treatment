@@ -18,8 +18,8 @@
         [NotNull] private readonly IApplicationEvents applicationEvents;
         [NotNull] private readonly RemoteObjectManager remoteObjectManager;
         [NotNull] private readonly CompositeDisposable disposable;
-        [NotNull] private SingleClassObjectManager propertyManager;
         [NotNull] private readonly IObservable<IEvent> filter;
+        [NotNull] private SingleClassObjectManager propertyManager;
         private Guid guid = Guid.Empty;
 
         public RemoteTreatmentApplication(

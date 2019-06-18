@@ -20,6 +20,7 @@
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.TestAutomation.Contract.Interfaces.Treatment;
 
+    // Class needs refactoring!!!
     internal class MainViewStatusBarAdapter : ITestAutomationMainViewStatusBar, IMainViewStatusBar
     {
         [NotNull] private readonly StatusBar item;

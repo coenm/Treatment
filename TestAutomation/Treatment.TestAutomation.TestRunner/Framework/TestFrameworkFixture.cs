@@ -4,7 +4,6 @@
 
     using JetBrains.Annotations;
     using SimpleInjector;
-
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
     using Treatment.TestAutomation.TestRunner.Framework.RemoteImplementations;
 
@@ -21,10 +20,9 @@
             bootstrapper = new Bootstrapper();
             container = bootstrapper.RegisterAll();
 
-            var sutsettings = container.GetInstance<ISutSettings>();
+            var sutSettings = container.GetInstance<ISutSettings>();
 
             store = container.GetInstance<RemoteObjectManager>();
-            // Application = container.GetInstance<ITreatmentApplication>();
             Agent = container.GetInstance<ITestAgent>();
             Mouse = container.GetInstance<IMouse>();
             Keyboard = container.GetInstance<IKeyboard>();

@@ -2,10 +2,9 @@
 {
     using System.IO;
     using System.Threading.Tasks;
-    using Helpers.FileSystem;
-    using JetBrains.Annotations;
 
-    using Treatment.Core.Interfaces;
+    using JetBrains.Annotations;
+    using Treatment.Helpers.FileSystem;
 
     [UsedImplicitly]
     public class CleanSingleAppConfig : ICleanSingleAppConfig

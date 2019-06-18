@@ -23,17 +23,15 @@
         [NotNull] private readonly List<IInitializable> helpers;
         [NotNull] private readonly SettingsWindow settingsWindow;
         [NotNull] private readonly IEventPublisher eventPublisher;
-        [NotNull] private ITestAutomationAgent agent;
         [CanBeNull] private ITestAutomationButton browseRootDirectory;
         [CanBeNull] private ITestAutomationTextBox rootDirectory;
         [CanBeNull] private ITestAutomationComboBox comboSearchProvider;
         [CanBeNull] private ITestAutomationComboBox comboVersionControlProvider;
 
-        public SettingWindowAdapter([NotNull] SettingsWindow settingsWindow, [NotNull] IEventPublisher eventPublisher, [NotNull] ITestAutomationAgent agent)
+        public SettingWindowAdapter([NotNull] SettingsWindow settingsWindow, [NotNull] IEventPublisher eventPublisher)
         {
             this.settingsWindow = settingsWindow ?? throw new ArgumentNullException(nameof(settingsWindow));
             this.eventPublisher = eventPublisher ?? throw new ArgumentNullException(nameof(eventPublisher));
-            this.agent = agent ?? throw new ArgumentNullException(nameof(agent));
 
             Guid = Guid.NewGuid();
 

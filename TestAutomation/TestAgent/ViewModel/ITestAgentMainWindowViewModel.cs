@@ -5,6 +5,7 @@
     public interface ITestAgentMainWindowViewModel
     {
         int EventsCounter { get; }
+
         ICommand OpenSettingsCommand { get; }
     }
 }

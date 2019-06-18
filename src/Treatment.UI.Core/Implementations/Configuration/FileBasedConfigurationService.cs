@@ -5,12 +5,13 @@
     using System.Reactive.Subjects;
     using System.Reflection;
     using System.Threading.Tasks;
-    using Treatment.UI.Core.Core.Configuration;
-    using Helpers.FileSystem;
-    using Helpers.Guards;
+
     using JetBrains.Annotations;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
+    using Treatment.Helpers.FileSystem;
+    using Treatment.Helpers.Guards;
+    using Treatment.UI.Core.Core.Configuration;
 
     internal class FileBasedConfigurationService : IConfigurationService
     {
@@ -64,10 +65,9 @@
             {
                 json = JObject.FromObject(configToSave);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                // todo
-                throw e;
+                return false;
             }
 
             try

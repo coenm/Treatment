@@ -48,7 +48,37 @@
             State = ProxyState.Initialized;
         }
 
+        [PublicAPI]
         public ProxyState State { get; private set; }
+
+        /// <summary>Create and run the proxy.</summary>
+        /// <param name="context">Current context.</param>
+        /// <param name="frontend">Frontend socket, already setup and connected/bound.</param>
+        /// <param name="backend">Backend socket, already setup and connected/bound.</param>
+        /// <param name="capture">Socket where all the captured content is published on. Can be <c>null</c>.</param>
+        /// <exception cref="ApplicationException">Thrown when the proxy could not start.</exception>
+        /// <returns>The proxy.</returns>
+        public static ZmqProxy CreateAndRun(
+            [NotNull] ZContext context,
+            [NotNull] ZSocket frontend,
+            [NotNull] ZSocket backend,
+            [CanBeNull] ZSocket capture = null)
+        {
+            Guard.NotNull(context, nameof(context));
+            Guard.NotNull(frontend, nameof(frontend));
+            Guard.NotNull(backend, nameof(backend));
+
+            const int startingTimeoutSec = 10;
+
+            var result = new ZmqProxy(context, GenerateChannelName());
+            result.StartProxy(frontend, backend, capture);
+            var signaled = result.proxyStartedSignal.WaitOne(startingTimeoutSec * 1000);
+            if (signaled)
+                return result;
+
+            result.Dispose();
+            throw new ApplicationException($"Could not create and start a proxy within {startingTimeoutSec} seconds.");
+        }
 
         private static string GenerateChannelName()
         {
@@ -86,35 +116,6 @@
             }
 
             runningProxyTask = Task.Run(() => StartProxying());
-        }
-
-        /// <summary>Create and run the proxy.</summary>
-        /// <param name="context">Current context.</param>
-        /// <param name="frontend">Frontend socket, already setup and connected/bound.</param>
-        /// <param name="backend">Backend socket, already setup and connected/bound.</param>
-        /// <param name="capture">Socket where all the captured content is published on. Can be <c>null</c>.</param>
-        /// <exception cref="ApplicationException">Thrown when the proxy could not start.</exception>
-        /// <returns>The proxy.</returns>
-        public static ZmqProxy CreateAndRun(
-            [NotNull] ZContext context,
-            [NotNull] ZSocket frontend,
-            [NotNull] ZSocket backend,
-            [CanBeNull] ZSocket capture = null)
-        {
-            Guard.NotNull(context, nameof(context));
-            Guard.NotNull(frontend, nameof(frontend));
-            Guard.NotNull(backend, nameof(backend));
-
-            const int startingTimeoutSec = 10;
-
-            var result = new ZmqProxy(context, GenerateChannelName());
-            result.StartProxy(frontend, backend, capture);
-            var signaled = result.proxyStartedSignal.WaitOne(startingTimeoutSec * 1000);
-            if (signaled)
-                return result;
-
-            result.Dispose();
-            throw new ApplicationException($"Could not create and start a proxy within {startingTimeoutSec} seconds.");
         }
 
         [PublicAPI]

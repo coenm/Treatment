@@ -1,14 +1,13 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI.Infrastructure
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
     using NetMQ;
     using NetMQ.Sockets;
-
     using NLog;
-
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Settings;
     using Treatment.TestAutomation.Contract.Interfaces.Events;
@@ -20,7 +19,7 @@
         [NotNull] private readonly object syncLock = new object();
         [NotNull] private readonly ITestAutomationSettings settings;
         [NotNull] private readonly PublisherSocket socket;
-        private bool initialized = false;
+        private bool initialized;
 
         public ZeroMqEventPublisher([NotNull] ITestAutomationSettings settings)
         {
@@ -29,23 +28,22 @@
             socket = new PublisherSocket();
         }
 
+        [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse", Justification = "Input validation despite of [NotNull] attribute.")]
+        [SuppressMessage("ReSharper", "HeuristicUnreachableCode", Justification = "Input validation despite of [NotNull] attribute.")]
         public Task PublishAsync(Guid guid, IEvent evt)
         {
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if (evt == null)
-                // ReSharper disable once HeuristicUnreachableCode
                 return Task.CompletedTask;
 
             evt.Guid = guid;
-
             return PublishAsync(evt);
         }
 
+        [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse", Justification = "Input validation despite of [NotNull] attribute.")]
+        [SuppressMessage("ReSharper", "HeuristicUnreachableCode", Justification = "Input validation despite of [NotNull] attribute.")]
         public Task PublishAsync(IEvent evt)
         {
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if (evt == null)
-                // ReSharper disable once HeuristicUnreachableCode
                 return Task.CompletedTask;
 
             Initialize();
@@ -101,6 +99,7 @@
                 try
                 {
                     socket.Connect(settings.ZeroMqEventPublishSocket);
+                    initialized = true;
                 }
                 catch (NetMQ.EndpointNotFoundException e)
                 {
@@ -110,8 +109,6 @@
                 {
                     Logger.Error(e, "Could not connect");
                 }
-
-                initialized = true;
             }
         }
     }
