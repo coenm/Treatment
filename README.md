@@ -2,10 +2,10 @@
 <div align="center">
   
 [![Build status](https://ci.appveyor.com/api/projects/status/41u98m32ih1758kq/branch/develop?svg=true)](https://ci.appveyor.com/project/coenm/treatment/branch/develop) 
-
+[![Build Status](https://dev.azure.com/cmunckhof/Treatment/_apis/build/status/Treatment%20YAML?branchName=develop)](https://dev.azure.com/cmunckhof/Treatment/_build/latest?definitionId=1&branchName=develop)
 </div>
 
-Specific command line tool for updating `*.csproj` files.
+Commandline tool and GUI tool for updating `*.csproj` files.
 
 ## What does it do?
 
@@ -117,16 +117,17 @@ Enables TestAutomation for the GUI application only.
 TODO : Explain.
 
 
-
 ## Why 'so much code' for such a simple application?
 
 Yes. The application has little functionality which probably can be coded in a single class with a few methods that is still pretty clean. This project is also about experimenting with common patterns, principles, frameworks etc. etc.
 
-## TODO
+## Bucket List
 
 - [x] [GitFlow](http://nvie.com/posts/a-successful-git-branching-model/);
 - [x] [Appveyor](https://www.appveyor.com/);
+- [ ] [Azure DevOps](https://dev.azure.com/cmunckhof/Treatment/);
 - [x] [GitVersion](https://gitversion.readthedocs.io/en/latest/) for automatic versioning; 
+- [x] WPF;
 - [ ] Input directory validation improvement;
 - [x] Core without Console.WriteLine;
 - [x] Console.WriteLine abstraction?;
