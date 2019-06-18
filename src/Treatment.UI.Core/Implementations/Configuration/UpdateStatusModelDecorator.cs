@@ -1,8 +1,8 @@
 ﻿namespace Treatment.UI.Core.Implementations.Configuration
 {
-    using Treatment.Helpers.Guards;
     using JetBrains.Annotations;
-    using Model;
+    using Treatment.Helpers.Guards;
+    using Treatment.UI.Core.Model;
 
     [UsedImplicitly]
     internal class UpdateStatusModelDecorator : IConfigFilenameProvider

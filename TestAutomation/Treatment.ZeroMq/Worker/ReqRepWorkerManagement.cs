@@ -26,11 +26,6 @@
             this.contextService = contextService;
         }
 
-        private static string GenerateChannelName()
-        {
-            return $"inproc://gen_{nameof(ReqRepWorkerManagement)}_{DateTime.Now:ddhhmmssfff}_{Random.Next(10000)}";
-        }
-
         public async Task StartSingleWorker(
             [NotNull] IZeroMqRequestDispatcher messageDispatcher,
             [NotNull] string backendAddress,
@@ -85,6 +80,11 @@
 
                 Logger.Info("Zero mq worker stopped");
             }
+        }
+
+        private static string GenerateChannelName()
+        {
+            return $"inproc://gen_{nameof(ReqRepWorkerManagement)}_{DateTime.Now:ddhhmmssfff}_{Random.Next(10000)}";
         }
 
         private static IEnumerable<T> CreateEnumerable<T>(params T[] items)

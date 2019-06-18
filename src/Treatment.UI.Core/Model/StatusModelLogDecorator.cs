@@ -1,9 +1,10 @@
 ﻿namespace Treatment.UI.Core.Model
 {
     using System;
-    using Treatment.Helpers.Guards;
+
     using JetBrains.Annotations;
     using NLog;
+    using Treatment.Helpers.Guards;
 
     [UsedImplicitly]
     public class StatusModelLogDecorator : IStatusFullModel

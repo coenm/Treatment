@@ -11,8 +11,6 @@
     internal class TestAutomationAgent : ITestAutomationAgent
     {
         [NotNull] private readonly ITestAutomationSettings settings;
-        [NotNull] private readonly object syncLock = new object();
-        [NotNull] private readonly CancellationTokenSource cts = new CancellationTokenSource();
         [CanBeNull] private MainWindowAdapter mainWindow;
         [CanBeNull] private SettingWindowAdapter settingWindow;
         [CanBeNull] private ITestAutomationApplication application;

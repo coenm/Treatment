@@ -1,7 +1,7 @@
 ﻿namespace Treatment.UI.Core.ViewModel
 {
-    using Contract;
     using NLog;
+    using Treatment.Contract;
     using Wpf.Framework.ViewModel;
 
     public class ProgressViewModel : ViewModelBase, IProgressViewModel

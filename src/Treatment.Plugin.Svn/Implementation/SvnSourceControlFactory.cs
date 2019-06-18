@@ -1,9 +1,8 @@
 ﻿namespace Treatment.Plugin.Svn.Implementation
 {
-    using Treatment.Helpers.FileSystem;
     using JetBrains.Annotations;
     using Treatment.Contract.Plugin.SourceControl;
-    using Treatment.Core.Interfaces;
+    using Treatment.Helpers.FileSystem;
     using Treatment.Helpers.Guards;
 
     internal class SvnSourceControlFactory : ISourceControlAbstractFactory

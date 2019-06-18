@@ -38,7 +38,7 @@
             var publisher = testAutomationContainer.GetInstance<IEventPublisher>();
             var agent = testAutomationContainer.GetInstance<ITestAutomationAgent>();
 
-            var view = new SettingWindowAdapter(sw, publisher, agent);
+            var view = new SettingWindowAdapter(sw, publisher);
             agent.AddPopupViewAndInitialize(view);
 
             return instance;

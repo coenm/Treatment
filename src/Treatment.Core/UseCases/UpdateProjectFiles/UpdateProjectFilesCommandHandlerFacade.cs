@@ -4,13 +4,12 @@
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
-    using Treatment.Helpers.FileSystem;
-    using JetBrains.Annotations;
 
+    using JetBrains.Annotations;
     using Treatment.Contract;
     using Treatment.Contract.Commands;
     using Treatment.Contract.Plugin.FileSearch;
-    using Treatment.Core.Interfaces;
+    using Treatment.Helpers.FileSystem;
     using Treatment.Helpers.Guards;
 
     /// <remarks>

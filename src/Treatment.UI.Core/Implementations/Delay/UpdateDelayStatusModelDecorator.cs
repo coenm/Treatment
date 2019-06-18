@@ -2,9 +2,10 @@
 {
     using System.Threading;
     using System.Threading.Tasks;
-    using Treatment.Helpers.Guards;
+
     using JetBrains.Annotations;
-    using Model;
+    using Treatment.Helpers.Guards;
+    using Treatment.UI.Core.Model;
 
     [UsedImplicitly]
     internal class UpdateDelayStatusModelDecorator : IDelayService

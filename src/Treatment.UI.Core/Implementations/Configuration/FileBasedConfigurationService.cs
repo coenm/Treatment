@@ -65,10 +65,9 @@
             {
                 json = JObject.FromObject(configToSave);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                // todo
-                throw;
+                return false;
             }
 
             try

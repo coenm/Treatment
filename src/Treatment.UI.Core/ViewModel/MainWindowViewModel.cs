@@ -2,12 +2,13 @@
 {
     using System;
     using System.Threading.Tasks;
-    using Contract;
-    using Core.Configuration;
-    using Treatment.Helpers.Guards;
+
     using JetBrains.Annotations;
     using Nito.Mvvm;
     using NLog;
+    using Treatment.Contract;
+    using Treatment.Helpers.Guards;
+    using Treatment.UI.Core.Core.Configuration;
     using Wpf.Framework.EntityEditor;
     using Wpf.Framework.ViewModel;
     using ICommand = System.Windows.Input.ICommand;

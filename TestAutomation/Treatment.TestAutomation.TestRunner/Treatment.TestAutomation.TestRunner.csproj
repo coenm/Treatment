@@ -168,7 +168,6 @@
     <Compile Include="Framework\RemoteImplementations\RemoteMouse.cs" />
     <Compile Include="Helpers\FileSystem.cs" />
     <Compile Include="FixedSettings.cs" />
-    <Compile Include="TestRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
