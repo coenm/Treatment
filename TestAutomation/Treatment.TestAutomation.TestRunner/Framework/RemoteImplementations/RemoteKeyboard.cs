@@ -3,9 +3,8 @@
     using System;
     using System.Threading.Tasks;
 
-    using global::TestAutomation.Input.Contract.Interface.Input.Enums;
-    using global::TestAutomation.Input.Contract.Interface.Input.Keyboard;
-
+    using TestAgent.Contract.Interface.Input.Enums;
+    using TestAgent.Contract.Interface.Input.Keyboard;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
     internal class RemoteKeyboard : IKeyboard

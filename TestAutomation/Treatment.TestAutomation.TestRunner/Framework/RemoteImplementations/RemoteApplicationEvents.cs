@@ -4,12 +4,12 @@
     using System.Reactive.Subjects;
     using System.Threading.Tasks;
 
+    using CoenM.ZeroMq.Socket;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.Contract.Interfaces.Events;
     using Treatment.TestAutomation.Contract.Serializer;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
-    using TreatmentZeroMq.Socket;
     using ZeroMQ;
 
     internal class RemoteApplicationEvents : IApplicationEvents

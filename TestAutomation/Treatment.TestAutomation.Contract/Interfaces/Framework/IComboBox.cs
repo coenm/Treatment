@@ -1,6 +1,6 @@
 ﻿namespace Treatment.TestAutomation.Contract.Interfaces.Framework
 {
-    using SingleEventInterface;
+    using Treatment.TestAutomation.Contract.Interfaces.Framework.SingleEventInterface;
 
     public interface IComboBox :
         IPositionUpdated,

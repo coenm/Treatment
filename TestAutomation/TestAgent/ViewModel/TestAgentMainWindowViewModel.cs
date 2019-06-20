@@ -6,18 +6,17 @@
     using System.Threading;
     using System.Windows.Input;
 
+    using CoenM.ZeroMq.ContextService;
+    using CoenM.ZeroMq.Socket;
+    using CoenM.ZeroMq.Worker;
     using JetBrains.Annotations;
     using Nito.Mvvm;
     using NLog;
     using TestAgent.Model.Configuration;
-    using TestAgent.UserInput;
     using TestAgent.ZeroMq;
     using TestAgent.ZeroMq.PublishInfrastructure;
     using TestAgent.ZeroMq.RequestReplyInfrastructure;
     using Treatment.Helpers.Guards;
-    using TreatmentZeroMq.ContextService;
-    using TreatmentZeroMq.Socket;
-    using TreatmentZeroMq.Worker;
     using Wpf.Framework.EntityEditor;
     using Wpf.Framework.SynchronizationContext;
     using Wpf.Framework.ViewModel;
@@ -38,7 +37,6 @@
             [NotNull] IZeroMqPublishProxyFactory zeroMqPublishProxyFactory,
             [NotNull] ReqRepWorkerManagement workerManager,
             [NotNull] IZeroMqRequestDispatcher zmqDispatcher,
-            [NotNull] UserInputZeroMqRequestDispatcher dispatcher,
             [NotNull] IZeroMqSocketFactory socketFactory,
             [NotNull] IUserInterfaceSynchronizationContextProvider uiContextProvider,
             [NotNull] IAgentContext agent,
@@ -50,7 +48,6 @@
             Guard.NotNull(zeroMqPublishProxyFactory, nameof(zeroMqPublishProxyFactory));
             Guard.NotNull(workerManager, nameof(workerManager));
             Guard.NotNull(zmqDispatcher, nameof(zmqDispatcher));
-            Guard.NotNull(dispatcher, nameof(dispatcher));
             Guard.NotNull(socketFactory, nameof(socketFactory));
             Guard.NotNull(uiContextProvider, nameof(uiContextProvider));
             Guard.NotNull(agent, nameof(agent));
@@ -69,11 +66,6 @@
             var workerTask1 = workerManager.StartSingleWorker(
                 zmqDispatcher,
                 "inproc://reqrsp",
-                cts.Token);
-
-            var workerTask2 = workerManager.StartSingleWorker(
-                dispatcher,
-                "inproc://reqrsp2",
                 cts.Token);
 
             var eventsProcessor = new EventsRx(socketFactory, "inproc://capturePubSub");

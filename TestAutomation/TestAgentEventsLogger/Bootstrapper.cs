@@ -1,10 +1,10 @@
 ﻿namespace TestAgentEventsLogger
 {
+    using CoenM.ZeroMq.ContextService;
+    using CoenM.ZeroMq.Socket;
     using JetBrains.Annotations;
     using SimpleInjector;
     using Treatment.Helpers.Guards;
-    using TreatmentZeroMq.ContextService;
-    using TreatmentZeroMq.Socket;
 
     internal static class Bootstrapper
     {

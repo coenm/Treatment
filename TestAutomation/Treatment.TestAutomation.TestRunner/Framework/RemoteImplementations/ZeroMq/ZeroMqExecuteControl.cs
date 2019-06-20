@@ -4,13 +4,13 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using CoenM.ZeroMq.Helpers;
+    using CoenM.ZeroMq.Socket;
     using JetBrains.Annotations;
     using TestAgent.Contract.Interface;
     using TestAgent.Contract.Serializer;
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
-    using TreatmentZeroMq.Helpers;
-    using TreatmentZeroMq.Socket;
     using ZeroMQ;
 
     [UsedImplicitly]
@@ -38,7 +38,6 @@
             var msg = new ZMessage(
                 new List<ZFrame>
                 {
-                    new ZFrame("TESTAGENT"),
                     new ZFrame(type),
                     new ZFrame(payload),
                 });

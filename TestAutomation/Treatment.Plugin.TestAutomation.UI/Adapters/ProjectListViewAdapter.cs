@@ -8,8 +8,8 @@
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Interfaces;
     using Treatment.Plugin.TestAutomation.UI.Reflection;
+    using Treatment.TestAutomation.Contract.Interfaces.Application;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
-    using Treatment.TestAutomation.Contract.Interfaces.Treatment;
     using Treatment.UI.Core.UserControls;
 
     internal class ProjectListViewAdapter : ITestAutomationProjectListView, ITestAutomationListView, IProjectListView

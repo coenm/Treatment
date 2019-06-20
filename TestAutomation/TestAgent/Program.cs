@@ -46,8 +46,7 @@
                     container,
                     $"tcp://*:{FixedSettings.AgentReqRspPort}",
                     $"tcp://*:{FixedSettings.AgentPublishPort}",
-                    FixedSettings.SutPublishPort,
-                    FixedSettings.SutReqRspPort);
+                    FixedSettings.SutPublishPort);
 
                 // Views
                 container.Register<MainWindow>();

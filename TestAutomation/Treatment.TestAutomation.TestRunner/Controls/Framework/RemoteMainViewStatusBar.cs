@@ -7,9 +7,9 @@
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
+    using Treatment.TestAutomation.Contract.Interfaces.Application;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
-    using Treatment.TestAutomation.Contract.Interfaces.Treatment;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
     using Treatment.TestAutomation.TestRunner.Framework.RemoteImplementations;
 

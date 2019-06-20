@@ -62,9 +62,7 @@
                     options.EnvironmentVariables(new[]
                     {
                         new KeyValuePair<string, string>("ENABLE_TEST_AUTOMATION", "true"),
-                        new KeyValuePair<string, string>("TA_KEY", string.Empty),
                         new KeyValuePair<string, string>("TA_PUBLISH_SOCKET", $"tcp://localhost:{FixedSettings.SutPublishPort}"), // sut publishes events on this
-                        new KeyValuePair<string, string>("TA_REQ_RSP_SOCKET", $"tcp://localhost:{FixedSettings.SutReqRspPort}"), // sut handles the mouse and keyboard requests.
                     });
                 });
 

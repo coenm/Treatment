@@ -2,7 +2,7 @@
 {
     using System;
 
-    using Events;
+    using Treatment.TestAutomation.Contract.Interfaces.Events;
 
     [Obsolete]
     public class TestAutomationEvent : IEvent

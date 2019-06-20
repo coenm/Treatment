@@ -127,9 +127,9 @@
       <Project>{0d6db733-febe-4f4d-9d99-3808517a9f7f}</Project>
       <Name>Treatment.Helpers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Treatment.ZeroMq\Treatment.ZeroMq.csproj">
+    <ProjectReference Include="..\CoenM.ZeroMq\CoenM.ZeroMq.csproj">
       <Project>{3D1F845A-A217-4EE4-9C56-C97EF7EC8F9C}</Project>
-      <Name>Treatment.ZeroMq</Name>
+      <Name>CoenM.ZeroMq</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

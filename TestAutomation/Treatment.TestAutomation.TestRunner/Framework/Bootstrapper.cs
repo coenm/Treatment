@@ -2,13 +2,13 @@
 {
     using System;
 
+    using CoenM.ZeroMq.ContextService;
+    using CoenM.ZeroMq.Socket;
     using SimpleInjector;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
     using Treatment.TestAutomation.TestRunner.Framework.RemoteImplementations;
     using Treatment.TestAutomation.TestRunner.Framework.RemoteImplementations.ZeroMq;
     using Treatment.TestAutomation.TestRunner.Framework.Settings;
-    using TreatmentZeroMq.ContextService;
-    using TreatmentZeroMq.Socket;
 
     internal class Bootstrapper : IDisposable
     {

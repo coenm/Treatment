@@ -2,7 +2,7 @@
 {
     using System;
 
-    using Events.Element;
+    using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
 
     public interface ISelectionChanged
     {

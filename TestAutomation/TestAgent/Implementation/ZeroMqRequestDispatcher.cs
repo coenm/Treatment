@@ -1,20 +1,17 @@
 ﻿namespace TestAgent.Implementation
 {
-    using System;
-    using System.Collections.Concurrent;
     using System.Threading.Tasks;
 
+    using CoenM.ZeroMq.Worker;
     using JetBrains.Annotations;
     using TestAgent.Contract.Interface;
     using TestAgent.Contract.Serializer;
     using Treatment.Helpers.Guards;
-    using TreatmentZeroMq.Worker;
     using ZeroMQ;
 
     [UsedImplicitly]
     public class ZeroMqRequestDispatcher : IZeroMqRequestDispatcher
     {
-        private static readonly ConcurrentDictionary<string, Type> TypeCache = new ConcurrentDictionary<string, Type>();
         [NotNull] private readonly IRequestDispatcher requestDispatcher;
 
         public ZeroMqRequestDispatcher([NotNull] IRequestDispatcher requestDispatcher)
