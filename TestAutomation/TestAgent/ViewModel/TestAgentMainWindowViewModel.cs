@@ -13,7 +13,6 @@
     using Nito.Mvvm;
     using NLog;
     using TestAgent.Model.Configuration;
-    using TestAgent.UserInput;
     using TestAgent.ZeroMq;
     using TestAgent.ZeroMq.PublishInfrastructure;
     using TestAgent.ZeroMq.RequestReplyInfrastructure;
@@ -38,7 +37,6 @@
             [NotNull] IZeroMqPublishProxyFactory zeroMqPublishProxyFactory,
             [NotNull] ReqRepWorkerManagement workerManager,
             [NotNull] IZeroMqRequestDispatcher zmqDispatcher,
-            [NotNull] UserInputZeroMqRequestDispatcher dispatcher,
             [NotNull] IZeroMqSocketFactory socketFactory,
             [NotNull] IUserInterfaceSynchronizationContextProvider uiContextProvider,
             [NotNull] IAgentContext agent,
@@ -50,7 +48,6 @@
             Guard.NotNull(zeroMqPublishProxyFactory, nameof(zeroMqPublishProxyFactory));
             Guard.NotNull(workerManager, nameof(workerManager));
             Guard.NotNull(zmqDispatcher, nameof(zmqDispatcher));
-            Guard.NotNull(dispatcher, nameof(dispatcher));
             Guard.NotNull(socketFactory, nameof(socketFactory));
             Guard.NotNull(uiContextProvider, nameof(uiContextProvider));
             Guard.NotNull(agent, nameof(agent));
@@ -69,11 +66,6 @@
             var workerTask1 = workerManager.StartSingleWorker(
                 zmqDispatcher,
                 "inproc://reqrsp",
-                cts.Token);
-
-            var workerTask2 = workerManager.StartSingleWorker(
-                dispatcher,
-                "inproc://reqrsp2",
                 cts.Token);
 
             var eventsProcessor = new EventsRx(socketFactory, "inproc://capturePubSub");

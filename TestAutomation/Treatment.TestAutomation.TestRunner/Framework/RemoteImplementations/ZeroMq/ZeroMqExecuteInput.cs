@@ -6,9 +6,9 @@
 
     using CoenM.ZeroMq.Helpers;
     using CoenM.ZeroMq.Socket;
-    using global::TestAutomation.Input.Contract.Interface;
-    using global::TestAutomation.Input.Contract.Serializer;
     using JetBrains.Annotations;
+    using TestAgent.Contract.Interface;
+    using TestAgent.Contract.Serializer;
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
     using ZeroMQ;
@@ -28,17 +28,17 @@
             endpoint = agentSettings.ControlEndpoint;
         }
 
-        public Task<IInputResponse> ExecuteInput(IInputRequest request)
+        public Task<IControlResponse> ExecuteInput(IControlRequest request)
         {
             if (request == null)
                 return null;
 
-            var (type, payload) = InputRequestResponseSerializer.Serialize(request);
+            var (type, payload) = TestAgentRequestResponseSerializer.Serialize(request);
 
             var msg = new ZMessage(
                new List<ZFrame>
                {
-                   new ZFrame("SUT"),
+                   new ZFrame("TESTAGENT"),
                    new ZFrame(type),
                    new ZFrame(payload),
                });
@@ -59,7 +59,7 @@
 
                 var t = rsp.Pop().ReadString();
                 var p = rsp.Pop().ReadString();
-                var resp = InputRequestResponseSerializer.DeserializeResponse(t, p);
+                var resp = TestAgentRequestResponseSerializer.DeserializeResponse(t, p);
                 return Task.FromResult(resp);
             }
         }

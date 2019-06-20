@@ -1,4 +1,4 @@
-﻿namespace TestAutomation.Input.Contract.Interface.Base
+﻿namespace TestAgent.Contract.Interface.Base
 {
     using JetBrains.Annotations;
 

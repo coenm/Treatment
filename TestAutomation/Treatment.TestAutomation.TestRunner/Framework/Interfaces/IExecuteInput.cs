@@ -2,10 +2,10 @@
 {
     using System.Threading.Tasks;
 
-    using global::TestAutomation.Input.Contract.Interface;
+    using TestAgent.Contract.Interface;
 
     public interface IExecuteInput
     {
-        Task<IInputResponse> ExecuteInput(IInputRequest request);
+        Task<IControlResponse> ExecuteInput(IControlRequest request);
     }
 }

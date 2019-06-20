@@ -1,9 +1,9 @@
-﻿namespace TestAutomation.Input.Contract.Interface.Input.Keyboard
+﻿namespace TestAgent.Contract.Interface.Input.Keyboard
 {
     using JetBrains.Annotations;
 
     [PublicAPI]
-    public class KeyUpResponse : IInputResponse
+    public class KeyUpResponse : IControlResponse
     {
     }
 }

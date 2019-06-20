@@ -1,9 +1,9 @@
-﻿namespace TestAutomation.Input.Contract.Interface.Input.Mouse
+﻿namespace TestAgent.Contract.Interface.Input.Mouse
 {
     using JetBrains.Annotations;
 
     [PublicAPI]
-    public class SingleClickResponse : IInputResponse
+    public class SingleClickResponse : IControlResponse
     {
     }
 }

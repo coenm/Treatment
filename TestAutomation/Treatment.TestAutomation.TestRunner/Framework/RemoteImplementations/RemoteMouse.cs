@@ -3,8 +3,8 @@
     using System;
     using System.Threading.Tasks;
 
-    using global::TestAutomation.Input.Contract.Interface.Base;
-    using global::TestAutomation.Input.Contract.Interface.Input.Mouse;
+    using TestAgent.Contract.Interface.Base;
+    using TestAgent.Contract.Interface.Input.Mouse;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
     internal class RemoteMouse : IMouse

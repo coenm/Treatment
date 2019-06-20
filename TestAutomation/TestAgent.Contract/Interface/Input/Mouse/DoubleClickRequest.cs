@@ -1,9 +1,9 @@
-﻿namespace TestAutomation.Input.Contract.Interface.Input.Mouse
+﻿namespace TestAgent.Contract.Interface.Input.Mouse
 {
     using JetBrains.Annotations;
 
     [PublicAPI]
-    public class DoubleClickRequest : IInputRequest
+    public class DoubleClickRequest : IControlRequest
     {
         public MouseButtons Button { get; set; }
     }

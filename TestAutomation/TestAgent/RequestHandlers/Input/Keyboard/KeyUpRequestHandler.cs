@@ -1,28 +1,29 @@
-﻿namespace TestAutomation.InputHandler.RequestHandlers.Input.Keyboard
+﻿namespace TestAgent.RequestHandlers.Input.Keyboard
 {
     using System.Threading.Tasks;
 
     using Dapplo.Windows.Input.Keyboard;
     using JetBrains.Annotations;
-    using TestAutomation.Input.Contract.Interface;
-    using TestAutomation.Input.Contract.Interface.Input.Keyboard;
-    using TestAutomation.InputHandler.RequestHandlers.Input.Keyboard.Mapper;
+    using TestAgent.Contract.Interface;
+    using TestAgent.Contract.Interface.Input.Keyboard;
+    using TestAgent.Implementation;
+    using TestAgent.RequestHandlers.Input.Keyboard.Mapper;
     using Treatment.Helpers.Guards;
 
     [UsedImplicitly]
     public class KeyUpRequestHandler : IRequestHandler
     {
-        public bool CanHandle(IInputRequest request)
+        public bool CanHandle(IControlRequest request)
         {
             return request is KeyUpRequest;
         }
 
-        public Task<IInputResponse> ExecuteAsync(IInputRequest request)
+        public Task<IControlResponse> ExecuteAsync(IControlRequest request)
         {
             return ExecuteAsync(request as KeyUpRequest);
         }
 
-        private Task<IInputResponse> ExecuteAsync(KeyUpRequest request)
+        private Task<IControlResponse> ExecuteAsync(KeyUpRequest request)
         {
             Guard.NotNull(request, nameof(request));
 
@@ -30,7 +31,7 @@
 
             KeyboardInputGenerator.KeyUp(keycodes);
 
-            return Task.FromResult(new KeyUpResponse() as IInputResponse);
+            return Task.FromResult(new KeyUpResponse() as IControlResponse);
         }
     }
 }

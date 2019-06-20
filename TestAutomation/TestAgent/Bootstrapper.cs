@@ -8,7 +8,6 @@
     using JetBrains.Annotations;
     using SimpleInjector;
     using TestAgent.Implementation;
-    using TestAgent.UserInput;
     using TestAgent.ZeroMq.PublishInfrastructure;
     using TestAgent.ZeroMq.RequestReplyInfrastructure;
     using Treatment.Helpers.Guards;
@@ -40,10 +39,6 @@
             container.Collection.Register(typeof(IRequestHandler), typeof(IRequestHandler).Assembly);
             container.Register<IRequestDispatcher, RequestDispatcher>(Lifestyle.Transient);
 
-            // all possible request handlers for input
-            container.Collection.Register(typeof(TestAutomation.InputHandler.RequestHandlers.IRequestHandler), typeof(TestAutomation.InputHandler.RequestHandlers.IRequestHandler).Assembly);
-            container.Register<UserInput.IRequestDispatcher, UserInput.RequestDispatcher>(Lifestyle.Transient);
-
             BootstrapZeroMq(
                 container,
                 endpointRequestResponse,
@@ -70,7 +65,6 @@
             container.Register<IZeroMqSocketFactory, DefaultSocketFactory>(Lifestyle.Singleton);
 
             container.Register<IZeroMqRequestDispatcher, ZeroMqRequestDispatcher>(Lifestyle.Transient);
-            container.Register<UserInputZeroMqRequestDispatcher>(Lifestyle.Transient);
 
             container.Register<ZeroMqPublishProxyConfig>(() => new ZeroMqPublishProxyConfig(
                 new[] { endpointPubSub },
@@ -85,8 +79,6 @@
                 new Dictionary<string, string>
                 {
                     { "TESTAGENT", "inproc://reqrsp" },
-                    { "SUT", "inproc://reqrsp2" }, // todo
-                    // { "SUT", $"tcp://*:{sutReqRspPort}" },
                 }),
                 Lifestyle.Singleton);
 

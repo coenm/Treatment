@@ -2,8 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using CoenM.ZeroMq.Helpers;
+    using CoenM.ZeroMq.Proxy;
     using CoenM.ZeroMq.ProxyExt;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
@@ -26,7 +28,7 @@
         private ZContext ctx;
         private ZSocket frontend;
         private bool socketBound;
-        private ZmqProxyExtended proxy;
+        private ZmqProxy proxy;
         private ZSocket capture;
 
         public ZeroMqReqRepProxyService([NotNull] ZContext context, [NotNull] ZeroMqReqRepProxyConfig config)
@@ -65,7 +67,7 @@
                 if (!Bind())
                     return;
 
-                proxy = ZmqProxyExtended.CreateAndRun(ctx, frontend, backends.ToArray());
+                proxy = ZmqProxy.CreateAndRun(ctx, frontend, backends.First().Socket);
             }
         }
 

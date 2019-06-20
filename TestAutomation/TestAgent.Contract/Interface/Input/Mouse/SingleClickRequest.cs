@@ -1,10 +1,10 @@
-﻿namespace TestAutomation.Input.Contract.Interface.Input.Mouse
+﻿namespace TestAgent.Contract.Interface.Input.Mouse
 {
     using JetBrains.Annotations;
-    using TestAutomation.Input.Contract.Interface.Base;
+    using TestAgent.Contract.Interface.Base;
 
     [PublicAPI]
-    public class SingleClickRequest : IInputRequest
+    public class SingleClickRequest : IControlRequest
     {
         public MouseButtons Button { get; set; }
 

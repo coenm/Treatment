@@ -1,13 +1,13 @@
-﻿namespace TestAutomation.Input.Contract.Interface.Input.Keyboard
+﻿namespace TestAgent.Contract.Interface.Input.Keyboard
 {
     using JetBrains.Annotations;
-    using TestAutomation.Input.Contract.Interface.Input.Enums;
+    using TestAgent.Contract.Interface.Input.Enums;
 
     /// <summary>
     /// Generate a key combination press(es).
     /// </summary>
     [PublicAPI]
-    public class KeyCombinationPressRequest : IInputRequest
+    public class KeyCombinationPressRequest : IControlRequest
     {
         public VirtualKeyCode[] KeyCodes { get; set; }
     }
