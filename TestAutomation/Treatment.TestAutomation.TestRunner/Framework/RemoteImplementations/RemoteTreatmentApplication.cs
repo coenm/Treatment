@@ -6,10 +6,10 @@
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
+    using Treatment.TestAutomation.Contract.Interfaces.Application;
     using Treatment.TestAutomation.Contract.Interfaces.Events;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Application;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Window;
-    using Treatment.TestAutomation.Contract.Interfaces.Treatment;
     using Treatment.TestAutomation.TestRunner.Controls.Framework;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 

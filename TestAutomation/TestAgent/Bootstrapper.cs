@@ -1,7 +1,5 @@
 ﻿namespace TestAgent
 {
-    using System.Collections.Generic;
-
     using CoenM.ZeroMq.ContextService;
     using CoenM.ZeroMq.Socket;
     using CoenM.ZeroMq.Worker;
@@ -76,10 +74,7 @@
             container.Register<ZeroMqReqRepProxyConfig>(
                 () => new ZeroMqReqRepProxyConfig(
                 new[] { endpointReqRsp },
-                new Dictionary<string, string>
-                {
-                    { "TESTAGENT", "inproc://reqrsp" },
-                }),
+                new[] { "inproc://reqrsp" }),
                 Lifestyle.Singleton);
 
             container.Register<IZeroMqReqRepProxyFactory, ZeroMqReqRepProxyFactory>(Lifestyle.Singleton);

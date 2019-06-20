@@ -1,7 +1,7 @@
-﻿namespace Treatment.TestAutomation.Contract.Interfaces.Treatment
+﻿namespace Treatment.TestAutomation.Contract.Interfaces.Application
 {
-    using global::Treatment.TestAutomation.Contract.Interfaces.Framework;
-    using global::Treatment.TestAutomation.Contract.Interfaces.Framework.SingleEventInterface;
+    using Treatment.TestAutomation.Contract.Interfaces.Framework;
+    using Treatment.TestAutomation.Contract.Interfaces.Framework.SingleEventInterface;
 
     public interface ISettingWindow :
         IInitialized,

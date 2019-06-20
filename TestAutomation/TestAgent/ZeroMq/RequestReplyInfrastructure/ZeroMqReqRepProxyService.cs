@@ -1,12 +1,9 @@
 ﻿namespace TestAgent.ZeroMq.RequestReplyInfrastructure
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     using CoenM.ZeroMq.Helpers;
     using CoenM.ZeroMq.Proxy;
-    using CoenM.ZeroMq.ProxyExt;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using ZeroMQ;
@@ -23,10 +20,10 @@
     public class ZeroMqReqRepProxyService : IDisposable
     {
         private readonly ZeroMqReqRepProxyConfig config;
-        private readonly List<ZKeySocket> backends;
         private readonly object syncLock = new object();
         private ZContext ctx;
         private ZSocket frontend;
+        private ZSocket backend;
         private bool socketBound;
         private ZmqProxy proxy;
         private ZSocket capture;
@@ -39,13 +36,17 @@
             ctx = context;
             this.config = config;
 
-            frontend = new ZSocket(ctx, ZSocketType.ROUTER) { Linger = TimeSpan.Zero };
-
-            backends = new List<ZKeySocket>();
-            foreach (var item in config.BackendAddress)
+            frontend = new ZSocket(ctx, ZSocketType.ROUTER)
             {
-                backends.Add(new ZKeySocket(new ZSocket(ctx, ZSocketType.DEALER) { Linger = TimeSpan.Zero }, item.Key, item.Value));
-            }
+                TcpKeepAlive = TcpKeepaliveBehaviour.Enable,
+                Linger = TimeSpan.Zero,
+            };
+
+            backend = new ZSocket(ctx, ZSocketType.DEALER)
+            {
+                TcpKeepAlive = TcpKeepaliveBehaviour.Enable,
+                Linger = TimeSpan.Zero,
+            };
 
             if (!string.IsNullOrWhiteSpace(this.config.CaptureAddress))
             {
@@ -67,7 +68,7 @@
                 if (!Bind())
                     return;
 
-                proxy = ZmqProxy.CreateAndRun(ctx, frontend, backends.First().Socket);
+                proxy = ZmqProxy.CreateAndRun(ctx, frontend, backend);
             }
         }
 
@@ -89,11 +90,9 @@
                 frontend?.Dispose();
                 frontend = null;
 
-                foreach (var backend in backends)
-                {
-                    backend.Socket.Close();
-                    backend.Socket.Dispose();
-                }
+                backend?.Close();
+                backend?.Dispose();
+                backend = null;
 
                 socketBound = false;
             }
@@ -113,9 +112,9 @@
                 }
             }
 
-            foreach (var backend in backends)
+            foreach (var address in config.BackendAddress)
             {
-                if (!backend.Socket.TryBind(backend.Address))
+                if (!backend.TryBind(address))
                 {
                     return false;
                 }

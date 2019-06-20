@@ -38,7 +38,6 @@
             var msg = new ZMessage(
                new List<ZFrame>
                {
-                   new ZFrame("TESTAGENT"),
                    new ZFrame(type),
                    new ZFrame(payload),
                });

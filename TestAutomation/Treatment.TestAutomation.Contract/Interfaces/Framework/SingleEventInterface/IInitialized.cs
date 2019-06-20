@@ -2,7 +2,7 @@
 {
     using System;
 
-    using TestAutomation.Contract.Interfaces.Events.Element;
+    using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
 
     public interface IInitialized
     {

@@ -1,7 +1,6 @@
-﻿namespace Treatment.TestAutomation.Contract.Interfaces.Treatment
+﻿namespace Treatment.TestAutomation.Contract.Interfaces.Application
 {
-    using Framework;
-
+    using global::Treatment.TestAutomation.Contract.Interfaces.Framework;
     using global::Treatment.TestAutomation.Contract.Interfaces.Framework.SingleEventInterface;
 
     public interface IMainWindow :

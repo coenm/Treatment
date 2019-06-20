@@ -1,6 +1,6 @@
 ﻿namespace Treatment.TestAutomation.Contract.Interfaces.Framework
 {
-    using Contract.Interfaces.Framework.SingleEventInterface;
+    using Treatment.TestAutomation.Contract.Interfaces.Framework.SingleEventInterface;
 
     public interface IButton :
         IButtonClicked,

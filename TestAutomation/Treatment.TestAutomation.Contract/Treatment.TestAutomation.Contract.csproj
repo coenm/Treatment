@@ -153,10 +153,10 @@
     <Compile Include="Interfaces\Framework\IUiElement.cs" />
     <Compile Include="Interfaces\Events\MessageBox\MessageBoxClosed.cs" />
     <Compile Include="Interfaces\Events\MessageBox\MessageBoxPoppedUp.cs" />
-    <Compile Include="Interfaces\Treatment\IMainWindow.cs" />
-    <Compile Include="Interfaces\Treatment\IMainViewStatusBar.cs" />
-    <Compile Include="Interfaces\Treatment\IProjectListView.cs" />
-    <Compile Include="Interfaces\Treatment\ISettingWindow.cs" />
+    <Compile Include="Interfaces\Application\IMainWindow.cs" />
+    <Compile Include="Interfaces\Application\IMainViewStatusBar.cs" />
+    <Compile Include="Interfaces\Application\IProjectListView.cs" />
+    <Compile Include="Interfaces\Application\ISettingWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serializer\EventSerializer.cs" />
   </ItemGroup>
