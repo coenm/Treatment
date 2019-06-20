@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\Base\Point.cs" />
     <Compile Include="Interface\Control\GetFileResponse.cs" />
     <Compile Include="Interface\Control\GetSutExecutableRequest.cs" />
     <Compile Include="Interface\Control\GetSutExecutableResponse.cs" />
@@ -70,8 +71,33 @@
     <Compile Include="Interface\ExceptionResponse.cs" />
     <Compile Include="Interface\IControlRequest.cs" />
     <Compile Include="Interface\IControlResponse.cs" />
+    <Compile Include="Interface\IInputRequest.cs" />
+    <Compile Include="Interface\IInputResponse.cs" />
+    <Compile Include="Interface\Input\Enums\VirtualKeyCode.cs" />
+    <Compile Include="Interface\Input\Enums\VirtualKeyCodeExtensions.cs" />
+    <Compile Include="Interface\Input\Keyboard\KeyCombinationPressRequest.cs" />
+    <Compile Include="Interface\Input\Keyboard\KeyCombinationPressResponse.cs" />
+    <Compile Include="Interface\Input\Keyboard\KeyDownRequest.cs" />
+    <Compile Include="Interface\Input\Keyboard\KeyDownResponse.cs" />
+    <Compile Include="Interface\Input\Keyboard\KeyPressesRequest.cs" />
+    <Compile Include="Interface\Input\Keyboard\KeyPressesResponse.cs" />
+    <Compile Include="Interface\Input\Keyboard\KeyUpRequest.cs" />
+    <Compile Include="Interface\Input\Keyboard\KeyUpResponse.cs" />
+    <Compile Include="Interface\Input\Mouse\DoubleClickRequest.cs" />
+    <Compile Include="Interface\Input\Mouse\DoubleClickResponse.cs" />
+    <Compile Include="Interface\Input\Mouse\MouseButtons.cs" />
+    <Compile Include="Interface\Input\Mouse\MouseDownRequest.cs" />
+    <Compile Include="Interface\Input\Mouse\MouseDownResponse.cs" />
+    <Compile Include="Interface\Input\Mouse\MouseUpRequest.cs" />
+    <Compile Include="Interface\Input\Mouse\MouseUpResponse.cs" />
+    <Compile Include="Interface\Input\Mouse\MoveMouseToRequest.cs" />
+    <Compile Include="Interface\Input\Mouse\MoveMouseToResponse.cs" />
+    <Compile Include="Interface\Input\Mouse\SingleClickRequest.cs" />
+    <Compile Include="Interface\Input\Mouse\SingleClickResponse.cs" />
+    <Compile Include="Interface\OkInputResponse.cs" />
     <Compile Include="Interface\OkResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serializer\InputRequestResponseSerializer.cs" />
     <Compile Include="Serializer\TestAgentRequestResponseSerializer.cs" />
   </ItemGroup>
   <ItemGroup>

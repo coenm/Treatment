@@ -135,9 +135,9 @@
       <Project>{0D6DB733-FEBE-4F4D-9D99-3808517A9F7F}</Project>
       <Name>Treatment.Helpers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestAutomation.Contract.Input\TestAutomation.Contract.Input.csproj">
-      <Project>{6aab1c15-076e-4e4b-a0a9-d99210fcaddb}</Project>
-      <Name>TestAutomation.Contract.Input</Name>
+    <ProjectReference Include="..\TestAgent.Contract\TestAgent.Contract.csproj">
+      <Project>{f3973336-d09c-40f2-b8f4-0e6238fcea13}</Project>
+      <Name>TestAgent.Contract</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

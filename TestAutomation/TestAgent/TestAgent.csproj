@@ -248,10 +248,6 @@
       <Project>{f3973336-d09c-40f2-b8f4-0e6238fcea13}</Project>
       <Name>TestAgent.Contract</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestAutomation.Contract.Input\TestAutomation.Contract.Input.csproj">
-      <Project>{6aab1c15-076e-4e4b-a0a9-d99210fcaddb}</Project>
-      <Name>TestAutomation.Contract.Input</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TestAutomation.InputHandler\TestAutomation.InputHandler.csproj">
       <Project>{b1308572-4927-44b9-b5e2-53a648f82a38}</Project>
       <Name>TestAutomation.InputHandler</Name>
