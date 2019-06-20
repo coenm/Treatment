@@ -133,10 +133,8 @@
                     // logger.Debug("ZeroMq Req/Rep worker received message -> process it.");
                     using (messages[1])
                     {
-                        // tmp fix, this is because we proxy between dealer -> req
-                        messages[1].RemoveAt(0);
-
-                        var result = await zMessageHandler.ProcessAsync(messages[1]).ConfigureAwait(false);
+                        var result = await zMessageHandler.ProcessAsync(messages[1])
+                            .ConfigureAwait(false);
 
                         // logger.Debug("ZeroMq Req/Rep worker sending back response.");
                         using (result)

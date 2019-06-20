@@ -19,14 +19,12 @@
             [NotNull] Container container,
             [NotNull] string endpointRequestResponse,
             [NotNull] string endpointPublish,
-            [NotNull] string sutPublishPort,
-            [NotNull] string sutReqRspPort)
+            [NotNull] string sutPublishPort)
         {
             Guard.NotNull(container, nameof(container));
             Guard.NotNull(endpointRequestResponse, nameof(endpointRequestResponse));
             Guard.NotNull(endpointPublish, nameof(endpointPublish));
             Guard.NotNull(sutPublishPort, nameof(sutPublishPort));
-            Guard.NotNull(sutReqRspPort, nameof(sutReqRspPort));
 
             container.RegisterSingleton<IResolveSutExecutable, LocateSolutionConventionBasedResolveSutExecutable>();
 
@@ -41,22 +39,19 @@
                 container,
                 endpointRequestResponse,
                 endpointPublish,
-                sutPublishPort,
-                sutReqRspPort);
+                sutPublishPort);
         }
 
         private static void BootstrapZeroMq(
             [NotNull] Container container,
             [NotNull] string endpointReqRsp,
             [NotNull] string endpointPubSub,
-            [NotNull] string sutPublishPort,
-            [NotNull] string sutReqRspPort)
+            [NotNull] string sutPublishPort)
         {
             Guard.NotNull(container, nameof(container));
             Guard.NotNullOrWhiteSpace(endpointReqRsp, nameof(endpointReqRsp));
             Guard.NotNullOrWhiteSpace(endpointPubSub, nameof(endpointPubSub));
             Guard.NotNullOrWhiteSpace(sutPublishPort, nameof(sutPublishPort));
-            Guard.NotNullOrWhiteSpace(sutReqRspPort, nameof(sutReqRspPort));
 
             // Ensures ZeroMq Context.
             container.Register<IZeroMqContextService, ZeroMqContextService>(Lifestyle.Singleton);

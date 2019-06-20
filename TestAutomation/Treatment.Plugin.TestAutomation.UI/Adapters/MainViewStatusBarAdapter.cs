@@ -180,7 +180,7 @@
                 eventPublisher.PublishClearedAsync(Guid, nameof(StatusConfigFilename));
         }
 
-        private void Items_CurrentChanged(object sender, System.EventArgs e)
+        private void Items_CurrentChanged(object sender, EventArgs e)
         {
             eventPublisher.PublishAsync(new TestAutomationEvent
             {
