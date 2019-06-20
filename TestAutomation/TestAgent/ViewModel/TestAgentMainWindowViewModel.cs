@@ -6,6 +6,9 @@
     using System.Threading;
     using System.Windows.Input;
 
+    using CoenM.ZeroMq.ContextService;
+    using CoenM.ZeroMq.Socket;
+    using CoenM.ZeroMq.Worker;
     using JetBrains.Annotations;
     using Nito.Mvvm;
     using NLog;
@@ -15,9 +18,6 @@
     using TestAgent.ZeroMq.PublishInfrastructure;
     using TestAgent.ZeroMq.RequestReplyInfrastructure;
     using Treatment.Helpers.Guards;
-    using TreatmentZeroMq.ContextService;
-    using TreatmentZeroMq.Socket;
-    using TreatmentZeroMq.Worker;
     using Wpf.Framework.EntityEditor;
     using Wpf.Framework.SynchronizationContext;
     using Wpf.Framework.ViewModel;

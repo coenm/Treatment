@@ -1,4 +1,4 @@
-﻿namespace TreatmentZeroMq.Helpers
+﻿namespace CoenM.ZeroMq.Helpers
 {
     using System.Collections.Generic;
 

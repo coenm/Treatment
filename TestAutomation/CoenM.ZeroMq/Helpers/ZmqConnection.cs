@@ -1,4 +1,4 @@
-﻿namespace TreatmentZeroMq.Helpers
+﻿namespace CoenM.ZeroMq.Helpers
 {
     using System.Runtime.CompilerServices;
     using System.Threading;

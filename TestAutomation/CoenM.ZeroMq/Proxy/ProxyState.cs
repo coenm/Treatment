@@ -1,4 +1,4 @@
-﻿namespace TreatmentZeroMq.Proxy
+﻿namespace CoenM.ZeroMq.Proxy
 {
     public enum ProxyState
     {

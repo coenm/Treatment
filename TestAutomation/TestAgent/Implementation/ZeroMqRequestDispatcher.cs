@@ -4,11 +4,11 @@
     using System.Collections.Concurrent;
     using System.Threading.Tasks;
 
+    using CoenM.ZeroMq.Worker;
     using JetBrains.Annotations;
     using TestAgent.Contract.Interface;
     using TestAgent.Contract.Serializer;
     using Treatment.Helpers.Guards;
-    using TreatmentZeroMq.Worker;
     using ZeroMQ;
 
     [UsedImplicitly]

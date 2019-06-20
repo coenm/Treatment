@@ -260,9 +260,9 @@
       <Project>{0E179745-C4B4-41A0-8EF4-08A5F18FB8CD}</Project>
       <Name>Treatment.TestAutomation.Contract</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Treatment.ZeroMq\Treatment.ZeroMq.csproj">
+    <ProjectReference Include="..\CoenM.ZeroMq\CoenM.ZeroMq.csproj">
       <Project>{3D1F845A-A217-4EE4-9C56-C97EF7EC8F9C}</Project>
-      <Name>Treatment.ZeroMq</Name>
+      <Name>CoenM.ZeroMq</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

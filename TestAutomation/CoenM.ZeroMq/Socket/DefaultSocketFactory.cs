@@ -1,10 +1,10 @@
-﻿namespace TreatmentZeroMq.Socket
+﻿namespace CoenM.ZeroMq.Socket
 {
     using System;
 
+    using CoenM.ZeroMq.ContextService;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using TreatmentZeroMq.ContextService;
     using ZeroMQ;
 
     public class DefaultSocketFactory : IZeroMqSocketFactory

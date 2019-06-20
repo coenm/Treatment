@@ -1,4 +1,4 @@
-﻿namespace TreatmentZeroMq.ProxyExt
+﻿namespace CoenM.ZeroMq.ProxyExt
 {
     using System;
     using System.Collections.Generic;
@@ -6,10 +6,10 @@
     using System.Threading;
     using System.Threading.Tasks;
 
+    using CoenM.ZeroMq.Helpers;
+    using CoenM.ZeroMq.Proxy;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using TreatmentZeroMq.Helpers;
-    using TreatmentZeroMq.Proxy;
     using ZeroMQ;
 
     public class ZmqProxyExtended

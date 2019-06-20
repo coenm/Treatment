@@ -56,7 +56,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAgent.Tests", "TestAuto
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAgent.Contract", "TestAutomation\TestAgent.Contract\TestAgent.Contract.csproj", "{F3973336-D09C-40F2-B8F4-0E6238FCEA13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treatment.ZeroMq", "TestAutomation\Treatment.ZeroMq\Treatment.ZeroMq.csproj", "{3D1F845A-A217-4EE4-9C56-C97EF7EC8F9C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoenM.ZeroMq", "TestAutomation\CoenM.ZeroMq\CoenM.ZeroMq.csproj", "{3D1F845A-A217-4EE4-9C56-C97EF7EC8F9C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAutomation.Contract.Input", "TestAutomation\TestAutomation.Contract.Input\TestAutomation.Contract.Input.csproj", "{6AAB1C15-076E-4E4B-A0A9-D99210FCADDB}"
 EndProject

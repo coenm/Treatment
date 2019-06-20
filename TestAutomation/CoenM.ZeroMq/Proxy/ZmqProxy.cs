@@ -1,13 +1,13 @@
-﻿namespace TreatmentZeroMq.Proxy
+﻿namespace CoenM.ZeroMq.Proxy
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
 
+    using CoenM.ZeroMq.Helpers;
     using JetBrains.Annotations;
     using NLog;
     using Treatment.Helpers.Guards;
-    using TreatmentZeroMq.Helpers;
     using ZeroMQ;
 
     public class ZmqProxy

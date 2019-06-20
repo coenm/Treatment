@@ -2,11 +2,11 @@
 {
     using System.Threading.Tasks;
 
+    using CoenM.ZeroMq.Worker;
     using JetBrains.Annotations;
     using TestAutomation.Input.Contract.Interface;
     using TestAutomation.Input.Contract.Serializer;
     using Treatment.Helpers.Guards;
-    using TreatmentZeroMq.Worker;
     using ZeroMQ;
 
     [UsedImplicitly]

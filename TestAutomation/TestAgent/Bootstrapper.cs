@@ -2,6 +2,9 @@
 {
     using System.Collections.Generic;
 
+    using CoenM.ZeroMq.ContextService;
+    using CoenM.ZeroMq.Socket;
+    using CoenM.ZeroMq.Worker;
     using JetBrains.Annotations;
     using SimpleInjector;
     using TestAgent.Implementation;
@@ -9,9 +12,6 @@
     using TestAgent.ZeroMq.PublishInfrastructure;
     using TestAgent.ZeroMq.RequestReplyInfrastructure;
     using Treatment.Helpers.Guards;
-    using TreatmentZeroMq.ContextService;
-    using TreatmentZeroMq.Socket;
-    using TreatmentZeroMq.Worker;
 
     using IRequestDispatcher = TestAgent.Implementation.IRequestDispatcher;
     using RequestDispatcher = TestAgent.Implementation.RequestDispatcher;

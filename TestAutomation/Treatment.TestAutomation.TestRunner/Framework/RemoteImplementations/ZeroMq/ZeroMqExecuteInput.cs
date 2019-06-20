@@ -4,13 +4,13 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using CoenM.ZeroMq.Helpers;
+    using CoenM.ZeroMq.Socket;
     using global::TestAutomation.Input.Contract.Interface;
     using global::TestAutomation.Input.Contract.Serializer;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
-    using TreatmentZeroMq.Helpers;
-    using TreatmentZeroMq.Socket;
     using ZeroMQ;
 
     [UsedImplicitly]

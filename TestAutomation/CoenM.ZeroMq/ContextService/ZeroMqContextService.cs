@@ -1,4 +1,4 @@
-﻿namespace TreatmentZeroMq.ContextService
+﻿namespace CoenM.ZeroMq.ContextService
 {
     using System;
 

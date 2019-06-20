@@ -2,9 +2,9 @@
 {
     using System;
 
+    using CoenM.ZeroMq.Proxy;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using TreatmentZeroMq.Proxy;
     using ZeroMQ;
 
     /// <summary>

@@ -1,4 +1,4 @@
-﻿namespace TreatmentZeroMq.ProxyExt
+﻿namespace CoenM.ZeroMq.ProxyExt
 {
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;

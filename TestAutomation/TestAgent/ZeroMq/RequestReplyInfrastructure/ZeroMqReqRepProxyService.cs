@@ -3,10 +3,10 @@
     using System;
     using System.Collections.Generic;
 
+    using CoenM.ZeroMq.Helpers;
+    using CoenM.ZeroMq.ProxyExt;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using TreatmentZeroMq.Helpers;
-    using TreatmentZeroMq.ProxyExt;
     using ZeroMQ;
 
     /// <summary>

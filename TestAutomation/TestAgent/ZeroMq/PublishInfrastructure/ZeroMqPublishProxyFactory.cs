@@ -1,8 +1,8 @@
 ﻿namespace TestAgent.ZeroMq.PublishInfrastructure
 {
+    using CoenM.ZeroMq.ContextService;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using TreatmentZeroMq.ContextService;
 
     public class ZeroMqPublishProxyFactory : IZeroMqPublishProxyFactory
     {

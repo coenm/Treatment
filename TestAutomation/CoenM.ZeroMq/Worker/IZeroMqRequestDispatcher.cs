@@ -1,4 +1,4 @@
-﻿namespace TreatmentZeroMq.Worker
+﻿namespace CoenM.ZeroMq.Worker
 {
     using System.Threading.Tasks;
 

@@ -1,4 +1,4 @@
-﻿namespace TreatmentZeroMq.Worker
+﻿namespace CoenM.ZeroMq.Worker
 {
     using System;
     using System.Collections.Generic;
@@ -6,11 +6,11 @@
     using System.Threading;
     using System.Threading.Tasks;
 
+    using CoenM.ZeroMq.ContextService;
+    using CoenM.ZeroMq.Helpers;
     using JetBrains.Annotations;
     using NLog;
     using Treatment.Helpers.Guards;
-    using TreatmentZeroMq.ContextService;
-    using TreatmentZeroMq.Helpers;
     using ZeroMQ;
 
     public class ReqRepWorkerManagement : IWorker

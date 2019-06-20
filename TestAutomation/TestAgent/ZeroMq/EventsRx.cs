@@ -4,11 +4,10 @@
     using System.Reactive.Subjects;
     using System.Threading.Tasks;
 
+    using CoenM.ZeroMq.Socket;
     using JetBrains.Annotations;
     using NLog;
     using Treatment.Helpers.Guards;
-    using Treatment.TestAutomation.Contract.Serializer;
-    using TreatmentZeroMq.Socket;
     using ZeroMQ;
 
     internal class EventsRx
