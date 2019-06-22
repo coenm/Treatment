@@ -14,11 +14,5 @@
         /// </summary>
         [CanBeNull]
         string ZeroMqEventPublishSocket { get; }
-
-        /// <summary>
-        /// ZeroMq private key.
-        /// </summary>
-        [CanBeNull]
-        string ZeroMqKey { get; }
     }
 }

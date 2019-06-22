@@ -16,9 +16,9 @@
     using Treatment.Plugin.TestAutomation.UI.Interfaces;
     using Treatment.Plugin.TestAutomation.UI.Reflection;
     using Treatment.TestAutomation.Contract.Interfaces;
+    using Treatment.TestAutomation.Contract.Interfaces.Application;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
-    using Treatment.TestAutomation.Contract.Interfaces.Treatment;
 
     // Class needs refactoring!!!
     internal class MainViewStatusBarAdapter : ITestAutomationMainViewStatusBar, IMainViewStatusBar
@@ -180,7 +180,7 @@
                 eventPublisher.PublishClearedAsync(Guid, nameof(StatusConfigFilename));
         }
 
-        private void Items_CurrentChanged(object sender, System.EventArgs e)
+        private void Items_CurrentChanged(object sender, EventArgs e)
         {
             eventPublisher.PublishAsync(new TestAutomationEvent
             {

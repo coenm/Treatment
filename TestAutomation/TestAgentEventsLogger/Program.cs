@@ -4,9 +4,9 @@
     using System.Threading;
     using System.Threading.Tasks;
 
+    using CoenM.ZeroMq.Socket;
     using NLog;
     using SimpleInjector;
-    using TreatmentZeroMq.Socket;
     using ZeroMQ;
 
     public static class Program

@@ -5,8 +5,8 @@
     using System.Threading.Tasks;
 
     using FluentAssertions;
-    using global::TestAutomation.Input.Contract.Interface.Input.Enums;
     using JetBrains.Annotations;
+    using TestAgent.Contract.Interface.Input.Enums;
     using TestHelper;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Application;
     using Treatment.TestAutomation.TestRunner.Controls.Framework;

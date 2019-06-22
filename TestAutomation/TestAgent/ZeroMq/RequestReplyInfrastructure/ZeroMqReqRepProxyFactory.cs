@@ -1,8 +1,8 @@
 ﻿namespace TestAgent.ZeroMq.RequestReplyInfrastructure
 {
+    using CoenM.ZeroMq.ContextService;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using TreatmentZeroMq.ContextService;
 
     public class ZeroMqReqRepProxyFactory : IZeroMqReqRepProxyFactory
     {

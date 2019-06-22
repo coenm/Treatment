@@ -4,7 +4,7 @@
 
     public class ZeroMqReqRepProxyConfig
     {
-        public ZeroMqReqRepProxyConfig(string[] frontendAddress, Dictionary<string, string> backendAddress)
+        public ZeroMqReqRepProxyConfig(string[] frontendAddress, string[] backendAddress)
         {
             FrontendAddress = frontendAddress;
             BackendAddress = backendAddress;
@@ -14,6 +14,6 @@
 
         public string CaptureAddress { get; set; }
 
-        public Dictionary<string, string> BackendAddress { get; }
+        public string[] BackendAddress { get; }
     }
 }

@@ -6,9 +6,9 @@
     using System.Reactive.Linq;
 
     using JetBrains.Annotations;
+    using Treatment.TestAutomation.Contract.Interfaces.Application;
     using Treatment.TestAutomation.Contract.Interfaces.Events;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
-    using Treatment.TestAutomation.Contract.Interfaces.Treatment;
     using Treatment.TestAutomation.TestRunner.Controls.Framework;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 

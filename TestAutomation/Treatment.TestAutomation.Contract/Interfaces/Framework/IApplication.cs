@@ -1,8 +1,8 @@
 ﻿namespace Treatment.TestAutomation.Contract.Interfaces.Framework
 {
-    using global::Treatment.TestAutomation.Contract.Interfaces.Framework.SingleEventInterface;
     using JetBrains.Annotations;
-    using Treatment;
+    using Treatment.TestAutomation.Contract.Interfaces.Application;
+    using Treatment.TestAutomation.Contract.Interfaces.Framework.SingleEventInterface;
 
     public interface IApplication :
         IApplicationActivated,

@@ -3,11 +3,11 @@
     using System.Threading;
     using System.Threading.Tasks;
 
+    using CoenM.ZeroMq.Helpers;
+    using CoenM.ZeroMq.Socket;
     using JetBrains.Annotations;
     using NLog;
     using Treatment.Helpers.Guards;
-    using TreatmentZeroMq.Helpers;
-    using TreatmentZeroMq.Socket;
     using ZeroMQ;
 
     public class AgentContext : IAgentContext

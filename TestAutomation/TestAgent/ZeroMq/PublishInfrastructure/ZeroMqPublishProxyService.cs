@@ -2,9 +2,9 @@
 {
     using System;
 
+    using CoenM.ZeroMq.Proxy;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using TreatmentZeroMq.Proxy;
     using ZeroMQ;
 
     /// <summary>
@@ -66,7 +66,7 @@
                 // Do NOT dispose the ctx. We don't own the context, only use it.
                 ctx = null;
 
-                proxy.Dispose();
+                proxy?.Dispose();
                 proxy = null;
 
                 capture?.Close();

@@ -7,7 +7,5 @@
         public const string AgentPublishPort = "5556";
 
         public const string SutPublishPort = "5557";
-
-        public const string SutReqRspPort = "5558";
     }
 }

@@ -1,12 +1,10 @@
 ﻿namespace TestAgent.ZeroMq.RequestReplyInfrastructure
 {
     using System;
-    using System.Collections.Generic;
 
+    using CoenM.ZeroMq.Proxy;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using TreatmentZeroMq.Helpers;
-    using TreatmentZeroMq.ProxyExt;
     using ZeroMQ;
 
     /// <summary>
@@ -21,35 +19,32 @@
     public class ZeroMqReqRepProxyService : IDisposable
     {
         private readonly ZeroMqReqRepProxyConfig config;
-        private readonly List<ZKeySocket> backends;
         private readonly object syncLock = new object();
         private ZContext ctx;
         private ZSocket frontend;
-        private bool socketBound;
-        private ZmqProxyExtended proxy;
+        private ZSocket backend;
         private ZSocket capture;
+        private bool socketBound;
+
+        private ZmqProxy proxy;
 
         public ZeroMqReqRepProxyService([NotNull] ZContext context, [NotNull] ZeroMqReqRepProxyConfig config)
         {
             Guard.NotNull(context, nameof(context));
             Guard.NotNull(config, nameof(config));
 
+            this.config = config;
             ctx = context;
             this.config = config;
 
             frontend = new ZSocket(ctx, ZSocketType.ROUTER) { Linger = TimeSpan.Zero };
+            backend = new ZSocket(ctx, ZSocketType.DEALER) { Linger = TimeSpan.Zero };
 
-            backends = new List<ZKeySocket>();
-            foreach (var item in config.BackendAddress)
-            {
-                backends.Add(new ZKeySocket(new ZSocket(ctx, ZSocketType.DEALER) { Linger = TimeSpan.Zero }, item.Key, item.Value));
-            }
+            if (string.IsNullOrWhiteSpace(this.config.CaptureAddress))
+                return;
 
-            if (!string.IsNullOrWhiteSpace(this.config.CaptureAddress))
-            {
-                // this.logger.Info("Creating a capture socket for the ReqRep proxy.");
-                capture = new ZSocket(ctx, ZSocketType.PUB) { Linger = TimeSpan.Zero };
-            }
+            // this.logger.Info("Creating a capture socket for the ReqRep proxy.");
+            capture = new ZSocket(ctx, ZSocketType.PUB) { Linger = TimeSpan.Zero };
         }
 
         public void Start()
@@ -65,7 +60,7 @@
                 if (!Bind())
                     return;
 
-                proxy = ZmqProxyExtended.CreateAndRun(ctx, frontend, backends.ToArray());
+                proxy = ZmqProxy.CreateAndRun(ctx, frontend, backend, capture);
             }
         }
 
@@ -87,11 +82,9 @@
                 frontend?.Dispose();
                 frontend = null;
 
-                foreach (var backend in backends)
-                {
-                    backend.Socket.Close();
-                    backend.Socket.Dispose();
-                }
+                backend?.Close();
+                backend?.Dispose();
+                backend = null;
 
                 socketBound = false;
             }
@@ -102,26 +95,29 @@
             if (socketBound)
                 return true;
 
+            ZError error;
+
             foreach (var address in config.FrontendAddress)
             {
-                if (!frontend.Bind(address, out _))
+                if (!frontend.Bind(address, out error))
                 {
                     // logger.Error($"Frontend socket of ReqRep proxy could not bind to {address}. {error.Text}");
                     return false;
                 }
             }
 
-            foreach (var backend in backends)
+            foreach (var address in config.BackendAddress)
             {
-                if (!backend.Socket.TryBind(backend.Address))
+                if (!backend.Bind(address, out error))
                 {
+                    // logger.Error($"Backend socket of ReqRep proxy could not bind to {address}. {error.Text}");
                     return false;
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(config.CaptureAddress))
             {
-                if (!capture.Bind(config.CaptureAddress, out _))
+                if (!capture.Bind(config.CaptureAddress, out error))
                 {
                     // logger.Error($"Capture socket of ReqRep proxy could not bind to {config.CaptureAddress}. {error.Text}");
                     return false;
