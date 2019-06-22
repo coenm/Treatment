@@ -28,8 +28,8 @@ steps:
   displayName: 'Run gitversion'
   inputs:
     filename: '$(Build.SourcesDirectory)/tools/dotnet-gitversion'
-    arguments: '/output buildserver'	
-	
+    arguments: '/output buildserver'
+
 - task: NuGetToolInstaller@0
 
 - task: NuGetCommand@2
