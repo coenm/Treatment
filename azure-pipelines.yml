@@ -6,11 +6,30 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
   solution: '**/*.sln'
   buildPlatform: 'x64'
   buildConfiguration: 'Release'
+  GitVersionToolVersion: 5.0.0-beta3-33
+
 
 steps:
+
+# Install gitversion as a dotnet tool.
+- task: DotNetCoreCLI@2
+  displayName: 'Install gitverion as dotnet tool'
+  inputs:
+    command: custom
+    custom: tool
+    arguments: 'install GitVersion.Tool --version $(GitVersionToolVersion) --tool-path $(Build.SourcesDirectory)/tools'
+
+# Run gitversion to determine a version number and make them available as environment variables.
+- task: CmdLine@1
+  displayName: 'Run gitversion'
+  inputs:
+    filename: '$(Build.SourcesDirectory)/tools/dotnet-gitversion'
+    arguments: '/output buildserver'	
+	
 - task: NuGetToolInstaller@0
 
 - task: NuGetCommand@2
