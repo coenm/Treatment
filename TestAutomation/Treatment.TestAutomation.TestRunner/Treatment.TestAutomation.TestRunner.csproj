@@ -194,7 +194,7 @@
       <Name>TestHelper</Name>
     </ProjectReference>
     <ProjectReference Include="..\TestAgent.Contract\TestAgent.Contract.csproj">
-      <Project>{F3973336-D09C-40F2-B8F4-0E6238FCEA13}</Project>
+      <Project>{5b038bc6-c6b7-4cf2-ac68-41a6fc95164d}</Project>
       <Name>TestAgent.Contract</Name>
     </ProjectReference>
     <ProjectReference Include="..\Treatment.TestAutomation.Contract\Treatment.TestAutomation.Contract.csproj">
