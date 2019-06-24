@@ -53,9 +53,12 @@ steps:
   displayName: 'Run unittests'
   inputs:
     testAssemblyVer2: |
-     !**\bin\$(buildPlatform)\$(buildConfiguration)\Treatment.TestAutomation.TestRunner.dll
      **\bin\$(buildPlatform)\$(buildConfiguration)\*.Tests.dll
      !**\obj\**
-     
+     !**\xunit.runner.visualstudio.testadapter.dll
+     !**\xunit.runner.visualstudio.dotnetcore.testadapter.dll
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
+    runInParallel: false
+    runTestsInIsolation: true
+    codeCoverageEnabled: true
