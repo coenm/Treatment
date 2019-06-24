@@ -14,15 +14,13 @@ variables:
     value: 'x64'
   - name: buildConfiguration
     value: 'Release'
-#  - name: GitVersionToolVersion
-#    value: 5.0.0-beta3-33  
   - group: ExternalToolsInfo
 
 steps:
 
 # Install gitversion as a dotnet tool.
 - task: DotNetCoreCLI@2
-  displayName: 'Install gitverion as dotnet tool'
+  displayName: 'Install gitversion as dotnet tool'
   inputs:
     command: custom
     custom: tool
@@ -48,6 +46,12 @@ steps:
     configuration: '$(buildConfiguration)'
 
 - task: VSTest@2
+  displayName: 'Run unittests'
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    testAssemblyVer2: |
+     !**\bin\$(buildPlatform)\$(buildConfiguration)\Treatment.TestAutomation.TestRunner.dll
+     **\bin\$(buildPlatform)\$(buildConfiguration)\*.Tests.dll
+     !**\obj\**
+     
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
