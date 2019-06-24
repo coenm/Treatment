@@ -70,7 +70,7 @@
                 // swallow
             }
 
-            return GetRootDirectoryAppVeyorFullPathImpl();
+            return GetRootDirectoryLocalFullPathImpl();
         }
 
         private static string GetRootDirectoryAppVeyorFullPathImpl()
