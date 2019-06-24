@@ -110,6 +110,18 @@
 
             var appveyorBuildFolder = Environment.GetEnvironmentVariable(envKey);
             if (string.IsNullOrWhiteSpace(appveyorBuildFolder))
+            {
+                envKey = "BuildSourcesDirectory";
+                appveyorBuildFolder = Environment.GetEnvironmentVariable(envKey);
+            }
+
+            if (string.IsNullOrWhiteSpace(appveyorBuildFolder))
+            {
+                envKey = "Build_SourcesDirectory";
+                appveyorBuildFolder = Environment.GetEnvironmentVariable(envKey);
+            }
+
+            if (string.IsNullOrWhiteSpace(appveyorBuildFolder))
                 throw new NullReferenceException($"No directory found in env variable '{envKey}'");
 
             var directory = new DirectoryInfo(appveyorBuildFolder);
