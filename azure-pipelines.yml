@@ -6,12 +6,17 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  DOTNET_CLI_TELEMETRY_OPTOUT: 1
-  solution: '**/*.sln'
-  buildPlatform: 'x64'
-  buildConfiguration: 'Release'
-  GitVersionToolVersion: 5.0.0-beta3-33
-
+  - name: DOTNET_CLI_TELEMETRY_OPTOUT
+    value: 1
+  - name: solution
+    value: '**/*.sln'
+  - name: buildPlatform
+    value: 'x64'
+  - name: buildConfiguration
+    value: 'Release'
+#  - name: GitVersionToolVersion
+#    value: 5.0.0-beta3-33  
+  - group: ExternalToolsInfo
 
 steps:
 
@@ -21,7 +26,7 @@ steps:
   inputs:
     command: custom
     custom: tool
-    arguments: 'install GitVersion.Tool --version $(GitVersionToolVersion) --tool-path $(Build.SourcesDirectory)/tools'
+    arguments: 'install GitVersion.Tool --version $(GITVERSION_VERSION) --tool-path $(Build.SourcesDirectory)/tools'
 
 # Run gitversion to determine a version number and make them available as environment variables.
 - task: CmdLine@1
