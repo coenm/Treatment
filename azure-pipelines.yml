@@ -12,6 +12,10 @@ pool:
 variables:
   - name: DOTNET_CLI_TELEMETRY_OPTOUT
     value: 1
+  - name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
+    value: 1
+  - name: AZURE_DEVOPS
+    value: true
   - name: solution
     value: '**/*.sln'
   - name: buildPlatform
