@@ -13,6 +13,7 @@
         private static readonly Lazy<bool> RunsOnContinuousIntegration = new Lazy<bool>(IsContinuousIntegrationImpl);
         private static readonly Lazy<bool> RunsOnContinuousIntegrationTravis = new Lazy<bool>(IsRunningOnTravisImpl);
         private static readonly Lazy<bool> RunsOnContinuousIntegrationAppVeyor = new Lazy<bool>(IsRunningOnAppVeyorImpl);
+        private static readonly Lazy<bool> RunsOnContinuousIntegrationDevOps = new Lazy<bool>(IsRunningOnDevOpsImpl);
 
         /// <summary>
         /// Gets a value indicating whether test execution runs on CI.
@@ -23,6 +24,8 @@
         public static bool RunsOnTravis => RunsOnContinuousIntegrationTravis.Value;
 
         public static bool RunsOnAppVeyor => RunsOnContinuousIntegrationAppVeyor.Value;
+
+        public static bool RunsOnAzureDevOps => RunsOnContinuousIntegrationDevOps.Value;
 
         public static bool IsLinux => RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 
@@ -43,15 +46,12 @@
                    .Replace('\\', Path.DirectorySeparatorChar);
         }
 
-        private static bool IsContinuousIntegrationImpl()
-        {
-            return bool.TryParse(Environment.GetEnvironmentVariable("CI"), out var isCi) && isCi;
-        }
+        private static bool IsContinuousIntegrationImpl() => bool.TryParse(Environment.GetEnvironmentVariable("CI"), out var isCi) && isCi;
 
-        private static bool IsRunningOnAppVeyorImpl()
-        {
-            return bool.TryParse(Environment.GetEnvironmentVariable("APPVEYOR"), out var value) && value;
-        }
+        private static bool IsRunningOnAppVeyorImpl() => bool.TryParse(Environment.GetEnvironmentVariable("APPVEYOR"), out var value) && value;
+
+        // note that this env variable is not set by default. I've set this one in my azure-pipelines
+        private static bool IsRunningOnDevOpsImpl() => bool.TryParse(Environment.GetEnvironmentVariable("AZURE_DEVOPS"), out var value) && value;
 
         private static bool IsRunningOnTravisImpl()
         {
@@ -64,13 +64,16 @@
             {
                 if (RunsOnAppVeyor)
                     return GetRootDirectoryAppVeyorFullPathImpl();
+
+                if (RunsOnAzureDevOps)
+                    return GetRootDirectoryAzureDevOpsFullPathImpl();
             }
             catch (Exception)
             {
                 // swallow
             }
 
-            return GetRootDirectoryAppVeyorFullPathImpl();
+            return GetRootDirectoryLocalFullPathImpl();
         }
 
         private static string GetRootDirectoryAppVeyorFullPathImpl()
@@ -79,7 +82,47 @@
 
             var appveyorBuildFolder = Environment.GetEnvironmentVariable(envKey);
             if (string.IsNullOrWhiteSpace(appveyorBuildFolder))
-                throw new NullReferenceException($"No directory found in env variable {envKey}");
+                throw new NullReferenceException($"No directory found in env variable '{envKey}'");
+
+            var directory = new DirectoryInfo(appveyorBuildFolder);
+
+            while (!directory.EnumerateFiles(RepositoryRoot).Any())
+            {
+                try
+                {
+                    directory = directory.Parent;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Unable to find root directory from '{appveyorBuildFolder}' because of {ex.GetType().Name}!", ex);
+                }
+
+                if (directory == null)
+                    throw new Exception($"Unable to find root directory from '{appveyorBuildFolder}'!");
+            }
+
+            return directory.FullName;
+        }
+
+        private static string GetRootDirectoryAzureDevOpsFullPathImpl()
+        {
+            var envKey = "Build.SourcesDirectory";
+
+            var appveyorBuildFolder = Environment.GetEnvironmentVariable(envKey);
+            if (string.IsNullOrWhiteSpace(appveyorBuildFolder))
+            {
+                envKey = "BuildSourcesDirectory";
+                appveyorBuildFolder = Environment.GetEnvironmentVariable(envKey);
+            }
+
+            if (string.IsNullOrWhiteSpace(appveyorBuildFolder))
+            {
+                envKey = "Build_SourcesDirectory";
+                appveyorBuildFolder = Environment.GetEnvironmentVariable(envKey);
+            }
+
+            if (string.IsNullOrWhiteSpace(appveyorBuildFolder))
+                throw new NullReferenceException($"No directory found in env variable '{envKey}'");
 
             var directory = new DirectoryInfo(appveyorBuildFolder);
 

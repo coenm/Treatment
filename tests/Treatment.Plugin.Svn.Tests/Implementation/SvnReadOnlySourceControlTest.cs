@@ -1,5 +1,6 @@
 ﻿namespace Treatment.Plugin.Svn.Tests.Implementation
 {
+    using System.Linq;
     using System.Runtime.CompilerServices;
 
     using ApprovalTests;
@@ -44,7 +45,7 @@
             else
             {
                 result.Should().BeTrue();
-                root.Should().Be(expectedSvnRootDirectory);
+                DirectoryShouldMatch(root, expectedSvnRootDirectory);
             }
         }
 
@@ -103,10 +104,41 @@
             Approvals.Verify(sanitizedResult);
         }
 
+        private static void DirectoryShouldMatch(string directory1, string directory2)
+        {
+            directory1.Should().NotBeNullOrWhiteSpace();
+            directory2.Should().NotBeNullOrWhiteSpace();
+
+            // make drive uppercase
+            var dir1 = MakeDrivePathUppercase(directory1);
+            var dir2 = MakeDrivePathUppercase(directory2);
+
+            dir1.Should().Be(dir2);
+        }
+
         private static string Sanitizer(string input)
         {
-            var rootPath = TestEnvironment.GetFullPath().Replace("\\", "/");
-            return input.Replace(rootPath, "ROOTPATH");
+            var rootPath = TestEnvironment.GetFullPath().Replace("\\", "/").ToCharArray();
+
+            rootPath[0] = rootPath[0].ToString().ToUpper().First();
+            var rootPathCapitalDrive = new string(rootPath);
+
+            rootPath[0] = rootPath[0].ToString().ToLower().First();
+            var rootPathSmallDrive = new string(rootPath);
+
+            return input
+                .Replace(rootPathCapitalDrive, "ROOTPATH")
+                .Replace(rootPathSmallDrive, "ROOTPATH");
+        }
+
+        private static string MakeDrivePathUppercase(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+                return path;
+
+            var pathArray = path.ToCharArray();
+            pathArray[0] = pathArray[0].ToString().ToUpper().First();
+            return new string(pathArray);
         }
     }
 }

@@ -3,14 +3,44 @@ trigger:
 - feature/*
 
 pool:
-  vmImage: 'windows-latest'
+  name: Hosted Windows 2019 with VS2019
+  demands:
+  - msbuild
+  - visualstudio
+  - vstest
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'x64'
-  buildConfiguration: 'Release'
+  - name: DOTNET_CLI_TELEMETRY_OPTOUT
+    value: 1
+  - name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
+    value: 1
+  - name: AZURE_DEVOPS
+    value: true
+  - name: solution
+    value: '**/*.sln'
+  - name: buildPlatform
+    value: 'x64'
+  - name: buildConfiguration
+    value: 'Release'
+  - group: ExternalToolsInfo
 
 steps:
+
+# Install gitversion as a dotnet tool.
+- task: DotNetCoreCLI@2
+  displayName: 'Install gitversion as dotnet tool'
+  inputs:
+    command: custom
+    custom: tool
+    arguments: 'install GitVersion.Tool --version $(GITVERSION_VERSION) --tool-path $(Build.SourcesDirectory)/tools'
+
+# Run gitversion to determine a version number and make them available as environment variables.
+- task: CmdLine@1
+  displayName: 'Run gitversion'
+  inputs:
+    filename: '$(Build.SourcesDirectory)/tools/dotnet-gitversion'
+    arguments: '/output buildserver'
+
 - task: NuGetToolInstaller@0
 
 - task: NuGetCommand@2
@@ -24,6 +54,15 @@ steps:
     configuration: '$(buildConfiguration)'
 
 - task: VSTest@2
+  displayName: 'Run unittests'
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    testAssemblyVer2: |
+     **\bin\$(buildPlatform)\$(buildConfiguration)\*.Tests.dll
+     !**\obj\**
+     !**\xunit.runner.visualstudio.testadapter.dll
+     !**\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
+    runInParallel: false
+    runTestsInIsolation: true
+    codeCoverageEnabled: true
