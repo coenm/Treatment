@@ -24,5 +24,9 @@
         IComboBox ComboVersionControlProvider { get; }
 
         ICheckBox DelayExecution { get; }
+
+        ITextBox DelayExecutionMinValue { get; }
+
+        ITextBox DelayExecutionMaxValue { get; }
     }
 }

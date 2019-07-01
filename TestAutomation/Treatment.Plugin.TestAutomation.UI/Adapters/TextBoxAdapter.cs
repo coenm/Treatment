@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Windows.Controls;
-
+    using Helpers.TextBox;
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers;
@@ -40,6 +40,7 @@
                                           c => FocusableChanged?.Invoke(this, c),
                                           c => GotFocus?.Invoke(this, c),
                                           c => LostFocus?.Invoke(this, c)),
+                          new TextBoxTextChangedHelper(item, c => TextValueChanged?.Invoke(this, c)),
                       };
 
             eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IButton));
@@ -58,6 +59,8 @@
         public event EventHandler<LostFocus> LostFocus;
 
         public event EventHandler<KeyboardFocusChanged> KeyboardFocusChanged;
+
+        public event EventHandler<TextValueChanged> TextValueChanged;
 
         public Guid Guid { get; }
 

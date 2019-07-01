@@ -46,6 +46,14 @@
                                         IsEnabled = ((IsEnabledChanged)ev).Enabled;
                                         IsEnabledChanged?.Invoke(this, (IsEnabledChanged)ev);
                                     }),
+
+                             filter
+                                 .Where(ev => ev is TextValueChanged)
+                                 .Subscribe(ev =>
+                                    {
+                                        Value = ((TextValueChanged)ev).Text;
+                                        TextValueChanged?.Invoke(this, (TextValueChanged)ev);
+                                    }),
                          };
         }
 
@@ -62,6 +70,8 @@
         public event EventHandler<LostFocus> LostFocus;
 
         public event EventHandler<KeyboardFocusChanged> KeyboardFocusChanged;
+
+        public event EventHandler<TextValueChanged> TextValueChanged;
 
         public string Value { get; private set; }
 

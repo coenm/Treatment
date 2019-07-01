@@ -28,6 +28,8 @@
         [CanBeNull] private ITestAutomationComboBox comboSearchProvider;
         [CanBeNull] private ITestAutomationComboBox comboVersionControlProvider;
         [CanBeNull] private ITestAutomationCheckBox delayExecution;
+        [CanBeNull] private ITestAutomationTextBox delayExecutionMinValue;
+        [CanBeNull] private ITestAutomationTextBox delayExecutionMaxValue;
 
         public SettingWindowAdapter([NotNull] SettingsWindow settingsWindow, [NotNull] IEventPublisher eventPublisher)
         {
@@ -94,6 +96,10 @@
 
         public ICheckBox DelayExecution => delayExecution;
 
+        public ITextBox DelayExecutionMinValue => delayExecutionMinValue;
+
+        public ITextBox DelayExecutionMaxValue => delayExecutionMaxValue;
+
         public void Dispose()
         {
             helpers.ForEach(helper => helper.Dispose());
@@ -134,6 +140,18 @@
                 FieldsHelper.FindFieldInUiElementByName<CheckBox>(settingsWindow, nameof(DelayExecution)),
                 eventPublisher));
             delayExecution?.Initialize();
+
+            UpdateDelayExecutionMinValue(
+                new TextBoxAdapter(
+                    FieldsHelper.FindFieldInUiElementByName<TextBox>(settingsWindow, nameof(DelayExecutionMinValue)),
+                    eventPublisher));
+            delayExecutionMinValue?.Initialize();
+
+            UpdateDelayExecutionMaxValue(
+                new TextBoxAdapter(
+                    FieldsHelper.FindFieldInUiElementByName<TextBox>(settingsWindow, nameof(DelayExecutionMaxValue)),
+                    eventPublisher));
+            delayExecutionMaxValue?.Initialize();
         }
 
         private void UpdateBrowseRootDirectory(ITestAutomationButton value)
@@ -184,6 +202,26 @@
                 eventPublisher.PublishAssignedAsync(Guid, nameof(DelayExecution), value.Guid);
             else
                 eventPublisher.PublishClearedAsync(Guid, nameof(DelayExecution));
+        }
+
+        private void UpdateDelayExecutionMaxValue(ITestAutomationTextBox value)
+        {
+            delayExecutionMaxValue = value;
+
+            if (value != null)
+                eventPublisher.PublishAssignedAsync(Guid, nameof(DelayExecutionMaxValue), value.Guid);
+            else
+                eventPublisher.PublishClearedAsync(Guid, nameof(DelayExecutionMaxValue));
+        }
+
+        private void UpdateDelayExecutionMinValue(ITestAutomationTextBox value)
+        {
+            delayExecutionMinValue = value;
+
+            if (value != null)
+                eventPublisher.PublishAssignedAsync(Guid, nameof(DelayExecutionMinValue), value.Guid);
+            else
+                eventPublisher.PublishClearedAsync(Guid, nameof(DelayExecutionMinValue));
         }
     }
 }

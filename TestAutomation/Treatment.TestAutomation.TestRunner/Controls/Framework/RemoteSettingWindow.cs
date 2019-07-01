@@ -83,6 +83,10 @@
 
         public ICheckBox DelayExecution => propertyManager.GetObject<ICheckBox>();
 
+        public ITextBox DelayExecutionMinValue => propertyManager.GetObject<ITextBox>();
+
+        public ITextBox DelayExecutionMaxValue => propertyManager.GetObject<ITextBox>();
+
         public Point Position { get; private set; }
 
         public Size Size { get; private set; }

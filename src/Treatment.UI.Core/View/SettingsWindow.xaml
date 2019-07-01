@@ -91,11 +91,11 @@
       <CheckBox Name="DelayExecution" Grid.Row="3" Grid.Column="1" Margin="2" IsChecked="{Binding Path=DelayExecution}" />
 
       <Label Grid.Row="4" Grid.Column="0" Content="Minimum delay in milliseconds" />
-      <TextBox Name="DelayExecutionMinValue" 
+      <TextBox Name="DelayExecutionMinValue"
                Grid.Row="4" Grid.Column="1" Margin="2" Text="{Binding Path=DelayMinMilliseconds}" IsEnabled="{Binding Path=DelayExecution}"/>
 
       <Label Grid.Row="5" Grid.Column="0" Content="Maximum delay in milliseconds" />
-      <TextBox Name="DelayExecutionMaxValue" 
+      <TextBox Name="DelayExecutionMaxValue"
                Grid.Row="5" Grid.Column="1" Margin="2" Text="{Binding Path=DelayMaxMilliseconds}" IsEnabled="{Binding Path=DelayExecution}"/>
     </Grid>
 

@@ -8,6 +8,7 @@
         ISizeUpdated,
         IFocusChange,
         IKeyboardFocusChanged,
+        ITextValueChanged,
         IControl
     {
     }
