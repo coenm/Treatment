@@ -63,6 +63,10 @@
                         {
                             store.TryAdd(e.Guid, new RemoteComboBox(e.Guid, applicationEvents));
                         }
+                        else if (e.InterfaceType == typeof(ICheckBox).FullName)
+                        {
+                            store.TryAdd(e.Guid, new RemoteCheckBox(e.Guid, applicationEvents));
+                        }
                         else if (e.InterfaceType == typeof(IApplication).FullName)
                         {
                             application = new ApplicationAdapter(new RemoteApplicationImplementation(e.Guid, applicationEvents, this), applicationEvents);
