@@ -23,8 +23,6 @@
             this.callback = callback;
         }
 
-        public Guid Guid { get; }
-
         public void Initialize()
         {
             button.Click += ItemOnClick;
@@ -37,11 +35,7 @@
 
         private void ItemOnClick(object sender, RoutedEventArgs e)
         {
-            var evt = new Clicked
-                      {
-                          Guid = Guid,
-                      };
-            callback.Invoke(evt);
+            callback.Invoke(new Clicked());
         }
     }
 }

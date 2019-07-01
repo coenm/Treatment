@@ -88,6 +88,8 @@
     <Compile Include="Interfaces\Events\Element\DropDownClosed.cs" />
     <Compile Include="Interfaces\Events\Element\DropDownOpened.cs" />
     <Compile Include="Interfaces\Events\Element\Loaded.cs" />
+    <Compile Include="Interfaces\Events\Element\OnChecked.cs" />
+    <Compile Include="Interfaces\Events\Element\OnUnChecked.cs" />
     <Compile Include="Interfaces\Events\Element\SelectionChanged.cs" />
     <Compile Include="Interfaces\Events\NewControlCreated.cs" />
     <Compile Include="Interfaces\Events\Window\WindowActivated.cs" />
@@ -104,6 +106,7 @@
     <Compile Include="Interfaces\Framework\SingleEventInterface\IApplicationDeactivated.cs" />
     <Compile Include="Interfaces\Framework\SingleEventInterface\IApplicationExit.cs" />
     <Compile Include="Interfaces\Framework\SingleEventInterface\IApplicationStartup.cs" />
+    <Compile Include="Interfaces\Framework\SingleEventInterface\ICheckableChanged.cs" />
     <Compile Include="Interfaces\Framework\SingleEventInterface\IDropDownClosed.cs" />
     <Compile Include="Interfaces\Framework\SingleEventInterface\IDropDownOpened.cs" />
     <Compile Include="Interfaces\Framework\SingleEventInterface\IFocusChange.cs" />

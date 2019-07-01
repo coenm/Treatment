@@ -5,9 +5,9 @@
     using System.Windows.Controls;
 
     using JetBrains.Annotations;
-
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers;
+    using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.CheckBox;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Interfaces;
@@ -37,10 +37,14 @@
                           new EnabledChangedHelper(item, c => IsEnabledChanged?.Invoke(this, c)),
                           new KeyboardFocusHelper(item, c => KeyboardFocusChanged?.Invoke(this, c)),
                           new FocusHelper(
-                                          item,
-                                          c => FocusableChanged?.Invoke(this, c),
-                                          c => GotFocus?.Invoke(this, c),
-                                          c => LostFocus?.Invoke(this, c)),
+                              item,
+                              c => FocusableChanged?.Invoke(this, c),
+                              c => GotFocus?.Invoke(this, c),
+                              c => LostFocus?.Invoke(this, c)),
+                          new CheckBoxOnCheckedChangedHelper(
+                              item,
+                              c => OnChecked?.Invoke(this, c),
+                              c => OnUnChecked?.Invoke(this, c)),
                       };
 
             eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IComboBox));
@@ -61,6 +65,10 @@
         public event EventHandler<KeyboardFocusChanged> KeyboardFocusChanged;
 
         public event EventHandler<SelectionChanged> SelectionChanged;
+
+        public event EventHandler<OnChecked> OnChecked;
+
+        public event EventHandler<OnUnChecked> OnUnChecked;
 
         public Guid Guid { get; }
 

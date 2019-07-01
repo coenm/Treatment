@@ -9,6 +9,7 @@
         IFocusChange,
         IKeyboardFocusChanged,
         ISelectionChanged,
+        ICheckableChanged,
         IControl
     {
     }

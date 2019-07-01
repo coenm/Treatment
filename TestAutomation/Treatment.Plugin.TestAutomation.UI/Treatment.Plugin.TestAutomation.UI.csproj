@@ -93,6 +93,7 @@
     <Compile Include="Adapters\ApplicationAdapter.cs" />
     <Compile Include="Adapters\CheckBoxAdapter.cs" />
     <Compile Include="Adapters\ComboBoxAdapter.cs" />
+    <Compile Include="Adapters\Helpers\CheckBox\CheckBoxOnCheckedChangedHelper.cs" />
     <Compile Include="Adapters\Helpers\FrameworkElementControl\SelectorSelectionChangedHelper.cs" />
     <Compile Include="Adapters\Helpers\FrameworkElementControl\DropDownOpenClosedHelper.cs" />
     <Compile Include="Adapters\TextBoxAdapter.cs" />

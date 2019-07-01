@@ -72,6 +72,22 @@
                              filter
                                  .Where(ev => ev is KeyboardFocusChanged)
                                  .Subscribe(ev => { KeyboardFocusChanged?.Invoke(this, (KeyboardFocusChanged)ev); }),
+
+                             filter
+                                 .Where(ev => ev is OnChecked)
+                                 .Subscribe(ev =>
+                                 {
+                                     IsChecked = true;
+                                     OnChecked?.Invoke(this, (OnChecked)ev);
+                                 }),
+
+                             filter
+                                 .Where(ev => ev is OnUnChecked)
+                                 .Subscribe(ev =>
+                                 {
+                                     IsChecked = false;
+                                     OnUnChecked?.Invoke(this, (OnUnChecked)ev);
+                                 }),
                          };
         }
 
@@ -91,6 +107,10 @@
 
         public event EventHandler<SelectionChanged> SelectionChanged;
 
+        public event EventHandler<OnChecked> OnChecked;
+
+        public event EventHandler<OnUnChecked> OnUnChecked;
+
         public bool HasFocus { get; private set; }
 
         public Point Position { get; private set; }
@@ -98,6 +118,8 @@
         public Size Size { get; private set; }
 
         public bool IsEnabled { get; private set; }
+
+        public bool IsChecked { get; private set; }
 
         public void Dispose()
         {
