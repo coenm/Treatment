@@ -81,6 +81,8 @@
 
         public IComboBox ComboVersionControlProvider => propertyManager.GetObject<IComboBox>();
 
+        public ICheckBox DelayExecution => propertyManager.GetObject<ICheckBox>();
+
         public Point Position { get; private set; }
 
         public Size Size { get; private set; }

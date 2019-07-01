@@ -342,6 +342,20 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+    <ProjectReference Include="..\..\TestAutomation\Treatment.Plugin.TestAutomation.UI\Treatment.Plugin.TestAutomation.UI.csproj">
+      <Project>{2c76194b-5b5e-4153-a3a2-eea9ba669ef3}</Project>
+      <Name>Treatment.Plugin.TestAutomation.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Treatment.Plugin.Everything\Treatment.Plugin.Everything.csproj">
+      <Project>{8315a778-6a3d-4881-8889-9e08a292afc0}</Project>
+      <Name>Treatment.Plugin.Everything</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Treatment.Plugin.Svn\Treatment.Plugin.Svn.csproj">
+      <Project>{4ee6347f-2aa4-490d-a178-2b2398eef7b1}</Project>
+      <Name>Treatment.Plugin.Svn</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Treatment.Contract.Plugin\Treatment.Contract.Plugin.csproj">
       <Project>{7e082598-0c9c-4f15-b1b8-bdf6f2b1660c}</Project>

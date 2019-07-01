@@ -22,5 +22,7 @@
         IComboBox ComboSearchProvider { get; }
 
         IComboBox ComboVersionControlProvider { get; }
+
+        ICheckBox DelayExecution { get; }
     }
 }

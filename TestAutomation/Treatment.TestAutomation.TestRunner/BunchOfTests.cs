@@ -99,6 +99,24 @@
                 Application.SettingsWindow.Should().NotBeNull("Application window should not be null");
 
                 await Task.Delay(50);
+
+                var checkbox = Application.SettingsWindow.DelayExecution as RemoteCheckBox;
+                checkbox.Should().NotBeNull("Checkbox DelayExecution expected to be there.");
+                output.WriteLine($"checkbox.IsChecked: {checkbox.IsChecked}");
+
+                output.WriteLine($"x {checkbox.Position.X}  y {checkbox.Position.Y}");
+                output.WriteLine($"x {checkbox.Size.Width}  y {checkbox.Size.Height}");
+                x = (int)(checkbox.Position.X + (checkbox.Size.Width / 2));
+                y = (int)(checkbox.Position.Y + (checkbox.Size.Height / 2));
+                output.WriteLine($"x {x}  y {y}");
+
+                await Mouse.MoveCursorAsync(x, y);
+                await Task.Delay(1000);
+                await Mouse.ClickAsync();
+                await Task.Delay(1000);
+                output.WriteLine($"checkbox.IsChecked: {checkbox.IsChecked}");
+                await Task.Delay(1000);
+
                 var combo = Application.SettingsWindow.ComboSearchProvider as RemoteComboBox;
                 combo.Should().NotBeNull();
                 output.WriteLine($"x {combo.Position.X}  y {combo.Position.Y}");
