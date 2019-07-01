@@ -47,7 +47,7 @@
                               c => OnUnChecked?.Invoke(this, c)),
                       };
 
-            eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IComboBox));
+            eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(ICheckBox));
         }
 
         public event EventHandler<PositionUpdated> PositionUpdated;

@@ -342,11 +342,21 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
     <ProjectReference Include="..\..\TestAutomation\Treatment.Plugin.TestAutomation.UI\Treatment.Plugin.TestAutomation.UI.csproj">
       <Project>{2c76194b-5b5e-4153-a3a2-eea9ba669ef3}</Project>
       <Name>Treatment.Plugin.TestAutomation.UI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Treatment.Plugin.Everything\Treatment.Plugin.Everything.csproj">
+      <Project>{8315a778-6a3d-4881-8889-9e08a292afc0}</Project>
+      <Name>Treatment.Plugin.Everything</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Treatment.Plugin.Svn\Treatment.Plugin.Svn.csproj">
+      <Project>{4ee6347f-2aa4-490d-a178-2b2398eef7b1}</Project>
+      <Name>Treatment.Plugin.Svn</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Treatment.Contract.Plugin\Treatment.Contract.Plugin.csproj">
       <Project>{7e082598-0c9c-4f15-b1b8-bdf6f2b1660c}</Project>
       <Name>Treatment.Contract.Plugin</Name>
@@ -362,14 +372,6 @@
     <ProjectReference Include="..\Treatment.Helpers\Treatment.Helpers.csproj">
       <Project>{0d6db733-febe-4f4d-9d99-3808517a9f7f}</Project>
       <Name>Treatment.Helpers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Treatment.Plugin.Everything\Treatment.Plugin.Everything.csproj">
-      <Project>{8315a778-6a3d-4881-8889-9e08a292afc0}</Project>
-      <Name>Treatment.Plugin.Everything</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Treatment.Plugin.Svn\Treatment.Plugin.Svn.csproj">
-      <Project>{4ee6347f-2aa4-490d-a178-2b2398eef7b1}</Project>
-      <Name>Treatment.Plugin.Svn</Name>
     </ProjectReference>
     <ProjectReference Include="..\Treatment.UI.Core\Treatment.UI.Core.csproj">
       <Project>{046a5e90-0ffd-46ab-875c-f3a4f2a4a8c3}</Project>
