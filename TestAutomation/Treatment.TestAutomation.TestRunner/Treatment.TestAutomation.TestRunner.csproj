@@ -154,6 +154,7 @@
     <Compile Include="Framework\Interfaces\ITestFramework.cs" />
     <Compile Include="Framework\Interfaces\ITestAgent.cs" />
     <Compile Include="Framework\Interfaces\MouseExtensions.cs" />
+    <Compile Include="Framework\RemoteImplementations\RemoteApplicationImplementation.cs" />
     <Compile Include="Framework\RemoteImplementations\RemoteObjectManager.cs" />
     <Compile Include="Framework\RemoteImplementations\ZeroMq\ZeroMqExecuteControl.cs" />
     <Compile Include="Framework\RemoteImplementations\ZeroMq\ZeroMqExecuteInput.cs" />
@@ -163,7 +164,7 @@
     <Compile Include="XUnit\TestFramework.cs" />
     <Compile Include="Framework\TestFrameworkFixture.cs" />
     <Compile Include="Framework\RemoteImplementations\RemoteTestAgent.cs" />
-    <Compile Include="Framework\RemoteImplementations\RemoteTreatmentApplication.cs" />
+    <Compile Include="Framework\RemoteImplementations\ApplicationAdapter.cs" />
     <Compile Include="Framework\RemoteImplementations\RemoteKeyboard.cs" />
     <Compile Include="Framework\RemoteImplementations\RemoteMouse.cs" />
     <Compile Include="Helpers\FileSystem.cs" />

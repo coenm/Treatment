@@ -91,6 +91,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Adapters\ApplicationAdapter.cs" />
+    <Compile Include="Adapters\CheckBoxAdapter.cs" />
     <Compile Include="Adapters\ComboBoxAdapter.cs" />
     <Compile Include="Adapters\Helpers\FrameworkElementControl\SelectorSelectionChangedHelper.cs" />
     <Compile Include="Adapters\Helpers\FrameworkElementControl\DropDownOpenClosedHelper.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Interfaces\IGuid.cs" />
     <Compile Include="Interfaces\ITestAutomationButton.cs" />
     <Compile Include="Interfaces\ITestAutomationApplication.cs" />
+    <Compile Include="Interfaces\ITestAutomationCheckBox.cs" />
     <Compile Include="Interfaces\ITestAutomationComboBox.cs" />
     <Compile Include="Interfaces\ITestAutomationListView.cs" />
     <Compile Include="Interfaces\ITestAutomationMainViewStatusBar.cs" />

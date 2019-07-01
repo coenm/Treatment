@@ -1,4 +1,5 @@
-﻿<Window x:Class="Treatment.UI.Core.View.SettingsWindow"
+﻿<!-- ReSharper disable UnusedMember.Global -->
+<Window x:Class="Treatment.UI.Core.View.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -79,6 +80,7 @@
                 ItemsSource="{Binding Path=VersionControlProviderNames}"
                 SelectedItem="{Binding Path=VersionControlProviderName}"
                 IsEnabled="{Binding Path=GetVersionControlProvidersTask.IsCompleted}"/>
+
       <fa:ImageAwesome Name="SpinnerVersionControlProvider"
                        Grid.Row="2" Grid.Column="2" MaxWidth="15" MaxHeight="15"
                        Icon="Spinner" Spin="True" SpinDuration="1"
@@ -86,13 +88,15 @@
                        Visibility="{Binding Path=GetVersionControlProvidersTask.IsNotCompleted, Converter={StaticResource BooleanVisibilityConverter}, ConverterParameter=Hidden}"/>
 
       <Label Grid.Row="3" Grid.Column="0" Content="Delay execution" />
-      <CheckBox Grid.Row="3" Grid.Column="1" Margin="2" IsChecked="{Binding Path=DelayExecution}" />
+      <CheckBox Name="DelayExecution" Grid.Row="3" Grid.Column="1" Margin="2" IsChecked="{Binding Path=DelayExecution}" />
 
       <Label Grid.Row="4" Grid.Column="0" Content="Minimum delay in milliseconds" />
-      <TextBox Grid.Row="4" Grid.Column="1" Margin="2" Text="{Binding Path=DelayMinMilliseconds}" IsEnabled="{Binding Path=DelayExecution}"/>
+      <TextBox Name="DelayExecutionMinValue" 
+               Grid.Row="4" Grid.Column="1" Margin="2" Text="{Binding Path=DelayMinMilliseconds}" IsEnabled="{Binding Path=DelayExecution}"/>
 
       <Label Grid.Row="5" Grid.Column="0" Content="Maximum delay in milliseconds" />
-      <TextBox Grid.Row="5" Grid.Column="1" Margin="2" Text="{Binding Path=DelayMaxMilliseconds}" IsEnabled="{Binding Path=DelayExecution}"/>
+      <TextBox Name="DelayExecutionMaxValue" 
+               Grid.Row="5" Grid.Column="1" Margin="2" Text="{Binding Path=DelayMaxMilliseconds}" IsEnabled="{Binding Path=DelayExecution}"/>
     </Grid>
 
   <StackPanel Grid.Row="1"  Orientation="Horizontal" HorizontalAlignment="Right">
@@ -103,3 +107,4 @@
   </Grid>
 
 </Window>
+<!-- ReSharper restore UnusedMember.Global -->

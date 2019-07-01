@@ -27,6 +27,7 @@
         [CanBeNull] private ITestAutomationTextBox rootDirectory;
         [CanBeNull] private ITestAutomationComboBox comboSearchProvider;
         [CanBeNull] private ITestAutomationComboBox comboVersionControlProvider;
+        [CanBeNull] private ITestAutomationCheckBox delayExecution;
 
         public SettingWindowAdapter([NotNull] SettingsWindow settingsWindow, [NotNull] IEventPublisher eventPublisher)
         {
@@ -91,6 +92,8 @@
 
         public IComboBox ComboVersionControlProvider => comboVersionControlProvider;
 
+        public ICheckBox DelayExecution => delayExecution;
+
         public void Dispose()
         {
             helpers.ForEach(helper => helper.Dispose());
@@ -125,6 +128,12 @@
                     FieldsHelper.FindFieldInUiElementByName<ComboBox>(settingsWindow, nameof(ComboVersionControlProvider)),
                     eventPublisher));
             comboVersionControlProvider?.Initialize();
+
+            UpdateCheckBoxDelayExecution(
+                new CheckBoxAdapter(
+                FieldsHelper.FindFieldInUiElementByName<CheckBox>(settingsWindow, nameof(DelayExecution)),
+                eventPublisher));
+            delayExecution?.Initialize();
         }
 
         private void UpdateBrowseRootDirectory(ITestAutomationButton value)
@@ -165,6 +174,16 @@
                 eventPublisher.PublishAssignedAsync(Guid, nameof(ComboVersionControlProvider), value.Guid);
             else
                 eventPublisher.PublishClearedAsync(Guid, nameof(ComboVersionControlProvider));
+        }
+
+        private void UpdateCheckBoxDelayExecution(ITestAutomationCheckBox value)
+        {
+            delayExecution = value;
+
+            if (value != null)
+                eventPublisher.PublishAssignedAsync(Guid, nameof(DelayExecution), value.Guid);
+            else
+                eventPublisher.PublishClearedAsync(Guid, nameof(DelayExecution));
         }
     }
 }

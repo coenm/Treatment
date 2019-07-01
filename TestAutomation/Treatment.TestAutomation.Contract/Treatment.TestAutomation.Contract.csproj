@@ -95,6 +95,7 @@
     <Compile Include="Interfaces\Events\Window\WindowClosed.cs" />
     <Compile Include="Interfaces\Events\Window\WindowDeactivated.cs" />
     <Compile Include="Interfaces\Events\Element\Initialized.cs" />
+    <Compile Include="Interfaces\Framework\ICheckBox.cs" />
     <Compile Include="Interfaces\Framework\IComboBox.cs" />
     <Compile Include="Interfaces\Framework\IControl.cs" />
     <Compile Include="Interfaces\Framework\IApplication.cs" />
