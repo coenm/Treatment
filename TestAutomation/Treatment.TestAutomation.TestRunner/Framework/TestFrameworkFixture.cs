@@ -34,7 +34,7 @@
             remove => store.ApplicationAvailable -= value;
         }
 
-        public ITreatmentApplication Application => store.GetApplication() as ITreatmentApplication;
+        public ITreatmentApplication Application => store.GetApplication();
 
         public ITestAgent Agent { get; }
 

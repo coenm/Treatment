@@ -12,7 +12,6 @@
     using Treatment.TestAutomation.TestRunner.Controls.Framework;
     using Treatment.TestAutomation.TestRunner.Framework;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
-    using Treatment.TestAutomation.TestRunner.Framework.RemoteImplementations;
     using Treatment.TestAutomation.TestRunner.XUnit;
     using Xunit;
     using Xunit.Abstractions;
@@ -81,7 +80,7 @@
             mre.WaitOne(15000).Should().BeTrue("Application not started in time");
             // Application.Created.Should().BeTrue();
 
-            ((RemoteTreatmentApplication)Application).WindowActivated += (_, __) => mre2.Set();
+            Application.WindowActivated += (_, __) => mre2.Set();
             mre2.WaitOne(10000).Should().BeTrue("No Window activated in time");
 
             for (var j = 0; j < 5; j++)

@@ -65,7 +65,7 @@
                         }
                         else if (e.InterfaceType == typeof(IApplication).FullName)
                         {
-                            application = new RemoteTreatmentApplication(e.Guid, applicationEvents, this);
+                            application = new ApplicationAdapter(new RemoteApplicationImplementation(e.Guid, applicationEvents, this), applicationEvents);
                             ApplicationAvailable?.Invoke(this, EventArgs.Empty);
                         }
                         else
@@ -78,7 +78,8 @@
 
         public event EventHandler ApplicationAvailable;
 
-        [CanBeNull] public object GetByGuid(Guid guid)
+        [CanBeNull]
+        public object GetByGuid(Guid guid)
         {
             store.TryGetValue(guid, out var result);
             return result;
@@ -91,9 +92,6 @@
         }
 
         [CanBeNull]
-        public IApplication GetApplication()
-        {
-            return application;
-        }
+        public ITreatmentApplication GetApplication() => application;
     }
 }
