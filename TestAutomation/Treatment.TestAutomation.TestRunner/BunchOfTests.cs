@@ -59,7 +59,7 @@
         [Fact]
         public async Task RepeatTest()
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 20; i++)
             {
                 await StartSutAndCheckApplicationCreatedSetting();
                 await Task.Delay(40);
@@ -102,22 +102,24 @@
                 output.WriteLine($"checkbox.IsChecked: {checkbox.IsChecked}");
 
                 await Mouse.MoveMouseCursorToElementAsync(checkbox);
-                await Task.Delay(1000);
                 await Mouse.ClickAsync();
-                await Task.Delay(1000);
                 output.WriteLine($"checkbox.IsChecked: {checkbox.IsChecked}");
-                await Task.Delay(1000);
+                await Task.Delay(100);
 
                 var combo = Application.SettingsWindow.ComboSearchProvider as RemoteComboBox;
                 combo.Should().NotBeNull();
 
-                for (int i = 0; i < 3; i++)
+                for (var i = 0; i < 3; i++)
                 {
                     await Mouse.MoveMouseCursorToElementAsync(combo);
                     await Mouse.ClickAsync();
                     await Keyboard.PressAsync(VirtualKeyCode.Down);
                     await Keyboard.PressAsync(VirtualKeyCode.Up);
                     await Keyboard.PressAsync(VirtualKeyCode.Escape);
+
+                    await Keyboard.PressAsync(VirtualKeyCode.Tab);
+                    await Keyboard.PressAsync(VirtualKeyCode.Tab);
+                    await Keyboard.PressAsync(VirtualKeyCode.Tab);
                 }
 
                 await Keyboard.PressAsync(VirtualKeyCode.Escape);
