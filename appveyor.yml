@@ -57,7 +57,7 @@ build:
 test:
   assemblies:
     only:
-    - '*.Tests.dll'
+    - '**\*.Tests.dll'
 
 after_test:
 - cmd: 7z a TreatmentConsole.%GitVersion_FullSemVer%.zip .\src\Treatment.Console\bin\x64\Release\*.dll
