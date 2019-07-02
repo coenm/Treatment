@@ -23,6 +23,17 @@
     {
     }
 
+    internal interface ITestRunnerControlTextBlock :
+        ITextBlock,
+        IPositionUpdated,
+        ISizeUpdated,
+        IIsEnabledChanged,
+        ITextValueChanged,
+        IControl,
+        ITestRunnerControlPositionable
+    {
+    }
+
     internal interface ITestRunnerControlComboBox :
         IComboBox,
         IPositionUpdated,
@@ -56,9 +67,7 @@
 
     internal interface ITestRunnerControlPositionable :
         IPositionUpdated,
-        IIsEnabledChanged,
-        ISizeUpdated,
-        IFocusChange
+        ISizeUpdated
     {
         bool HasFocus { get; }
 

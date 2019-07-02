@@ -8,10 +8,10 @@
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
-    using Treatment.TestAutomation.Contract.Interfaces.Framework;
+    using Treatment.TestAutomation.TestRunner.Controls.Interfaces;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
-    public class RemoteTextBlock : ITextBlock, IDisposable
+    public class RemoteTextBlock : ITestRunnerControlTextBlock, IDisposable
     {
         [NotNull] private readonly CompositeDisposable disposable;
 
@@ -66,6 +66,8 @@
         public event EventHandler<TextValueChanged> TextValueChanged;
 
         public string Value { get; private set; }
+
+        public bool HasFocus => throw new NotImplementedException();
 
         public Point Position { get; private set; }
 
