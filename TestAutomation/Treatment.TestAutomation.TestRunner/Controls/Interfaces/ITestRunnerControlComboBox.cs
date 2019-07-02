@@ -14,7 +14,8 @@
         IDropDownClosed,
         ISelectionChanged,
         IControl,
-        ITestRunnerControlPositionable
+        ITestRunnerControlPositionable,
+        ITestRunnerControlFocusable
     {
         string SelectedItem { get; }
     }

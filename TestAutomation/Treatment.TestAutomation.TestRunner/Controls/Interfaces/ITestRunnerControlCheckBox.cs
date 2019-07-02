@@ -13,7 +13,8 @@
         ISelectionChanged,
         ICheckableChanged,
         IControl,
-        ITestRunnerControlPositionable
+        ITestRunnerControlPositionable,
+        ITestRunnerControlFocusable
     {
         bool IsChecked { get; }
     }

@@ -12,7 +12,8 @@
         IKeyboardFocusChanged,
         ITextValueChanged,
         IControl,
-        ITestRunnerControlPositionable
+        ITestRunnerControlPositionable,
+        ITestRunnerControlFocusable
     {
     }
 }

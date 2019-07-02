@@ -91,6 +91,8 @@
 
         public Size Size { get; private set; }
 
+        public bool HasFocus => throw new NotImplementedException();
+
         public void Dispose()
         {
             disposable.Dispose();

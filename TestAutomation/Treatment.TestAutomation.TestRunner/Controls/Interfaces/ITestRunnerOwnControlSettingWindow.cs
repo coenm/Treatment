@@ -16,7 +16,8 @@
         ISizeUpdated,
         IFocusChange,
         IControl,
-        ITestRunnerControlPositionable
+        ITestRunnerControlPositionable,
+        ITestRunnerControlFocusable
     {
     }
 }
