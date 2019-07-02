@@ -8,12 +8,8 @@
         IPositionUpdated,
         ISizeUpdated
     {
-        bool HasFocus { get; }
-
         Point Position { get; }
 
         Size Size { get; }
-
-        bool IsEnabled { get; }
     }
 }

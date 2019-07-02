@@ -148,6 +148,7 @@
     <Compile Include="Controls\Framework\RemoteTextBlock.cs" />
     <Compile Include="Controls\Framework\SingleClassObjectManager.cs" />
     <Compile Include="Controls\Interfaces\ITestRunnerControlTextBox.cs" />
+    <Compile Include="Controls\Interfaces\ITestRunnerOwnControlSettingWindow.cs" />
     <Compile Include="Controls\Interfaces\MouseExtensions.cs" />
     <Compile Include="Controls\Interfaces\ITestRunnerControlButton.cs" />
     <Compile Include="Controls\Interfaces\ITestRunnerControlCheckBox.cs" />

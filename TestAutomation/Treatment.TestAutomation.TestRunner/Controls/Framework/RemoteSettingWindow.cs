@@ -7,14 +7,14 @@
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using Treatment.TestAutomation.Contract.Interfaces.Application;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Window;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
+    using Treatment.TestAutomation.TestRunner.Controls.Interfaces;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
     using Treatment.TestAutomation.TestRunner.Framework.RemoteImplementations;
 
-    public class RemoteSettingWindow : ISettingWindow, IDisposable
+    public class RemoteSettingWindow : ITestRunnerOwnControlSettingWindow, IDisposable
     {
         [NotNull] private readonly CompositeDisposable disposable;
         [NotNull] private readonly SingleClassObjectManager propertyManager;
