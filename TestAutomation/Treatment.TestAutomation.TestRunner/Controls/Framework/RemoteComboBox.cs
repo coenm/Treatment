@@ -9,10 +9,10 @@
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.Contract.Interfaces.Events.ButtonBase;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
-    using Treatment.TestAutomation.Contract.Interfaces.Framework;
+    using Treatment.TestAutomation.TestRunner.Controls.Interfaces;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
-    public class RemoteComboBox : IComboBox, IDisposable
+    public class RemoteComboBox : ITestRunnerControlComboBox, IDisposable
     {
         [NotNull] private readonly CompositeDisposable disposable;
 
@@ -126,7 +126,7 @@
 
         public bool IsEnabled { get; private set; }
 
-        public string SelectedItem { get; set; }
+        public string SelectedItem { get; private set; }
 
         public void Dispose()
         {

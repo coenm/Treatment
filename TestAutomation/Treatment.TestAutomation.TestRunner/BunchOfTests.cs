@@ -10,6 +10,7 @@
     using TestHelper;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Application;
     using Treatment.TestAutomation.TestRunner.Controls.Framework;
+    using Treatment.TestAutomation.TestRunner.Controls.Interfaces;
     using Treatment.TestAutomation.TestRunner.Framework;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
     using Treatment.TestAutomation.TestRunner.XUnit;
@@ -38,7 +39,7 @@
 
         private ITestAgent Agent => fixture.Agent;
 
-        [ConditionalHostFact(TestHostMode.Skip, TestHost.AppVeyor)]
+        [Fact]
         public async Task ReadTreatmentConfigFile()
         {
             var started = await Agent.StartSutAsync();
@@ -55,7 +56,7 @@
             content.Should().NotBeNull();
         }
 
-        [ConditionalHostFact(TestHostMode.Skip, TestHost.AppVeyor)]
+        [Fact]
         public async Task RepeatTest()
         {
             for (int i = 0; i < 5; i++)
@@ -65,7 +66,7 @@
             }
         }
 
-        [ConditionalHostFact(TestHostMode.Skip, TestHost.AppVeyor)]
+        [Fact]
         public async Task StartSutAndCheckApplicationCreatedSetting()
         {
             var mre = new ManualResetEvent(false);
@@ -87,13 +88,9 @@
             {
                 // var status = Application.MainWindow.StatusBar.StatusConfigFilename as RemoteTextBlock;
                 var openSettingsButton = Application.MainWindow.OpenSettingsButton as RemoteButton;
-                output.WriteLine($"x {openSettingsButton.Position.X}  y {openSettingsButton.Position.Y}");
-                output.WriteLine($"x {openSettingsButton.Size.Width}  y {openSettingsButton.Size.Height}");
-                var x = (int)(openSettingsButton.Position.X + (openSettingsButton.Size.Width / 2));
-                var y = (int)(openSettingsButton.Position.Y + (openSettingsButton.Size.Height / 2));
-                output.WriteLine($"x {x}  y {y}");
+                openSettingsButton.Should().NotBeNull();
 
-                await Mouse.MoveCursorAsync(x, y);
+                await Mouse.MoveMouseCursorToElementAsync(openSettingsButton);
                 await Mouse.ClickAsync();
                 mre2.WaitOne(1000);
                 Application.SettingsWindow.Should().NotBeNull("Application window should not be null");
@@ -104,13 +101,7 @@
                 checkbox.Should().NotBeNull("Checkbox DelayExecution expected to be there.");
                 output.WriteLine($"checkbox.IsChecked: {checkbox.IsChecked}");
 
-                output.WriteLine($"x {checkbox.Position.X}  y {checkbox.Position.Y}");
-                output.WriteLine($"x {checkbox.Size.Width}  y {checkbox.Size.Height}");
-                x = (int)(checkbox.Position.X + (checkbox.Size.Width / 2));
-                y = (int)(checkbox.Position.Y + (checkbox.Size.Height / 2));
-                output.WriteLine($"x {x}  y {y}");
-
-                await Mouse.MoveCursorAsync(x, y);
+                await Mouse.MoveMouseCursorToElementAsync(checkbox);
                 await Task.Delay(1000);
                 await Mouse.ClickAsync();
                 await Task.Delay(1000);
@@ -119,15 +110,10 @@
 
                 var combo = Application.SettingsWindow.ComboSearchProvider as RemoteComboBox;
                 combo.Should().NotBeNull();
-                output.WriteLine($"x {combo.Position.X}  y {combo.Position.Y}");
-                output.WriteLine($"x {combo.Size.Width}  y {combo.Size.Height}");
-                x = (int)(combo.Position.X + (combo.Size.Width / 2));
-                y = (int)(combo.Position.Y + (combo.Size.Height / 2));
-                output.WriteLine($"x {x}  y {y}");
 
                 for (int i = 0; i < 3; i++)
                 {
-                    await Mouse.MoveCursorAsync(x, y);
+                    await Mouse.MoveMouseCursorToElementAsync(combo);
                     await Mouse.ClickAsync();
                     await Keyboard.PressAsync(VirtualKeyCode.Down);
                     await Keyboard.PressAsync(VirtualKeyCode.Up);
@@ -142,8 +128,8 @@
                 output.WriteLine($"x {window.Position.X}  y {window.Position.Y}");
                 output.WriteLine($"x {window.Size.Width}  y {window.Size.Height}");
 
-                x = (int)(window.Position.X + window.Size.Width - 50);
-                y = (int)(window.Position.Y - 10);
+                var x = (int)(window.Position.X + window.Size.Width - 50);
+                var y = (int)(window.Position.Y - 10);
                 output.WriteLine($"x {x}  y {y}");
                 await Mouse.MoveCursorAsync(x, y);
             }

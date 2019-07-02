@@ -8,10 +8,10 @@
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
-    using Treatment.TestAutomation.Contract.Interfaces.Framework;
+    using Treatment.TestAutomation.TestRunner.Controls.Interfaces;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
-    public class RemoteCheckBox : ICheckBox, IDisposable
+    public class RemoteCheckBox : ITestRunnerControlCheckBox, IDisposable
     {
         [NotNull] private readonly CompositeDisposable disposable;
 

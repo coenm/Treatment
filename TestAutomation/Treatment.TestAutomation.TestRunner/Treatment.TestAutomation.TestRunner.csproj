@@ -121,11 +121,17 @@
     <Reference Include="xunit.assert, Version=2.4.1.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\xunit.assert.2.4.1\lib\netstandard1.1\xunit.assert.dll</HintPath>
     </Reference>
+    <Reference Include="Xunit.Categories, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.categories.2.0.4\lib\netstandard2.0\Xunit.Categories.dll</HintPath>
+    </Reference>
     <Reference Include="xunit.core, Version=2.4.1.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\xunit.extensibility.core.2.4.1\lib\net452\xunit.core.dll</HintPath>
     </Reference>
     <Reference Include="xunit.execution.desktop, Version=2.4.1.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\xunit.extensibility.execution.2.4.1\lib\net452\xunit.execution.desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Xunit.Priority, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xunit.Priority.1.0.10\lib\net452\Xunit.Priority.dll</HintPath>
     </Reference>
     <Reference Include="ZeroMQ, Version=4.1.0.31, Culture=neutral, PublicKeyToken=4a9630883fd6c563, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ZeroMQ.4.1.0.31\lib\net40\ZeroMQ.dll</HintPath>
@@ -141,6 +147,7 @@
     <Compile Include="Controls\Framework\RemoteTextBox.cs" />
     <Compile Include="Controls\Framework\RemoteTextBlock.cs" />
     <Compile Include="Controls\Framework\SingleClassObjectManager.cs" />
+    <Compile Include="Controls\Interfaces\ITestRunnerButton.cs" />
     <Compile Include="Framework\Bootstrapper.cs" />
     <Compile Include="BunchOfTests.cs" />
     <Compile Include="Framework\Interfaces\ApplicationActivationState.cs" />
@@ -174,10 +181,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\packages\FakeItEasy.Analyzer.CSharp.5.1.1\analyzers\dotnet\cs\FakeItEasy.Analyzer.CSharp.dll" />
+    <Analyzer Include="..\..\packages\FluentAssertions.Analyzers.0.11.4\analyzers\dotnet\cs\FluentAssertions.Analyzers.dll" />
     <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
     <Analyzer Include="..\..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />

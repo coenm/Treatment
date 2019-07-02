@@ -3,11 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Windows.Controls;
-    using Helpers.TextBox;
+
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl;
+    using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.TextBox;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Interfaces;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;

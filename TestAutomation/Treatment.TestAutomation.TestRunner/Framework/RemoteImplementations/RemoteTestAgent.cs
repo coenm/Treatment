@@ -5,9 +5,7 @@
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
-
     using TestAgent.Contract.Interface.Control;
-
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 

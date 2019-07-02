@@ -9,10 +9,10 @@
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.Contract.Interfaces.Events.ButtonBase;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
-    using Treatment.TestAutomation.Contract.Interfaces.Framework;
+    using Treatment.TestAutomation.TestRunner.Controls.Interfaces;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
-    public class RemoteButton : IButton, IDisposable
+    public class RemoteButton : ITestRunnerControlButton, IDisposable
     {
         [NotNull] private readonly CompositeDisposable disposable;
 
