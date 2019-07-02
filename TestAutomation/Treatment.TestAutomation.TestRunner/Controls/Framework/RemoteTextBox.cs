@@ -8,10 +8,10 @@
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
-    using Treatment.TestAutomation.Contract.Interfaces.Framework;
+    using Treatment.TestAutomation.TestRunner.Controls.Interfaces;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
-    public class RemoteTextBox : ITextBox, IDisposable
+    public class RemoteTextBox : ITestRunnerControlTextBox, IDisposable
     {
         [NotNull] private readonly CompositeDisposable disposable;
 
@@ -80,6 +80,8 @@
         public Size Size { get; private set; }
 
         public bool IsEnabled { get; private set; }
+
+        public bool HasFocus => throw new NotImplementedException();
 
         public void Dispose()
         {
