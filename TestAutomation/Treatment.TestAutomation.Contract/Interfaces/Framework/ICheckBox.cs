@@ -10,7 +10,8 @@
         IKeyboardFocusChanged,
         ISelectionChanged,
         ICheckableChanged,
-        IControl
+        IControl,
+        IElementLoadedUnLoaded
     {
     }
 }

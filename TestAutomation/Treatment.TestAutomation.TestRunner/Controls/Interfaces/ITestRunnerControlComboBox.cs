@@ -14,6 +14,7 @@
         IDropDownClosed,
         ISelectionChanged,
         IControl,
+        IElementLoadedUnLoaded,
         ITestRunnerControlPositionable,
         ITestRunnerControlFocusable
     {

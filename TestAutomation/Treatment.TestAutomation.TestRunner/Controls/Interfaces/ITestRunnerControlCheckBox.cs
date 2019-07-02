@@ -13,6 +13,7 @@
         ISelectionChanged,
         ICheckableChanged,
         IControl,
+        IElementLoadedUnLoaded,
         ITestRunnerControlPositionable,
         ITestRunnerControlFocusable
     {

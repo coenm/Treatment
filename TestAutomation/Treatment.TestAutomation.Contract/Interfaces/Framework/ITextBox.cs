@@ -9,7 +9,8 @@
         IFocusChange,
         IKeyboardFocusChanged,
         ITextValueChanged,
-        IControl
+        IControl,
+        IElementLoadedUnLoaded
     {
     }
 }

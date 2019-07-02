@@ -96,6 +96,7 @@
     <Compile Include="Adapters\Helpers\CheckBox\CheckBoxOnCheckedChangedHelper.cs" />
     <Compile Include="Adapters\Helpers\FrameworkElementControl\SelectorSelectionChangedHelper.cs" />
     <Compile Include="Adapters\Helpers\FrameworkElementControl\DropDownOpenClosedHelper.cs" />
+    <Compile Include="Adapters\Helpers\FrameworkElementControl\LoadedUnLoadedHelper.cs" />
     <Compile Include="Adapters\Helpers\TextBox\TextBoxTextChangedHelper.cs" />
     <Compile Include="Adapters\TextBoxAdapter.cs" />
     <Compile Include="Adapters\ButtonAdapter.cs" />

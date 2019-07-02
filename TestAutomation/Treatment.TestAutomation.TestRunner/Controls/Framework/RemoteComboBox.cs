@@ -93,6 +93,15 @@
                         SelectedItem = ((SelectionChanged)ev).SelectedItem;
                         SelectionChanged?.Invoke(this, (SelectionChanged)ev);
                     }),
+
+                filter
+                    .Where(ev => ev is OnLoaded)
+                    .Subscribe(ev => { OnLoaded?.Invoke(this, (OnLoaded)ev); }),
+
+                filter
+                    .Where(ev => ev is OnUnLoaded)
+                    .Subscribe(ev => { OnUnLoaded?.Invoke(this, (OnUnLoaded)ev); }),
+
             };
         }
 
@@ -117,6 +126,10 @@
         public event EventHandler<DropDownClosed> DropDownClosed;
 
         public event EventHandler<SelectionChanged> SelectionChanged;
+
+        public event EventHandler<OnLoaded> OnLoaded;
+
+        public event EventHandler<OnUnLoaded> OnUnLoaded;
 
         public bool HasFocus { get; private set; }
 

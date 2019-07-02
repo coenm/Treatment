@@ -3,7 +3,7 @@
     using JetBrains.Annotations;
 
     [PublicAPI]
-    public class GotFocus : TestElementEventBase
+    public class OnLoaded : TestElementEventBase
     {
     }
 }

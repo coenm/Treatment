@@ -16,6 +16,7 @@
         ISizeUpdated,
         IFocusChange,
         IControl,
+        IElementLoadedUnLoaded,
         ITestRunnerControlPositionable,
         ITestRunnerControlFocusable
     {

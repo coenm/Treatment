@@ -13,7 +13,8 @@
         IIsEnabledChanged,
         ISizeUpdated,
         IFocusChange,
-        IControl
+        IControl,
+        IElementLoadedUnLoaded
     {
         IButton BrowseRootDirectory { get; }
 

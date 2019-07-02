@@ -10,6 +10,7 @@
         IIsEnabledChanged,
         ITextValueChanged,
         IControl,
+        IElementLoadedUnLoaded,
         ITestRunnerControlPositionable
     {
     }

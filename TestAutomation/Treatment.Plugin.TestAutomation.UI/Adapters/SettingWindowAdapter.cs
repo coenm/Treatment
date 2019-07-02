@@ -42,6 +42,10 @@
 
             helpers = new List<IInitializable>
                       {
+                          new LoadedUnLoadedHelper(
+                              settingsWindow,
+                              c => OnLoaded?.Invoke(this, c),
+                              c => OnUnLoaded?.Invoke(this, c)),
                           new InitializedHelper(settingsWindow, c => Initialized?.Invoke(this, c)),
                           new WindowClosingHelper(settingsWindow, c => WindowClosing?.Invoke(this, c)),
                           new WindowClosedHelper(settingsWindow, c => WindowClosed?.Invoke(this, c)),
@@ -83,6 +87,10 @@
         public event EventHandler<GotFocus> GotFocus;
 
         public event EventHandler<LostFocus> LostFocus;
+
+        public event EventHandler<OnLoaded> OnLoaded;
+
+        public event EventHandler<OnUnLoaded> OnUnLoaded;
 
         public Guid Guid { get; }
 

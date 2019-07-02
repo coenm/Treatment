@@ -48,6 +48,14 @@
                                                 Size = ((SizeUpdated)ev).Size;
                                                 SizeUpdated?.Invoke(this, (SizeUpdated)ev);
                                             }),
+
+                             filter
+                                 .Where(ev => ev is OnLoaded)
+                                 .Subscribe(ev => { OnLoaded?.Invoke(this, (OnLoaded)ev); }),
+
+                             filter
+                                 .Where(ev => ev is OnUnLoaded)
+                                 .Subscribe(ev => { OnUnLoaded?.Invoke(this, (OnUnLoaded)ev); }),
                          };
         }
 
@@ -72,6 +80,10 @@
         public event EventHandler<GotFocus> GotFocus;
 
         public event EventHandler<LostFocus> LostFocus;
+
+        public event EventHandler<OnLoaded> OnLoaded;
+
+        public event EventHandler<OnUnLoaded> OnUnLoaded;
 
         public IButton BrowseRootDirectory => propertyManager.GetObject<IButton>();
 

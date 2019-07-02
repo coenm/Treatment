@@ -32,6 +32,10 @@
 
             helpers = new List<IInitializable>
                       {
+                          new LoadedUnLoadedHelper(
+                              item,
+                              c => OnLoaded?.Invoke(this, c),
+                              c => OnUnLoaded?.Invoke(this, c)),
                           new PositionChangedHelper(item, c => PositionUpdated?.Invoke(this, c)),
                           new SizeChangedHelper(item, c => SizeUpdated?.Invoke(this, c)),
                           new EnabledChangedHelper(item, c => IsEnabledChanged?.Invoke(this, c)),
@@ -69,6 +73,10 @@
         public event EventHandler<OnChecked> OnChecked;
 
         public event EventHandler<OnUnChecked> OnUnChecked;
+
+        public event EventHandler<OnLoaded> OnLoaded;
+
+        public event EventHandler<OnUnLoaded> OnUnLoaded;
 
         public Guid Guid { get; }
 

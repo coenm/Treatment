@@ -54,6 +54,15 @@
                                         Value = ((TextValueChanged)ev).Text;
                                         TextValueChanged?.Invoke(this, (TextValueChanged)ev);
                                     }),
+
+                             filter
+                                 .Where(ev => ev is OnLoaded)
+                                 .Subscribe(ev => { OnLoaded?.Invoke(this, (OnLoaded)ev); }),
+
+                             filter
+                                 .Where(ev => ev is OnUnLoaded)
+                                 .Subscribe(ev => { OnUnLoaded?.Invoke(this, (OnUnLoaded)ev); }),
+
                          };
         }
 
@@ -72,6 +81,10 @@
         public event EventHandler<KeyboardFocusChanged> KeyboardFocusChanged;
 
         public event EventHandler<TextValueChanged> TextValueChanged;
+
+        public event EventHandler<OnLoaded> OnLoaded;
+
+        public event EventHandler<OnUnLoaded> OnUnLoaded;
 
         public string Value { get; private set; }
 
