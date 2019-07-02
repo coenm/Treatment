@@ -147,7 +147,12 @@
     <Compile Include="Controls\Framework\RemoteTextBox.cs" />
     <Compile Include="Controls\Framework\RemoteTextBlock.cs" />
     <Compile Include="Controls\Framework\SingleClassObjectManager.cs" />
-    <Compile Include="Controls\Interfaces\ITestRunnerButton.cs" />
+    <Compile Include="Controls\Interfaces\MouseExtensions.cs" />
+    <Compile Include="Controls\Interfaces\ITestRunnerControlButton.cs" />
+    <Compile Include="Controls\Interfaces\ITestRunnerControlCheckBox.cs" />
+    <Compile Include="Controls\Interfaces\ITestRunnerControlComboBox.cs" />
+    <Compile Include="Controls\Interfaces\ITestRunnerControlPositionable.cs" />
+    <Compile Include="Controls\Interfaces\ITestRunnerControlTextBlock.cs" />
     <Compile Include="Framework\Bootstrapper.cs" />
     <Compile Include="BunchOfTests.cs" />
     <Compile Include="Framework\Interfaces\ApplicationActivationState.cs" />
