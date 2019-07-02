@@ -1,7 +1,6 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.TextBox
 {
     using System;
-    using System.ComponentModel;
     using System.Windows.Controls;
 
     using JetBrains.Annotations;
@@ -13,7 +12,6 @@
     {
         [NotNull] private readonly TextBox frameworkElement;
         [NotNull] private readonly Action<TextValueChanged> callback;
-        [NotNull] private readonly DependencyPropertyDescriptor dpd;
 
         public TextBoxTextChangedHelper([NotNull] TextBox frameworkElement, [NotNull] Action<TextValueChanged> callback)
         {
