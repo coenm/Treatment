@@ -114,10 +114,6 @@
             mre2.WaitOne(1000);
             settingsWindow = null;
 
-
-
-
-
             var window = Application.MainWindow as RemoteMainWindow;
             window.Should().NotBeNull();
             output.WriteLine($"x {window.Position.X}  y {window.Position.Y}");
@@ -475,11 +471,10 @@
 
             manualResetEventWindowCreated.WaitOne(1000);
 
+            await Task.Delay(100);
+
             var settingsWindow = Application.SettingsWindow;
-            Application.SettingsWindow
-                       .Should().NotBeNull("Application window should not be null")
-                       .And
-                       .Should().BeOfType<RemoteSettingWindow>();
+            settingsWindow.Should().NotBeNull("Application window should not be null");
 
             return settingsWindow as RemoteSettingWindow;
         }

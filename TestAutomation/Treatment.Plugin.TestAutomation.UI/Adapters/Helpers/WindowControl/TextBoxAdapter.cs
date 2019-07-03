@@ -47,7 +47,7 @@
                           new TextBoxTextChangedHelper(item, c => TextValueChanged?.Invoke(this, c)),
                       };
 
-            eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IButton));
+            eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(ITextBox));
         }
 
         public event EventHandler<PositionUpdated> PositionUpdated;

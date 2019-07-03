@@ -101,7 +101,6 @@
                 filter
                     .Where(ev => ev is OnUnLoaded)
                     .Subscribe(ev => { OnUnLoaded?.Invoke(this, (OnUnLoaded)ev); }),
-
             };
         }
 
