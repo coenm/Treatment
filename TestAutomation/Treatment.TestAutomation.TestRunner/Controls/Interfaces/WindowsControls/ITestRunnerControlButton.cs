@@ -1,20 +1,16 @@
-﻿namespace Treatment.TestAutomation.TestRunner.Controls.Interfaces
+﻿namespace Treatment.TestAutomation.TestRunner.Controls.Interfaces.WindowsControls
 {
-    using Treatment.TestAutomation.Contract.Interfaces.Application;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.TestAutomation.Contract.Interfaces.Framework.SingleEventInterface;
 
-    internal interface ITestRunnerOwnControlSettingWindow :
-        ISettingWindow,
-        IInitialized,
-        IWindowClosing,
-        IWindowClosed,
-        IWindowActivated,
-        IWindowDeactivated,
+    internal interface ITestRunnerControlButton :
+        IButton,
+        IButtonClicked,
         IPositionUpdated,
         IIsEnabledChanged,
         ISizeUpdated,
         IFocusChange,
+        IKeyboardFocusChanged,
         IControl,
         IElementLoadedUnLoaded,
         ITestRunnerControlPositionable,

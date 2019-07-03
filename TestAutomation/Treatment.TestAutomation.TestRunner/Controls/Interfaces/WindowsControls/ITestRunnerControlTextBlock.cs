@@ -1,4 +1,4 @@
-﻿namespace Treatment.TestAutomation.TestRunner.Controls.Interfaces
+﻿namespace Treatment.TestAutomation.TestRunner.Controls.Interfaces.WindowsControls
 {
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.TestAutomation.Contract.Interfaces.Framework.SingleEventInterface;

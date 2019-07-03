@@ -1,22 +1,24 @@
-﻿namespace Treatment.TestAutomation.TestRunner.Controls.Interfaces
+﻿namespace Treatment.TestAutomation.TestRunner.Controls.Interfaces.TreatmentControls
 {
+    using Treatment.TestAutomation.Contract.Interfaces.Application;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.TestAutomation.Contract.Interfaces.Framework.SingleEventInterface;
 
-    internal interface ITestRunnerControlCheckBox :
-        ICheckBox,
+    internal interface ITestRunnerOwnControlSettingWindow :
+        ISettingWindow,
+        IInitialized,
+        IWindowClosing,
+        IWindowClosed,
+        IWindowActivated,
+        IWindowDeactivated,
         IPositionUpdated,
         IIsEnabledChanged,
         ISizeUpdated,
         IFocusChange,
-        IKeyboardFocusChanged,
-        ISelectionChanged,
-        ICheckableChanged,
         IControl,
         IElementLoadedUnLoaded,
         ITestRunnerControlPositionable,
         ITestRunnerControlFocusable
     {
-        bool IsChecked { get; }
     }
 }

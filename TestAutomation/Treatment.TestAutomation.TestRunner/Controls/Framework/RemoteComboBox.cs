@@ -9,7 +9,7 @@
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.Contract.Interfaces.Events.ButtonBase;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
-    using Treatment.TestAutomation.TestRunner.Controls.Interfaces;
+    using Treatment.TestAutomation.TestRunner.Controls.Interfaces.WindowsControls;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
     public class RemoteComboBox : ITestRunnerControlComboBox, IDisposable
