@@ -169,6 +169,7 @@
     <Compile Include="Framework\Interfaces\IMouse.cs" />
     <Compile Include="Framework\Interfaces\ITestFramework.cs" />
     <Compile Include="Framework\Interfaces\ITestAgent.cs" />
+    <Compile Include="Framework\Interfaces\KeyboardExtensions.cs" />
     <Compile Include="Framework\Interfaces\MouseExtensions.cs" />
     <Compile Include="Framework\RemoteImplementations\RemoteApplicationImplementation.cs" />
     <Compile Include="Framework\RemoteImplementations\RemoteObjectManager.cs" />
@@ -226,7 +227,9 @@
       <Name>CoenM.ZeroMq</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="TestAgent\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
