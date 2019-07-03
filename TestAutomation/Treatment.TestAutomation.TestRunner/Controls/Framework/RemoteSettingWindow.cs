@@ -99,6 +99,10 @@
 
         public ITextBox DelayExecutionMaxValue => propertyManager.GetObject<ITextBox>();
 
+        public IButton OkButton => propertyManager.GetObject<IButton>();
+
+        public IButton CancelButton => propertyManager.GetObject<IButton>();
+
         public Point Position { get; private set; }
 
         public Size Size { get; private set; }

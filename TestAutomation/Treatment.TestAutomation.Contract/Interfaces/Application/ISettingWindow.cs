@@ -29,5 +29,9 @@
         ITextBox DelayExecutionMinValue { get; }
 
         ITextBox DelayExecutionMaxValue { get; }
+
+        IButton OkButton { get; }
+
+        IButton CancelButton { get; }
     }
 }

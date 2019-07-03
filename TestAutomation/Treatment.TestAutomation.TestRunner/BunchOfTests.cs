@@ -105,10 +105,18 @@
             await SetTextAsync(delayExecutionMaxTextBox, "160");
             await ConfigurableDelay(100);
 
-            // close settings window
-            await Keyboard.PressAsync(VirtualKeyCode.Escape);
+            // accept changes
+            var okButton = settingsWindow.OkButton as RemoteButton;
+            okButton.Should().NotBeNull("Button should be there on ui");
+            await Mouse.MoveMouseCursorToElementAsync(okButton);
+            await Mouse.ClickAsync();
+
             mre2.WaitOne(1000);
             settingsWindow = null;
+
+
+
+
 
             var window = Application.MainWindow as RemoteMainWindow;
             window.Should().NotBeNull();

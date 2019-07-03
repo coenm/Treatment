@@ -25,6 +25,8 @@
         [NotNull] private readonly SettingsWindow settingsWindow;
         [NotNull] private readonly IEventPublisher eventPublisher;
         [CanBeNull] private ITestAutomationButton browseRootDirectory;
+        [CanBeNull] private ITestAutomationButton okButton;
+        [CanBeNull] private ITestAutomationButton cancelButton;
         [CanBeNull] private ITestAutomationTextBox rootDirectory;
         [CanBeNull] private ITestAutomationComboBox comboSearchProvider;
         [CanBeNull] private ITestAutomationComboBox comboVersionControlProvider;
@@ -109,6 +111,10 @@
 
         public ITextBox DelayExecutionMaxValue => delayExecutionMaxValue;
 
+        public IButton OkButton => okButton;
+
+        public IButton CancelButton => cancelButton;
+
         public void Dispose()
         {
             helpers.ForEach(helper => helper.Dispose());
@@ -161,6 +167,18 @@
                     FieldsHelper.FindFieldInUiElementByName<TextBox>(settingsWindow, nameof(DelayExecutionMaxValue)),
                     eventPublisher));
             delayExecutionMaxValue?.Initialize();
+
+            UpdateOkButton(
+                new ButtonAdapter(
+                    FieldsHelper.FindFieldInUiElementByName<Button>(settingsWindow, nameof(OkButton)),
+                    eventPublisher));
+            okButton?.Initialize();
+
+            UpdateCancelButton(
+                new ButtonAdapter(
+                    FieldsHelper.FindFieldInUiElementByName<Button>(settingsWindow, nameof(CancelButton)),
+                    eventPublisher));
+            cancelButton?.Initialize();
         }
 
         private void UpdateBrowseRootDirectory(ITestAutomationButton value)
@@ -171,6 +189,26 @@
                 eventPublisher.PublishAssignedAsync(Guid, nameof(BrowseRootDirectory), value.Guid);
             else
                 eventPublisher.PublishClearedAsync(Guid, nameof(BrowseRootDirectory));
+        }
+
+        private void UpdateOkButton(ITestAutomationButton value)
+        {
+            okButton = value;
+
+            if (value != null)
+                eventPublisher.PublishAssignedAsync(Guid, nameof(OkButton), value.Guid);
+            else
+                eventPublisher.PublishClearedAsync(Guid, nameof(OkButton));
+        }
+
+        private void UpdateCancelButton(ITestAutomationButton value)
+        {
+            cancelButton = value;
+
+            if (value != null)
+                eventPublisher.PublishAssignedAsync(Guid, nameof(CancelButton), value.Guid);
+            else
+                eventPublisher.PublishClearedAsync(Guid, nameof(CancelButton));
         }
 
         private void UpdateRootDirectory(ITestAutomationTextBox value)
