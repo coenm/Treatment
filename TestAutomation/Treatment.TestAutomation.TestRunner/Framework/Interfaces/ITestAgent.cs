@@ -13,5 +13,9 @@
         Task<bool> StartSutAsync();
 
         Task<string> LocateSutExecutableAsync();
+
+        Task<bool> DeleteFileAsync(string filename);
+
+        Task<bool> FileExistsAsync(string filename);
     }
 }

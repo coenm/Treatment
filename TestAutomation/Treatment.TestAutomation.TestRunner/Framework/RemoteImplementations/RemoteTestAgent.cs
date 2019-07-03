@@ -84,6 +84,36 @@
             throw new Exception("something went wrong ;-)");
         }
 
+        public async Task<bool> DeleteFileAsync(string filename)
+        {
+            var req = new DeleteFileRequest
+            {
+                Filename = filename,
+            };
+
+            var rsp = await execute.ExecuteControl(req);
+
+            if (rsp is DeleteFileResponse x)
+                return x.Deleted;
+
+            throw new Exception($"something went wrong. Received: {rsp.GetType().FullName}");
+        }
+
+        public async Task<bool> FileExistsAsync(string filename)
+        {
+            var req = new FileExistsRequest
+            {
+                Filename = filename,
+            };
+
+            var rsp = await execute.ExecuteControl(req);
+
+            if (rsp is FileExistsResponse x)
+                return x.FileExists;
+
+            throw new Exception($"something went wrong. Received: {rsp.GetType().FullName}");
+        }
+
         public void Dispose()
         {
         }

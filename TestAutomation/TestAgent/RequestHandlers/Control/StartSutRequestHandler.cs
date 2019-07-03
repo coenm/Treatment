@@ -66,16 +66,14 @@
                     });
                 });
 
+            context.SetWorkingDirectory(workingDirectory);
             context.SetSutProcess(command);
 
             return new StartSutResponse
             {
-                Executable = executable, Success = true,
+                Executable = executable,
+                Success = true,
             };
-
-            // var result = await command.Task.ConfigureAwait(true);
-            // Console.WriteLine(result.StandardOutput);
-            // Console.WriteLine(result.StandardError);
         }
     }
 }

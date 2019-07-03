@@ -1,6 +1,6 @@
 ﻿namespace Treatment.TestAutomation.TestRunner
 {
-    using System.IO;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -40,20 +40,131 @@
         private ITestAgent Agent => fixture.Agent;
 
         [Fact]
-        public async Task ReadTreatmentConfigFile()
+        public async Task SettingsWindow_ShouldSaveConfig_WhenConfigIsChangedAndOkButtonIsClicked()
         {
+            // arrange
+            const string configFilename = "TreatmentConfig.json";
+
+            var mre = new ManualResetEvent(false);
+            var mre2 = new AutoResetEvent(false);
+
+            fixture.ApplicationAvailable += (_, __) => mre.Set();
+
             var started = await Agent.StartSutAsync();
             started.Should().BeTrue();
 
-            var sutExe = await Agent.LocateSutExecutableAsync();
+            mre.WaitOne(15000).Should().BeTrue("Application not started in time");
 
-            var directoryInfo = new FileInfo(sutExe).Directory;
-            directoryInfo.Should().NotBeNull();
+            Application.WindowActivated += (_, __) => mre2.Set();
+            mre2.WaitOne(10000).Should().BeTrue("No Window activated in time");
 
-            var dir = directoryInfo.FullName;
-            var content = await Agent.GetFileContentAsync(Path.Combine(dir, "TreatmentConfig.json"));
+            // remove config file when exists
+            var deleted = await Agent.DeleteFileAsync(configFilename);
+            deleted.Should().BeTrue();
 
+            // open settings window.
+            var settingsWindow = await OpenSettingsWindowAsync(mre2);
+            await ConfigurableDelay(50);
+
+            var checkbox = settingsWindow.DelayExecution as RemoteCheckBox;
+            var delayExecutionMinTextBox = settingsWindow.DelayExecutionMinValue as RemoteTextBox;
+            var delayExecutionMaxTextBox = settingsWindow.DelayExecutionMaxValue as RemoteTextBox;
+            checkbox.Should().NotBeNull("Checkbox DelayExecution expected to be there.");
+            delayExecutionMinTextBox.Should().NotBeNull("TextBox DelayExecutionMinTextBox expected to be there.");
+            delayExecutionMaxTextBox.Should().NotBeNull("TextBox DelayExecutionMaxTextBox expected to be there.");
+
+            await Mouse.MoveMouseCursorToElementAsync(checkbox);
+            await Mouse.ClickAsync();
+            await Mouse.ClickAsync();
+            await Task.Delay(100);
+
+            await CheckCheckboxAsync(checkbox);
+            await Task.Delay(100);
+            delayExecutionMinTextBox.IsEnabled.Should().BeTrue();
+            delayExecutionMaxTextBox.IsEnabled.Should().BeTrue();
+            await ConfigurableDelay(100);
+
+            await UnCheckCheckboxAsync(checkbox);
+            await Task.Delay(100);
+            delayExecutionMinTextBox.IsEnabled.Should().BeFalse();
+            delayExecutionMaxTextBox.IsEnabled.Should().BeFalse();
+            await ConfigurableDelay(100);
+
+            await CheckCheckboxAsync(checkbox);
+            await Task.Delay(100);
+            delayExecutionMinTextBox.IsEnabled.Should().BeTrue();
+            delayExecutionMaxTextBox.IsEnabled.Should().BeTrue();
+            await ConfigurableDelay(100);
+
+            await SetTextAsync(delayExecutionMaxTextBox, "420");
+            await ConfigurableDelay(100);
+
+            await SetTextAsync(delayExecutionMinTextBox, "160");
+            await ConfigurableDelay(100);
+
+            // accept changes
+            var okButton = settingsWindow.OkButton as RemoteButton;
+            okButton.Should().NotBeNull("Button should be there on ui");
+            await Mouse.MoveMouseCursorToElementAsync(okButton);
+            await Mouse.ClickAsync();
+
+            // check if file has been saved.
+            var fileExists = await Agent.FileExistsAsync(configFilename);
+            fileExists.Should().BeTrue();
+
+            var content = await Agent.GetFileContentAsync(configFilename);
             content.Should().NotBeNull();
+            output.WriteLine(Encoding.Default.GetString(content));
+
+            // close application.
+            mre2.WaitOne(1000);
+            settingsWindow = null;
+
+            var window = Application.MainWindow as RemoteMainWindow;
+            window.Should().NotBeNull();
+            output.WriteLine($"x {window.Position.X}  y {window.Position.Y}");
+            output.WriteLine($"x {window.Size.Width}  y {window.Size.Height}");
+
+            var x = (int)(window.Position.X + window.Size.Width - 50);
+            var y = (int)(window.Position.Y - 10);
+            output.WriteLine($"x {x}  y {y}");
+            await Mouse.MoveCursorAsync(x, y);
+
+            var window1 = Application.MainWindow as RemoteMainWindow;
+            window1.Should().NotBeNull();
+            var x1 = (int)(window1.Position.X + window1.Size.Width - 250);
+            var y1 = (int)(window1.Position.Y - 10);
+            await Mouse.MoveCursorAsync(x1, y1);
+
+            // give events time to pass. Sometimes, the window has been blown to full screen.
+            await Task.Delay(500);
+
+            x1 = (int)(window1.Position.X + window1.Size.Width - 50);
+            y1 = (int)(window1.Position.Y - 10);
+            await Mouse.MoveCursorAsync(x1, y1);
+
+            var mre3 = new ManualResetEvent(false);
+            void ApplicationOnExit(object sender, ApplicationExit e)
+            {
+                mre3.Set();
+            }
+
+            Application.Exit += ApplicationOnExit;
+            await Mouse.ClickAsync();
+            if (!mre3.WaitOne(1000))
+            {
+                output.WriteLine("Try to close the application with the alt f4 keys.");
+                await Keyboard.KeyCombinationPressAsync(VirtualKeyCode.Alt, VirtualKeyCode.F4);
+            }
+
+            if (!mre3.WaitOne(1000))
+            {
+                output.WriteLine("Try to close the application with the alt f4 keys.");
+                await Keyboard.KeyCombinationPressAsync(VirtualKeyCode.Alt, VirtualKeyCode.F4);
+            }
+
+            mre3.WaitOne(1000).Should().BeTrue();
+            Application.Exit -= ApplicationOnExit;
         }
 
         [Fact]
@@ -166,129 +277,6 @@
 
             mre3.WaitOne(1000).Should().BeTrue();
             Application.Exit -= ApplicationOnExit;
-        }
-
-        private async Task CheckCheckboxAsync([NotNull] RemoteCheckBox checkbox)
-        {
-            if (checkbox.IsChecked.HasValue && checkbox.IsChecked.Value)
-                return;
-
-            var mre = new ManualResetEvent(false);
-            void CheckboxOnOnChecked(object sender, OnChecked e) => mre.Set();
-
-            checkbox.OnChecked += CheckboxOnOnChecked;
-            try
-            {
-                await Mouse.MoveMouseCursorToElementAsync(checkbox);
-                await Mouse.ClickAsync();
-                if (!mre.WaitOne(1000))
-                {
-                    await Mouse.ClickAsync();
-                    mre.WaitOne(1000);
-                }
-            }
-            finally
-            {
-                checkbox.OnChecked -= CheckboxOnOnChecked;
-            }
-
-            output.WriteLine($"checkbox.IsChecked: {checkbox.IsChecked}");
-            checkbox.IsChecked.Should().BeTrue($"Mouse click should have checked the checkbox.");
-        }
-
-        private async Task UnCheckCheckboxAsync([NotNull] RemoteCheckBox checkbox)
-        {
-            if (checkbox.IsChecked.HasValue && checkbox.IsChecked.Value == false)
-                return;
-
-            var mre = new ManualResetEvent(false);
-            void CheckboxOnUnChecked(object sender, OnUnChecked e) => mre.Set();
-
-            checkbox.OnUnChecked += CheckboxOnUnChecked;
-            try
-            {
-                await Mouse.MoveMouseCursorToElementAsync(checkbox);
-                await Mouse.ClickAsync();
-                if (!mre.WaitOne(1000))
-                {
-                    await Mouse.ClickAsync();
-                    mre.WaitOne(1000);
-                }
-            }
-            finally
-            {
-                checkbox.OnUnChecked -= CheckboxOnUnChecked;
-            }
-
-            output.WriteLine($"checkbox.IsChecked: {checkbox.IsChecked}");
-            checkbox.IsChecked.Should().BeFalse($"Mouse click should have unchecked the checkbox.");
-        }
-
-        private async Task SetTextAsync([NotNull] RemoteTextBox textbox, string text)
-        {
-            textbox.IsEnabled.Should().BeTrue($"we want to change the text");
-
-            var mre = new ManualResetEvent(false);
-
-            void TextboxOnGotFocus(object sender, GotFocus e) => mre.Set();
-
-            if (!textbox.HasFocus)
-            {
-                textbox.GotFocus += TextboxOnGotFocus;
-
-                try
-                {
-                    await Mouse.MoveMouseCursorToElementAsync(textbox);
-                    await Mouse.ClickAsync();
-                    mre.WaitOne(1000);
-                    textbox.HasFocus.Should().BeTrue($"we want to change the text and focus is required");
-                }
-                finally
-                {
-                    textbox.GotFocus += TextboxOnGotFocus;
-                }
-
-                await Mouse.MoveMouseCursorToElementAsync(textbox);
-                await Mouse.ClickAsync();
-            }
-
-            mre.Reset();
-
-            // remove everything that is inside..
-            void TextboxOnTextValueChanged(object sender, TextValueChanged e) => mre.Set();
-            textbox.TextValueChanged += TextboxOnTextValueChanged;
-
-            try
-            {
-                if (string.IsNullOrEmpty(textbox.Value))
-                    mre.Set();
-
-                await Keyboard.KeyCombinationPressAsync(VirtualKeyCode.Control, VirtualKeyCode.KeyA);
-                await Keyboard.KeyCombinationPressAsync(VirtualKeyCode.Delete);
-                mre.WaitOne(1000);
-                textbox.Value.Should().BeEmpty("we just removed all what was inside.");
-            }
-            finally
-            {
-                textbox.TextValueChanged -= TextboxOnTextValueChanged;
-            }
-
-            textbox.TextValueChanged += TextboxOnTextValueChanged;
-            try
-            {
-                foreach (var c in text.ToCharArray())
-                {
-                    var cachedValue = textbox.Value;
-                    mre.Reset();
-                    await Keyboard.PressCharacterAsync(c);
-                    mre.WaitOne(1000);
-                    textbox.Value.Should().Be(cachedValue + c, $"this key was entered on the keyboard.");
-                }
-            }
-            finally
-            {
-                textbox.TextValueChanged -= TextboxOnTextValueChanged;
-            }
         }
 
         [Fact]
@@ -446,26 +434,6 @@
             Application.Exit -= ApplicationOnExit;
         }
 
-        [Fact]
-        public async Task StartSut()
-        {
-            var started = await Agent.StartSutAsync();
-            started.Should().BeTrue();
-
-            await Mouse.DragAsync(40, 230, 100, 600);
-
-            await Task.Delay(10000);
-            await Mouse.MoveCursorAsync(200, 100);
-
-            await Task.Delay(1000);
-            await Mouse.MoveCursorAsync(40, 30);
-
-            await Task.Delay(1000);
-            await Mouse.ClickAsync();
-
-            Application.Created.Should().BeTrue();
-        }
-
         private static Task ConfigurableDelay(int milliseconds)
         {
             if (milliseconds <= 0)
@@ -473,6 +441,130 @@
 
             // wraps delay so we can make this configurable..
             return Task.Delay(milliseconds);
+        }
+
+
+        private async Task CheckCheckboxAsync([NotNull] RemoteCheckBox checkbox)
+        {
+            if (checkbox.IsChecked.HasValue && checkbox.IsChecked.Value)
+                return;
+
+            var mre = new ManualResetEvent(false);
+            void CheckboxOnOnChecked(object sender, OnChecked e) => mre.Set();
+
+            checkbox.OnChecked += CheckboxOnOnChecked;
+            try
+            {
+                await Mouse.MoveMouseCursorToElementAsync(checkbox);
+                await Mouse.ClickAsync();
+                if (!mre.WaitOne(1000))
+                {
+                    await Mouse.ClickAsync();
+                    mre.WaitOne(1000);
+                }
+            }
+            finally
+            {
+                checkbox.OnChecked -= CheckboxOnOnChecked;
+            }
+
+            output.WriteLine($"checkbox.IsChecked: {checkbox.IsChecked}");
+            checkbox.IsChecked.Should().BeTrue($"Mouse click should have checked the checkbox.");
+        }
+
+        private async Task UnCheckCheckboxAsync([NotNull] RemoteCheckBox checkbox)
+        {
+            if (checkbox.IsChecked.HasValue && checkbox.IsChecked.Value == false)
+                return;
+
+            var mre = new ManualResetEvent(false);
+            void CheckboxOnUnChecked(object sender, OnUnChecked e) => mre.Set();
+
+            checkbox.OnUnChecked += CheckboxOnUnChecked;
+            try
+            {
+                await Mouse.MoveMouseCursorToElementAsync(checkbox);
+                await Mouse.ClickAsync();
+                if (!mre.WaitOne(1000))
+                {
+                    await Mouse.ClickAsync();
+                    mre.WaitOne(1000);
+                }
+            }
+            finally
+            {
+                checkbox.OnUnChecked -= CheckboxOnUnChecked;
+            }
+
+            output.WriteLine($"checkbox.IsChecked: {checkbox.IsChecked}");
+            checkbox.IsChecked.Should().BeFalse($"Mouse click should have unchecked the checkbox.");
+        }
+
+        private async Task SetTextAsync([NotNull] RemoteTextBox textbox, string text)
+        {
+            textbox.IsEnabled.Should().BeTrue($"we want to change the text");
+
+            var mre = new ManualResetEvent(false);
+
+            void TextboxOnGotFocus(object sender, GotFocus e) => mre.Set();
+
+            if (!textbox.HasFocus)
+            {
+                textbox.GotFocus += TextboxOnGotFocus;
+
+                try
+                {
+                    await Mouse.MoveMouseCursorToElementAsync(textbox);
+                    await Mouse.ClickAsync();
+                    mre.WaitOne(1000);
+                    textbox.HasFocus.Should().BeTrue($"we want to change the text and focus is required");
+                }
+                finally
+                {
+                    textbox.GotFocus += TextboxOnGotFocus;
+                }
+
+                await Mouse.MoveMouseCursorToElementAsync(textbox);
+                await Mouse.ClickAsync();
+            }
+
+            mre.Reset();
+
+            // remove everything that is inside..
+            void TextboxOnTextValueChanged(object sender, TextValueChanged e) => mre.Set();
+            textbox.TextValueChanged += TextboxOnTextValueChanged;
+
+            try
+            {
+                if (string.IsNullOrEmpty(textbox.Value))
+                    mre.Set();
+
+                await Keyboard.KeyCombinationPressAsync(VirtualKeyCode.Control, VirtualKeyCode.KeyA);
+                await Keyboard.KeyCombinationPressAsync(VirtualKeyCode.Delete);
+                mre.WaitOne(1000);
+                textbox.Value.Should().BeEmpty("we just removed all what was inside.");
+            }
+            finally
+            {
+                textbox.TextValueChanged -= TextboxOnTextValueChanged;
+            }
+
+            textbox.TextValueChanged += TextboxOnTextValueChanged;
+            try
+            {
+                foreach (var c in text.ToCharArray())
+                {
+                    var cachedValue = textbox.Value;
+                    mre.Reset();
+                    await Keyboard.PressCharacterAsync(c);
+                    mre.WaitOne(1000);
+                    textbox.Value.Should().Be(cachedValue + c, $"this key was entered on the keyboard.");
+                }
+            }
+            finally
+            {
+                textbox.TextValueChanged -= TextboxOnTextValueChanged;
+            }
         }
 
         private async Task<RemoteSettingWindow> OpenSettingsWindowAsync(AutoResetEvent manualResetEventWindowCreated)

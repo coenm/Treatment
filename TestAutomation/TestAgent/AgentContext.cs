@@ -23,9 +23,12 @@
 
             this.socketFactory = socketFactory;
             cancellationTokenSource = new CancellationTokenSource();
+            WorkingDirectory = null;
         }
 
         public CancellationToken CancellationToken => cancellationTokenSource.Token;
+
+        public string WorkingDirectory { get; private set; }
 
         public void SetSutProcess([NotNull] Medallion.Shell.Command command)
         {
@@ -34,6 +37,8 @@
 
             Task.Run(async () => await StartMonitoring(command), CancellationToken.None);
         }
+
+        public void SetWorkingDirectory(string workingDirectory) => WorkingDirectory = workingDirectory;
 
         public void Stop()
         {

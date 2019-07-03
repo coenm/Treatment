@@ -11,21 +11,21 @@
     using Treatment.Helpers.Guards;
 
     [UsedImplicitly]
-    public class GetFileRequestHandler : IRequestHandler
+    public class DeleteFileRequestHandler : IRequestHandler
     {
         [NotNull] private readonly IAgentContext context;
 
-        public GetFileRequestHandler([NotNull] IAgentContext context)
+        public DeleteFileRequestHandler([NotNull] IAgentContext context)
         {
             Guard.NotNull(context, nameof(context));
             this.context = context;
         }
 
-        public bool CanHandle(IControlRequest request) => request is GetFileRequest;
+        public bool CanHandle(IControlRequest request) => request is DeleteFileRequest;
 
-        public Task<IControlResponse> ExecuteAsync(IControlRequest request) => ExecuteAsync(request as GetFileRequest);
+        public Task<IControlResponse> ExecuteAsync(IControlRequest request) => ExecuteAsync(request as DeleteFileRequest);
 
-        private Task<IControlResponse> ExecuteAsync(GetFileRequest request)
+        private Task<IControlResponse> ExecuteAsync(DeleteFileRequest request)
         {
             Guard.NotNull(request, nameof(request));
 
@@ -39,9 +39,9 @@
             if (string.IsNullOrWhiteSpace(contextWorkingDirectory))
             {
                 response = new ExceptionResponse
-                    {
-                        Message = "Working directory not set",
-                    };
+                {
+                    Message = "Working directory not set",
+                };
                 return Task.FromResult(response);
             }
 
@@ -50,26 +50,26 @@
                 var filename = Path.Combine(contextWorkingDirectory, request.Filename);
                 if (!File.Exists(filename))
                 {
-                    response = new ExceptionResponse
-                        {
-                            Message = $"File {filename} doesn't exist",
-                        };
+                    response = new DeleteFileResponse
+                    {
+                        Deleted = true,
+                    };
                 }
                 else
                 {
-                    var data = File.ReadAllBytes(filename);
-                    response = new GetFileResponse
+                    File.Delete(filename);
+                    response = new DeleteFileResponse
                         {
-                            Data = data,
+                            Deleted = true,
                         };
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                response = new ExceptionResponse
-                           {
-                               Message = "Something went wrong reading the requested file. " + e.Message,
-                           };
+                response = new DeleteFileResponse
+                {
+                    Deleted = false,
+                };
             }
 
             return Task.FromResult(response);
