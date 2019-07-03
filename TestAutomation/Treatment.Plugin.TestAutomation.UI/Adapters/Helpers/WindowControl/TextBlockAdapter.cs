@@ -5,7 +5,6 @@
     using System.Windows.Controls;
 
     using JetBrains.Annotations;
-
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.TextBlockControl;
