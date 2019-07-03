@@ -100,7 +100,7 @@
     <Compile Include="Adapters\Helpers\TextBox\TextBoxTextChangedHelper.cs" />
     <Compile Include="Adapters\Helpers\WindowControl\TextBoxAdapter.cs" />
     <Compile Include="Adapters\WindowsControls\ButtonAdapter.cs" />
-    <Compile Include="Adapters\ControlEventPublisher.cs" />
+    <Compile Include="Adapters\Helpers\ControlEventPublisher.cs" />
     <Compile Include="Adapters\Helpers\Application\ApplicationActivationHelper.cs" />
     <Compile Include="Adapters\Helpers\Application\ApplicationExitHelper.cs" />
     <Compile Include="Adapters\Helpers\Application\ApplicationDispatcherUnhandledExceptionHelper.cs" />
