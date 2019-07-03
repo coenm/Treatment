@@ -1,7 +1,5 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI
 {
-    using System.Threading;
-
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Adapters;
