@@ -91,15 +91,15 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Adapters\ApplicationAdapter.cs" />
-    <Compile Include="Adapters\CheckBoxAdapter.cs" />
-    <Compile Include="Adapters\ComboBoxAdapter.cs" />
+    <Compile Include="Adapters\WindowsControls\CheckBoxAdapter.cs" />
+    <Compile Include="Adapters\WindowsControls\ComboBoxAdapter.cs" />
     <Compile Include="Adapters\Helpers\CheckBox\CheckBoxOnCheckedChangedHelper.cs" />
     <Compile Include="Adapters\Helpers\FrameworkElementControl\SelectorSelectionChangedHelper.cs" />
     <Compile Include="Adapters\Helpers\FrameworkElementControl\DropDownOpenClosedHelper.cs" />
     <Compile Include="Adapters\Helpers\FrameworkElementControl\LoadedUnLoadedHelper.cs" />
     <Compile Include="Adapters\Helpers\TextBox\TextBoxTextChangedHelper.cs" />
-    <Compile Include="Adapters\TextBoxAdapter.cs" />
-    <Compile Include="Adapters\ButtonAdapter.cs" />
+    <Compile Include="Adapters\Helpers\WindowControl\TextBoxAdapter.cs" />
+    <Compile Include="Adapters\WindowsControls\ButtonAdapter.cs" />
     <Compile Include="Adapters\ControlEventPublisher.cs" />
     <Compile Include="Adapters\Helpers\Application\ApplicationActivationHelper.cs" />
     <Compile Include="Adapters\Helpers\Application\ApplicationExitHelper.cs" />
@@ -118,8 +118,8 @@
     <Compile Include="Adapters\Helpers\WindowControl\WindowClosingHelper.cs" />
     <Compile Include="Adapters\Helpers\WindowControl\WindowClosedHelper.cs" />
     <Compile Include="Adapters\Helpers\FrameworkElementControl\InitializedHelper.cs" />
-    <Compile Include="Adapters\ListViewAdapter.cs" />
-    <Compile Include="Adapters\MainWindowAdapter.cs" />
+    <Compile Include="Adapters\WindowsControls\ListViewAdapter.cs" />
+    <Compile Include="Adapters\TreatmentControls\MainWindowAdapter.cs" />
     <Compile Include="Infrastructure\EventPublisherExtension.cs" />
     <Compile Include="Interceptors\ApplicationInterceptor.cs" />
     <Compile Include="Interceptors\SettingWindowInterceptor.cs" />
@@ -140,16 +140,16 @@
     <Compile Include="Settings\DummySettings.cs" />
     <Compile Include="Infrastructure\IEventPublisher.cs" />
     <Compile Include="Infrastructure\ZeroMqEventPublisher.cs" />
-    <Compile Include="Adapters\ProjectListViewAdapter.cs" />
+    <Compile Include="Adapters\TreatmentControls\ProjectListViewAdapter.cs" />
     <Compile Include="Reflection\FieldsHelper.cs" />
     <Compile Include="Settings\EnvironmentVariableSettings.cs" />
     <Compile Include="Settings\ITestAutomationSettings.cs" />
-    <Compile Include="Adapters\MainViewStatusBarAdapter.cs" />
-    <Compile Include="Adapters\SettingWindowAdapter.cs" />
+    <Compile Include="Adapters\TreatmentControls\MainViewStatusBarAdapter.cs" />
+    <Compile Include="Adapters\TreatmentControls\SettingWindowAdapter.cs" />
     <Compile Include="TestAutomationAgent.cs" />
     <Compile Include="TestAutomationPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Adapters\TextBlockAdapter.cs" />
+    <Compile Include="Adapters\Helpers\WindowControl\TextBlockAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

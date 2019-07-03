@@ -1,4 +1,4 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters
+﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters.WindowsControls
 {
     using System;
     using System.Collections.Generic;
@@ -7,19 +7,21 @@
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers;
+    using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.Button;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Interfaces;
+    using Treatment.TestAutomation.Contract.Interfaces.Events.ButtonBase;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
-    public class ComboBoxAdapter : ITestAutomationComboBox, IComboBox
+    public class ButtonAdapter : ITestAutomationButton, IButton
     {
-        [NotNull] private readonly ComboBox item;
+        [NotNull] private readonly Button item;
         [NotNull] private readonly List<IInitializable> helpers;
         [NotNull] private readonly ControlEventPublisher publisher;
 
-        public ComboBoxAdapter([NotNull] ComboBox item, [NotNull] IEventPublisher eventPublisher)
+        public ButtonAdapter([NotNull] Button item, [NotNull] IEventPublisher eventPublisher)
         {
             Guard.NotNull(item, nameof(item));
             Guard.NotNull(eventPublisher, nameof(eventPublisher));
@@ -32,9 +34,9 @@
             helpers = new List<IInitializable>
                       {
                           new LoadedUnLoadedHelper(
-                              item,
-                              c => OnLoaded?.Invoke(this, c),
-                              c => OnUnLoaded?.Invoke(this, c)),
+                                  item,
+                                  c => OnLoaded?.Invoke(this, c),
+                                  c => OnUnLoaded?.Invoke(this, c)),
                           new PositionChangedHelper(item, c => PositionUpdated?.Invoke(this, c)),
                           new SizeChangedHelper(item, c => SizeUpdated?.Invoke(this, c)),
                           new EnabledChangedHelper(item, c => IsEnabledChanged?.Invoke(this, c)),
@@ -44,15 +46,13 @@
                                           c => FocusableChanged?.Invoke(this, c),
                                           c => GotFocus?.Invoke(this, c),
                                           c => LostFocus?.Invoke(this, c)),
-                          new DropDownOpenClosedHelper(
-                              item,
-                              c => DropDownOpened?.Invoke(this, c),
-                              c => DropDownClosed?.Invoke(this, c)),
-                          new SelectorSelectionChangedHelper(item, c => SelectionChanged?.Invoke(this, c)),
+                          new ButtonClickedHelper(item, c => Clicked?.Invoke(this, c)),
                       };
 
-            eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IComboBox));
+            eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IButton));
         }
+
+        public event EventHandler<Clicked> Clicked;
 
         public event EventHandler<PositionUpdated> PositionUpdated;
 
@@ -67,12 +67,6 @@
         public event EventHandler<LostFocus> LostFocus;
 
         public event EventHandler<KeyboardFocusChanged> KeyboardFocusChanged;
-
-        public event EventHandler<DropDownOpened> DropDownOpened;
-
-        public event EventHandler<DropDownClosed> DropDownClosed;
-
-        public event EventHandler<SelectionChanged> SelectionChanged;
 
         public event EventHandler<OnLoaded> OnLoaded;
 

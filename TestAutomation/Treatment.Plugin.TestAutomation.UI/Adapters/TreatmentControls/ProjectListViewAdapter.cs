@@ -1,10 +1,11 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters
+﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters.TreatmentControls
 {
     using System;
     using System.Windows.Controls;
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
+    using Treatment.Plugin.TestAutomation.UI.Adapters.WindowsControls;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Interfaces;
     using Treatment.Plugin.TestAutomation.UI.Reflection;

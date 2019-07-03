@@ -5,7 +5,6 @@
     using System.Reflection;
 
     using JetBrains.Annotations;
-
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.TestAutomation.Contract.Interfaces.Events;

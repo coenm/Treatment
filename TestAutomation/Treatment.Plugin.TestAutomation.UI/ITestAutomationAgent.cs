@@ -2,6 +2,7 @@
 {
     using JetBrains.Annotations;
     using Treatment.Plugin.TestAutomation.UI.Adapters;
+    using Treatment.Plugin.TestAutomation.UI.Adapters.TreatmentControls;
     using Treatment.Plugin.TestAutomation.UI.Interfaces;
 
     internal interface ITestAutomationAgent

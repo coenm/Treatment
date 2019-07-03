@@ -7,6 +7,7 @@
     using SimpleInjector.Advanced;
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Adapters;
+    using Treatment.Plugin.TestAutomation.UI.Adapters.TreatmentControls;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.UI.Core.View;
 
