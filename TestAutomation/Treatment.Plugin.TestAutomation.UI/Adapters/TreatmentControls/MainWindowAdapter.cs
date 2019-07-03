@@ -47,21 +47,25 @@
 
             helpers = new List<IInitializable>
                       {
+                          new LoadedUnLoadedHelper(
+                               mainWindow,
+                               c => OnLoaded?.Invoke(this, c),
+                               c => OnUnLoaded?.Invoke(this, c)),
                           new InitializedHelper(mainWindow, c => Initialized?.Invoke(this, c)),
                           new WindowClosingHelper(mainWindow, c => WindowClosing?.Invoke(this, c)),
                           new WindowClosedHelper(mainWindow, c => WindowClosed?.Invoke(this, c)),
                           new WindowActivatedDeactivatedHelper(
-                                                               mainWindow,
-                                                               callback => WindowActivated?.Invoke(this, callback),
-                                                               callback => WindowDeactivated?.Invoke(this, callback)),
+                               mainWindow,
+                               callback => WindowActivated?.Invoke(this, callback),
+                               callback => WindowDeactivated?.Invoke(this, callback)),
                           new PositionChangedHelper(mainWindow, c => PositionUpdated?.Invoke(this, c)),
                           new SizeChangedHelper(mainWindow, c => SizeUpdated?.Invoke(this, c)),
                           new EnabledChangedHelper(mainWindow, c => IsEnabledChanged?.Invoke(this, c)),
                           new FocusHelper(
-                                          mainWindow,
-                                          c => FocusableChanged?.Invoke(this, c),
-                                          c => GotFocus?.Invoke(this, c),
-                                          c => LostFocus?.Invoke(this, c)),
+                               mainWindow,
+                               c => FocusableChanged?.Invoke(this, c),
+                               c => GotFocus?.Invoke(this, c),
+                               c => LostFocus?.Invoke(this, c)),
                       };
 
             eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IMainWindow));
@@ -88,6 +92,10 @@
         public event EventHandler<GotFocus> GotFocus;
 
         public event EventHandler<LostFocus> LostFocus;
+
+        public event EventHandler<OnLoaded> OnLoaded;
+
+        public event EventHandler<OnUnLoaded> OnUnLoaded;
 
         public IButton OpenSettingsButton => openSettingsButton;
 

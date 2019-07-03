@@ -9,6 +9,7 @@
     using Treatment.TestAutomation.Contract.Interfaces.Framework.SingleEventInterface;
 
     public interface ITreatmentApplication :
+        IApplication,
         IApplicationActivated,
         IApplicationDeactivated,
         IApplicationExit,

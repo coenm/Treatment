@@ -1,7 +1,6 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI
 {
     using JetBrains.Annotations;
-    using Treatment.Plugin.TestAutomation.UI.Adapters;
     using Treatment.Plugin.TestAutomation.UI.Adapters.TreatmentControls;
     using Treatment.Plugin.TestAutomation.UI.Interfaces;
 
@@ -12,5 +11,7 @@
         void RegisterAndInitializeApplication([NotNull] ITestAutomationApplication application);
 
         void RegisterAndInitializeMainView(MainWindowAdapter mainWindowAdapter);
+
+        void ClearMainView();
     }
 }

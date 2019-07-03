@@ -36,7 +36,16 @@
             var agent = testAutomationContainer.GetInstance<ITestAutomationAgent>();
 
             var view = new MainWindowAdapter(mainWindow, publisher);
+
+            void MainWindowClosed(object sender, EventArgs e)
+            {
+                mainWindow.Closed -= MainWindowClosed;
+                agent.ClearMainView();
+                view.Dispose();
+            }
+
             agent.RegisterAndInitializeMainView(view);
+            mainWindow.Closed += MainWindowClosed;
 
             return instance;
         }
