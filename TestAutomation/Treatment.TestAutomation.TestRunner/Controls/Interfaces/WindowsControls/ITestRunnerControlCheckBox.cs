@@ -17,6 +17,6 @@
         ITestRunnerControlPositionable,
         ITestRunnerControlFocusable
     {
-        bool IsChecked { get; }
+        bool? IsChecked { get; }
     }
 }

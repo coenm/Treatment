@@ -40,6 +40,16 @@
                                     }),
 
                              filter
+                                 .Where(ev => ev is GotFocus)
+                                 .Subscribe(
+                                     ev => HasFocus = true),
+
+                             filter
+                                 .Where(ev => ev is LostFocus)
+                                 .Subscribe(
+                                     ev => HasFocus = false),
+
+                             filter
                                  .Where(ev => ev is IsEnabledChanged)
                                  .Subscribe(ev =>
                                     {
@@ -79,7 +89,7 @@
 
         public string Value { get; private set; }
 
-        public bool HasFocus => throw new NotImplementedException();
+        public bool HasFocus { get; private set; }
 
         public Point Position { get; private set; }
 

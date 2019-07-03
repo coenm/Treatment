@@ -68,7 +68,6 @@
             started.Should().BeTrue();
 
             mre.WaitOne(15000).Should().BeTrue("Application not started in time");
-            // Application.Created.Should().BeTrue();
 
             Application.WindowActivated += (_, __) => mre2.Set();
             mre2.WaitOne(10000).Should().BeTrue("No Window activated in time");
@@ -84,17 +83,25 @@
             delayExecutionMinTextBox.Should().NotBeNull("TextBox DelayExecutionMinTextBox expected to be there.");
             delayExecutionMaxTextBox.Should().NotBeNull("TextBox DelayExecutionMaxTextBox expected to be there.");
 
+            await Mouse.MoveMouseCursorToElementAsync(checkbox);
+            await Mouse.ClickAsync();
+            await Mouse.ClickAsync();
+            await Task.Delay(100);
+
             await CheckCheckboxAsync(checkbox);
+            await Task.Delay(100);
             delayExecutionMinTextBox.IsEnabled.Should().BeTrue();
             delayExecutionMaxTextBox.IsEnabled.Should().BeTrue();
             await ConfigurableDelay(100);
 
             await UnCheckCheckboxAsync(checkbox);
+            await Task.Delay(100);
             delayExecutionMinTextBox.IsEnabled.Should().BeFalse();
             delayExecutionMaxTextBox.IsEnabled.Should().BeFalse();
             await ConfigurableDelay(100);
 
             await CheckCheckboxAsync(checkbox);
+            await Task.Delay(100);
             delayExecutionMinTextBox.IsEnabled.Should().BeTrue();
             delayExecutionMaxTextBox.IsEnabled.Should().BeTrue();
             await ConfigurableDelay(100);
@@ -102,7 +109,7 @@
             await SetTextAsync(delayExecutionMaxTextBox, "420");
             await ConfigurableDelay(100);
 
-            await SetTextAsync(delayExecutionMaxTextBox, "160");
+            await SetTextAsync(delayExecutionMinTextBox, "160");
             await ConfigurableDelay(100);
 
             // accept changes
@@ -163,7 +170,7 @@
 
         private async Task CheckCheckboxAsync([NotNull] RemoteCheckBox checkbox)
         {
-            if (checkbox.IsChecked)
+            if (checkbox.IsChecked.HasValue && checkbox.IsChecked.Value)
                 return;
 
             var mre = new ManualResetEvent(false);
@@ -174,7 +181,11 @@
             {
                 await Mouse.MoveMouseCursorToElementAsync(checkbox);
                 await Mouse.ClickAsync();
-                mre.WaitOne(1000);
+                if (!mre.WaitOne(1000))
+                {
+                    await Mouse.ClickAsync();
+                    mre.WaitOne(1000);
+                }
             }
             finally
             {
@@ -187,7 +198,7 @@
 
         private async Task UnCheckCheckboxAsync([NotNull] RemoteCheckBox checkbox)
         {
-            if (!checkbox.IsChecked)
+            if (checkbox.IsChecked.HasValue && checkbox.IsChecked.Value == false)
                 return;
 
             var mre = new ManualResetEvent(false);
@@ -198,7 +209,11 @@
             {
                 await Mouse.MoveMouseCursorToElementAsync(checkbox);
                 await Mouse.ClickAsync();
-                mre.WaitOne(1000);
+                if (!mre.WaitOne(1000))
+                {
+                    await Mouse.ClickAsync();
+                    mre.WaitOne(1000);
+                }
             }
             finally
             {

@@ -40,6 +40,24 @@
                                     }),
 
                              filter
+                                 .Where(ev => ev is GotFocus)
+                                 .Subscribe(
+                                     ev =>
+                                     {
+                                         HasFocus = true;
+                                         GotFocus?.Invoke(this, (GotFocus)ev);
+                                     }),
+
+                             filter
+                                 .Where(ev => ev is LostFocus)
+                                 .Subscribe(
+                                     ev =>
+                                     {
+                                         HasFocus = false;
+                                         LostFocus?.Invoke(this, (LostFocus)ev);
+                                     }),
+
+                             filter
                                  .Where(ev => ev is IsEnabledChanged)
                                  .Subscribe(ev =>
                                     {
@@ -93,7 +111,7 @@
 
         public bool IsEnabled { get; private set; }
 
-        public bool HasFocus => throw new NotImplementedException();
+        public bool HasFocus { get; private set; }
 
         public void Dispose()
         {
