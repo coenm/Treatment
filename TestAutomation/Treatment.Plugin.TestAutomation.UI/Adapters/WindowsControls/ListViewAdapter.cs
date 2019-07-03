@@ -12,12 +12,14 @@
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
+    using Treatment.Plugin.TestAutomation.UI.Interfaces;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Collection;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
+    // needs refactoring.
     // https://social.msdn.microsoft.com/Forums/vstudio/en-US/29ecc8ee-26ee-4331-8f97-35ff9d3e6886/how-to-access-items-in-a-datatemplate-for-wpf-listview?forum=wpf
-    internal class ListViewAdapter : IListView, IDisposable
+    internal class ListViewAdapter : ITestAutomationListView
     {
         [NotNull] private readonly ListView item;
         [NotNull] private readonly IEventPublisher eventPublisher;

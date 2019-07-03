@@ -15,7 +15,7 @@
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
-    public class ButtonAdapter : ITestAutomationButton, IButton
+    public class ButtonAdapter : ITestAutomationButton
     {
         [NotNull] private readonly Button item;
         [NotNull] private readonly List<IInitializable> helpers;

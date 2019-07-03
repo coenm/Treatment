@@ -14,7 +14,7 @@
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
-    public class CheckBoxAdapter : ITestAutomationCheckBox, ICheckBox
+    public class CheckBoxAdapter : ITestAutomationCheckBox
     {
         [NotNull] private readonly CheckBox item;
         [NotNull] private readonly List<IInitializable> helpers;

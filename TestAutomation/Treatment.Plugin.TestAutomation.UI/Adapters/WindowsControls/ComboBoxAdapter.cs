@@ -13,7 +13,7 @@
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
-    public class ComboBoxAdapter : ITestAutomationComboBox, IComboBox
+    public class ComboBoxAdapter : ITestAutomationComboBox
     {
         [NotNull] private readonly ComboBox item;
         [NotNull] private readonly List<IInitializable> helpers;
