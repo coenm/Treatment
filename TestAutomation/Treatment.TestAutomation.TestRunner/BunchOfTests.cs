@@ -1,5 +1,6 @@
 ﻿namespace Treatment.TestAutomation.TestRunner
 {
+    using System;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
@@ -42,7 +43,6 @@
         [Fact]
         public async Task SettingsWindow_ShouldSaveConfig_WhenConfigIsChangedAndOkButtonIsClicked()
         {
-            // arrange
             const string configFilename = "TreatmentConfig.json";
 
             var mre = new ManualResetEvent(false);
@@ -108,18 +108,18 @@
             await Mouse.MoveMouseCursorToElementAsync(okButton);
             await Mouse.ClickAsync();
 
+            mre2.WaitOne(1000);
+
             // check if file has been saved.
+            await ConfigurableDelay(100, "wait for file to be saved.");
             var fileExists = await Agent.FileExistsAsync(configFilename);
-            fileExists.Should().BeTrue();
+            fileExists.Should().BeTrue("file should be saved already");
 
             var content = await Agent.GetFileContentAsync(configFilename);
-            content.Should().NotBeNull();
+            content.Should().NotBeNull("config file should have content");
             output.WriteLine(Encoding.Default.GetString(content));
 
             // close application.
-            mre2.WaitOne(1000);
-            settingsWindow = null;
-
             var window = Application.MainWindow as RemoteMainWindow;
             window.Should().NotBeNull();
             output.WriteLine($"x {window.Position.X}  y {window.Position.Y}");
@@ -434,15 +434,15 @@
             Application.Exit -= ApplicationOnExit;
         }
 
-        private static Task ConfigurableDelay(int milliseconds)
+        private Task ConfigurableDelay(int milliseconds, string reason = "no reason given")
         {
             if (milliseconds <= 0)
                 return Task.CompletedTask;
 
             // wraps delay so we can make this configurable..
+            output.WriteLine($"Waiting.. {TimeSpan.FromMilliseconds(milliseconds)} because {reason}.");
             return Task.Delay(milliseconds);
         }
-
 
         private async Task CheckCheckboxAsync([NotNull] RemoteCheckBox checkbox)
         {
