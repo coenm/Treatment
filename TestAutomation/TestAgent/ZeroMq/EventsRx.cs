@@ -10,7 +10,7 @@
     using Treatment.Helpers.Guards;
     using ZeroMQ;
 
-    internal class EventsRx
+    internal class EventsRx : IDisposable
     {
         [NotNull] private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         [NotNull] private readonly Subject<bool> subject;
@@ -59,5 +59,22 @@
 
         [NotNull]
         public IObservable<bool> Events => subject;
+
+        public void Dispose()
+        {
+            Ignore(subject.Dispose);
+        }
+
+        private static void Ignore(Action action)
+        {
+            try
+            {
+                action?.Invoke();
+            }
+            catch (Exception)
+            {
+                // intentionally do nothing.
+            }
+        }
     }
 }

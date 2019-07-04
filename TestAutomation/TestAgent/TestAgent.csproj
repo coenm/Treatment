@@ -222,6 +222,8 @@
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ZeroMq\EventsRx.cs" />
+    <Compile Include="ZeroMq\PublishInfrastructure\ZeroMqTestAgentEventPublisher.cs" />
+    <Compile Include="ZeroMq\PublishInfrastructure\ITestAgentEventPublisher.cs" />
     <Compile Include="ZeroMq\PublishInfrastructure\IZeroMqPublishProxyFactory.cs" />
     <Compile Include="ZeroMq\PublishInfrastructure\ZeroMqPublishProxyConfig.cs" />
     <Compile Include="ZeroMq\PublishInfrastructure\ZeroMqPublishProxyFactory.cs" />

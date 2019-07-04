@@ -111,7 +111,7 @@
             mre2.WaitOne(1000);
 
             // check if file has been saved.
-            await ConfigurableDelay(100, "wait for file to be saved.");
+            await ConfigurableDelay(1000, "wait for file to be saved.");
             var fileExists = await Agent.FileExistsAsync(configFilename);
             fileExists.Should().BeTrue("file should be saved already");
 

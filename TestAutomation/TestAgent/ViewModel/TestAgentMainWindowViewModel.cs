@@ -6,12 +6,12 @@
     using System.Threading;
     using System.Windows.Input;
 
-    using CoenM.ZeroMq.ContextService;
     using CoenM.ZeroMq.Socket;
     using CoenM.ZeroMq.Worker;
     using JetBrains.Annotations;
     using Nito.Mvvm;
     using NLog;
+    using TestAgent.Contract.Interface.Events;
     using TestAgent.Model.Configuration;
     using TestAgent.ZeroMq;
     using TestAgent.ZeroMq.PublishInfrastructure;
@@ -20,7 +20,6 @@
     using Wpf.Framework.EntityEditor;
     using Wpf.Framework.SynchronizationContext;
     using Wpf.Framework.ViewModel;
-    using ZeroMQ;
 
     public class TestAgentMainWindowViewModel : ViewModelBase, ITestAgentMainWindowViewModel, IDisposable
     {
@@ -30,10 +29,11 @@
         [NotNull] private readonly ZeroMqReqRepProxyService reqRspProxy;
         [NotNull] private readonly ZeroMqPublishProxyService publishProxy;
         [NotNull] private readonly CompositeDisposable disposable;
+        [NotNull] private readonly ITestAgentEventPublisher eventPublisher;
+        [NotNull] private readonly EventsRx eventsProcessor;
 
         /* Shitload of dependencies... fix this.. */
         public TestAgentMainWindowViewModel(
-            [NotNull] IZeroMqContextService contextService,
             [NotNull] IZeroMqReqRepProxyFactory zeroMqReqRepProxyFactory,
             [NotNull] IZeroMqPublishProxyFactory zeroMqPublishProxyFactory,
             [NotNull] ReqRepWorkerManagement workerManager,
@@ -42,9 +42,9 @@
             [NotNull] IUserInterfaceSynchronizationContextProvider uiContextProvider,
             [NotNull] IAgentContext agent,
             [NotNull] IModelEditor modelEditor,
-            [NotNull] IConfigurationService configurationService)
+            [NotNull] IConfigurationService configurationService,
+            [NotNull] ITestAgentEventPublisher eventPublisher)
         {
-            Guard.NotNull(contextService, nameof(contextService));
             Guard.NotNull(zeroMqReqRepProxyFactory, nameof(zeroMqReqRepProxyFactory));
             Guard.NotNull(zeroMqPublishProxyFactory, nameof(zeroMqPublishProxyFactory));
             Guard.NotNull(workerManager, nameof(workerManager));
@@ -52,9 +52,10 @@
             Guard.NotNull(socketFactory, nameof(socketFactory));
             Guard.NotNull(uiContextProvider, nameof(uiContextProvider));
             Guard.NotNull(agent, nameof(agent));
+            Guard.NotNull(eventPublisher, nameof(eventPublisher));
 
             this.agent = agent;
-            var context = contextService.GetContext();
+            this.eventPublisher = eventPublisher;
 
             cts = new CancellationTokenSource();
 
@@ -69,7 +70,7 @@
                 "inproc://reqrsp",
                 cts.Token);
 
-            var eventsProcessor = new EventsRx(socketFactory, "inproc://capturePubSub");
+            eventsProcessor = new EventsRx(socketFactory, "inproc://capturePubSub");
 
             disposable = new CompositeDisposable
             {
@@ -103,11 +104,7 @@
             });
 
             // let listeners know agent has started.
-            using (var agentPublishSocket = new ZSocket(context, ZSocketType.PUB))
-            {
-                agentPublishSocket.Connect("inproc://publish");
-                agentPublishSocket.Send(new ZMessage(new[] { new ZFrame("AGENT"), new ZFrame("Started"), }));
-            }
+            eventPublisher.PublishAsync(new TestAgentStarted());
         }
 
         public int EventsCounter
@@ -120,7 +117,9 @@
 
         public void Dispose()
         {
+            eventPublisher.PublishAsync(new TestAgentStopped());
             disposable.Dispose();
+            eventsProcessor.Dispose();
             cts.Cancel();
             agent.Stop();
             publishProxy.Dispose();
