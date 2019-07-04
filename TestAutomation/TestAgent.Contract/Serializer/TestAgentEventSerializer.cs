@@ -1,4 +1,4 @@
-﻿namespace Treatment.TestAutomation.Contract.Serializer
+﻿namespace TestAgent.Contract.Serializer
 {
     using System;
     using System.Collections.Generic;
@@ -6,18 +6,18 @@
 
     using JetBrains.Annotations;
     using Newtonsoft.Json;
-    using Treatment.TestAutomation.Contract.Interfaces.Events;
+    using TestAgent.Contract.Interface.Events;
 
-    public static class EventSerializer
+    public static class TestAgentEventSerializer
     {
-        private static readonly Type EventType = typeof(IEvent);
+        private static readonly Type EventType = typeof(ITestAgentEvent);
         private static readonly List<Type> EventTypes = EventType.Assembly
             .GetTypes()
             .Where(type => EventType.IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract)
             .ToList();
 
         [PublicAPI]
-        public static (string, string) Serialize([NotNull] IEvent @event)
+        public static (string, string) Serialize([NotNull] ITestAgentEvent @event)
         {
             if (@event == null)
                 throw new ArgumentNullException(nameof(@event));
@@ -29,7 +29,7 @@
         }
 
         [PublicAPI]
-        public static IEvent DeserializeEvent([NotNull] string type, [NotNull] string payload)
+        public static ITestAgentEvent DeserializeEvent([NotNull] string type, [NotNull] string payload)
         {
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
@@ -40,7 +40,7 @@
                 if (payloadType == null)
                     throw new ArgumentException($"Could not find type '{type}'", nameof(type));
 
-                return JsonConvert.DeserializeObject(payload, payloadType) as IEvent;
+                return JsonConvert.DeserializeObject(payload, payloadType) as ITestAgentEvent;
             }
             catch (Exception)
             {

@@ -3,7 +3,7 @@
     using JetBrains.Annotations;
 
     [PublicAPI]
-    public class DeleteFileRequest : IControlRequest
+    public class CreateFileMonitorRequest : IControlRequest
     {
         public string Filename { get; set; }
     }

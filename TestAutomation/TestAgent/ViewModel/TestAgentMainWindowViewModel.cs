@@ -31,6 +31,7 @@
         [NotNull] private readonly ZeroMqPublishProxyService publishProxy;
         [NotNull] private readonly CompositeDisposable disposable;
 
+        /* Shitload of dependencies... fix this.. */
         public TestAgentMainWindowViewModel(
             [NotNull] IZeroMqContextService contextService,
             [NotNull] IZeroMqReqRepProxyFactory zeroMqReqRepProxyFactory,

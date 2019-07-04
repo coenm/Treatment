@@ -23,12 +23,6 @@
 
     public static class Program
     {
-#if DEBUG
-        private const string Config = "Debug";
-#else
-        private const string Config = "Release";
-#endif
-
         [NotNull] private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static Container container;
 
