@@ -1,7 +1,7 @@
 ﻿namespace TestAgent
 {
-    using System.IO;
     using System.Threading;
+
     using JetBrains.Annotations;
     using Medallion.Shell;
 

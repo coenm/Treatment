@@ -12,7 +12,7 @@
     using Treatment.Helpers.Guards;
     using ZeroMQ;
 
-    public class ZmqProxyExtended
+    public class ZmqProxyExtended : IDisposable
     {
         private static readonly Random Random = new Random(DateTime.Now.Millisecond);
 
@@ -56,6 +56,27 @@
 
             result.Dispose();
             throw new ApplicationException($"Could not create and start a proxy within {startingTimeoutSec} seconds.");
+        }
+
+        public void Dispose()
+        {
+            if (disposed)
+                return;
+
+            lock (syncLock)
+            {
+                if (disposed)
+                    return;
+
+                TryAndLog(() => runningProxyTask.Dispose());
+                runningProxyTask = null;
+
+                State = ProxyState.Terminated;
+
+                TryAndLog(() => proxyStartedSignal.Dispose());
+
+                disposed = true;
+            }
         }
 
         private static string GenerateChannelName()
@@ -134,27 +155,6 @@
             }
 
             runningProxyTask = Task.Run(() => StartProxying());
-        }
-
-        public void Dispose()
-        {
-            if (disposed)
-                return;
-
-            lock (syncLock)
-            {
-                if (disposed)
-                    return;
-
-                TryAndLog(() => runningProxyTask.Dispose());
-                runningProxyTask = null;
-
-                State = ProxyState.Terminated;
-
-                TryAndLog(() => proxyStartedSignal.Dispose());
-
-                disposed = true;
-            }
         }
 
         private void TryAndLog(Action action, Action<string> failAction = null)

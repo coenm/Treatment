@@ -10,7 +10,7 @@
     using Treatment.Helpers.Guards;
     using ZeroMQ;
 
-    public class ZmqProxy
+    public class ZmqProxy : IDisposable
     {
         private static readonly Random Random = new Random(DateTime.Now.Millisecond);
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -80,9 +80,28 @@
             throw new ApplicationException($"Could not create and start a proxy within {startingTimeoutSec} seconds.");
         }
 
-        private static string GenerateChannelName()
+        [PublicAPI]
+        public void Pause()
         {
-            return $"inproc://gen_{nameof(ZmqProxy)}_{DateTime.Now:ddhhmmssfff}_{Random.Next(10000)}";
+            if (disposed)
+                return;
+
+            lock (syncLock)
+            {
+                if (disposed)
+                    return;
+
+                if (State != ProxyState.Running)
+                    return;
+
+                using (var frame = new ZFrame("PAUSE"))
+                {
+                    if (!controlSocketPub.TrySend(frame))
+                        return;
+                }
+
+                State = ProxyState.Paused;
+            }
         }
 
         private void StartProxy(ZSocket frontend, ZSocket backend, ZSocket capture = null)
@@ -116,30 +135,6 @@
             }
 
             runningProxyTask = Task.Run(() => StartProxying());
-        }
-
-        [PublicAPI]
-        public void Pause()
-        {
-            if (disposed)
-                return;
-
-            lock (syncLock)
-            {
-                if (disposed)
-                    return;
-
-                if (State != ProxyState.Running)
-                    return;
-
-                using (var frame = new ZFrame("PAUSE"))
-                {
-                    if (!controlSocketPub.TrySend(frame))
-                        return;
-                }
-
-                State = ProxyState.Paused;
-            }
         }
 
         [PublicAPI]
@@ -199,6 +194,11 @@
 
                 disposed = true;
             }
+        }
+
+        private static string GenerateChannelName()
+        {
+            return $"inproc://gen_{nameof(ZmqProxy)}_{DateTime.Now:ddhhmmssfff}_{Random.Next(10000)}";
         }
 
         private void TryAndLog(Action action, Action<string> failAction = null)
