@@ -183,7 +183,6 @@
     <Compile Include="Model\Configuration\TestAgentApplicationSettings.cs" />
     <Compile Include="Model\Configuration\AssemblyBasedFilenameProvider.cs" />
     <Compile Include="Model\IConfigFilenameProvider.cs" />
-    <Compile Include="RequestHandlers\Control\CreateFileMonitorRequestHandler.cs" />
     <Compile Include="RequestHandlers\Control\DeleteFileRequestHandler.cs" />
     <Compile Include="RequestHandlers\Control\FileExistsRequestHandler.cs" />
     <Compile Include="RequestHandlers\Control\GetFileRequestHandler.cs" />
