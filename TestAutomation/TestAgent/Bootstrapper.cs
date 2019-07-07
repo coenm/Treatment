@@ -61,15 +61,15 @@
 
             container.Register<ZeroMqPublishProxyConfig>(() => new ZeroMqPublishProxyConfig(
                 new[] { endpointPubSub },
-                new[] { $"tcp://*:{sutPublishPort}", "inproc://publish" },
-                "inproc://capturePubSub"));
+                new[] { $"tcp://*:{sutPublishPort}", FixedSettings.InternalPublishSocket },
+                FixedSettings.InternalPublishProxyCapturingSocket));
 
             container.Register<IZeroMqPublishProxyFactory, ZeroMqPublishProxyFactory>(Lifestyle.Transient);
 
             container.Register<ZeroMqReqRepProxyConfig>(
                 () => new ZeroMqReqRepProxyConfig(
                 new[] { endpointReqRsp },
-                new[] { "inproc://reqrsp" }),
+                new[] { FixedSettings.InternalRequestResponseWorkerSocket }),
                 Lifestyle.Singleton);
 
             container.Register<IZeroMqReqRepProxyFactory, ZeroMqReqRepProxyFactory>(Lifestyle.Singleton);
@@ -77,8 +77,8 @@
             // used to publish events over zeromq.
             container.Register<ITestAgentEventPublisher>(
                                                          () => new ZeroMqTestAgentEventPublisher(
-                                                                                                 container.GetInstance<IZeroMqContextService>(), 
-                                                                                                 "inproc://publish"));
+                                                                                                 container.GetInstance<IZeroMqContextService>(),
+                                                                                                 FixedSettings.InternalPublishSocket));
         }
     }
 }

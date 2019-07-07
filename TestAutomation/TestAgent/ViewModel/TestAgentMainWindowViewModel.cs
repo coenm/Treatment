@@ -67,10 +67,10 @@
 
             var workerTask1 = workerManager.StartSingleWorker(
                 zmqDispatcher,
-                "inproc://reqrsp",
+                FixedSettings.InternalRequestResponseWorkerSocket,
                 cts.Token);
 
-            eventsProcessor = new EventsRx(socketFactory, "inproc://capturePubSub");
+            eventsProcessor = new EventsRx(socketFactory, FixedSettings.InternalPublishProxyCapturingSocket);
 
             disposable = new CompositeDisposable
             {
