@@ -11,10 +11,11 @@
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Window;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
+    using Treatment.TestAutomation.TestRunner.Controls.Interfaces.TreatmentControls;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
     using Treatment.TestAutomation.TestRunner.Framework.RemoteImplementations;
 
-    public class RemoteMainWindow : IMainWindow, IDisposable
+    public class RemoteMainWindow : ITestRunnerOwnControlMainWindow, IDisposable
     {
         [NotNull] private readonly CompositeDisposable disposable;
         [NotNull] private readonly SingleClassObjectManager propertyManager;
@@ -48,6 +49,14 @@
                                                 Size = ((SizeUpdated)ev).Size;
                                                 SizeUpdated?.Invoke(this, (SizeUpdated)ev);
                                             }),
+
+                             filter
+                                 .Where(ev => ev is OnLoaded)
+                                 .Subscribe(ev => OnLoaded?.Invoke(this, (OnLoaded)ev)),
+
+                             filter
+                                 .Where(ev => ev is OnUnLoaded)
+                                 .Subscribe(ev => OnUnLoaded?.Invoke(this, (OnUnLoaded)ev)),
                          };
         }
 
@@ -73,6 +82,10 @@
 
         public event EventHandler<LostFocus> LostFocus;
 
+        public event EventHandler<OnLoaded> OnLoaded;
+
+        public event EventHandler<OnUnLoaded> OnUnLoaded;
+
         public IButton OpenSettingsButton => propertyManager.GetObject<IButton>();
 
         public IProjectListView ProjectList => propertyManager.GetObject<IProjectListView>();
@@ -82,6 +95,8 @@
         public Point Position { get; private set; }
 
         public Size Size { get; private set; }
+
+        public bool HasFocus { get; private set; }
 
         public void Dispose()
         {

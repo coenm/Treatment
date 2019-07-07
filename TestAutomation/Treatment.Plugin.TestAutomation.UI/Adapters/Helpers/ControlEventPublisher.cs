@@ -1,4 +1,4 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters
+﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters.Helpers
 {
     using System;
     using System.Collections.Generic;
@@ -11,7 +11,7 @@
     using Treatment.TestAutomation.Contract.Interfaces.Events;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
-    public class ControlEventPublisher : IDisposable
+    internal class ControlEventPublisher : IDisposable
     {
         private readonly Guid guid;
         private readonly IEventPublisher eventPublisher;

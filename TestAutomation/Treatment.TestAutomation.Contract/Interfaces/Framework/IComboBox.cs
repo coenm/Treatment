@@ -11,7 +11,8 @@
         IDropDownOpened,
         IDropDownClosed,
         ISelectionChanged,
-        IControl
+        IControl,
+        IElementLoadedUnLoaded
     {
     }
 }

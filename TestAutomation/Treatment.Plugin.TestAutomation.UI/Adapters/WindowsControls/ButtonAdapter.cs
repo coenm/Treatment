@@ -1,4 +1,4 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters
+﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters.WindowsControls
 {
     using System;
     using System.Collections.Generic;
@@ -15,7 +15,7 @@
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
-    public class ButtonAdapter : ITestAutomationButton, IButton
+    public class ButtonAdapter : ITestAutomationButton
     {
         [NotNull] private readonly Button item;
         [NotNull] private readonly List<IInitializable> helpers;
@@ -33,6 +33,10 @@
 
             helpers = new List<IInitializable>
                       {
+                          new LoadedUnLoadedHelper(
+                                  item,
+                                  c => OnLoaded?.Invoke(this, c),
+                                  c => OnUnLoaded?.Invoke(this, c)),
                           new PositionChangedHelper(item, c => PositionUpdated?.Invoke(this, c)),
                           new SizeChangedHelper(item, c => SizeUpdated?.Invoke(this, c)),
                           new EnabledChangedHelper(item, c => IsEnabledChanged?.Invoke(this, c)),
@@ -63,6 +67,10 @@
         public event EventHandler<LostFocus> LostFocus;
 
         public event EventHandler<KeyboardFocusChanged> KeyboardFocusChanged;
+
+        public event EventHandler<OnLoaded> OnLoaded;
+
+        public event EventHandler<OnUnLoaded> OnUnLoaded;
 
         public Guid Guid { get; }
 

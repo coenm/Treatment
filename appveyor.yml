@@ -54,7 +54,10 @@ build:
   project: Treatment.sln
   verbosity: normal
 
-# tests are run automatically using default config
+test:
+  assemblies:
+    only:
+    - '**\*.Tests.dll'
 
 after_test:
 - cmd: 7z a TreatmentConsole.%GitVersion_FullSemVer%.zip .\src\Treatment.Console\bin\x64\Release\*.dll

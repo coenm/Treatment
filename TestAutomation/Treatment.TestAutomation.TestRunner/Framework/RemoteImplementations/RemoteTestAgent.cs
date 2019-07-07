@@ -5,26 +5,18 @@
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
-
     using TestAgent.Contract.Interface.Control;
-
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
     internal class RemoteTestAgent : ITestAgent
     {
         private readonly IExecuteControl execute;
-        private readonly ISutSettings sutSettings;
 
-        public RemoteTestAgent(
-            [NotNull] IExecuteControl execute,
-            [NotNull] ISutSettings sutSettings)
+        public RemoteTestAgent([NotNull] IExecuteControl execute)
         {
             Guard.NotNull(execute, nameof(execute));
-            Guard.NotNull(sutSettings, nameof(sutSettings));
-
             this.execute = execute;
-            this.sutSettings = sutSettings;
         }
 
         public async Task<List<string>> LocateFilesAsync(string directory, string filename)
@@ -45,11 +37,7 @@
 
         public async Task<bool> StartSutAsync()
         {
-            var req = new StartSutRequest
-                      {
-                          Executable = sutSettings.SutExecutable,
-                          WorkingDirectory = sutSettings.WorkingDirectory,
-                      };
+            var req = new StartSutRequest();
 
             var rsp = await execute.ExecuteControl(req);
 
@@ -84,6 +72,36 @@
                 return x.Filename;
 
             throw new Exception("something went wrong ;-)");
+        }
+
+        public async Task<bool> DeleteFileAsync(string filename)
+        {
+            var req = new DeleteFileRequest
+            {
+                Filename = filename,
+            };
+
+            var rsp = await execute.ExecuteControl(req);
+
+            if (rsp is DeleteFileResponse x)
+                return x.Deleted;
+
+            throw new Exception($"something went wrong. Received: {rsp.GetType().FullName}");
+        }
+
+        public async Task<bool> FileExistsAsync(string filename)
+        {
+            var req = new FileExistsRequest
+            {
+                Filename = filename,
+            };
+
+            var rsp = await execute.ExecuteControl(req);
+
+            if (rsp is FileExistsResponse x)
+                return x.FileExists;
+
+            throw new Exception($"something went wrong. Received: {rsp.GetType().FullName}");
         }
 
         public void Dispose()

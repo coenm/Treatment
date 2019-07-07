@@ -3,47 +3,51 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using CoenM.ZeroMq.Helpers;
-    using CoenM.ZeroMq.Socket;
     using JetBrains.Annotations;
     using NLog;
+    using TestAgent.Contract.Interface.Events;
+    using TestAgent.ZeroMq.PublishInfrastructure;
     using Treatment.Helpers.Guards;
-    using ZeroMQ;
 
     public class AgentContext : IAgentContext
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly IZeroMqSocketFactory socketFactory;
         private readonly CancellationTokenSource cancellationTokenSource;
+        [NotNull] private readonly ITestAgentEventPublisher publisher;
         private Medallion.Shell.Command command;
 
-        public AgentContext([NotNull] IZeroMqSocketFactory socketFactory)
+        public AgentContext([NotNull] ITestAgentEventPublisher publisher)
         {
-            Guard.NotNull(socketFactory, nameof(socketFactory));
+            Guard.NotNull(publisher, nameof(publisher));
+            this.publisher = publisher;
 
-            this.socketFactory = socketFactory;
             cancellationTokenSource = new CancellationTokenSource();
+            WorkingDirectory = null;
         }
 
         public CancellationToken CancellationToken => cancellationTokenSource.Token;
 
-        public void SetSutProcess([NotNull] Medallion.Shell.Command command)
+        public string WorkingDirectory { get; private set; }
+
+        public void SetSutProcess([NotNull] Medallion.Shell.Command cmd)
         {
-            Guard.NotNull(command, nameof(command));
-            this.command = command;
+            Guard.NotNull(cmd, nameof(cmd));
+            command = cmd;
 
             Task.Run(async () => await StartMonitoring(command), CancellationToken.None);
         }
+
+        public void SetWorkingDirectory(string workingDirectory) => WorkingDirectory = workingDirectory;
 
         public void Stop()
         {
             cancellationTokenSource.Cancel();
         }
 
-        private async Task StartMonitoring(Medallion.Shell.Command command)
+        private async Task StartMonitoring([NotNull] Medallion.Shell.Command cmd)
         {
             Logger.Info("Monitoring task..");
-            var result = await command.Task;
+            var result = await cmd.Task;
 
             Logger.Info("Task finished..");
             Logger.Info(result.StandardOutput);
@@ -51,21 +55,15 @@
             Logger.Info($"ExitCode: {result.ExitCode}");
             Logger.Info(result.Success ? "success" : "error");
 
-            using (var socket = socketFactory.Create(ZSocketType.PUB))
-            {
-                if (socket.TryConnect("inproc://publish"))
-                {
-                    socket.Send(new ZMessage(new[]
-                                             {
-                                                 new ZFrame("AGENT"),
-                                                 new ZFrame("SUT PROCESS"),
-                                                 new ZFrame(result.StandardOutput),
-                                                 new ZFrame(result.StandardError),
-                                                 new ZFrame(result.ExitCode),
-                                                 new ZFrame(result.Success ? "1" : "0"),
-                                             }));
-                }
-            }
+            var evt = new SutProcessStopped
+                    {
+                        StandardOutput = result.StandardOutput,
+                        StandardError = result.StandardError,
+                        ExitCode = result.ExitCode,
+                        Success = result.Success,
+                    };
+
+            await publisher.PublishAsync(evt);
         }
     }
 }

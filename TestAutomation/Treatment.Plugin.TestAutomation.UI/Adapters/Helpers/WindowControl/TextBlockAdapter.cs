@@ -1,4 +1,4 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters
+﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.WindowControl
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,6 @@
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.TextBlockControl;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
@@ -28,8 +27,12 @@
 
             publisher = new ControlEventPublisher(this, Guid, eventPublisher);
 
-            helpers = new List<IInitializable>(4)
+            helpers = new List<IInitializable>(5)
                       {
+                          new LoadedUnLoadedHelper(
+                              item,
+                              c => OnLoaded?.Invoke(this, c),
+                              c => OnUnLoaded?.Invoke(this, c)),
                           new PositionChangedHelper(item, c => PositionUpdated?.Invoke(this, c)),
                           new SizeChangedHelper(item, c => SizeUpdated?.Invoke(this, c)),
                           new EnabledChangedHelper(item, c => IsEnabledChanged?.Invoke(this, c)),
@@ -46,6 +49,10 @@
         public event EventHandler<IsEnabledChanged> IsEnabledChanged;
 
         public event EventHandler<TextValueChanged> TextValueChanged;
+
+        public event EventHandler<OnLoaded> OnLoaded;
+
+        public event EventHandler<OnUnLoaded> OnUnLoaded;
 
         public Guid Guid { get; }
 

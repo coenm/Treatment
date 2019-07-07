@@ -7,7 +7,8 @@
         ISizeUpdated,
         IIsEnabledChanged,
         ITextValueChanged,
-        IControl
+        IControl,
+        IElementLoadedUnLoaded
     {
     }
 }

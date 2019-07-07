@@ -33,6 +33,17 @@
         {
             checkBox.Checked += CheckBoxOnChecked;
             checkBox.Unchecked += CheckBoxOnUnchecked;
+
+            if (!checkBox.IsChecked.HasValue)
+                return;
+
+            if (checkBox.IsChecked.Value)
+            {
+                CheckBoxOnChecked(this, null);
+                return;
+            }
+
+            CheckBoxOnUnchecked(this, null);
         }
 
         public void Dispose()

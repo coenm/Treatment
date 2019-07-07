@@ -35,9 +35,7 @@
         {
             Guard.NotNull(request, nameof(request));
 
-            var executable = request.Executable;
-            if (string.IsNullOrWhiteSpace(executable) || File.Exists(executable))
-                executable = (await resolveSutExecutable.GetAsync().ConfigureAwait(false)).Executable;
+            var executable = (await resolveSutExecutable.GetAsync().ConfigureAwait(false)).Executable;
 
             if (string.IsNullOrWhiteSpace(executable) || !File.Exists(executable))
             {
@@ -48,9 +46,7 @@
                     };
             }
 
-            var workingDirectory = request.WorkingDirectory;
-            if (string.IsNullOrWhiteSpace(workingDirectory) || Directory.Exists(workingDirectory) == false)
-                workingDirectory = new FileInfo(executable).DirectoryName;
+            var workingDirectory = new FileInfo(executable).DirectoryName;
 
             var command = Command.Run(
                 executable,
@@ -66,16 +62,14 @@
                     });
                 });
 
+            context.SetWorkingDirectory(workingDirectory);
             context.SetSutProcess(command);
 
             return new StartSutResponse
             {
-                Executable = executable, Success = true,
+                Executable = executable,
+                Success = true,
             };
-
-            // var result = await command.Task.ConfigureAwait(true);
-            // Console.WriteLine(result.StandardOutput);
-            // Console.WriteLine(result.StandardError);
         }
     }
 }

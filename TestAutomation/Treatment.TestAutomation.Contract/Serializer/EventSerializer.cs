@@ -10,11 +10,13 @@
 
     public static class EventSerializer
     {
-        private static readonly List<Type> EventTypes = typeof(IEvent).Assembly
+        private static readonly Type EventType = typeof(IEvent);
+        private static readonly List<Type> EventTypes = EventType.Assembly
             .GetTypes()
-            .Where(type => typeof(IEvent).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract)
+            .Where(type => EventType.IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract)
             .ToList();
 
+        [PublicAPI]
         public static (string, string) Serialize([NotNull] IEvent @event)
         {
             if (@event == null)
@@ -26,6 +28,7 @@
             return (@event.GetType().FullName, JsonConvert.SerializeObject(@event));
         }
 
+        [PublicAPI]
         public static IEvent DeserializeEvent([NotNull] string type, [NotNull] string payload)
         {
             if (type == null)

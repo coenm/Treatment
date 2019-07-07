@@ -1,4 +1,4 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters
+﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters.TreatmentControls
 {
     using System;
     using System.Collections.Generic;
@@ -8,6 +8,7 @@
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.WindowControl;
+    using Treatment.Plugin.TestAutomation.UI.Adapters.WindowsControls;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Interfaces;
     using Treatment.Plugin.TestAutomation.UI.Reflection;
@@ -24,10 +25,14 @@
         [NotNull] private readonly SettingsWindow settingsWindow;
         [NotNull] private readonly IEventPublisher eventPublisher;
         [CanBeNull] private ITestAutomationButton browseRootDirectory;
+        [CanBeNull] private ITestAutomationButton okButton;
+        [CanBeNull] private ITestAutomationButton cancelButton;
         [CanBeNull] private ITestAutomationTextBox rootDirectory;
         [CanBeNull] private ITestAutomationComboBox comboSearchProvider;
         [CanBeNull] private ITestAutomationComboBox comboVersionControlProvider;
         [CanBeNull] private ITestAutomationCheckBox delayExecution;
+        [CanBeNull] private ITestAutomationTextBox delayExecutionMinValue;
+        [CanBeNull] private ITestAutomationTextBox delayExecutionMaxValue;
 
         public SettingWindowAdapter([NotNull] SettingsWindow settingsWindow, [NotNull] IEventPublisher eventPublisher)
         {
@@ -40,6 +45,10 @@
 
             helpers = new List<IInitializable>
                       {
+                          new LoadedUnLoadedHelper(
+                              settingsWindow,
+                              c => OnLoaded?.Invoke(this, c),
+                              c => OnUnLoaded?.Invoke(this, c)),
                           new InitializedHelper(settingsWindow, c => Initialized?.Invoke(this, c)),
                           new WindowClosingHelper(settingsWindow, c => WindowClosing?.Invoke(this, c)),
                           new WindowClosedHelper(settingsWindow, c => WindowClosed?.Invoke(this, c)),
@@ -82,6 +91,10 @@
 
         public event EventHandler<LostFocus> LostFocus;
 
+        public event EventHandler<OnLoaded> OnLoaded;
+
+        public event EventHandler<OnUnLoaded> OnUnLoaded;
+
         public Guid Guid { get; }
 
         public IButton BrowseRootDirectory => browseRootDirectory;
@@ -93,6 +106,14 @@
         public IComboBox ComboVersionControlProvider => comboVersionControlProvider;
 
         public ICheckBox DelayExecution => delayExecution;
+
+        public ITextBox DelayExecutionMinValue => delayExecutionMinValue;
+
+        public ITextBox DelayExecutionMaxValue => delayExecutionMaxValue;
+
+        public IButton OkButton => okButton;
+
+        public IButton CancelButton => cancelButton;
 
         public void Dispose()
         {
@@ -134,6 +155,30 @@
                 FieldsHelper.FindFieldInUiElementByName<CheckBox>(settingsWindow, nameof(DelayExecution)),
                 eventPublisher));
             delayExecution?.Initialize();
+
+            UpdateDelayExecutionMinValue(
+                new TextBoxAdapter(
+                    FieldsHelper.FindFieldInUiElementByName<TextBox>(settingsWindow, nameof(DelayExecutionMinValue)),
+                    eventPublisher));
+            delayExecutionMinValue?.Initialize();
+
+            UpdateDelayExecutionMaxValue(
+                new TextBoxAdapter(
+                    FieldsHelper.FindFieldInUiElementByName<TextBox>(settingsWindow, nameof(DelayExecutionMaxValue)),
+                    eventPublisher));
+            delayExecutionMaxValue?.Initialize();
+
+            UpdateOkButton(
+                new ButtonAdapter(
+                    FieldsHelper.FindFieldInUiElementByName<Button>(settingsWindow, nameof(OkButton)),
+                    eventPublisher));
+            okButton?.Initialize();
+
+            UpdateCancelButton(
+                new ButtonAdapter(
+                    FieldsHelper.FindFieldInUiElementByName<Button>(settingsWindow, nameof(CancelButton)),
+                    eventPublisher));
+            cancelButton?.Initialize();
         }
 
         private void UpdateBrowseRootDirectory(ITestAutomationButton value)
@@ -144,6 +189,26 @@
                 eventPublisher.PublishAssignedAsync(Guid, nameof(BrowseRootDirectory), value.Guid);
             else
                 eventPublisher.PublishClearedAsync(Guid, nameof(BrowseRootDirectory));
+        }
+
+        private void UpdateOkButton(ITestAutomationButton value)
+        {
+            okButton = value;
+
+            if (value != null)
+                eventPublisher.PublishAssignedAsync(Guid, nameof(OkButton), value.Guid);
+            else
+                eventPublisher.PublishClearedAsync(Guid, nameof(OkButton));
+        }
+
+        private void UpdateCancelButton(ITestAutomationButton value)
+        {
+            cancelButton = value;
+
+            if (value != null)
+                eventPublisher.PublishAssignedAsync(Guid, nameof(CancelButton), value.Guid);
+            else
+                eventPublisher.PublishClearedAsync(Guid, nameof(CancelButton));
         }
 
         private void UpdateRootDirectory(ITestAutomationTextBox value)
@@ -184,6 +249,26 @@
                 eventPublisher.PublishAssignedAsync(Guid, nameof(DelayExecution), value.Guid);
             else
                 eventPublisher.PublishClearedAsync(Guid, nameof(DelayExecution));
+        }
+
+        private void UpdateDelayExecutionMaxValue(ITestAutomationTextBox value)
+        {
+            delayExecutionMaxValue = value;
+
+            if (value != null)
+                eventPublisher.PublishAssignedAsync(Guid, nameof(DelayExecutionMaxValue), value.Guid);
+            else
+                eventPublisher.PublishClearedAsync(Guid, nameof(DelayExecutionMaxValue));
+        }
+
+        private void UpdateDelayExecutionMinValue(ITestAutomationTextBox value)
+        {
+            delayExecutionMinValue = value;
+
+            if (value != null)
+                eventPublisher.PublishAssignedAsync(Guid, nameof(DelayExecutionMinValue), value.Guid);
+            else
+                eventPublisher.PublishClearedAsync(Guid, nameof(DelayExecutionMinValue));
         }
     }
 }

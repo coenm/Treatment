@@ -8,10 +8,10 @@
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
-    using Treatment.TestAutomation.Contract.Interfaces.Framework;
+    using Treatment.TestAutomation.TestRunner.Controls.Interfaces.WindowsControls;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
-    public class RemoteCheckBox : ICheckBox, IDisposable
+    public class RemoteCheckBox : ITestRunnerControlCheckBox, IDisposable
     {
         [NotNull] private readonly CompositeDisposable disposable;
 
@@ -88,6 +88,14 @@
                                      IsChecked = false;
                                      OnUnChecked?.Invoke(this, (OnUnChecked)ev);
                                  }),
+
+                             filter
+                                 .Where(ev => ev is OnLoaded)
+                                 .Subscribe(ev => { OnLoaded?.Invoke(this, (OnLoaded)ev); }),
+
+                             filter
+                                 .Where(ev => ev is OnUnLoaded)
+                                 .Subscribe(ev => { OnUnLoaded?.Invoke(this, (OnUnLoaded)ev); }),
                          };
         }
 
@@ -111,6 +119,10 @@
 
         public event EventHandler<OnUnChecked> OnUnChecked;
 
+        public event EventHandler<OnLoaded> OnLoaded;
+
+        public event EventHandler<OnUnLoaded> OnUnLoaded;
+
         public bool HasFocus { get; private set; }
 
         public Point Position { get; private set; }
@@ -119,7 +131,7 @@
 
         public bool IsEnabled { get; private set; }
 
-        public bool IsChecked { get; private set; }
+        public bool? IsChecked { get; private set; }
 
         public void Dispose()
         {

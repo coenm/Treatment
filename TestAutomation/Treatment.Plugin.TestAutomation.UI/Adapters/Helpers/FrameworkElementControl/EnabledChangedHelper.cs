@@ -25,6 +25,11 @@
         public void Initialize()
         {
             frameworkElement.IsEnabledChanged += IsEnabledChanged;
+
+            callback.Invoke(new IsEnabledChanged
+            {
+                Enabled = frameworkElement.IsEnabled,
+            });
         }
 
         public void Dispose()

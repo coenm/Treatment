@@ -7,14 +7,14 @@
 
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using Treatment.TestAutomation.Contract.Interfaces.Application;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Window;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
+    using Treatment.TestAutomation.TestRunner.Controls.Interfaces.TreatmentControls;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
     using Treatment.TestAutomation.TestRunner.Framework.RemoteImplementations;
 
-    public class RemoteSettingWindow : ISettingWindow, IDisposable
+    public class RemoteSettingWindow : ITestRunnerOwnControlSettingWindow, IDisposable
     {
         [NotNull] private readonly CompositeDisposable disposable;
         [NotNull] private readonly SingleClassObjectManager propertyManager;
@@ -48,6 +48,32 @@
                                                 Size = ((SizeUpdated)ev).Size;
                                                 SizeUpdated?.Invoke(this, (SizeUpdated)ev);
                                             }),
+
+                             filter
+                                 .Where(ev => ev is GotFocus)
+                                 .Subscribe(
+                                     ev =>
+                                     {
+                                         HasFocus = true;
+                                         GotFocus?.Invoke(this, (GotFocus)ev);
+                                     }),
+
+                             filter
+                                 .Where(ev => ev is LostFocus)
+                                 .Subscribe(
+                                     ev =>
+                                     {
+                                         HasFocus = false;
+                                         LostFocus?.Invoke(this, (LostFocus)ev);
+                                     }),
+
+                             filter
+                                 .Where(ev => ev is OnLoaded)
+                                 .Subscribe(ev => { OnLoaded?.Invoke(this, (OnLoaded)ev); }),
+
+                             filter
+                                 .Where(ev => ev is OnUnLoaded)
+                                 .Subscribe(ev => { OnUnLoaded?.Invoke(this, (OnUnLoaded)ev); }),
                          };
         }
 
@@ -73,6 +99,10 @@
 
         public event EventHandler<LostFocus> LostFocus;
 
+        public event EventHandler<OnLoaded> OnLoaded;
+
+        public event EventHandler<OnUnLoaded> OnUnLoaded;
+
         public IButton BrowseRootDirectory => propertyManager.GetObject<IButton>();
 
         public ITextBox RootDirectory => propertyManager.GetObject<ITextBox>();
@@ -83,9 +113,19 @@
 
         public ICheckBox DelayExecution => propertyManager.GetObject<ICheckBox>();
 
+        public ITextBox DelayExecutionMinValue => propertyManager.GetObject<ITextBox>();
+
+        public ITextBox DelayExecutionMaxValue => propertyManager.GetObject<ITextBox>();
+
+        public IButton OkButton => propertyManager.GetObject<IButton>();
+
+        public IButton CancelButton => propertyManager.GetObject<IButton>();
+
         public Point Position { get; private set; }
 
         public Size Size { get; private set; }
+
+        public bool HasFocus { get; private set; }
 
         public void Dispose()
         {

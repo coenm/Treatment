@@ -20,8 +20,6 @@
             bootstrapper = new Bootstrapper();
             container = bootstrapper.RegisterAll();
 
-            var sutSettings = container.GetInstance<ISutSettings>();
-
             store = container.GetInstance<RemoteObjectManager>();
             Agent = container.GetInstance<ITestAgent>();
             Mouse = container.GetInstance<IMouse>();

@@ -1,4 +1,4 @@
-﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters
+﻿namespace Treatment.Plugin.TestAutomation.UI.Adapters.WindowsControls
 {
     using System;
     using System.Collections.Generic;
@@ -7,20 +7,19 @@
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers;
-    using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.CheckBox;
     using Treatment.Plugin.TestAutomation.UI.Adapters.Helpers.FrameworkElementControl;
     using Treatment.Plugin.TestAutomation.UI.Infrastructure;
     using Treatment.Plugin.TestAutomation.UI.Interfaces;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
 
-    public class CheckBoxAdapter : ITestAutomationCheckBox, ICheckBox
+    public class ComboBoxAdapter : ITestAutomationComboBox
     {
-        [NotNull] private readonly CheckBox item;
+        [NotNull] private readonly ComboBox item;
         [NotNull] private readonly List<IInitializable> helpers;
         [NotNull] private readonly ControlEventPublisher publisher;
 
-        public CheckBoxAdapter([NotNull] CheckBox item, [NotNull] IEventPublisher eventPublisher)
+        public ComboBoxAdapter([NotNull] ComboBox item, [NotNull] IEventPublisher eventPublisher)
         {
             Guard.NotNull(item, nameof(item));
             Guard.NotNull(eventPublisher, nameof(eventPublisher));
@@ -32,22 +31,27 @@
 
             helpers = new List<IInitializable>
                       {
+                          new LoadedUnLoadedHelper(
+                              item,
+                              c => OnLoaded?.Invoke(this, c),
+                              c => OnUnLoaded?.Invoke(this, c)),
                           new PositionChangedHelper(item, c => PositionUpdated?.Invoke(this, c)),
                           new SizeChangedHelper(item, c => SizeUpdated?.Invoke(this, c)),
                           new EnabledChangedHelper(item, c => IsEnabledChanged?.Invoke(this, c)),
                           new KeyboardFocusHelper(item, c => KeyboardFocusChanged?.Invoke(this, c)),
                           new FocusHelper(
+                                          item,
+                                          c => FocusableChanged?.Invoke(this, c),
+                                          c => GotFocus?.Invoke(this, c),
+                                          c => LostFocus?.Invoke(this, c)),
+                          new DropDownOpenClosedHelper(
                               item,
-                              c => FocusableChanged?.Invoke(this, c),
-                              c => GotFocus?.Invoke(this, c),
-                              c => LostFocus?.Invoke(this, c)),
-                          new CheckBoxOnCheckedChangedHelper(
-                              item,
-                              c => OnChecked?.Invoke(this, c),
-                              c => OnUnChecked?.Invoke(this, c)),
+                              c => DropDownOpened?.Invoke(this, c),
+                              c => DropDownClosed?.Invoke(this, c)),
+                          new SelectorSelectionChangedHelper(item, c => SelectionChanged?.Invoke(this, c)),
                       };
 
-            eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(ICheckBox));
+            eventPublisher.PublishNewControlCreatedAsync(Guid, typeof(IComboBox));
         }
 
         public event EventHandler<PositionUpdated> PositionUpdated;
@@ -64,11 +68,15 @@
 
         public event EventHandler<KeyboardFocusChanged> KeyboardFocusChanged;
 
+        public event EventHandler<DropDownOpened> DropDownOpened;
+
+        public event EventHandler<DropDownClosed> DropDownClosed;
+
         public event EventHandler<SelectionChanged> SelectionChanged;
 
-        public event EventHandler<OnChecked> OnChecked;
+        public event EventHandler<OnLoaded> OnLoaded;
 
-        public event EventHandler<OnUnChecked> OnUnChecked;
+        public event EventHandler<OnUnLoaded> OnUnLoaded;
 
         public Guid Guid { get; }
 

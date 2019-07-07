@@ -37,6 +37,13 @@
             frameworkElement.FocusableChanged += FocusableChanged;
             frameworkElement.GotFocus += GotFocus;
             frameworkElement.LostFocus += LostFocus;
+
+            FocusableChanged(this, new DependencyPropertyChangedEventArgs());
+
+            if (frameworkElement.IsFocused)
+                GotFocus(this, null);
+            else
+                LostFocus(this, null);
         }
 
         public void Dispose()

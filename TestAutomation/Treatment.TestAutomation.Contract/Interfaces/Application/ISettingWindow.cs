@@ -13,7 +13,8 @@
         IIsEnabledChanged,
         ISizeUpdated,
         IFocusChange,
-        IControl
+        IControl,
+        IElementLoadedUnLoaded
     {
         IButton BrowseRootDirectory { get; }
 
@@ -24,5 +25,13 @@
         IComboBox ComboVersionControlProvider { get; }
 
         ICheckBox DelayExecution { get; }
+
+        ITextBox DelayExecutionMinValue { get; }
+
+        ITextBox DelayExecutionMaxValue { get; }
+
+        IButton OkButton { get; }
+
+        IButton CancelButton { get; }
     }
 }

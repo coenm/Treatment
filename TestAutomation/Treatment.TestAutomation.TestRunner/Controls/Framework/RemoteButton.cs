@@ -9,10 +9,10 @@
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.Contract.Interfaces.Events.ButtonBase;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
-    using Treatment.TestAutomation.Contract.Interfaces.Framework;
+    using Treatment.TestAutomation.TestRunner.Controls.Interfaces.WindowsControls;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
-    public class RemoteButton : IButton, IDisposable
+    public class RemoteButton : ITestRunnerControlButton, IDisposable
     {
         [NotNull] private readonly CompositeDisposable disposable;
 
@@ -77,6 +77,14 @@
                 filter
                     .Where(ev => ev is KeyboardFocusChanged)
                     .Subscribe(ev => { KeyboardFocusChanged?.Invoke(this, (KeyboardFocusChanged)ev); }),
+
+                filter
+                    .Where(ev => ev is OnLoaded)
+                    .Subscribe(ev => { OnLoaded?.Invoke(this, (OnLoaded)ev); }),
+
+                filter
+                    .Where(ev => ev is OnUnLoaded)
+                    .Subscribe(ev => { OnUnLoaded?.Invoke(this, (OnUnLoaded)ev); }),
             };
         }
 
@@ -95,6 +103,10 @@
         public event EventHandler<LostFocus> LostFocus;
 
         public event EventHandler<KeyboardFocusChanged> KeyboardFocusChanged;
+
+        public event EventHandler<OnLoaded> OnLoaded;
+
+        public event EventHandler<OnUnLoaded> OnUnLoaded;
 
         public bool HasFocus { get; private set; }
 

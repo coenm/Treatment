@@ -9,6 +9,7 @@
         ISizeUpdated,
         IFocusChange,
         IKeyboardFocusChanged,
+        IElementLoadedUnLoaded,
         IControl
     {
     }

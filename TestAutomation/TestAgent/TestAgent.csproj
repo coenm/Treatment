@@ -183,6 +183,8 @@
     <Compile Include="Model\Configuration\TestAgentApplicationSettings.cs" />
     <Compile Include="Model\Configuration\AssemblyBasedFilenameProvider.cs" />
     <Compile Include="Model\IConfigFilenameProvider.cs" />
+    <Compile Include="RequestHandlers\Control\DeleteFileRequestHandler.cs" />
+    <Compile Include="RequestHandlers\Control\FileExistsRequestHandler.cs" />
     <Compile Include="RequestHandlers\Control\GetFileRequestHandler.cs" />
     <Compile Include="RequestHandlers\Control\GetSutExecutableRequestHandler.cs" />
     <Compile Include="RequestHandlers\Control\LocateFilesRequestHandler.cs" />
@@ -201,11 +203,8 @@
     <Compile Include="RequestHandlers\MessageBoxButtons.cs" />
     <Compile Include="Implementation\IRequestDispatcher.cs" />
     <Compile Include="Implementation\IRequestHandler.cs" />
-    <Compile Include="Implementation\ISutEvents.cs" />
-    <Compile Include="Implementation\ISutEventsPublisher.cs" />
     <Compile Include="Implementation\RequestDispatcher.cs" />
     <Compile Include="RequestHandlers\Control\StartSutRequestHandler.cs" />
-    <Compile Include="Implementation\ZeroMqSutEvents.cs" />
     <Compile Include="Implementation\ZeroMqRequestDispatcher.cs" />
     <Compile Include="IAgentContext.cs" />
     <Compile Include="Program.cs" />
@@ -222,6 +221,8 @@
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ZeroMq\EventsRx.cs" />
+    <Compile Include="ZeroMq\PublishInfrastructure\ZeroMqTestAgentEventPublisher.cs" />
+    <Compile Include="ZeroMq\PublishInfrastructure\ITestAgentEventPublisher.cs" />
     <Compile Include="ZeroMq\PublishInfrastructure\IZeroMqPublishProxyFactory.cs" />
     <Compile Include="ZeroMq\PublishInfrastructure\ZeroMqPublishProxyConfig.cs" />
     <Compile Include="ZeroMq\PublishInfrastructure\ZeroMqPublishProxyFactory.cs" />

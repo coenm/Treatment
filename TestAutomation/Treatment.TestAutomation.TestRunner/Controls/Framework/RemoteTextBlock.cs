@@ -8,10 +8,10 @@
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
     using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
-    using Treatment.TestAutomation.Contract.Interfaces.Framework;
+    using Treatment.TestAutomation.TestRunner.Controls.Interfaces.WindowsControls;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
 
-    public class RemoteTextBlock : ITextBlock, IDisposable
+    public class RemoteTextBlock : ITestRunnerControlTextBlock, IDisposable
     {
         [NotNull] private readonly CompositeDisposable disposable;
 
@@ -40,6 +40,16 @@
                                     }),
 
                              filter
+                                 .Where(ev => ev is GotFocus)
+                                 .Subscribe(
+                                     ev => HasFocus = true),
+
+                             filter
+                                 .Where(ev => ev is LostFocus)
+                                 .Subscribe(
+                                     ev => HasFocus = false),
+
+                             filter
                                  .Where(ev => ev is IsEnabledChanged)
                                  .Subscribe(ev =>
                                     {
@@ -54,6 +64,14 @@
                                         Value = ((TextValueChanged)ev).Text;
                                         TextValueChanged?.Invoke(this, (TextValueChanged)ev);
                                     }),
+
+                             filter
+                                 .Where(ev => ev is OnLoaded)
+                                 .Subscribe(ev => { OnLoaded?.Invoke(this, (OnLoaded)ev); }),
+
+                             filter
+                                 .Where(ev => ev is OnUnLoaded)
+                                 .Subscribe(ev => { OnUnLoaded?.Invoke(this, (OnUnLoaded)ev); }),
                          };
         }
 
@@ -65,7 +83,13 @@
 
         public event EventHandler<TextValueChanged> TextValueChanged;
 
+        public event EventHandler<OnLoaded> OnLoaded;
+
+        public event EventHandler<OnUnLoaded> OnUnLoaded;
+
         public string Value { get; private set; }
+
+        public bool HasFocus { get; private set; }
 
         public Point Position { get; private set; }
 

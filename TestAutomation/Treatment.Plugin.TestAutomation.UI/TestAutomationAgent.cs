@@ -1,10 +1,8 @@
 ﻿namespace Treatment.Plugin.TestAutomation.UI
 {
-    using System.Threading;
-
     using JetBrains.Annotations;
     using Treatment.Helpers.Guards;
-    using Treatment.Plugin.TestAutomation.UI.Adapters;
+    using Treatment.Plugin.TestAutomation.UI.Adapters.TreatmentControls;
     using Treatment.Plugin.TestAutomation.UI.Interfaces;
     using Treatment.Plugin.TestAutomation.UI.Settings;
 
@@ -49,6 +47,11 @@
             application?.RegisterAndInitializeSettings(settingWindow);
             this.settingWindow = settingWindow;
             // settingWindow.Initialize();
+        }
+
+        public void ClearMainView()
+        {
+            mainWindow = null;
         }
     }
 }

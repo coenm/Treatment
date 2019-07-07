@@ -8,6 +8,7 @@
     using JetBrains.Annotations;
     using Treatment.TestAutomation.Contract.Interfaces.Application;
     using Treatment.TestAutomation.Contract.Interfaces.Events;
+    using Treatment.TestAutomation.Contract.Interfaces.Events.Element;
     using Treatment.TestAutomation.Contract.Interfaces.Framework;
     using Treatment.TestAutomation.TestRunner.Controls.Framework;
     using Treatment.TestAutomation.TestRunner.Framework.Interfaces;
@@ -29,6 +30,17 @@
 
             disposable = new CompositeDisposable
             {
+                applicationEvents.Events
+                    .Where(ev => ev is OnUnLoaded)
+                    .Subscribe(ev =>
+                    {
+                        if (!store.TryRemove(ev.Guid, out var value))
+                            return;
+
+                        if (value is IDisposable disposableObject)
+                            disposableObject.Dispose();
+                    }),
+
                 applicationEvents.Events
                     .Where(x => x is NewControlCreated)
                     .Subscribe(ev =>
