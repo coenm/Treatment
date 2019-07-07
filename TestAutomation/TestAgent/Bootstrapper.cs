@@ -74,11 +74,11 @@
 
             container.Register<IZeroMqReqRepProxyFactory, ZeroMqReqRepProxyFactory>(Lifestyle.Singleton);
 
-            // used to publish events over zeromq.
             container.Register<ITestAgentEventPublisher>(
-                                                         () => new ZeroMqTestAgentEventPublisher(
-                                                                                                 container.GetInstance<IZeroMqContextService>(),
-                                                                                                 FixedSettings.InternalPublishSocket));
+                () => new ZeroMqTestAgentEventPublisher(
+                    container.GetInstance<IZeroMqContextService>(),
+                    FixedSettings.InternalPublishSocket),
+                Lifestyle.Singleton);
         }
     }
 }
