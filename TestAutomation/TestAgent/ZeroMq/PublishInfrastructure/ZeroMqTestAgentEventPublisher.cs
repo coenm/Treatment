@@ -4,24 +4,31 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
 
+    using CoenM.ZeroMq.ContextService;
+    using CoenM.ZeroMq.Helpers;
     using JetBrains.Annotations;
-    using NLog;
     using TestAgent.Contract.Interface.Events;
     using TestAgent.Contract.Serializer;
     using Treatment.Helpers.Guards;
-    using Treatment.TestAutomation.Contract.Interfaces.Events;
-    using Treatment.TestAutomation.Contract.Serializer;
+    using ZeroMQ;
 
     internal class ZeroMqTestAgentEventPublisher : ITestAgentEventPublisher, IDisposable
     {
-        [NotNull] private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         [NotNull] private readonly object syncLock = new object();
-        // [NotNull] private readonly ITestAutomationSettings settings;
-        // [NotNull] private readonly PublisherSocket socket;
-        private bool initialized;
+        [NotNull] private readonly IZeroMqContextService contextService;
+        [NotNull] private readonly string endpoint;
+        [CanBeNull] private ZSocket socket;
 
-        // wip
-        // "inproc://publish"
+        public ZeroMqTestAgentEventPublisher(
+            [NotNull] IZeroMqContextService contextService,
+            [NotNull] string endpoint)
+        {
+            Guard.NotNull(contextService, nameof(contextService));
+            Guard.NotNullOrWhiteSpace(endpoint, nameof(endpoint));
+
+            this.contextService = contextService;
+            this.endpoint = endpoint;
+        }
 
         [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse", Justification = "Input validation despite of [NotNull] attribute.")]
         [SuppressMessage("ReSharper", "HeuristicUnreachableCode", Justification = "Input validation despite of [NotNull] attribute.")]
@@ -31,6 +38,7 @@
                 return Task.CompletedTask;
 
             evt.Guid = guid;
+
             return PublishAsync(evt);
         }
 
@@ -41,21 +49,30 @@
             if (evt == null)
                 return Task.CompletedTask;
 
-            Initialize();
+            ZFrame[] frames;
 
             try
             {
                 var (type, payload) = TestAgentEventSerializer.Serialize(evt);
 
-                // socket
-                //     .SendMoreFrame(type)
-                //     .SendFrame(payload);
+                frames = new[]
+                {
+                    new ZFrame(type),
+                    new ZFrame(payload),
+                };
             }
             catch (Exception e)
             {
-                // socket
-                //     .SendMoreFrame(e.GetType().FullName)
-                //     .SendFrame(e.Message);
+                frames = new[]
+                {
+                    new ZFrame(e.GetType().FullName),
+                    new ZFrame(e.Message),
+                };
+            }
+
+            if (!GetSocket().Send(new ZMessage(frames), ZSocketFlags.DontWait, out _))
+            {
+                return Task.FromResult(false);
             }
 
             return Task.FromResult(true);
@@ -63,47 +80,37 @@
 
         public void Dispose()
         {
-            if (initialized == false)
-                return;
-
             lock (syncLock)
             {
-                if (initialized == false)
-                    return;
-
-                // socket.Dispose();
-
-                initialized = false;
+                socket?.Dispose();
+                socket = null;
             }
         }
 
-        private void Initialize()
+        [NotNull]
+        private ZSocket GetSocket()
         {
-            if (initialized)
-                return;
+            if (socket != null)
+                return socket;
 
             lock (syncLock)
             {
-                if (initialized)
-                    return;
+                if (socket != null)
+                    return socket;
 
-                // socket.Options.Linger = TimeSpan.Zero;
-                // socket.Options.TcpKeepalive = true;
-                // socket.Options.SendHighWatermark = 10_000;
+                var ctx = contextService.GetContext();
+                socket = new ZSocket(ctx, ZSocketType.PUB)
+                {
+                    Linger = TimeSpan.Zero,
+                    TcpKeepAlive = TcpKeepaliveBehaviour.Enable,
+                    SendHighWatermark = 10_000,
+                };
 
-                // try
-                // {
-                //     socket.Connect(settings.ZeroMqEventPublishSocket);
-                //     initialized = true;
-                // }
-                // catch (NetMQ.EndpointNotFoundException e)
-                // {
-                //     Logger.Error(e, () => $"Could not connect. Endpoint ({settings.ZeroMqEventPublishSocket}) not found.");
-                // }
-                // catch (Exception e)
-                // {
-                //     Logger.Error(e, "Could not connect");
-                // }
+                socket.Connect(endpoint);
+
+                ZmqConnection.GiveZeroMqTimeToFinishConnectOrBind();
+
+                return socket;
             }
         }
     }

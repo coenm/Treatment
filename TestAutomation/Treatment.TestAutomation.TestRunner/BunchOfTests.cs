@@ -17,10 +17,12 @@
     using Treatment.TestAutomation.TestRunner.XUnit;
     using Xunit;
     using Xunit.Abstractions;
+    using Xunit.Categories;
 
     [Collection(nameof(TestFramework))]
     public class BunchOfTests
     {
+        private const string TreatmentConfigFilename = "TreatmentConfig.json";
         [NotNull] private readonly ITestOutputHelper output;
         [NotNull] private readonly TestFrameworkFixture fixture;
 
@@ -28,7 +30,6 @@
         {
             this.output = output;
             this.fixture = fixture;
-
             output.WriteLine("ctor");
         }
 
@@ -41,10 +42,9 @@
         private ITestAgent Agent => fixture.Agent;
 
         [Fact]
+        [SystemTest]
         public async Task SettingsWindow_ShouldSaveConfig_WhenConfigIsChangedAndOkButtonIsClicked()
         {
-            const string configFilename = "TreatmentConfig.json";
-
             var mre = new ManualResetEvent(false);
             var mre2 = new AutoResetEvent(false);
 
@@ -59,7 +59,7 @@
             mre2.WaitOne(10000).Should().BeTrue("No Window activated in time");
 
             // remove config file when exists
-            var deleted = await Agent.DeleteFileAsync(configFilename);
+            var deleted = await Agent.DeleteFileAsync(TreatmentConfigFilename);
             deleted.Should().BeTrue();
 
             // open settings window.
@@ -112,62 +112,35 @@
 
             // check if file has been saved.
             await ConfigurableDelay(1000, "wait for file to be saved.");
-            var fileExists = await Agent.FileExistsAsync(configFilename);
+            var fileExists = await Agent.FileExistsAsync(TreatmentConfigFilename);
             fileExists.Should().BeTrue("file should be saved already");
 
-            var content = await Agent.GetFileContentAsync(configFilename);
+            var content = await Agent.GetFileContentAsync(TreatmentConfigFilename);
             content.Should().NotBeNull("config file should have content");
             output.WriteLine(Encoding.Default.GetString(content));
 
             // close application.
             var window = Application.MainWindow as RemoteMainWindow;
             window.Should().NotBeNull();
-            output.WriteLine($"x {window.Position.X}  y {window.Position.Y}");
-            output.WriteLine($"x {window.Size.Width}  y {window.Size.Height}");
 
             var x = (int)(window.Position.X + window.Size.Width - 50);
             var y = (int)(window.Position.Y - 10);
-            output.WriteLine($"x {x}  y {y}");
             await Mouse.MoveCursorAsync(x, y);
 
-            var window1 = Application.MainWindow as RemoteMainWindow;
-            window1.Should().NotBeNull();
-            var x1 = (int)(window1.Position.X + window1.Size.Width - 250);
-            var y1 = (int)(window1.Position.Y - 10);
+            var mainWindow = Application.MainWindow as RemoteMainWindow;
+            mainWindow.Should().NotBeNull();
+            var x1 = (int)(mainWindow.Position.X + mainWindow.Size.Width - 250);
+            var y1 = (int)(mainWindow.Position.Y - 10);
             await Mouse.MoveCursorAsync(x1, y1);
 
             // give events time to pass. Sometimes, the window has been blown to full screen.
             await Task.Delay(500);
 
-            x1 = (int)(window1.Position.X + window1.Size.Width - 50);
-            y1 = (int)(window1.Position.Y - 10);
-            await Mouse.MoveCursorAsync(x1, y1);
-
-            var mre3 = new ManualResetEvent(false);
-            void ApplicationOnExit(object sender, ApplicationExit e)
-            {
-                mre3.Set();
-            }
-
-            Application.Exit += ApplicationOnExit;
-            await Mouse.ClickAsync();
-            if (!mre3.WaitOne(1000))
-            {
-                output.WriteLine("Try to close the application with the alt f4 keys.");
-                await Keyboard.KeyCombinationPressAsync(VirtualKeyCode.Alt, VirtualKeyCode.F4);
-            }
-
-            if (!mre3.WaitOne(1000))
-            {
-                output.WriteLine("Try to close the application with the alt f4 keys.");
-                await Keyboard.KeyCombinationPressAsync(VirtualKeyCode.Alt, VirtualKeyCode.F4);
-            }
-
-            mre3.WaitOne(1000).Should().BeTrue();
-            Application.Exit -= ApplicationOnExit;
+            await CloseSutAsync(mainWindow);
         }
 
         [Fact]
+        [IntegrationTest]
         public async Task SettingsWindow_ShouldAllowInputDelayMinAndMax_WhenCheckboxIsChecked()
         {
             var mre = new ManualResetEvent(false);
@@ -242,41 +215,16 @@
             output.WriteLine($"x {x}  y {y}");
             await Mouse.MoveCursorAsync(x, y);
 
-            var window1 = Application.MainWindow as RemoteMainWindow;
-            window1.Should().NotBeNull();
-            var x1 = (int)(window1.Position.X + window1.Size.Width - 250);
-            var y1 = (int)(window1.Position.Y - 10);
+            var mainWindow = Application.MainWindow as RemoteMainWindow;
+            mainWindow.Should().NotBeNull();
+            var x1 = (int)(mainWindow.Position.X + mainWindow.Size.Width - 250);
+            var y1 = (int)(mainWindow.Position.Y - 10);
             await Mouse.MoveCursorAsync(x1, y1);
 
             // give events time to pass. Sometimes, the window has been blown to full screen.
             await Task.Delay(500);
 
-            x1 = (int)(window1.Position.X + window1.Size.Width - 50);
-            y1 = (int)(window1.Position.Y - 10);
-            await Mouse.MoveCursorAsync(x1, y1);
-
-            var mre3 = new ManualResetEvent(false);
-            void ApplicationOnExit(object sender, ApplicationExit e)
-            {
-                mre3.Set();
-            }
-
-            Application.Exit += ApplicationOnExit;
-            await Mouse.ClickAsync();
-            if (!mre3.WaitOne(1000))
-            {
-                output.WriteLine("Try to close the application with the alt f4 keys.");
-                await Keyboard.KeyCombinationPressAsync(VirtualKeyCode.Alt, VirtualKeyCode.F4);
-            }
-
-            if (!mre3.WaitOne(1000))
-            {
-                output.WriteLine("Try to close the application with the alt f4 keys.");
-                await Keyboard.KeyCombinationPressAsync(VirtualKeyCode.Alt, VirtualKeyCode.F4);
-            }
-
-            mre3.WaitOne(1000).Should().BeTrue();
-            Application.Exit -= ApplicationOnExit;
+            await CloseSutAsync(mainWindow);
         }
 
         [Fact]
@@ -290,6 +238,7 @@
         }
 
         [Fact]
+        [IntegrationTest]
         public async Task StartSutAndCheckApplicationCreatedSetting()
         {
             var mre = new ManualResetEvent(false);
@@ -343,37 +292,20 @@
 
                 var window = Application.MainWindow as RemoteMainWindow;
                 window.Should().NotBeNull();
-                output.WriteLine($"x {window.Position.X}  y {window.Position.Y}");
-                output.WriteLine($"x {window.Size.Width}  y {window.Size.Height}");
 
                 var x = (int)(window.Position.X + window.Size.Width - 50);
                 var y = (int)(window.Position.Y - 10);
-                output.WriteLine($"x {x}  y {y}");
                 await Mouse.MoveCursorAsync(x, y);
             }
 
-            var window1 = Application.MainWindow as RemoteMainWindow;
-            window1.Should().NotBeNull();
-            var x1 = (int)(window1.Position.X + window1.Size.Width - 250);
-            var y1 = (int)(window1.Position.Y - 10);
+            var mainWindow = Application.MainWindow as RemoteMainWindow;
+            mainWindow.Should().NotBeNull();
+            var x1 = (int)(mainWindow.Position.X + mainWindow.Size.Width - 250);
+            var y1 = (int)(mainWindow.Position.Y - 10);
             await Mouse.MoveCursorAsync(x1, y1);
             await Mouse.MouseDownAsync();
 
-            for (var i = 0; i < 250; i++)
-            {
-                x1++;
-                y1++;
-                await Mouse.MoveCursorAsync(x1, y1);
-            }
-
             for (var i = 0; i < 250; i += 2)
-            {
-                x1 -= 2;
-                y1 -= 2;
-                await Mouse.MoveCursorAsync(x1, y1);
-            }
-
-            for (var i = 0; i < 250; i += 3)
             {
                 x1 += 3;
                 y1 += 3;
@@ -387,51 +319,48 @@
                 await Mouse.MoveCursorAsync(x1, y1);
             }
 
-            for (var i = 0; i < 250; i += 5)
-            {
-                x1 += 5;
-                y1 += 5;
-                await Mouse.MoveCursorAsync(x1, y1);
-            }
-
-            for (var i = 0; i < 250; i += 6)
-            {
-                x1 -= 6;
-                y1 -= 6;
-                await Mouse.MoveCursorAsync(x1, y1);
-            }
-
             await Mouse.MouseUpAsync();
 
             // give events time to pass. Sometimes, the window has been blown to full screen.
             await Task.Delay(500);
 
-            x1 = (int)(window1.Position.X + window1.Size.Width - 50);
-            y1 = (int)(window1.Position.Y - 10);
+            await CloseSutAsync(mainWindow);
+        }
+
+        private async Task CloseSutAsync(RemoteMainWindow window1)
+        {
+            window1.Should().NotBeNull();
+
+            var x1 = (int)(window1.Position.X + window1.Size.Width - 50);
+            var y1 = (int)(window1.Position.Y - 10);
             await Mouse.MoveCursorAsync(x1, y1);
 
-            var mre3 = new ManualResetEvent(false);
-            void ApplicationOnExit(object sender, ApplicationExit e)
-            {
-                mre3.Set();
-            }
+            var mreApplicationExit = new ManualResetEvent(false);
 
+            void ApplicationOnExit(object sender, ApplicationExit e) => mreApplicationExit.Set();
             Application.Exit += ApplicationOnExit;
-            await Mouse.ClickAsync();
-            if (!mre3.WaitOne(1000))
-            {
-                output.WriteLine("Try to close the application with the alt f4 keys.");
-                await Keyboard.KeyCombinationPressAsync(VirtualKeyCode.Alt, VirtualKeyCode.F4);
-            }
 
-            if (!mre3.WaitOne(1000))
+            try
             {
-                output.WriteLine("Try to close the application with the alt f4 keys.");
-                await Keyboard.KeyCombinationPressAsync(VirtualKeyCode.Alt, VirtualKeyCode.F4);
-            }
+                await Mouse.ClickAsync();
+                if (!mreApplicationExit.WaitOne(1000))
+                {
+                    output.WriteLine("Try to close the application with the alt f4 keys.");
+                    await Keyboard.KeyCombinationPressAsync(VirtualKeyCode.Alt, VirtualKeyCode.F4);
+                }
 
-            mre3.WaitOne(1000).Should().BeTrue();
-            Application.Exit -= ApplicationOnExit;
+                if (!mreApplicationExit.WaitOne(1000))
+                {
+                    output.WriteLine("Try to close the application with the alt f4 keys.");
+                    await Keyboard.KeyCombinationPressAsync(VirtualKeyCode.Alt, VirtualKeyCode.F4);
+                }
+
+                mreApplicationExit.WaitOne(1000).Should().BeTrue();
+            }
+            finally
+            {
+                Application.Exit -= ApplicationOnExit;
+            }
         }
 
         private Task ConfigurableDelay(int milliseconds, string reason = "no reason given")
