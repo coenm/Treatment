@@ -115,6 +115,8 @@ Found at voidtools.com [FAQ](https://www.voidtools.com/faq/#what_is_everything)
 
 Enables TestAutomation for the GUI application only. To execute the integration tests, you also need the TestAgent (to control TreatmentUI), and the TestRunner. 
 
+Demo of executing the integration tests. Note that this is all automation: Starting the application, opening the configuration window, moving and clicking the mouse, keyboard key-presses are all done by the TestAgent.
+
 ![Demo TestAutomation](docs/demo-testautomation.gif)
 
 ## Why 'so much code' for such a simple application?
