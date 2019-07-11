@@ -113,25 +113,13 @@ Found at voidtools.com [FAQ](https://www.voidtools.com/faq/#what_is_everything)
 
 ### TestAutomation
 
-Enables TestAutomation for the GUI application only.
+Enables TestAutomation for the GUI application only. To execute the integration tests, you also need the TestAgent (to control TreatmentUI), and the TestRunner. 
+
+![Demo TestAutomation](docs/demo-testautomation.gif)
 
 ## Why 'so much code' for such a simple application?
 
 Yes. The application has little functionality which probably can be coded in a single class with a few methods that is still pretty clean. This project is also about experimenting with common patterns, principles, frameworks etc. etc.
-
-
-# TestAutomation (SystemTest)
-
-- Plugin for TreatmentUI application that enables TestAutomation.
-- TestAgent to control the TreatmentUI application.
-- TestRunner to execute the tests.
-
-## Demo
-
-Screencapture running testautomation.
-
-![Demo TestAutomation](docs/demo-testautomation.gif)
-
 
 ## Bucket List
 
