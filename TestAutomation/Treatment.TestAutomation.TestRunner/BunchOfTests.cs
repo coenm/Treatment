@@ -42,7 +42,7 @@
         private ITestAgent Agent => fixture.Agent;
 
         [Fact]
-        [SystemTest]
+        [IntegrationTest]
         public async Task SettingsWindow_ShouldSaveConfig_WhenConfigIsChangedAndOkButtonIsClicked()
         {
             var mre = new ManualResetEvent(false);
