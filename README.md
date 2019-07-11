@@ -127,7 +127,9 @@ Yes. The application has little functionality which probably can be coded in a s
 - TestRunner to execute the tests.
 
 ## Demo
+
 Screencapture running testautomation.
+
 ![Demo TestAutomation](docs/demo-testautomation.gif)
 
 
