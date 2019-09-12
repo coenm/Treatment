@@ -142,6 +142,13 @@
                     rootDirectoryInfo = Directory.GetParent(fullDirectory);
                     if (rootDirectoryInfo == null)
                         continue;
+
+                    folderName = Path.GetFileName(rootDirectoryInfo.FullName);
+                    if (Hash(folderName) == "^xlNfDu.edW?Mb0YN41!m%rZkn1{%&giDcm9<5A7")
+                        rootDirectoryInfo = rootDirectoryInfo.Parent;
+
+                    if (rootDirectoryInfo == null)
+                        continue;
                 }
                 catch (Exception e)
                 {
