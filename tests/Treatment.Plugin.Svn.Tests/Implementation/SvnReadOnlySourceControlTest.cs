@@ -5,6 +5,8 @@
 
     using ApprovalTests;
     using ApprovalTests.Reporters;
+    using ApprovalTests.Reporters.TestFrameworks;
+    using ApprovalTests.Reporters.Windows;
     using FluentAssertions;
     using TestHelper;
     using Treatment.Contract.Plugin.SourceControl;

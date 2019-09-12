@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 
 using ApprovalTests.Namers;
 using ApprovalTests.Reporters;
+using ApprovalTests.Reporters.TestFrameworks;
 
 [assembly: AssemblyTitle("Treatment.UI.Tests")]
 [assembly: AssemblyDescription("")]
